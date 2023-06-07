@@ -1,0 +1,142 @@
+$.tracombasicdate = function(a_str){
+	//f : firstdate
+	//l : lastdate
+	//t : todate
+	//a_str 파라미터 의도 여쭤봐야됨
+
+	let a_date
+	a_date = ''
+
+	let date = new Date();
+    let year = date.getFullYear().toString();
+    let month = (date.getMonth()+1).toString();
+    let day = date.getDate().toString();
+    let zero = 0;
+
+    //글자수 맞추기
+    if(day.length == 1){
+        day = zero + day;
+     }
+     
+     if(month.length == 1){
+        month = zero + month;
+     }
+
+	 let todaysDate = year+'-'+month+'-'+day;
+
+	 a_date = todaysDate;
+
+	return a_date	
+}
+
+$.tracomfromdate = function(a_str){
+	let a_date
+	a_date = ''
+
+	let date = new Date();
+    let year = date.getFullYear().toString();
+    let month = (date.getMonth()+1).toString();
+    let day = date.getDate().toString();
+    let zero = 0;
+
+    //글자수 맞추기
+    if(day.length == 1){
+        day = zero + day;
+     }
+     
+     if(month.length == 1){
+        month = zero + month;
+     }
+     
+	 //일주일전 연월일
+     let weekAgoDate = new Date(date.setDate(date.getDate() - 7));
+     let weekAgoYear = weekAgoDate.getFullYear().toString();
+     let weekAgoMonth = (weekAgoDate.getMonth()+1).toString();
+     let weekAgoDay = weekAgoDate.getDate().toString();
+     if(weekAgoDay.length == 1){
+        weekAgoDay = zero + weekAgoDay;
+     }
+     
+     if(weekAgoMonth.length == 1){
+        weekAgoMonth = zero + weekAgoMonth;
+     }      
+     
+     date = new Date();
+
+	 //한달전 연월일
+     let monthAgoDate = new Date(date.setMonth(date.getMonth() - 1));
+     let monthAgoYear = monthAgoDate.getFullYear().toString();
+     let monthAgoMonth = (monthAgoDate.getMonth()+1).toString();
+     let monthAgoDay = monthAgoDate.getDate().toString();      
+     if(monthAgoDay.length == 1){
+        monthAgoDay = zero + monthAgoDay;
+     }
+     
+     if(monthAgoMonth.length == 1){
+        monthAgoMonth = zero + monthAgoMonth;
+     }         
+     
+	 //대시 주어 형태 맞춤
+    //  let todaysDate = year+month+day;
+	 let todaysDate = year+'-'+month+'-'+day;
+     weekAgoDate = weekAgoYear +'-'+ weekAgoMonth +'-'+ weekAgoDay;
+     monthAgoDate = monthAgoYear +'-'+ monthAgoMonth +'-'+ monthAgoDay;      
+     
+     if(a_str == "DIRECT") {
+        fromDateObject.setValue();
+        toDateObject.setValue();
+     }
+     
+     else if(a_str == "d") {
+		a_date = todaysDate;  
+     }
+     
+     else if(a_str == "w") {
+		a_date = weekAgoDate;        
+     }
+     
+     else if(a_str == "m") {
+		a_date = monthAgoDate;            
+     } 
+
+	//y : year
+	//m : month
+	//w : week
+	//d : day
+	
+	//let a_date
+	//a_date = ''
+	return a_date
+}
+
+$.tracomtodate = function(a_str){
+	//y : year
+	//m : month
+	//w : week
+	//d : day
+	//현재 무조건 오늘날짜 리턴임. 파라미터 여부 여쭤봐야함
+
+	let a_date
+	a_date = ''
+
+	let date = new Date();
+    let year = date.getFullYear().toString();
+    let month = (date.getMonth()+1).toString();
+    let day = date.getDate().toString();
+    let zero = 0;
+
+    //글자수 맞추기
+    if(day.length == 1){
+        day = zero + day;
+     }
+     
+     if(month.length == 1){
+        month = zero + month;
+     }
+
+	 let todaysDate = year+'-'+month+'-'+day;
+
+	 a_date = todaysDate;
+
+	return a_date
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.tracom.mapper.cm.SltMapper">
+	
+	<!--ParamKind코드값 select-->
+	<select id="selectDlCdParamKindInfo" resultType="Map">
+		SELECT
+			DL_CD
+		FROM
+			PLF_DL_CD_INFO
+		WHERE
+			CO_CD = "PARAM_KIND"
+		  AND NUM_VAL4 = #{PARAM_KIND}
+	</select>
+
+	<!--ParamDiv코드값 select-->
+	<select id="selectDlCdParamDivInfo" resultType="Map">
+		SELECT
+			DL_CD
+		FROM
+			PLF_DL_CD_INFO
+		WHERE
+			CO_CD = "PARAM_DIV"
+		  AND NUM_VAL4 = #{PARAM_DIV}
+	</select>
+
+	<select id="selectDetailCode" resultType="Map" parameterType="Map">
+		SELECT TXT_VAL1, TXT_VAL2, DL_CD, DL_CD_NM FROM PLF_DL_CD_INFO WHERE CO_CD = #{CO_CD} AND ${VAL_TYPE} = #{VAL}
+	</select>
+</mapper>

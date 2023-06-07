@@ -1,0 +1,25 @@
+$(function(){
+
+	$('#sch_panel0').append('<div id="sch_rg0" class="" style="display: inline-block;"></div>');		//추후 class로 변경
+
+    $('#sch_rg0').radiogroup({
+				name: 'test',
+        labelWidth:50,
+        data: [{
+	      					value:'1',
+					        label:'기본선택'
+					    },{
+					    		value:'2',
+					        label:'Item2'
+					    },{
+					    		value:'3',
+					        label:'Item3'
+					    }],
+        onChange:function(value){
+        	alert(value);
+					//$.jf_changeformtodate_forsearch(a_fdateobj, a_tdateobj, value);
+        }
+    });
+
+
+});

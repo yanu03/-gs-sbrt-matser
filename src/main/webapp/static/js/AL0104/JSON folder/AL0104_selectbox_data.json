@@ -1,0 +1,5 @@
+[
+    {"id":"ALL", "text": "[전체]"},
+    {"id":"REP_ROUT_ID", "text": "노선그룹 ID"},
+    {"id":"REP_ROUT_NM", "text": "노선그룹 명"}
+]

@@ -1,0 +1,59 @@
+﻿$(function(){
+
+	//list box
+	$('#sch_panel0').append('<input id="sch_lb0" name="sch_lb0" value="">');
+	
+	
+	$('#sch_lb0').combobox({
+	   	width: 120,
+	   	height: 24,
+	   	editable: false ,
+	    url: 'combobox_data.json',
+	    method: 'get',
+	    queryParams: {},
+	    valueField: 'id',
+	    textField: 'text',
+	    value: '%',				//dg0과 일치 시키면 편하다
+			panelHeight:'auto',
+	    onBeforeLoad: function(param){
+				$(this).combo('readonly', true);
+	    },
+	    onLoadSuccess: function(){
+	    	$(this).combo('readonly', false);
+	    },
+	    onLoadError: function(){
+	    	$('#sch_lb0').combo('readonly', true);
+	    	return false;
+	    },
+	    onChange: function(newValue,oldValue){
+	    	//자동 조회시 여기서 코딩
+	    	$.jf_retrieve($('#dg0'), $.pf_combineparams($('#dg0')));
+	    }
+	});
+	
+	//$('#sch_lb0').combobox('reload','combobox_data.json');  // reload list data using new URL
+	//$('#sch_lb0').combobox('loadData',json_data);  // reload list data using new URL
+
+/*
+[{
+    "id":"%",
+    "text":"[전체]"
+},{
+    "id":1,
+    "text":"text1"
+},{
+    "id":2,
+    "text":"text2"
+},{
+    "id":3,
+    "text":"text3"
+},{
+    "id":4,
+    "text":"text4"
+},{
+    "id":5,
+    "text":"text5"
+}]
+*/
+
+});

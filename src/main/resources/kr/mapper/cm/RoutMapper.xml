@@ -1,0 +1,1027 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.tracom.mapper.cm.Rout.RoutMapper">
+	<update id="updateSttn" parameterType="Map">		
+		UPDATE BMS_STTN_MST
+		<trim prefix="SET" suffixOverrides=",">
+			<!-- <if test="@kr.tracom.util.CommonUtil@notEmpty(NODE_ID)">
+			NODE_ID =#{NODE_ID},
+			</if> -->
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(STTN_NM)">
+			STTN_NM =#{STTN_NM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(STTN_ENM)">
+			STTN_ENM =#{STTN_ENM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(AREA)">
+			AREA =#{AREA},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(STTN_NO)">
+			STTN_NO =#{STTN_NO},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(GPS_X)">
+			GPS_X =#{GPS_X},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(GPS_Y)">
+			GPS_Y =#{GPS_Y},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(WAY_DIV)">
+			WAY_DIV =#{WAY_DIV},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(CENTER_YN)">
+			CENTER_YN =#{CENTER_YN},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(STTN_FCLT_TYPE)">
+			STTN_FCLT_TYPE =#{STTN_FCLT_TYPE},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(VHC_DOOR_DIR_TYPE)">
+			VHC_DOOR_DIR_TYPE =#{VHC_DOOR_DIR_TYPE},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(APPL_RDS)">
+			APPL_RDS =#{APPL_RDS},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(BAY_TYPE)">
+			BAY_TYPE =#{BAY_TYPE},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(BAY_LEN)">
+			BAY_LEN =#{BAY_LEN},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(LINE_CNT)">
+			LINE_CNT =#{LINE_CNT},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(APPL_ST_DT)">
+			APPL_ST_DT = STR_TO_DATE(#{APPL_ST_DT}, '%Y-%m-%d'),
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(APPL_ED_DT)">
+			APPL_ED_DT = STR_TO_DATE(#{APPL_ED_DT}, '%Y-%m-%d'),
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(USE_YN)">
+			USE_YN = #{USE_YN},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(REMARK)">
+			REMARK = #{REMARK},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(UPD_DTM)">
+			UPD_DTM = #{UPD_DTM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(SSN_USER_ID)">
+			UPD_ID  = #{SSN_USER_ID}
+			</if>
+		</trim>
+		WHERE STTN_ID = #{STTN_ID}
+	</update>
+	
+	<update id="updateCrs" parameterType="Map">	
+		UPDATE BMS_CRS_MST
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(CRS_NM)">
+			CRS_NM = #{CRS_NM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(GPS_X)">
+			GPS_X =#{GPS_X},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(GPS_Y)">
+			GPS_Y =#{GPS_Y},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(CRS_KIND)">
+			CRS_KIND = #{CRS_KIND},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(SIG_CTR_TYPE)">
+			SIG_CTR_TYPE = #{SIG_CTR_TYPE},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(APPL_ST_DT)">
+			APPL_ST_DT = STR_TO_DATE(#{APPL_ST_DT}, '%Y-%m-%d'),
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(APPL_ED_DT)">
+			APPL_ED_DT = STR_TO_DATE(#{APPL_ED_DT}, '%Y-%m-%d'),
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(USE_YN)">
+			USE_YN = #{USE_YN},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(REMARK)">
+			REMARK = #{REMARK},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(UPD_DTM)">
+			UPD_DTM = #{UPD_DTM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(SSN_USER_ID)">
+			UPD_ID = #{SSN_USER_ID}
+			</if>
+		</trim>
+		WHERE CRS_ID = #{CRS_ID};
+	</update>
+	
+<update id="updateRoutNodeToAnotherRoute" parameterType="Map">	
+		UPDATE BMS_ROUT_NODE_CMPSTN
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(GPS_X)">
+			GPS_X =#{GPS_X},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(GPS_Y)">
+			GPS_Y =#{GPS_Y},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(UPD_DTM)">
+			UPD_DTM = #{UPD_DTM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(SSN_USER_ID)">
+			UPD_ID = #{SSN_USER_ID}
+			</if>
+		</trim>
+		<if test="TYPE == 'CRS_ID'">
+		WHERE ROUT_ID IN
+		(
+			SELECT X.ROUT_ID FROM BMS_ROUT_MST X INNER JOIN
+			(SELECT ROUT_ID, WAY_DIV FROM BMS_ROUT_MST WHERE ROUT_ID = #{ROUT_ID}) Y
+			ON X.ROUT_ID != Y.ROUT_ID AND X.WAY_DIV = Y.WAY_DIV
+		)
+		AND NODE_TYPE = 'NT001' AND NODE_ID = #{CRS_ID}
+		</if>
+		<if test="TYPE == 'STTN_ID'">
+		WHERE ROUT_ID != #{ROUT_ID}
+		AND NODE_TYPE = 'NT002' AND NODE_ID = #{STTN_ID}
+		</if>
+		<if test="TYPE == 'NODE_ID'">
+		WHERE ROUT_ID IN
+		(
+			SELECT X.ROUT_ID FROM BMS_ROUT_MST X INNER JOIN
+			(SELECT ROUT_ID, WAY_DIV FROM BMS_ROUT_MST WHERE ROUT_ID = #{ROUT_ID}) Y
+			ON X.ROUT_ID != Y.ROUT_ID AND X.WAY_DIV = Y.WAY_DIV
+		)
+		AND NODE_ID = #{NODE_ID}
+		</if>
+	</update>
+	
+	<update id="updateMainRoutNodeToAnotherRoute" parameterType="Map">	
+		UPDATE BMS_MAIN_ROUT_NODE_INFO
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(GPS_X)">
+			GPS_X =#{GPS_X},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(GPS_Y)">
+			GPS_Y =#{GPS_Y},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(UPD_DTM)">
+			UPD_DTM = #{UPD_DTM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(SSN_USER_ID)">
+			UPD_ID = #{SSN_USER_ID}
+			</if>
+		</trim>
+			<if test="TYPE == 'CRS_ID'">
+			WHERE ROUT_ID IN
+			(
+				SELECT X.ROUT_ID FROM BMS_ROUT_MST X INNER JOIN
+				(SELECT ROUT_ID, WAY_DIV FROM BMS_ROUT_MST WHERE ROUT_ID = #{ROUT_ID}) Y
+				ON X.ROUT_ID != Y.ROUT_ID AND X.WAY_DIV = Y.WAY_DIV
+			)
+			AND NODE_TYPE = 'NT001' AND NODE_ID = #{CRS_ID}
+			</if>
+			<if test="TYPE == 'STTN_ID'">
+			WHERE ROUT_ID != #{ROUT_ID}
+			AND NODE_TYPE = 'NT002' AND NODE_ID = #{STTN_ID}
+			</if>
+			<if test="TYPE == 'NODE_ID'">
+			WHERE ROUT_ID IN
+			(
+				SELECT X.ROUT_ID FROM BMS_ROUT_MST X INNER JOIN
+				(SELECT ROUT_ID, WAY_DIV FROM BMS_ROUT_MST WHERE ROUT_ID = #{ROUT_ID}) Y
+				ON X.ROUT_ID != Y.ROUT_ID AND X.WAY_DIV = Y.WAY_DIV
+			)
+			AND NODE_ID = #{NODE_ID}
+			</if>
+	</update>
+	
+	<update id="updateStSttnEdSttnRout" parameterType="Map">	
+		UPDATE BMS_ROUT_MST A 
+		LEFT OUTER JOIN 
+		( SELECT * FROM BMS_ROUT_NODE_CMPSTN WHERE ROUT_ID = #{ROUT_ID} ORDER BY NODE_SN ASC LIMIT 1) B 
+		ON A.ROUT_ID = B.ROUT_ID
+		LEFT OUTER JOIN 
+		( SELECT * FROM BMS_ROUT_NODE_CMPSTN WHERE ROUT_ID = #{ROUT_ID} ORDER BY NODE_SN DESC LIMIT 1) C 
+		ON A.ROUT_ID = C.ROUT_ID	
+		SET A.ST_STTN_ID = B.NODE_ID,
+			A.ST_STTN_NM = B.NODE_NM,
+			A.ST_STTN_ENM = B.NODE_ENM,
+			A.ED_STTN_ID = C.NODE_ID,
+			A.ED_STTN_NM = C.NODE_NM,
+			A.ED_STTN_ENM = C.NODE_ENM
+		WHERE B.ROUT_ID = #{ROUT_ID} AND B.NODE_TYPE = 'NT002'
+	</update>
+	
+	<select id="selectRoutList" resultType="Map">
+		SELECT  ROUT_ID,
+				ROUT_GRP,
+				DL1.DL_CD_NM AS ROUT_GRP_NM,
+				INT_ROUT_ID,
+				PUB_ROUT_ID,
+				ROUT_NM,
+				ROUT_TYPE,
+				DL2.DL_CD_NM AS ROUT_TYPE_NM,
+				ST_STTN_ID,
+				ST_STTN_NM,
+				ED_STTN_ID,
+				ED_STTN_NM,
+				RET_STTN_ID,
+				RET_STTN_NM,
+				ROUT_LEN,
+				WAY_DIV,
+				DL3.DL_CD_NM AS WAY_DIV_NM,
+				USER_WAY_DIV,
+				DL4.DL_CD_NM AS USER_WAY_DIV_NM,
+				AREA,
+				DL5.DL_CD_NM AS AREA_NM
+		FROM BMS_ROUT_MST A
+		LEFT JOIN		BMS_DL_CD_INFO DL1
+		ON				A.ROUT_GRP = DL1.DL_CD AND DL1.CO_CD = 'ROUT_GRP'
+		LEFT JOIN		BMS_DL_CD_INFO DL2
+		ON				A.ROUT_TYPE = DL2.DL_CD AND DL2.CO_CD = 'ROUT_TYPE'
+		LEFT JOIN		BMS_DL_CD_INFO DL3
+		ON				A.WAY_DIV = DL3.DL_CD AND DL3.CO_CD = 'WAY_DIV'
+		LEFT JOIN		BMS_DL_CD_INFO DL4
+		ON				A.USER_WAY_DIV = DL4.DL_CD AND DL4.CO_CD = 'WAY_DIV'
+		LEFT JOIN		BMS_DL_CD_INFO DL5
+		ON				A.AREA = DL5.DL_CD AND DL5.CO_CD = 'AREA'
+		WHERE DEL_YN != 'Y'
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT)">
+			<if test="TYPE == 'ALL'">
+				AND ROUT_ID LIKE CONCAT('%',#{CONTENT},'%') || ROUT_NM LIKE CONCAT('%',#{CONTENT},'%') || DL1.DL_CD LIKE CONCAT('%',#{CONTENT},'%')
+			</if>
+			<if test="TYPE == 'ROUT_ID'">
+				AND ROUT_ID LIKE CONCAT('%',#{CONTENT},'%')
+			</if>
+			<if test="TYPE == 'ROUT_NM'">
+				AND ROUT_NM LIKE CONCAT('%',#{CONTENT},'%')
+			</if>
+			<if test="TYPE == 'ROUT_GRP_NM'">
+				AND DL1.DL_CD_NM LIKE CONCAT('%',#{CONTENT},'%') 
+			</if>
+		</if>
+		order by ROUT_GRP_NM, WAY_DIV
+	</select>
+	
+	<select id="selectRoutListWithGps" resultType="Map">
+		SELECT  A.ROUT_ID,
+				A.ROUT_GRP,
+				DL1.DL_CD_NM AS ROUT_GRP_NM,
+				A.INT_ROUT_ID,
+				A.PUB_ROUT_ID,
+				A.ROUT_NM,
+				A.ROUT_TYPE,
+				DL2.DL_CD_NM AS ROUT_TYPE_NM,
+				A.ST_STTN_ID,
+				A.ST_STTN_NM,
+				A.ED_STTN_ID,
+				A.ED_STTN_NM,
+				A.RET_STTN_ID,
+				A.RET_STTN_NM,
+				A.ROUT_LEN,
+				A.WAY_DIV,
+				DL3.DL_CD_NM AS WAY_DIV_NM,
+				A.USER_WAY_DIV,
+				DL4.DL_CD_NM AS USER_WAY_DIV_NM,
+				A.AREA,
+				DL5.DL_CD_NM AS AREA_NM,
+				DL5.TXT_VAL1 AS GPS_Y,
+				DL5.TXT_VAL2 AS GPS_X
+		FROM BMS_ROUT_MST A
+		LEFT JOIN		BMS_DL_CD_INFO DL1
+		ON				A.ROUT_GRP = DL1.DL_CD AND DL1.CO_CD = 'ROUT_GRP'
+		LEFT JOIN		BMS_DL_CD_INFO DL2
+		ON				A.ROUT_TYPE = DL2.DL_CD AND DL2.CO_CD = 'ROUT_TYPE'
+		LEFT JOIN		BMS_DL_CD_INFO DL3
+		ON				A.WAY_DIV = DL3.DL_CD AND DL3.CO_CD = 'WAY_DIV'
+		LEFT JOIN		BMS_DL_CD_INFO DL4
+		ON				A.USER_WAY_DIV = DL4.DL_CD AND DL4.CO_CD = 'WAY_DIV'
+		LEFT JOIN		BMS_DL_CD_INFO DL5
+		ON				A.AREA = DL5.DL_CD AND DL5.CO_CD = 'AREA'
+		WHERE DEL_YN != 'Y'
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT)">
+			<if test="TYPE == 'ALL'">
+				AND A.ROUT_ID LIKE CONCAT('%',#{CONTENT},'%') || A.ROUT_NM LIKE CONCAT('%',#{CONTENT},'%') || DL1.DL_CD LIKE CONCAT('%',#{CONTENT},'%')
+			</if>
+			<if test="TYPE == 'ROUT_ID'">
+				AND A.ROUT_ID LIKE CONCAT('%',#{CONTENT},'%')
+			</if>
+			<if test="TYPE == 'ROUT_NM'">
+				AND A.ROUT_NM LIKE CONCAT('%',#{CONTENT},'%')
+			</if>
+			<if test="TYPE == 'ROUT_GRP_NM'">
+				AND DL1.DL_CD_NM LIKE CONCAT('%',#{CONTENT},'%') 
+			</if>
+		</if>
+		ORDER BY ROUT_GRP_NM, WAY_DIV
+	</select>
+	
+	<select id="selectRoutListByRoutGrp" resultType="Map">
+		SELECT  ROUT_ID,
+				ROUT_GRP,
+				DL1.DL_CD_NM AS ROUT_GRP_NM,
+				INT_ROUT_ID,
+				ROUT_NM,
+				ROUT_TYPE,
+				DL2.DL_CD_NM AS ROUT_TYPE_NM,
+				ST_STTN_ID,
+				ST_STTN_NM,
+				ED_STTN_ID,
+				ED_STTN_NM,
+				RET_STTN_ID,
+				RET_STTN_NM,
+				ROUT_LEN,
+				WAY_DIV,
+				DL3.DL_CD_NM AS WAY_DIV_NM,
+				USER_WAY_DIV,
+				DL4.DL_CD_NM AS USER_WAY_DIV_NM
+		FROM BMS_ROUT_MST A
+		LEFT JOIN		BMS_DL_CD_INFO DL1
+		ON				A.ROUT_GRP = DL1.DL_CD AND DL1.CO_CD = 'ROUT_GRP'
+		LEFT JOIN		BMS_DL_CD_INFO DL2
+		ON				A.ROUT_TYPE = DL2.DL_CD AND DL2.CO_CD = 'ROUT_TYPE'
+		LEFT JOIN		BMS_DL_CD_INFO DL3
+		ON				A.WAY_DIV = DL3.DL_CD AND DL3.CO_CD = 'WAY_DIV'
+		LEFT JOIN		BMS_DL_CD_INFO DL4
+		ON				A.USER_WAY_DIV = DL4.DL_CD AND DL4.CO_CD = 'WAY_DIV'
+		WHERE DEL_YN != 'Y'
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(ROUT_GRP)"> 
+		AND ROUT_GRP = #{ROUT_GRP}
+		</if>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(WAY_DIV)">
+		AND WAY_DIV = #{WAY_DIV}
+		</if>
+	</select>
+	
+	<select id="selectRoutItem" resultType="Map" parameterType="Map">
+		SELECT ROUT_ID, ROUT_NM, ROUT_GRP, RG.DL_CD_NM AS ROUT_GRP_NM
+		FROM BMS_ROUT_MST A LEFT JOIN BMS_DL_CD_INFO RG
+		ON A.ROUT_GRP = RG.DL_CD AND RG.CO_CD = 'ROUT_GRP'
+		 WHERE A.DEL_YN != 'Y'
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT1)">
+				AND ROUT_GRP = #{CONTENT1}	
+		</if>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT)">
+				AND ROUT_GRP = #{CONTENT}	
+		</if>
+		ORDER BY ROUT_NM
+	</select>
+	
+
+	<update id="updateRout" parameterType="Map">
+		UPDATE BMS_ROUT_MST
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(ROUT_GRP)">
+			ROUT_GRP = #{ROUT_GRP},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(INT_ROUT_ID)">
+			INT_ROUT_ID = #{INT_ROUT_ID},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(ROUT_NM)">
+			ROUT_NM = #{ROUT_NM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(ROUT_TYPE)">
+			ROUT_TYPE = #{ROUT_TYPE},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(ROUT_DIV)">
+			ROUT_DIV = #{ROUT_DIV},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(DVC_NAME)">
+			DVC_NAME = #{DVC_NAME},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(RSV_ROUT_YN)">
+			RSV_ROUT_YN = #{RSV_ROUT_YN},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(ST_STTN_ID)">
+			ST_STTN_ID = #{ST_STTN_ID},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(ST_STTN_NM)">
+			ST_STTN_NM = #{ST_STTN_NM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(ST_STTN_ENM)">
+			ST_STTN_ENM = #{ST_STTN_ENM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(ED_STTN_ID)">
+			ED_STTN_ID = #{ED_STTN_ID},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(ED_STTN_ENM)">
+			ED_STTN_ENM = #{ED_STTN_ENM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(ED_STTN_NM)">
+			ED_STTN_NM = #{ED_STTN_NM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(RET_STTN_ID)">
+			RET_STTN_ID = #{RET_STTN_ID},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(RET_STTN_NM)">
+			RET_STTN_NM = #{RET_STTN_NM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(RET_STTN_ENM)">
+			RET_STTN_ENM = #{RET_STTN_ENM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(OPER_CNT)">
+			OPER_CNT = #{OPER_CNT},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(ALLOC_CNT)">
+			ALLOC_CNT = #{ALLOC_CNT},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(FST_TM)">
+			FST_TM = #{FST_TM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(LST_TM)">
+			LST_TM = #{LST_TM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(NONE_PEAK)">
+			NONE_PEAK = #{NONE_PEAK},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(STTN_CNT)">
+			STTN_CNT = #{STTN_CNT},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(ROUT_LEN)">
+			ROUT_LEN = #{ROUT_LEN},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(ROUT_STRT_LEN)">
+			ROUT_STRT_LEN = #{ROUT_STRT_LEN},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(CURVATURE)">
+			CURVATURE = #{CURVATURE},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(JIT_DSPCH_YN)">
+			JIT_DSPCH_YN = #{JIT_DSPCH_YN},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(LIC_VHC_CNT)">
+			LIC_VHC_CNT = #{LIC_VHC_CNT},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(SPR_VHC_CNT)">
+			SPR_VHC_CNT = #{SPR_VHC_CNT},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(APPL_ST_DT)">
+			APPL_ST_DT = STR_TO_DATE(#{APPL_ST_DT}, '%Y-%m-%d'),
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(APPL_ED_DT)">
+			APPL_ED_DT = STR_TO_DATE(#{APPL_ED_DT}, '%Y-%m-%d'),
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(WAY_DIV)">
+			WAY_DIV = #{WAY_DIV},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(USER_WAY_DIV)">
+			USER_WAY_DIV = #{USER_WAY_DIV},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(WAY_INFO)">
+			WAY_INFO = #{WAY_INFO},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(AREA)">
+			AREA = #{AREA},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(SHAPE_DIV)">
+			SHAPE_DIV = #{SHAPE_DIV},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(USE_YN)">
+			USE_YN = #{USE_YN},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(REMARK)">
+			REMARK = #{REMARK},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(UPD_DTM)">
+			UPD_DTM = #{UPD_DTM},
+			</if>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(SSN_USER_ID)">
+			UPD_ID  = #{SSN_USER_ID}
+			</if>
+		</trim>
+		WHERE ROUT_ID = #{ROUT_ID}
+	</update>
+	
+	<select id="selectNodeListByRouts" resultType="Map" parameterType="Map">
+		SELECT A.ROUT_ID, A.NODE_ID, A.NODE_SN, A.NODE_NM, A.NODE_TYPE, DL1.DL_CD_NM AS NODE_TYPE_NM, A.LINK_ID, A.STTN_ID, A.STTN_NO, A.CRS_ID, A.ORGA_ID
+				,A.GPS_X, A.GPS_Y, A.LINK_NODE_YN, B.MORN_STD
+		FROM BMS_ROUT_NODE_CMPSTN A
+			INNER JOIN BMS_ROUT_MST R
+				ON A.ROUT_ID = R.ROUT_ID AND R.DEL_YN !='Y'
+			LEFT OUTER JOIN BMS_ROUT_LINK_CMPSTN B
+				ON A.ROUT_ID = B.ROUT_ID AND A.LINK_ID = B.LINK_ID
+			LEFT JOIN		BMS_DL_CD_INFO DL1
+				ON	A.NODE_TYPE = DL1.DL_CD AND DL1.CO_CD = 'NODE_TYPE'
+
+		WHERE A.ROUT_ID IN
+		<foreach collection="ROUT_IDS" item="item" index="index"  open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+			<choose>
+				<when test="@kr.tracom.util.CommonUtil@notEmpty(NODE_TYPE)">
+					AND A.NODE_TYPE = #{NODE_TYPE}
+				</when>  
+				<otherwise>
+					<if test="TYPE == 'DISP_NODE'">
+					AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="TYPE == 'LINK_NODE'">
+					AND A.LINK_NODE_YN = 'Y'
+					</if>
+					<if test="TYPE == 'SOUND_NODE'">
+					AND A.NODE_TYPE != 'NT005' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="@kr.tracom.util.CommonUtil@empty(TYPE)">
+					AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+				</otherwise>
+			</choose>
+		 ORDER BY ROUT_ID, NODE_SN
+	</select>
+	
+	
+	
+	
+
+	<select id="selectNodeListByRout" resultType="Map" parameterType="Map">
+		SELECT A.ROUT_ID, A.NODE_ID, A.NODE_SN, A.NODE_NM, A.NODE_TYPE, DL1.DL_CD_NM AS NODE_TYPE_NM, A.LINK_ID, A.STTN_ID, A.STTN_NO, A.CRS_ID, A.ORGA_ID
+				,A.GPS_X, A.GPS_Y, A.LINK_NODE_YN, B.MORN_STD
+		FROM BMS_ROUT_NODE_CMPSTN A
+			INNER JOIN BMS_ROUT_MST R
+				ON A.ROUT_ID = R.ROUT_ID AND R.DEL_YN !='Y'
+			LEFT OUTER JOIN BMS_ROUT_LINK_CMPSTN B
+				ON A.ROUT_ID = B.ROUT_ID AND A.LINK_ID = B.LINK_ID
+			LEFT JOIN		BMS_DL_CD_INFO DL1
+				ON	A.NODE_TYPE = DL1.DL_CD AND DL1.CO_CD = 'NODE_TYPE'
+			WHERE A.ROUT_ID  = #{ROUT_ID}
+			<choose>
+				<when test="@kr.tracom.util.CommonUtil@notEmpty(NODE_TYPE)">
+					AND A.NODE_TYPE = #{NODE_TYPE}
+				</when>  
+				<otherwise>
+					<if test="TYPE == 'DISP_NODE'">
+					AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="TYPE == 'LINK_NODE'">
+					AND A.LINK_NODE_YN = 'Y'
+					</if>
+					<if test="TYPE == 'SOUND_NODE'">
+					AND A.NODE_TYPE != 'NT005' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="@kr.tracom.util.CommonUtil@empty(TYPE)">
+					AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+				</otherwise>
+			</choose>
+		ORDER BY NODE_SN
+	</select>
+	
+	
+	<select id="selectNodeListByRoutGrp" resultType="Map" parameterType="Map">
+		SELECT A.ROUT_ID, A.NODE_ID, A.NODE_SN, A.NODE_NM, A.NODE_TYPE, DL1.DL_CD_NM AS NODE_TYPE_NM, A.LINK_ID, A.STTN_ID, A.STTN_NO, A.CRS_ID, A.ORGA_ID
+				,A.GPS_X, A.GPS_Y, A.LINK_NODE_YN, B.MORN_STD
+		FROM BMS_ROUT_NODE_CMPSTN A 
+		LEFT OUTER JOIN BMS_ROUT_LINK_CMPSTN B
+			ON A.ROUT_ID = B.ROUT_ID AND A.LINK_ID = B.LINK_ID
+		LEFT OUTER JOIN BMS_ROUT_MST C
+			ON A.ROUT_ID = C.ROUT_ID	
+		LEFT JOIN		BMS_DL_CD_INFO DL1
+				ON	A.NODE_TYPE = DL1.DL_CD AND DL1.CO_CD = 'NODE_TYPE'
+		<where>
+<!-- 			<if test="CONTENT3 != null and CONTENT3 != ''">
+				AND (A.NODE_ID LIKE CONCAT('%',#{CONTENT3},'%') || A.NODE_NM LIKE CONCAT('%',#{CONTENT3},'%'))
+			</if>	 -->		
+			<choose>
+				<when test="@kr.tracom.util.CommonUtil@notEmpty(NODE_TYPE)">
+					AND A.NODE_TYPE != 'NT005' AND A.NODE_TYPE != 'NT008' AND A.NODE_TYPE = #{NODE_TYPE}
+				</when>  
+				<otherwise>
+					<if test="TYPE == 'DISP_NODE'">
+						AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="TYPE == 'LINK_NODE'">
+						AND A.LINK_NODE_YN = 'Y'
+					</if>
+					<if test="TYPE == 'SOUND_NODE'">
+						AND A.NODE_TYPE != 'NT005' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="TYPE == 'ROUT_MODE'">
+						AND A.ROUT_ID  = #{ROUT_ID} AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="@kr.tracom.util.CommonUtil@empty(TYPE)">
+						AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+						<if test="CONTENT1 != null">
+							AND C.ROUT_GRP = #{CONTENT1}			
+						</if>
+						<if test="CONTENT2 != ''">
+							AND A.ROUT_ID = #{CONTENT2}				
+						</if>
+					</if>
+				</otherwise>
+			</choose>
+		</where>	
+		ORDER BY ROUT_ID, NODE_SN
+	</select>
+	
+	<select id="selectNodeListByRoutGrps" resultType="Map" parameterType="Map">
+		SELECT A.ROUT_ID, A.NODE_ID, A.NODE_SN, A.NODE_NM, A.NODE_TYPE, DL1.DL_CD_NM AS NODE_TYPE_NM, A.LINK_ID, A.STTN_ID, A.STTN_NO, A.CRS_ID, A.ORGA_ID
+				,A.GPS_X, A.GPS_Y, A.LINK_NODE_YN, B.MORN_STD
+		FROM BMS_ROUT_NODE_CMPSTN A 
+		LEFT OUTER JOIN BMS_ROUT_LINK_CMPSTN B
+			ON A.ROUT_ID = B.ROUT_ID AND A.LINK_ID = B.LINK_ID
+		LEFT OUTER JOIN BMS_ROUT_MST C
+			ON A.ROUT_ID = C.ROUT_ID
+		LEFT JOIN		BMS_DL_CD_INFO DL1
+				ON	A.NODE_TYPE = DL1.DL_CD AND DL1.CO_CD = 'NODE_TYPE'
+		WHERE C.ROUT_GRP IN
+		<foreach collection="ROUT_GRPS" item="item" index="index"  open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+			<choose>
+				<when test="@kr.tracom.util.CommonUtil@notEmpty(NODE_TYPE)">
+					AND A.NODE_TYPE = #{NODE_TYPE}
+				</when>  
+				<otherwise>
+					<if test="TYPE == 'DISP_NODE'">
+					AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="TYPE == 'LINK_NODE'">
+					AND A.LINK_NODE_YN = 'Y'
+					</if>
+					<if test="TYPE == 'SOUND_NODE'">
+					AND A.NODE_TYPE != 'NT005' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="@kr.tracom.util.CommonUtil@empty(TYPE)">
+					AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+				</otherwise>
+			</choose>
+		 ORDER BY ROUT_ID, NODE_SN
+	</select>
+	
+	<select id="selectNodeDispListByRouts" resultType="Map" parameterType="Map">
+		SELECT A.ROUT_ID, A.NODE_ID, A.NODE_SN, A.NODE_NM, A.NODE_TYPE, DL1.DL_CD_NM AS NODE_TYPE_NM, A.LINK_ID, A.STTN_ID, A.STTN_NO, A.CRS_ID, A.ORGA_ID
+				,A.GPS_X, A.GPS_Y, A.LINK_NODE_YN, B.MORN_STD
+		FROM BMS_ROUT_NODE_DISP_VW A
+			LEFT OUTER JOIN BMS_ROUT_LINK_CMPSTN B
+				ON A.ROUT_ID = B.ROUT_ID AND A.LINK_ID = B.LINK_ID
+			LEFT JOIN		BMS_DL_CD_INFO DL1
+				ON	A.NODE_TYPE = DL1.DL_CD AND DL1.CO_CD = 'NODE_TYPE'
+		WHERE A.ROUT_ID IN
+		<foreach collection="ROUT_IDS" item="item" index="index"  open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+			AND A.NODE_TYPE != 'NT001'
+			<choose>
+				<when test="@kr.tracom.util.CommonUtil@notEmpty(NODE_TYPE)">
+					AND A.NODE_TYPE = #{NODE_TYPE}
+				</when>  
+				<otherwise>
+					<if test="TYPE == 'DISP_NODE'">
+					AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="TYPE == 'LINK_NODE'">
+					AND A.LINK_NODE_YN = 'Y'
+					</if>
+					<if test="TYPE == 'SOUND_NODE'">
+					AND A.NODE_TYPE != 'NT005' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="@kr.tracom.util.CommonUtil@empty(TYPE)">
+					AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+				</otherwise>
+			</choose>
+		 ORDER BY ROUT_ID, NODE_SN, NODE_CHILD_SN
+	</select>
+	
+
+	<select id="selectNodeDispListByRout" resultType="Map" parameterType="Map">
+		SELECT A.ROUT_ID, A.NODE_ID, A.NODE_SN, A.NODE_NM, A.NODE_TYPE, DL1.DL_CD_NM AS NODE_TYPE_NM, A.LINK_ID, A.STTN_ID, A.STTN_NO, A.CRS_ID, A.ORGA_ID
+				,A.GPS_X, A.GPS_Y, A.LINK_NODE_YN, B.MORN_STD
+		FROM BMS_ROUT_NODE_DISP_VW A
+			LEFT OUTER JOIN BMS_ROUT_LINK_CMPSTN B
+				ON A.ROUT_ID = B.ROUT_ID AND A.LINK_ID = B.LINK_ID
+			LEFT JOIN		BMS_DL_CD_INFO DL1
+				ON	A.NODE_TYPE = DL1.DL_CD AND DL1.CO_CD = 'NODE_TYPE'
+			WHERE A.ROUT_ID  = #{ROUT_ID}
+			AND A.NODE_TYPE != 'NT001'
+			<choose>
+				<when test="@kr.tracom.util.CommonUtil@notEmpty(NODE_TYPE)">
+					AND A.NODE_TYPE = #{NODE_TYPE}
+				</when>  
+				<otherwise>
+					<if test="TYPE == 'DISP_NODE'">
+					AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="TYPE == 'LINK_NODE'">
+					AND A.LINK_NODE_YN = 'Y'
+					</if>
+					<if test="TYPE == 'SOUND_NODE'">
+					AND A.NODE_TYPE != 'NT005' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="@kr.tracom.util.CommonUtil@empty(TYPE)">
+					AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+				</otherwise>
+			</choose>
+		ORDER BY NODE_SN, NODE_CHILD_SN
+	</select>
+	
+	
+	<select id="selectNodeDispListByRoutGrp" resultType="Map" parameterType="Map">
+		SELECT A.ROUT_ID, A.NODE_ID, A.NODE_SN, A.NODE_NM, A.NODE_TYPE, DL1.DL_CD_NM AS NODE_TYPE_NM, A.LINK_ID, A.STTN_ID, A.STTN_NO, A.CRS_ID, A.ORGA_ID
+				,A.GPS_X, A.GPS_Y, A.LINK_NODE_YN, B.MORN_STD
+		FROM BMS_ROUT_NODE_DISP_VW A 
+		LEFT OUTER JOIN BMS_ROUT_LINK_CMPSTN B
+			ON A.ROUT_ID = B.ROUT_ID AND A.LINK_ID = B.LINK_ID
+		LEFT OUTER JOIN BMS_ROUT_MST C
+			ON A.ROUT_ID = C.ROUT_ID
+		LEFT JOIN		BMS_DL_CD_INFO DL1
+			ON	A.NODE_TYPE = DL1.DL_CD AND DL1.CO_CD = 'NODE_TYPE'
+		WHERE A.NODE_TYPE != 'NT001'
+<!-- 			<if test="CONTENT3 != null and CONTENT3 != ''">
+				AND (A.NODE_ID LIKE CONCAT('%',#{CONTENT3},'%') || A.NODE_NM LIKE CONCAT('%',#{CONTENT3},'%'))
+			</if>	 -->		
+			<choose>
+				<when test="@kr.tracom.util.CommonUtil@notEmpty(NODE_TYPE)">
+					AND A.NODE_TYPE != 'NT005' AND A.NODE_TYPE != 'NT008' AND A.NODE_TYPE = #{NODE_TYPE}
+				</when>  
+				<otherwise>
+					<if test="TYPE == 'DISP_NODE'">
+						AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="TYPE == 'LINK_NODE'">
+						AND A.LINK_NODE_YN = 'Y'
+					</if>
+					<if test="TYPE == 'SOUND_NODE'">
+						AND A.NODE_TYPE != 'NT005' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="TYPE == 'ROUT_MODE'">
+						AND A.ROUT_ID  = #{ROUT_ID} AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="@kr.tracom.util.CommonUtil@empty(TYPE)">
+						AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+						<if test="CONTENT1 != null">
+							AND C.ROUT_GRP = #{CONTENT1}			
+						</if>
+						<if test="CONTENT2 != ''">
+							AND A.ROUT_ID = #{CONTENT2}				
+						</if>
+					</if>
+				</otherwise>
+			</choose>
+		
+		ORDER BY ROUT_ID, NODE_SN, NODE_CHILD_SN
+	</select>
+	
+	<select id="selectNodeDispListByRoutGrps" resultType="Map" parameterType="Map">
+		SELECT A.ROUT_ID, A.NODE_ID, A.NODE_SN, A.NODE_NM, A.NODE_TYPE, DL1.DL_CD_NM AS NODE_TYPE_NM, A.LINK_ID, A.STTN_ID, A.STTN_NO, A.CRS_ID, A.ORGA_ID
+				,A.GPS_X, A.GPS_Y, A.LINK_NODE_YN, B.MORN_STD
+		FROM BMS_ROUT_NODE_DISP_VW A 
+		LEFT OUTER JOIN BMS_ROUT_LINK_CMPSTN B
+			ON A.ROUT_ID = B.ROUT_ID AND A.LINK_ID = B.LINK_ID
+		LEFT OUTER JOIN BMS_ROUT_MST C
+			ON A.ROUT_ID = C.ROUT_ID
+		LEFT JOIN		BMS_DL_CD_INFO DL1
+			ON	A.NODE_TYPE = DL1.DL_CD AND DL1.CO_CD = 'NODE_TYPE'
+		WHERE A.ROUT_GRP IN
+		<foreach collection="ROUT_GRPS" item="item" index="index"  open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+			AND A.NODE_TYPE != 'NT001'
+			<choose>
+				<when test="@kr.tracom.util.CommonUtil@notEmpty(NODE_TYPE)">
+					AND A.NODE_TYPE = #{NODE_TYPE}
+				</when>  
+				<otherwise>
+					<if test="TYPE == 'DISP_NODE'">
+					AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="TYPE == 'LINK_NODE'">
+					AND A.LINK_NODE_YN = 'Y'
+					</if>
+					<if test="TYPE == 'SOUND_NODE'">
+					AND A.NODE_TYPE != 'NT005' AND A.NODE_TYPE != 'NT008'
+					</if>
+					<if test="@kr.tracom.util.CommonUtil@empty(TYPE)">
+					AND A.NODE_TYPE != 'NT006' AND A.NODE_TYPE != 'NT008'
+					</if>
+				</otherwise>
+			</choose>
+		 ORDER BY ROUT_ID, NODE_SN, NODE_CHILD_SN
+	</select>
+	
+	<select id="selectMainNodeListByRout" resultType="Map" parameterType="Map">
+		SELECT
+		A.ROUT_ID,
+		A.NODE_ID,
+		A.NODE_SN,
+		A.NODE_NM,
+		A.NODE_TYPE,
+		DL1.DL_CD_NM AS NODE_TYPE_NM,
+		A.STTN_ID,
+		A.STTN_NO,
+		A.CRS_ID,
+		A.GPS_X,
+		A.GPS_Y
+		FROM BMS_MAIN_ROUT_NODE_INFO A
+		LEFT JOIN		BMS_DL_CD_INFO DL1
+			ON	A.NODE_TYPE = DL1.DL_CD AND DL1.CO_CD = 'NODE_TYPE'
+		<where>	
+			A.ROUT_ID = #{ROUT_ID}
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(NODE_TYPE)">
+			AND A.NODE_TYPE = #{NODE_TYPE}
+			</if>
+		</where>
+		ORDER BY NODE_SN
+	</select>
+	
+	<select id="selectSttnList" resultType="Map">
+		SELECT  A.STTN_ID,
+				A.STTN_NM,
+				A.STTN_ENM,
+				A.AREA,
+				DL5.DL_CD_NM AS AREA_NM,
+				A.STTN_NO,
+				A.CENTER_YN,
+				A.STTN_FCLT_TYPE,
+				DL1.DL_CD_NM AS STTN_FCLT_TYPE_NM,
+				A.VHC_DOOR_DIR_TYPE,
+				DL2.DL_CD_NM AS VHC_DOOR_DIR_TYPE_NM,
+				A.WAY_DIV,
+				DL3.DL_CD_NM AS WAY_DIV_NM,
+				A.GPS_X,
+				A.GPS_Y,
+				A.APPL_RDS,
+				A.BAY_TYPE,
+				DL4.DL_CD_NM AS BAY_TYPE_NM,
+				A.BAY_LEN,
+				A.LINE_CNT,
+				A.USE_YN,
+				A.REMARK
+		FROM BMS_STTN_MST A <!-- LEFT OUTER JOIN BMS_NODE_MST B ON A.NODE_ID = B.NODE_ID -->
+		LEFT JOIN		BMS_DL_CD_INFO DL1
+		ON				A.STTN_FCLT_TYPE = DL1.DL_CD AND DL1.CO_CD = 'STTN_FCLT_TYPE'
+		LEFT JOIN		BMS_DL_CD_INFO DL2
+		ON				A.VHC_DOOR_DIR_TYPE = DL2.DL_CD AND DL2.CO_CD = 'VHC_DOOR_DIR_TYPE'
+		LEFT JOIN		BMS_DL_CD_INFO DL3
+		ON				A.WAY_DIV = DL3.DL_CD AND DL3.CO_CD = 'WAY_DIV'
+		LEFT JOIN		BMS_DL_CD_INFO DL4
+		ON				A.BAY_TYPE = DL4.DL_CD AND DL4.CO_CD = 'BAY_TYPE'
+		LEFT JOIN		BMS_DL_CD_INFO DL5
+		ON				A.AREA = DL5.DL_CD AND DL5.CO_CD = 'AREA'
+		<where>
+			A.USE_YN = 'Y'AND A.DEL_YN!='Y'
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT)">
+				<if test="TYPE == 'ALL' || TYPE == ''">
+					AND (A.STTN_ID LIKE CONCAT('%',#{CONTENT},'%') || A.STTN_NM LIKE CONCAT('%',#{CONTENT},'%') || A.STTN_NO LIKE CONCAT('%',#{CONTENT},'%'))
+				</if>
+				<if test="TYPE == 'STTN_ID'">
+					AND A.STTN_ID LIKE CONCAT('%',#{CONTENT},'%')
+				</if>
+				<if test="TYPE == 'STTN_NM'">
+					AND A.STTN_NM LIKE CONCAT('%',#{CONTENT},'%') 
+				</if>
+				<if test="TYPE == 'STTN_NO'">
+					AND A.STTN_NO LIKE CONCAT('%',#{CONTENT},'%') 
+				</if>
+			</if>
+		</where>
+	</select>
+
+<select id="selectSttnItem" resultType="Map">
+	SELECT STTN_ID, STTN_NM, STTN_NO
+	FROM BMS_STTN_MST WHERE DEL_YN!='Y'
+	ORDER BY STTN_ID
+</select>
+
+<select id="selectSttnCrsList" resultType="Map">
+	SELECT  		A.NODE_ID
+				,	A.MOCK_NODE_ID
+				,	A.NODE_NM
+				,	A.NODE_ENM
+				,	A.NODE_TYPE
+				,DL1.DL_CD_NM AS NODE_TYPE_NM
+				,	A.GPS_X
+				,	A.GPS_Y
+				,	A.TM_X
+				,	A.TM_Y
+				,	A.ENTRY_RECOG_RADS
+				,	A.ADVNC_RECOG_RADS
+				,	A.USE_YN
+				,	A.UPD_DTM
+				,	A.UPD_ID
+				
+		FROM BMS_NODE_MST A
+		LEFT JOIN		BMS_DL_CD_INFO DL1
+			ON	A.NODE_TYPE = DL1.DL_CD AND DL1.CO_CD = 'NODE_TYPE'
+		WHERE		NODE_TYPE = 'NT001'
+		OR			NODE_TYPE = 'NT002'
+		
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT)">
+				<if test="TYPE == 'ALL' || TYPE == ''">
+					AND (A.NODE_ID LIKE CONCAT('%',#{CONTENT},'%') || A.NODE_NM LIKE CONCAT('%',#{CONTENT},'%'))
+				</if>
+				<if test="TYPE == 'NODE_ID'">
+					AND A.NODE_ID LIKE CONCAT('%',#{CONTENT},'%')
+				</if>
+				<if test="TYPE == 'NODE_NM'">
+					AND A.NODE_NM LIKE CONCAT('%',#{CONTENT},'%') 
+				</if>
+			</if>
+		
+</select>
+
+<select id="selectSttnCrsDispList" resultType="Map">
+		SELECT 			A.ROUT_GRP
+					,	A.ROUT_ID
+					,	A.NODE_ID
+					, 	A.NODE_SN
+					, 	A.NODE_NM
+					,	A.NODE_TYPE
+					,DL1.DL_CD_NM AS NODE_TYPE_NM
+					,	A.LINK_ID
+					, 	A.STTN_ID
+					, 	A.STTN_NO
+					, 	A.CRS_ID
+					, 	A.ORGA_ID
+					,	A.GPS_X
+					, 	A.GPS_Y
+					,	A.LINK_NODE_YN
+					,	B.MORN_STD
+					,	E.WAY_DIV
+					
+		FROM 		  	BMS_ROUT_NODE_DISP_VW A 
+		LEFT JOIN 		BMS_ROUT_LINK_CMPSTN B
+			ON A.ROUT_ID = B.ROUT_ID AND A.LINK_ID = B.LINK_ID
+		<!-- LEFT JOIN		BMS_CRS_MST D
+			ON A.NODE_ID = D.CRS_ID	 -->
+		LEFT JOIN		BMS_ROUT_MST E
+			ON	A.ROUT_ID = E.ROUT_ID
+		LEFT JOIN		BMS_DL_CD_INFO DL1
+			ON	A.NODE_TYPE = DL1.DL_CD AND DL1.CO_CD = 'NODE_TYPE'
+		WHERE 			(A.NODE_TYPE = 'NT002' || A.NODE_TYPE = 'NT001' AND A.PHASE_NO IS NOT NULL AND A.PHASE_NO != '')			
+		
+		<if test="CONTENT1 != null">
+			AND A.ROUT_GRP = #{CONTENT1}
+		</if>
+		<if test="CONTENT2 != ''">
+			AND A.ROUT_ID = #{CONTENT2}
+		</if>
+		<if test="CONTENT3 != ''">
+			AND E.WAY_DIV = #{CONTENT3}
+		</if>
+					
+		GROUP BY			NODE_ID
+		ORDER BY			NODE_SN
+		
+</select>
+
+<select id="selectSttnCrsLink" resultType="Map">
+		SELECT 					R.ROUT_GRP
+							,	A.ROUT_ID
+							,	C.NODE_ID
+							,	D.NODE_ID AS NEXT_NODE_ID
+							, 	A.LINK_SN
+							, 	C.NODE_NM
+							,	C.NODE_TYPE
+							, DL1.DL_CD_NM AS NODE_TYPE_NM
+							,	A.LINK_ID
+							, 	E.STTN_ID
+							, 	E.STTN_NO
+							, 	F.CRS_ID
+							,	F.PHASE_CNT
+							/*
+							, 	A.ORGA_ID
+							*/
+							,	C.GPS_X
+							, 	C.GPS_Y
+							,	D.GPS_X AS NEXT_GPS_X
+							,	D.GPS_Y AS NEXT_GPS_Y							
+							/*
+							,	A.LINK_NODE_YN
+							*/
+							,	A.MORN_STD
+							,	R.WAY_DIV
+							,	B.LEN
+							
+		FROM					BMS_ROUT_STTNCRS_LINK_CMPSTN A					
+		LEFT JOIN			BMS_ROUT_MST R
+			ON					(A.ROUT_ID = R.ROUT_ID AND R.DEL_YN = 'N')
+		LEFT JOIN			BMS_STTNCRS_LINK B	
+			ON					A.LINK_ID = B.LINK_ID
+		LEFT JOIN			BMS_NODE_MST C
+			ON					B.ST_NODE_ID = C.NODE_ID
+		LEFT JOIN			BMS_NODE_MST D
+			ON					B.ED_NODE_ID = D.NODE_ID
+		LEFT JOIN			BMS_STTN_MST E
+			ON					B.ST_NODE_ID = E.STTN_ID	
+		LEFT JOIN			BMS_CRS_MST F
+			ON					B.ST_NODE_ID = F.CRS_ID				
+		LEFT JOIN		BMS_DL_CD_INFO DL1
+			ON	C.NODE_TYPE = DL1.DL_CD AND DL1.CO_CD = 'NODE_TYPE'
+		<where>			
+			<if test="CONTENT1 != null">
+				AND R.ROUT_GRP = #{CONTENT1}
+			</if>
+			<if test="CONTENT2 != ''">
+				AND A.ROUT_ID = #{CONTENT2}
+			</if>
+			<if test="CONTENT3 != ''">
+				AND R.WAY_DIV = #{CONTENT3}
+			</if>
+		</where>
+					
+		GROUP BY			NODE_ID
+		ORDER BY			LINK_SN
+		
+</select>
+	
+</mapper>

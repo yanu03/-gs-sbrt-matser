@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.tracom.mapper.PM.PM0101Mapper">
+
+	<select id="PM0101G0R0" parameterType="Map" resultType="Map">
+		SELECT 
+				A.DVC_KIND,
+				A.DVC_KIND AS OLD_DVC_KIND,
+				DL1.DL_CD_NM AS DVC_KIND_CD,
+				A.PARAM_DIV,
+				A.PARAM_DIV AS OLD_PARAM_DIV,
+				DL2.DL_CD_NM AS PARAM_DIV_CD,
+				A.PARAM_KIND,
+				A.PARAM_KIND AS OLD_PARAM_KIND,
+				DL3.DL_CD_NM AS PARAM_KIND_CD,
+				A.DATA_TYPE,
+				DL4.DL_CD_NM AS DATA_TYPE_CD,
+				A.DATA_LENGTH,
+				A.DATA_VAL,
+				A.ATTR1_VAL,
+				A.ATTR2_VAL,
+				A.SCHEDULE_YN,
+				A.USE_YN,
+				A.AUTO_YN,
+				A.REMARK,
+				DATE_FORMAT(A.UPD_DTM, '%Y-%m-%d') UPD_DTM,
+				A.UPD_ID
+				
+				FROM SLT_DVC_PARAM_CFG_INFO A 
+				LEFT JOIN PLF_DL_CD_INFO DL1
+				ON A.DVC_KIND = DL1.DL_CD
+				AND DL1.CO_CD = 'DVC_KIND' 
+				LEFT JOIN PLF_DL_CD_INFO DL2
+				ON A.PARAM_DIV = DL2.DL_CD
+				AND DL2.CO_CD = 'PARAM_DIV'
+				LEFT JOIN PLF_DL_CD_INFO DL3
+				ON A.PARAM_KIND = DL3.DL_CD
+				AND DL3.CO_CD = 'PARAM_KIND'
+				LEFT JOIN PLF_DL_CD_INFO DL4
+				ON A.DATA_TYPE = DL4.DL_CD
+				AND DL4.CO_CD = 'DATA_TYPE'
+		<where>
+			<if test= "CONTENT != null and CONTENT != ''">
+				DVC_KIND_CD LIKE CONCAT('%',#{CONTENT},'%') || PARAM_DIV_CD LIKE CONCAT('%',#{CONTENT},'%') || PARAM_KIND_CD LIKE CONCAT('%',#{CONTENT},'%')
+			</if>
+		</where>	
+	
+	</select>
+	
+	<select id="PM0101G1R0" parameterType="Map" resultType="Map">
+		SELECT 
+				A.DVC_KIND,
+				DL1.DL_CD_NM AS DVC_KIND_CD,
+				A.PARAM_DIV,
+				DL2.DL_CD_NM AS PARAM_DIV_CD,
+				A.PARAM_KIND,
+				DL3.DL_CD_NM AS PARAM_KIND_CD,
+				A.SN,
+				A.ST_TIME,
+				A.ED_TIME,
+				A.DATA_VAL,
+				A.REMARK,
+				DATE_FORMAT(A.UPD_DTM, '%Y-%m-%d') UPD_DTM,
+				A.UPD_ID
+				
+				FROM SLT_DVC_SCH_CFG_INFO A 
+				LEFT JOIN PLF_DL_CD_INFO DL1
+				ON A.DVC_KIND = DL1.DL_CD
+				AND DL1.CO_CD = 'DVC_KIND' 
+				LEFT JOIN PLF_DL_CD_INFO DL2
+				ON A.PARAM_DIV = DL2.DL_CD
+				AND DL2.CO_CD = 'PARAM_DIV'
+				LEFT JOIN PLF_DL_CD_INFO DL3
+				ON A.PARAM_KIND = DL3.DL_CD
+				AND DL3.CO_CD = 'PARAM_KIND'
+				
+				WHERE
+							DVC_KIND = #{OPTION1}
+				AND			PARAM_DIV = #{OPTION2}
+				AND			PARAM_KIND = #{OPTION3}
+	</select>
+	
+	<insert id="PM0101G0I0" parameterType="Map">
+		INSERT INTO	SLT_DVC_PARAM_CFG_INFO
+				(
+					DVC_KIND
+				,	PARAM_DIV
+				,	PARAM_KIND
+				,	DATA_TYPE
+				,	DATA_LENGTH
+				,	DATA_VAL
+				,	ATTR1_VAL
+				,	ATTR2_VAL
+				,	SCHEDULE_YN
+				,	USE_YN
+				,	AUTO_YN
+				,	REMARK
+				,	UPD_DTM
+				,	UPD_ID				
+				)
+				
+		VALUES (
+					#{DVC_KIND}
+				,	#{PARAM_DIV}
+				,	#{PARAM_KIND}
+				,	#{DATA_TYPE}
+				,	#{DATA_LENGTH}
+				,	#{DATA_VAL}
+				,	#{ATTR1_VAL}
+				,	#{ATTR2_VAL}
+				,	#{SCHEDULE_YN}
+				,	#{USE_YN}
+				,	#{AUTO_YN}
+				,	#{REMARK}
+				,	#{UPD_DTM}
+				,	#{SSN_USER_ID}			
+				)		
+	
+	</insert>
+	
+	<update id="PM0101G0U0" parameterType="Map">
+		UPDATE  	SLT_DVC_PARAM_CFG_INFO
+		SET		
+					DVC_KIND = #{DVC_KIND}
+				,	PARAM_DIV = #{PARAM_DIV}
+				,	PARAM_KIND = #{PARAM_KIND}
+				,	DATA_TYPE = #{DATA_TYPE}
+				,	DATA_LENGTH = #{DATA_LENGTH}
+				,	DATA_VAL = #{DATA_VAL}
+				,	ATTR1_VAL = #{ATTR1_VAL}
+				,	ATTR2_VAL = #{ATTR2_VAL}
+				,	SCHEDULE_YN = #{SCHEDULE_YN}
+				,	USE_YN = #{USE_YN}
+				,	REMARK = #{REMARK}
+				,	UPD_DTM = #{UPD_DTM}
+				,	UPD_ID = #{UPD_ID}
+				
+		WHERE		DVC_KIND = #{OLD_DVC_KIND}
+		AND			PARAM_DIV = #{OLD_PARAM_DIV}
+		AND			PARAM_KIND = #{OLD_PARAM_KIND}
+	</update>
+	
+	<delete id="PM0101G0D0" parameterType="Map">
+		DELETE
+		FROM		SLT_DVC_PARAM_CFG_INFO
+		WHERE		DVC_KIND = #{DVC_KIND}
+		AND			PARAM_DIV = #{PARAM_DIV}
+		AND			PARAM_KIND = #{PARAM_KIND}
+	
+	</delete>
+	
+	<insert id="PM0101G1I0" parameterType="Map">
+		INSERT INTO	SLT_DVC_SCH_CFG_INFO
+				(
+					DVC_KIND
+				,	PARAM_DIV
+				,	PARAM_KIND
+				,	SN
+				,	ST_TIME
+				,	ED_TIME
+				,	DATA_VAL
+				,	REMARK
+				,	UPD_DTM
+				,	UPD_ID				
+				)
+				
+		VALUES (
+					#{DVC_KIND}
+				,	#{PARAM_DIV}
+				,	#{PARAM_KIND}
+				,	#{SN}
+				,	#{ST_TIME}
+				,	#{ED_TIME}
+				,	#{DATA_VAL}
+				,	#{REMARK}
+				,	#{UPD_DTM}
+				,	#{SSN_USER_ID}			
+				)		
+	
+	</insert>
+	
+	<update id="PM0101G1U0" parameterType="Map">
+		UPDATE  	SLT_DVC_SCH_CFG_INFO
+		SET		
+					ST_TIME = #{ST_TIME}
+				,	ED_TIME = #{ED_TIME}
+				,	DATA_VAL = #{DATA_VAL}
+				,	REMARK = #{REMARK}
+				,	UPD_DTM = #{UPD_DTM}
+				,	UPD_ID = #{UPD_ID}
+				
+		WHERE		
+					DVC_KIND = #{DVC_KIND}
+		AND			PARAM_DIV = #{PARAM_DIV}
+		AND			PARAM_KIND = #{PARAM_KIND}
+		AND			SN = #{SN}
+	</update>
+	
+	<delete id="PM0101G1D0" parameterType="Map">
+		DELETE
+		FROM		SLT_DVC_SCH_CFG_INFO
+		WHERE		
+					DVC_KIND = #{DVC_KIND}
+		AND			PARAM_DIV = #{PARAM_DIV}
+		AND			PARAM_KIND = #{PARAM_KIND}
+		AND			SN = #{SN}
+	
+	</delete>
+
+</mapper>

@@ -1,0 +1,7 @@
+*.log
+*.ZIP
+application.pid
+.settings/
+*.lck
+*.prefs
+target/

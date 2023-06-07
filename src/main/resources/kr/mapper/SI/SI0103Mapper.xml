@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.tracom.mapper.SI.SI0103Mapper">
+
+	<select id="SI0103G0R0" parameterType="Map" resultType="Map">
+		SELECT 		A.MTRL_ID
+				,	A.MTRL_NM
+				,	A.MTRL_CD
+				,  DL1.DL_CD_NM AS MTRL_CD_CD
+				,	A.MAKER_ID
+				,	DL3.DL_CD_NM AS MAKER_ID_CD <!-- 임시 -->
+				,	A.DVC_KIND
+				,  DL2.DL_CD_NM AS DVC_KIND_CD
+				,	A.APPR_IVNT_CNT
+				,	A.CUR_IVNT_CNT
+				,	A.REMARK
+				,	A.UPD_ID
+				,	A.UPD_DTM
+				
+		FROM		SLT_MTRL_MST A
+		LEFT JOIN	PLF_DL_CD_INFO DL1
+			ON		A.MTRL_CD = DL1.DL_CD
+			AND	DL1.CO_CD = 'MTRL_CD'
+		LEFT JOIN	PLF_DL_CD_INFO DL2
+			ON		A.DVC_KIND = DL2.DL_CD
+			AND	DL2.CO_CD = 'DVC_KIND'
+		LEFT JOIN	PLF_DL_CD_INFO DL3
+			ON		A.MAKER_ID = DL3.DL_CD
+			AND	DL3.CO_CD = 'MAKER_ID'		
+		<where>
+			<if test= "CONTENT != null and CONTENT != ''">
+				MTRL_ID LIKE CONCAT('%',#{CONTENT},'%') || MTRL_NM LIKE CONCAT('%',#{CONTENT},'%')
+			</if>
+		</where>	
+	
+	</select>
+	
+	<select id="SI0103G0K0" resultType="Map">
+		SELECT CONCAT('MT', LPAD(NEXTVAL(SEQ_SLT_MTRL_MST_0), 8, '0')) AS 'SEQ'
+	</select>
+	
+	<insert id="SI0103G0I0" parameterType="Map">
+		INSERT INTO	SLT_MTRL_MST
+				(
+					MTRL_ID
+				,	MTRL_NM
+				,	MTRL_CD
+				,	MAKER_ID
+				,	DVC_KIND
+				,	APPR_IVNT_CNT
+				,	CUR_IVNT_CNT
+				,	REMARK
+				,	UPD_ID
+				,	UPD_DTM			
+				)
+				
+		VALUES (
+					#{MTRL_ID}
+				,	#{MTRL_NM}
+				,	#{MTRL_CD}
+				,	#{MAKER_ID}
+				,	#{DVC_KIND}
+				,	#{APPR_IVNT_CNT}
+				,	#{CUR_IVNT_CNT}
+				,	#{REMARK}
+				,	#{UPD_ID}
+				,	#{UPD_DTM}				
+				)		
+	
+	</insert>
+	
+	<update id="SI0103G0U0" parameterType="Map">
+		UPDATE  	SLT_MTRL_MST
+		SET		
+					MTRL_NM = #{MTRL_NM}
+				,	MTRL_CD = #{MTRL_CD}
+				,	MAKER_ID = #{MAKER_ID}
+				,	DVC_KIND = #{DVC_KIND}
+				,	APPR_IVNT_CNT = #{APPR_IVNT_CNT}
+				,	CUR_IVNT_CNT = #{CUR_IVNT_CNT}
+				,	REMARK = #{REMARK}
+				,	UPD_ID = #{UPD_ID}
+				,	UPD_DTM = #{UPD_DTM}		
+				
+		WHERE		MTRL_ID = #{MTRL_ID}	
+	</update>
+	
+	<delete id="SI0103G0D0" parameterType="Map">
+		DELETE
+		FROM		SLT_MTRL_MST
+		WHERE		MTRL_ID = #{MTRL_ID}
+	
+	</delete>
+
+</mapper>

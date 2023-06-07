@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.tracom.mapper.VH0100.VH0100Mapper">
+
+<select id="VH0100G0R0" parameterType="Map" resultType="Map">
+	SELECT
+		DATE_FORMAT(A.SEND_DTM, '%Y-%m-%d %H:%i:%s') SEND_DATE
+		,A.ROUT_GRP
+		,A.VHC_NO
+		,A.VHC_ID
+		,A.SEND_GPS_X AS GPS_X
+		,A.SEND_GPS_Y AS GPS_Y
+		,A.DSPTCH_DIV
+		,A.DSPTCH_KIND
+		<![CDATA[ 
+		,CASE WHEN A.DSPTCH_DIV = 'DP002' THEN
+				CASE WHEN A.DSPTCH_CONTS>0 THEN
+						TIME_FORMAT(SEC_TO_TIME(A.DSPTCH_CONTS), '%i분 %s초 느립니다.')
+					WHEN A.DSPTCH_CONTS<0 THEN
+						TIME_FORMAT(SEC_TO_TIME(A.DSPTCH_CONTS), '%i분 %s초 빠릅니다.')
+					ELSE '정상 운행중입니다.'
+				END
+			WHEN  A.DSPTCH_DIV = 'DP003' THEN
+				TIME_FORMAT(SEC_TO_TIME(A.DSPTCH_CONTS), '%i분 %s초 정차하세요.')
+			ELSE A.DSPTCH_CONTS
+		END AS DSPTCH_CONTS
+		]]>
+		,A.ROUT_ID
+		,A.LINK_ID
+		,A.NODE_ID
+		,A.ROUT_GRP
+		,B.NODE_TYPE
+		,B.NODE_NM
+		,C.ROUT_NM
+		,D.LINK_NM
+		,RG.DL_CD_NM AS ROUT_GRP_NM
+		,F.DRV_NM
+	FROM
+		BMS_DSPTCH_LOG A
+		LEFT JOIN BMS_NODE_MST B ON A.NODE_ID = B.NODE_ID
+		LEFT JOIN BMS_ROUT_MST C ON A.ROUT_ID = C.ROUT_ID
+		LEFT JOIN BMS_LINK_MST D ON A.LINK_ID = D.LINK_ID
+		LEFT JOIN BMS_DL_CD_INFO RG ON A.ROUT_GRP = RG.DL_CD AND RG.CO_CD = 'ROUT_GRP'
+		LEFT JOIN BMS_DRV_MST F ON A.DRV_ID = F.DRV_ID
+	<where>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT1)">
+				A.ROUT_GRP = #{CONTENT1}
+		</if>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT2)">
+				AND A.ROUT_ID = #{CONTENT2}
+		</if>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT3)">
+				AND A.VHC_NO LIKE CONCAT('%', #{CONTENT3}, '%')
+		</if>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE) and @kr.tracom.util.CommonUtil@empty(L_DATE)">
+			<![CDATA[AND DATE_FORMAT(A.SEND_DTM, '%Y-%m-%d') >= #{F_DATE}]]>
+		</if>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(L_DATE) and @kr.tracom.util.CommonUtil@empty(F_DATE)">
+			<![CDATA[AND DATE_FORMAT(A.SEND_DTM, '%Y-%m-%d') <= #{L_DATE}]]>
+		</if>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE) and @kr.tracom.util.CommonUtil@notEmpty(L_DATE)">
+				AND DATE_FORMAT(A.SEND_DTM, '%Y-%m-%d') BETWEEN #{F_DATE} AND #{L_DATE}
+		</if>			
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(DSPTCH_DIV)">
+				AND DSPTCH_DIV = #{DSPTCH_DIV}
+		</if>			
+	</where>
+	ORDER BY
+		A.SEND_DTM DESC
+</select>
+
+<select id="VH0100SHI0" resultType="Map">
+	SELECT 
+		VHC_ID,
+		VHC_NO
+	FROM 
+		BMS_VHC_MST
+</select>
+
+<select id="selectDsptchDivItem" resultType="Map">
+	SELECT 			DL_CD
+				,	DL_CD_NM
+				
+	FROM			BMS_DL_CD_INFO
+	
+	WHERE			CO_CD = 'DISPATCH_DIV'
+	AND				USE_YN = 'Y'
+	
+	ORDER BY		SORT
+</select>
+	
+</mapper>

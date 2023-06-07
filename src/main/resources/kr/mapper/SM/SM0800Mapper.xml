@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.tracom.mapper.SM0800.SM0800Mapper">
+
+	<select id="SM0800G0R0" resultType="Map">
+	 	SELECT
+	 		API_ID
+			,API_NAME
+			,API_END_POINT
+			,ALLOWED_IP
+			,DATE_FORMAT(EXPIRE_DATE, '%Y-%m-%d') EXPIRE_DATE
+			,USE_YN
+			,API_KEY
+			,REMARK
+			,DATE_FORMAT(UPD_DTM, '%Y-%m-%d') UPD_DTM
+			,UPD_ID
+		FROM 
+			BMS_API_INFO
+		<where>
+			<if test="TYPE == 'ALL' and CONTENT != null and CONTENT != ''">
+				AND API_ID LIKE CONCAT('%',#{CONTENT},'%') || API_NAME LIKE CONCAT('%',#{CONTENT},'%')
+			</if>
+			<if test="TYPE == 'API_ID'">
+				AND API_ID LIKE CONCAT('%',#{CONTENT},'%')
+			</if>
+			<if test="TYPE == 'API_NAME'">
+				AND API_NAME LIKE CONCAT('%',#{CONTENT},'%') 
+			</if>
+		</where>
+		ORDER BY 
+			API_ID
+	</select>
+	
+	<select id="SM0800SHI0" resultType="Map">
+		SELECT 
+			API_ID
+			,API_NAME
+		FROM 
+			BMS_API_INFO
+		ORDER BY
+			API_ID
+	</select>
+	
+	<select id="SM0800G0K0" resultType="Map">
+		SELECT CONCAT('AI', LPAD(NEXTVAL(SEQ_BMS_API_INFO_0), 8, '0')) AS 'SEQ'
+	</select>	
+	
+	<insert id="SM0800G0I0" parameterType="Map">
+	INSERT INTO		BMS_API_INFO	
+					(
+						API_ID
+						,API_NAME
+						,API_END_POINT
+						,ALLOWED_IP
+						<if test="@kr.tracom.util.CommonUtil@notEmpty(EXPIRE_DATE)">
+						,EXPIRE_DATE
+						</if>
+						,USE_YN
+						,API_KEY
+						,REMARK
+						,UPD_DTM
+						,UPD_ID
+					)
+	VALUES			(
+						#{API_ID}
+						,#{API_NAME}
+						,'*'
+						,#{ALLOWED_IP}
+						<if test="@kr.tracom.util.CommonUtil@notEmpty(EXPIRE_DATE)">
+						,#{EXPIRE_DATE}
+						</if>
+						,#{USE_YN}
+						,#{API_KEY}
+						,#{REMARK}
+						,#{UPD_DTM}
+						,#{SSN_USER_ID}	
+					)
+</insert>
+
+<update id="SM0800G0U0" parameterType="Map">
+	UPDATE			BMS_API_INFO
+	SET				API_ID = #{API_ID}
+					,API_NAME = #{API_NAME}
+					,ALLOWED_IP = #{ALLOWED_IP}
+					<if test="@kr.tracom.util.CommonUtil@notEmpty(EXPIRE_DATE)">
+					,EXPIRE_DATE = #{EXPIRE_DATE}
+					</if>
+					,USE_YN = #{USE_YN}	
+					,API_KEY = #{API_KEY}	
+					,REMARK = #{REMARK}	
+					,UPD_DTM = #{UPD_DTM}
+					,UPD_ID = #{SSN_USER_ID}	
+	WHERE			API_ID = #{API_ID}							 	
+</update>
+
+<delete id="SM0800G0D0" parameterType="Map">
+	DELETE FROM 	BMS_API_INFO
+	WHERE			API_ID = #{API_ID}
+</delete>
+	
+</mapper>

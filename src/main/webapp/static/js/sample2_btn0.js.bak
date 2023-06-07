@@ -1,0 +1,86 @@
+﻿$(function(){
+	
+	//권한에 따라서 btn0-4까지 만들어 준다
+	$('#btn_panel0').append('<a id="btn0" href="#">조회</a>');
+	$('#btn_panel0').append('<a id="btn1" href="#">추가</a>');
+	$('#btn_panel0').append('<a id="btn2" href="#">삭제</a>');
+	$('#btn_panel0').append('<a id="btn3" href="#">취소</a>');
+	$('#btn_panel0').append('<a id="btn4" href="#">저장</a>');
+	$('#btn_panel0').append('<a id="btn5" href="#">닫기</a>');
+	
+	
+	$('#btn0').linkbutton({
+	    height: 24,
+	    iconCls: 'icon-reload'
+	});
+	$('#btn1').linkbutton({
+	    height: 24,
+	    iconCls: 'icon-add',
+	    disabled: false
+	});
+	$('#btn2').linkbutton({
+	    height: 24,
+	    iconCls: 'icon-remove',
+	   	plain: false
+	});
+	$('#btn3').linkbutton({
+	    height: 24,
+	    iconCls: 'icon-cancel',
+	});
+	$('#btn4').linkbutton({
+	    height: 24,
+	    iconCls: 'icon-save'
+	});
+	$('#btn5').linkbutton({
+	    height: 24,
+	    iconCls: 'icon-clear'
+	});
+	
+	
+	//btn 기능 binding
+  $('#btn0').bind('click', function(){
+		//조회 endedit 태우는 방법을 찾아라!
+		if($.jf_changeddg($('#dg0'), 'all')) {
+			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
+		}else{
+			$.jf_retrieve($('#dg0'), $.pf_combineparams($('#dg0')));	
+		}
+
+  });
+  $('#btn1').bind('click', function(){
+		if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f')){
+			if(!$.jf_changeddg($('#dg1'), null) && !$.jf_changeddg($('#dg2'), null))
+				{
+				$.jf_append($('#dg0'), $.pf_defaultparams($('#dg0')));
+				}else{
+					$.tracomalmsg('정보', '저장되지 않는 데이터가 있어 추가할 수 없습니다.', null);
+				}
+		}
+		else 
+		{
+			return false;
+		}
+  });
+  $('#btn2').bind('click', function(){
+		if($.jf_chkchilddata($('#dg1')) && $.jf_chkchilddata($('#dg2'))) $.jf_delete($('#dg0'));
+  });
+  $('#btn3').bind('click', function(){
+		$.jf_resetdg($('#dg0'), 'all');
+  });
+  $('#btn4').bind('click', function(){
+		if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') && $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') && $.jf_validatedata($('#dg2'), null, $.jf_fnddgstrct($('#dg2')), 'g'))
+		{
+			$.jf_save($('#dg0'));	//그리드 순서에 따른 전체 저장 부분 갱신 필요
+			$.jf_save($('#dg1'));
+			$.jf_save($('#dg2'));
+		}
+  });
+  $('#btn5').bind('click', function(){
+		if($.jf_changeddg($('#dg0'), 'all')) {
+			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
+		}else{
+			$.jf_close();
+		}
+  });
+  
+});

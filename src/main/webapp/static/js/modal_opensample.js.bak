@@ -1,0 +1,13 @@
+﻿$(function(){
+	
+	$('#fm_panel0').append('<a id="tmp_btn0" href="#">차번호 창 띠우기</a>');
+	$('#tmp_btn0').linkbutton({
+	    height: 24,
+	    iconCls: 'icon-add'
+	});
+	$('#tmp_btn0').bind('click', function(){
+		let v_values = {COMP_ID:'', COMP_NM:$('#COMP_NM').textbox('getValue'), AREA:''};
+		$.mf_selcompmdopen($('#ef0'), v_values, $('#TEST'));
+  });
+	
+});

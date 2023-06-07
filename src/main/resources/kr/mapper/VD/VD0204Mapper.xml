@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.tracom.mapper.VD0204.VD0204Mapper">
+
+<!-- 차내장치 상태 파라미터 조회 프로시서 -->
+<select id="VD0204G0R0" resultType="Map">
+	CALL PROC_DVC_STATUS()
+</select>
+
+<!-- 차내장치(태그리스) 상태 파라미터 조회 프로시서-->
+<select id="VD0204G2R0" resultType="Map">
+	CALL PROC_DVC_TAG_STATUS()
+</select>
+
+<!-- 차내장치 파라미터종류 조회-->
+<select id="VD0204G0R1" resultType="Map">
+	SELECT 
+		A.PARAM_KIND
+	FROM 
+		BMS_DVC_PARAM_CFG_INFO A
+	WHERE 
+		A.DVC_KIND != 'DK011' AND A.PARAM_DIV = 'PD003'
+	GROUP BY
+		PARAM_KIND
+</select>
+
+<!-- 차내장치(태그리스) 파라미터종류 조회-->
+<select id="VD0204G2R1" resultType="Map">
+	SELECT 
+		A.PARAM_KIND
+	FROM 
+		BMS_DVC_PARAM_CFG_INFO A
+	WHERE 
+		A.DVC_KIND = 'DK011' AND A.PARAM_DIV = 'PD003'
+	GROUP BY
+		PARAM_KIND
+</select>
+
+<!-- 차내장치 제어 조회-->
+<select id="VD0204G0R2" resultType="Map">
+	SELECT 
+		A.PARAM_KIND
+	FROM 
+		BMS_DVC_PARAM_INFO A
+	WHERE 
+		A.DVC_ID = #{DVC_ID} 
+		AND A.DVC_KIND != 'DK011' 
+		AND A.PARAM_DIV = 'PD002'
+	GROUP BY 
+		PARAM_KIND
+</select>
+	
+<select id="VD0204SHI0" resultType="Map">
+	SELECT			VHC_ID
+					,VHC_NO	
+	FROM			BMS_VHC_MST
+</select>
+	
+<select id="VD0204SHI1" resultType="Map">
+	SELECT			ORG_ID
+					,ORG_NM
+	FROM	  		BMS_ORG_MST
+	WHERE			ORG_DIV = 'OD008'
+</select>	
+
+<!-- 프로세스 조회-->
+<select id="VD0204G1R0" resultType="Map">
+	SELECT 			DATE_FORMAT(LAST_DTM, '%Y-%m-%d %H:%i:%s') LAST_DTM
+					<!-- ,DATE_FORMAT(REG_DTM, '%Y-%m-%d %H:%i:%s') REG_DTM -->
+					,IMP_ID
+					,PRCS_NM
+					,PRCS_IDX
+					,CONCAT(VER_HIGH, '.', VER_MID, '.', VER_LOW) AS VER_TOTAL
+					,VER_HIGH
+					,VER_MID
+					,VER_LOW
+					<!-- ,CPU_USG
+					,MEM_USG -->
+					,DATE_FORMAT(ST_DTM, '%Y-%m-%d %H:%i:%s') ST_DTM
+					,DATE_FORMAT(BLD_DTM, '%Y-%m-%d %H:%i:%s') BLD_DTM
+					,DATE_FORMAT(UPD_DTM, '%Y-%m-%d %H:%i:%s') UPD_DTM
+					
+	FROM			PLF_IMP_VER_INFO
+	
+	WHERE			IMP_ID = #{MNG_ID}
+	GROUP BY		IMP_ID, PRCS_NM
+</select>
+
+
+</mapper>

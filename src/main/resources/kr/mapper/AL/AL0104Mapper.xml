@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.tracom.mapper.AL0104.AL0104Mapper">
+
+<select id="AL0104G0R0" resultType="Map">
+	SELECT A.ALLOC_ID, A.ALLOC_NM  
+	FROM BMS_ALLOC_OPER_MST A
+	WHERE 
+	<where>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT)">
+			<if test="TYPE == 'ALL'||TYPE == ''">
+				AND (A.ALLOC_ID LIKE CONCAT('%',#{CONTENT},'%') || A.ALLOC_NM LIKE CONCAT('%',#{CONTENT},'%'))
+			</if>
+			<if test="TYPE == 'ALLOC_ID'">
+				AND A.ALLOC_ID LIKE CONCAT('%',#{CONTENT},'%')
+			</if>
+			<if test="TYPE == 'ALLOC_NM'">
+				AND A.ALLOC_NM LIKE CONCAT('%',#{CONTENT},'%') 
+			</if>
+		</if>
+	</where>
+		ORDER BY A.ALLOC_ID
+	</select>
+	
+<select id="AL0104G1R0" resultType="Map">
+
+	SELECT		  	A.VHC_ID
+				,	A.VHC_NO
+				,	A.MAKER
+				,	A.MODEL_NM
+				,	MK.DL_CD_NM AS MAKER_NM
+				,	A.VHC_FUEL
+				,	VF.DL_CD_NM AS VHC_FUEL_NM
+				,	B.COMP_NM
+	FROM  			BMS_VHC_MST A
+	LEFT JOIN		BMS_DL_CD_INFO MK
+		ON				A.MAKER = MK.DL_CD AND MK.CO_CD = 'MAKER'
+	LEFT JOIN		BMS_DL_CD_INFO VF
+		ON				A.VHC_FUEL = VF.DL_CD AND VF.CO_CD = 'VHC_FUEL'
+	LEFT JOIN	  	BMS_TRANSCOMP_MST B
+		ON			A.COMP_ID = B.COMP_ID	
+					
+</select>
+
+<select id="AL0104G2R0" resultType="Map" parameterType="Map">
+	SELECT			A.ALLOC_ID
+				,	A.VHC_ID
+				,	B.VHC_NO
+				,	B.MAKER
+				,	MK.DL_CD_NM AS MAKER_NM
+				,	B.MODEL_NM
+				,	B.VHC_FUEL
+				,	VF.DL_CD_NM AS VHC_FUEL_NM
+				,	C.COMP_NM
+	FROM	  		BMS_ALLOC_VHC_CMPSTN	A
+	LEFT JOIN	  	BMS_VHC_MST B
+		ON			A.VHC_ID = B.VHC_ID
+	LEFT JOIN		BMS_DL_CD_INFO MK
+	ON				B.MAKER = MK.DL_CD AND MK.CO_CD = 'MAKER'
+	LEFT JOIN		BMS_DL_CD_INFO VF
+	ON				B.VHC_FUEL = VF.DL_CD AND VF.CO_CD = 'VHC_FUEL'
+	LEFT JOIN	  	BMS_TRANSCOMP_MST C
+		ON			B.COMP_ID = C.COMP_ID
+	WHERE A.ALLOC_ID = #{ALLOC_ID}
+</select>
+
+<insert id="AL0104G2I0" parameterType="Map">
+	insert into BMS_ALLOC_VHC_CMPSTN( ALLOC_ID,VHC_ID )
+	values (#{ALLOC_ID},#{VHC_ID})
+</insert>
+
+<delete id="AL0104G2D0" parameterType="Map">
+	DELETE FROM BMS_ALLOC_VHC_CMPSTN 
+	WHERE ALLOC_ID = #{ALLOC_ID}
+	AND VHC_ID = #{VHC_ID}
+</delete>
+
+</mapper>

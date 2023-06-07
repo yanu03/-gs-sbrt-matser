@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.tracom.mapper.SI0200.SI0200Mapper">
+	<select id="SI0200G0R0" resultType="Map">
+		SELECT 			A.VHC_ID,
+						B.COMP_NM,
+						A.COMP_ID,
+						A.AREA,
+						AR.DL_CD_NM AS AREA_NM,
+						A.VHC_NO,
+						A.CHAS_NO,
+						A.MAKER,
+						MK.DL_CD_NM AS MAKER_NM,
+						DATE_FORMAT(RELS_DT,'%Y-%m-%d') RELS_DT,
+						A.MODEL_NM,
+						A.VHC_KIND,
+						VK.DL_CD_NM AS VHC_KIND_NM,
+						A.ROUT_TYPE,
+						RT.DL_CD_NM AS ROUT_TYPE_NM,
+						A.VHC_TYPE,
+						VT.DL_CD_NM AS VHC_TYPE_NM,
+						A.VHC_FUEL,
+						VF.DL_CD_NM AS VHC_FUEL_NM,
+						A.VHC_STS,
+						VS.DL_CD_NM AS VHC_STS_NM,
+						A.PSG_CNT,
+						A.SPARE_YN,
+						A.SCRAP_YN,
+						DATE_FORMAT(APPL_ST_DT, '%Y-%m-%d') APPL_ST_DT,
+						DATE_FORMAT(APPL_ED_DT, '%Y-%m-%d') APPL_ED_DT,
+						A.USE_YN,
+						A.REMARK
+		FROM			BMS_VHC_MST A
+		LEFT JOIN		BMS_DL_CD_INFO AR ON AR.CO_CD = 'AREA' AND A.AREA = AR.DL_CD
+		LEFT JOIN		BMS_DL_CD_INFO MK ON MK.CO_CD = 'MAKER' AND A.MAKER = MK.DL_CD
+		LEFT JOIN		BMS_DL_CD_INFO VK ON VK.CO_CD = 'VHC_KIND' AND A.VHC_KIND = VK.DL_CD
+		LEFT JOIN		BMS_DL_CD_INFO RT ON RT.CO_CD = 'ROUT_TYPE' AND A.ROUT_TYPE = RT.DL_CD
+		LEFT JOIN		BMS_DL_CD_INFO VT ON VT.CO_CD = 'VHC_TYPE' AND A.VHC_TYPE = VT.DL_CD
+		LEFT JOIN		BMS_DL_CD_INFO VF ON VF.CO_CD = 'VHC_FUEL' AND A.VHC_FUEL = VF.DL_CD
+		LEFT JOIN		BMS_DL_CD_INFO VS ON VS.CO_CD = 'VHC_STS' AND A.VHC_STS = VS.DL_CD
+		LEFT JOIN		BMS_TRANSCOMP_MST B
+			ON A.COMP_ID = B.COMP_ID
+			<where>
+				<if test="TYPE == 'ALL' and CONTENT != null and CONTENT != ''">
+					VHC_ID LIKE CONCAT('%',#{CONTENT},'%') || VHC_NO LIKE CONCAT('%',#{CONTENT},'%') 
+				</if>
+				<if test="TYPE == 'VHC_ID'">
+					VHC_ID LIKE CONCAT('%',#{CONTENT},'%')
+				</if>
+				<if test="TYPE == 'VHC_NO'">
+					VHC_NO LIKE CONCAT('%',#{CONTENT},'%') 
+				</if>			
+			</where>
+		
+	</select>	
+
+	<select id="SI0200SHI0" resultType="Map">
+		select  VHC_ID, VHC_NO
+		from BMS_VHC_MST
+	</select>
+
+	<select id="SI0200SHI1" resultType="Map">
+		SELECT			ORG_ID
+						,ORG_NM
+		FROM	  		BMS_ORG_MST
+		WHERE			ORG_DIV = 'OD008'
+	</select>
+	
+	<select id="SI0200G0K0" resultType="Map">
+		SELECT CONCAT('VH', LPAD(NEXTVAL(SEQ_BMS_VHC_MST_0), 8, '0')) AS 'SEQ'
+	</select>
+
+	<select id="SI0200P0R0" resultType="Map">
+		SELECT COMP_ID, COMP_NM, AREA, DC1.DL_CD_NM AS AREA_NM
+		FROM BMS_TRANSCOMP_MST A
+		LEFT JOIN		BMS_DL_CD_INFO DC1 ON DC1.CO_CD = 'AREA' AND A.AREA = DC1.DL_CD
+		<where>
+			<if test="CONTENT != ''">
+				COMP_ID LIKE CONCAT('%',#{CONTENT},'%') || COMP_NM LIKE CONCAT('%',#{CONTENT},'%') 
+			</if>
+		</where>
+	</select>
+	
+	<insert id="SI0200G0I0" parameterType="Map">
+		insert into BMS_VHC_MST
+			   (
+			    VHC_ID,
+				COMP_ID,
+				AREA,
+				VHC_NO,
+				CHAS_NO,
+				MAKER,
+				RELS_DT,
+				MODEL_NM,
+				VHC_KIND,
+				ROUT_TYPE,
+				VHC_TYPE,
+				VHC_FUEL,
+				VHC_STS,
+				PSG_CNT,
+				SPARE_YN,
+				SCRAP_YN,
+				APPL_ST_DT,
+				APPL_ED_DT,
+				USE_YN,
+				REMARK,
+				UPD_DTM
+			   )
+			   
+		values (
+			    #{VHC_ID},
+				#{COMP_ID},
+				#{AREA},
+				#{VHC_NO},
+				#{CHAS_NO},
+				#{MAKER},
+				STR_TO_DATE(#{RELS_DT}, '%Y-%m-%d'),
+				#{MODEL_NM},
+				#{VHC_KIND},
+				#{ROUT_TYPE},
+				#{VHC_TYPE},
+				#{VHC_FUEL},
+				#{VHC_STS},
+				#{PSG_CNT},
+				#{SPARE_YN},
+				#{SCRAP_YN},
+				STR_TO_DATE(#{APPL_ST_DT}, '%Y-%m-%d'),
+				STR_TO_DATE(#{APPL_ED_DT}, '%Y-%m-%d'), 
+				#{USE_YN},
+				#{REMARK},
+				#{UPD_DTM}
+				)
+	</insert>
+
+	<update id="SI0200G0U0" parameterType="Map">
+		update BMS_VHC_MST
+		set 	COMP_ID = #{COMP_ID},
+				AREA = #{AREA},
+				VHC_NO = #{VHC_NO},
+				CHAS_NO = #{CHAS_NO},
+				MAKER = #{MAKER},
+				RELS_DT = STR_TO_DATE(#{RELS_DT}, '%Y-%m-%d'),
+				MODEL_NM = #{MODEL_NM},
+				VHC_KIND = #{VHC_KIND},
+				ROUT_TYPE = #{ROUT_TYPE},
+				VHC_TYPE = #{VHC_TYPE},
+				VHC_FUEL = #{VHC_FUEL},
+				VHC_STS = #{VHC_STS},
+				PSG_CNT = #{PSG_CNT},
+				SPARE_YN = #{SPARE_YN},
+				SCRAP_YN = #{SCRAP_YN},
+				APPL_ST_DT = STR_TO_DATE(#{APPL_ST_DT}, '%Y-%m-%d'),
+				APPL_ED_DT = STR_TO_DATE(#{APPL_ED_DT}, '%Y-%m-%d'),
+				USE_YN = #{USE_YN},
+				REMARK = #{REMARK},
+				UPD_DTM = #{UPD_DTM}
+		where VHC_ID = #{VHC_ID}
+	</update>
+	
+	<delete id="SI0200G0D0" parameterType="Map">
+		<!-- delete
+		from BMS_ROUT_GRP_VHC_CMPSTN
+		where VHC_ID = #{VHC_ID}; -->
+		
+		delete
+		from BMS_VHC_MST
+		where VHC_ID = #{VHC_ID};
+	</delete>
+	
+	<!-- 차량 삭제시 배차 UPDATE -->
+	<update id="SI0200G0D1" parameterType="Map">
+		UPDATE BMS_DAY_ALLOC_PL_INFO
+		SET VHC_ID = ''
+		WHERE VHC_ID = #{VHC_ID};
+		
+		UPDATE BMS_DAY_ALLOC_PL_INFO
+		SET SEC_VHC_ID = ''
+		WHERE SEC_VHC_ID = #{VHC_ID};
+		
+		UPDATE BMS_ALLOC_PL_MST
+		SET VHC_ID = ''
+		WHERE VHC_ID = #{VHC_ID};
+		
+		UPDATE BMS_ALLOC_PL_MST
+		SET SEC_VHC_ID = ''
+		WHERE SEC_VHC_ID = #{VHC_ID};
+	</update>
+
+
+</mapper>

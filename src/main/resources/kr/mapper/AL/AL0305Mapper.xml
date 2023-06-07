@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.tracom.mapper.AL0305.AL0305Mapper">
+
+<update id="AL0305G0U0" parameterType="Map">
+	UPDATE
+		BMS_DAY_ALLOC_PL_INFO
+	SET
+		VHC_ID = #{VHC_ID}
+		,SEC_VHC_ID = #{SEC_VHC_ID}
+		,SEC_TRAN_TM = #{SEC_TRAN_TM}
+		,UPD_DTM = #{UPD_DTM}
+	WHERE
+		ALLOC_ID = #{ALLOC_ID}
+	AND
+		ALLOC_NO = #{ALLOC_NO}
+	AND
+		OPER_DT = #{OPER_DT}
+</update>
+
+<update id="makeCurAllocPlInfo">
+	CALL PROC_MAKE_CUR_ALLOC_PL_INFO();
+</update>
+
+<update id="AL0305G0U1" parameterType="Map">
+	UPDATE
+		BMS_DAY_DRV_ALLOC_INFO
+	SET
+		DRV_ID = #{DRV_ID}
+		,SEC_DRV_ID = #{SEC_DRV_ID}
+		,THR_DRV_ID = #{THR_DRV_ID}
+		,SEC_TRAN_TM = #{SEC_TRAN_TM}
+		,THR_TRAN_TM = #{THR_TRAN_TM}
+	WHERE
+		ALLOC_ID = #{ALLOC_ID}
+	AND
+		ALLOC_NO = #{ALLOC_NO}
+	<!-- AND
+		DAY_DIV = #{DAY_DIV} -->
+	AND
+		OPER_DT = #{OPER_DT}
+</update>
+
+<select id="AL0305G0R0" resultType="Map" parameterType="Map">
+<!-- 일별 배차 관리 쿼리 수정 2022-05-09 -->
+	SELECT B.ALLOC_ID
+	       ,B.ALLOC_NO
+	       ,B.VHC_ID
+	       ,B.SEC_VHC_ID
+	       ,B.WAY_DIV
+	       ,B.WAY_DIV
+	       ,WD.DL_CD_NM WAY_DIV_NM
+	       ,DATE_FORMAT(B.OPER_DT, '%Y-%m-%d') OPER_DT
+	       ,D.VHC_NO
+	       ,A.VHC_NO AS SEC_VHC_NO
+	       ,E.COMP_NM
+	       ,F.COMP_NM AS SEC_COMP_NM
+	       ,H.DRV_ID
+			,H.SEC_DRV_ID
+			,H.THR_DRV_ID
+			,(SELECT DRV_NM FROM BMS_DRV_MST WHERE DRV_ID = H.DRV_ID) DRV_NM
+			,(SELECT DRV_NM FROM BMS_DRV_MST WHERE DRV_ID = H.SEC_DRV_ID) SEC_DRV_NM
+			,(SELECT DRV_NM FROM BMS_DRV_MST WHERE DRV_ID = H.THR_DRV_ID) THR_DRV_NM
+			,H.SEC_TRAN_TM
+			,H.THR_TRAN_TM
+	FROM 
+		BMS_DAY_ALLOC_PL_INFO B
+		LEFT JOIN BMS_VHC_MST D
+		ON B.VHC_ID = D.VHC_ID
+		LEFT JOIN BMS_VHC_MST A
+		ON B.SEC_VHC_ID = A.VHC_ID
+		LEFT JOIN BMS_TRANSCOMP_MST E
+		ON D.COMP_ID = E.COMP_ID
+		LEFT JOIN BMS_TRANSCOMP_MST F
+		ON A.COMP_ID = F.COMP_ID
+		LEFT JOIN BMS_DAY_DRV_ALLOC_INFO H
+		ON B.ALLOC_ID = H.ALLOC_ID 
+		AND B.ALLOC_NO = H.ALLOC_NO
+		AND B.OPER_DT = H.OPER_DT
+		LEFT JOIN BMS_DL_CD_INFO WD
+		ON B.WAY_DIV= WD.DL_CD AND WD.CO_CD = 'WAY_DIV'
+	WHERE
+		B.ALLOC_ID = #{ALLOC_ID}
+		AND (B.OPER_DT BETWEEN #{F_DATE} AND #{L_DATE})
+	ORDER BY
+		B.OPER_DT, B.ALLOC_ID, B.ALLOC_NO
+
+	<!-- SELECT A.ROUT_GRP
+	       ,A.DAY_DIV
+	       ,A.ALLOC_NO
+	       ,B.VHC_ID
+	       ,DATE_FORMAT(B.OPER_DT, '%Y-%m-%d') OPER_DT
+	       ,D.VHC_NO
+	       ,E.COMP_NM
+	       ,H.DRV_ID
+			,H.SEC_DRV_ID
+			,H.THR_DRV_ID
+			,(SELECT DRV_NM FROM BMS_DRV_MST WHERE DRV_ID = H.DRV_ID) DRV_NM
+			,(SELECT DRV_NM FROM BMS_DRV_MST WHERE DRV_ID = H.SEC_DRV_ID) SEC_DRV_NM
+			,(SELECT DRV_NM FROM BMS_DRV_MST WHERE DRV_ID = H.THR_DRV_ID) THR_DRV_NM
+			,H.SEC_TRAN_TM
+			,H.THR_TRAN_TM
+	FROM 
+		BMS_OPER_ALLOC_PL_ROUT_INFO A
+		LEFT JOIN BMS_DAY_ALLOC_PL_INFO B
+		ON A.ROUT_GRP = B.ROUT_GRP AND A.ALLOC_NO = B.ALLOC_NO
+		LEFT JOIN BMS_VHC_MST D
+		ON B.VHC_ID = D.VHC_ID
+		LEFT JOIN BMS_TRANSCOMP_MST E
+		ON D.COMP_ID = E.COMP_ID
+		LEFT JOIN BMS_DRV_ALLOC_INFO F
+		ON A.ROUT_GRP = F.ROUT_GRP AND A.ALLOC_NO = F.ALLOC_NO
+		LEFT JOIN BMS_DAY_DRV_ALLOC_INFO H
+		ON F.ROUT_GRP = H.ROUT_GRP AND F.ALLOC_NO = H.ALLOC_NO  
+		
+	<where>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(ROUT_GRP)">
+			A.ROUT_GRP = #{ROUT_GRP}
+		</if>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(DAY_DIV)">
+			AND A.DAY_DIV = #{DAY_DIV}
+		</if>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE)">
+			AND B.OPER_DT BETWEEN #{F_DATE} AND #{L_DATE} AND H.OPER_DT BETWEEN #{F_DATE} AND #{L_DATE}
+		</if>
+	</where>
+	GROUP BY
+		A.ROUT_GRP,A.ALLOC_NO, B.OPER_DT
+	ORDER BY
+		B.OPER_DT, A.ROUT_GRP, A.DAY_DIV, A.ALLOC_NO -->
+</select>
+
+</mapper>

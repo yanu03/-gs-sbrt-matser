@@ -1,0 +1,5 @@
+[
+    {"id":"ALL", "text": "[전체]"},
+    {"id":"HOLI_DT", "text": "날짜"},
+    {"id":"HOLI_NM", "text": "휴일명"}
+]

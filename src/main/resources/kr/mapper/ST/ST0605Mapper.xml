@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.tracom.mapper.ST0605.ST0605Mapper">
+
+<select id="ST0605G0R0" resultType="Map">
+	SELECT			
+		A.ROUT_GRP
+		,A.DAY_DIV
+		,A.WAY_DIV
+		,B.ROUT_GRP_NM
+	FROM BMS_OPER_PL_MST A
+		LEFT OUTER JOIN BMS_ROUT_GRP_MST B
+		ON A.ROUT_GRP = B.ROUT_GRP
+	<where>
+		<if test="TYPE == 'ALL' and CONTENT != null and CONTENT != ''">
+			AND (B.ROUT_GRP LIKE CONCAT('%',#{CONTENT},'%') || B.ROUT_GRP_NM LIKE CONCAT('%',#{CONTENT},'%'))
+		</if>
+		<if test="TYPE == 'ROUT_GRP'">
+			AND B.ROUT_GRP LIKE CONCAT('%',#{CONTENT},'%')
+		</if>
+		<if test="TYPE == 'ROUT_GRP_NM'">
+			AND B.ROUT_GRP_NM LIKE CONCAT('%',#{CONTENT},'%') 
+		</if>
+	</where>
+	GROUP BY
+		A.ROUT_GRP, A.DAY_DIV
+	ORDER BY
+		A.ROUT_GRP, A.DAY_DIV, A.WAY_DIV
+
+	<!-- SELECT			
+		A.ROUT_GRP
+		,A.DAY_DIV
+		,A.WAY_DIV
+		,B.ROUT_GRP_NM
+		,B.ROUT_TYPE
+		,(SELECT STTN_NM FROM BMS_STTN_MST WHERE STTN_ID = A.ST_STTN_ID AND DEL_YN!='Y') ST_STTN_NM
+		,(SELECT STTN_NM FROM BMS_STTN_MST WHERE STTN_ID = A.ED_STTN_ID AND DEL_YN!='Y') ED_STTN_NM
+		,C.ROUT_ID
+		,C.ROUT_NM
+	FROM BMS_OPER_PL_MST A
+		LEFT OUTER JOIN BMS_ROUT_GRP_MST B
+			ON A.ROUT_GRP = B.ROUT_GRP
+		LEFT OUTER JOIN BMS_ROUT_MST C
+			ON A.ROUT_GRP = C.ROUT_GRP AND A.WAY_DIV = C.WAY_DIV AND C.DEL_YN != 'Y'
+	<where>
+			<if test="TYPE == 'ALL' and CONTENT != null and CONTENT != ''">
+				AND (C.ROUT_NM LIKE CONCAT('%',#{CONTENT},'%') || B.ROUT_GRP_NM LIKE CONCAT('%',#{CONTENT},'%'))
+			</if>
+			<if test="TYPE == 'ROUT_NM'">
+				AND C.ROUT_NM LIKE CONCAT('%',#{CONTENT},'%')
+			</if>
+			<if test="TYPE == 'ROUT_GRP_NM'">
+				AND B.ROUT_GRP_NM LIKE CONCAT('%',#{CONTENT},'%') 
+			</if>
+	</where>
+	GROUP BY
+		C.ROUT_ID, A.DAY_DIV
+	ORDER BY
+		A.ROUT_GRP, A.DAY_DIV, A.WAY_DIV, C.ROUT_ID -->
+</select>
+
+
+<select id="ST0605SHI0" resultType="Map">
+	SELECT			ROUT_GRP_NM
+				,	ROUT_NM
+	FROM			BMS_ROUT_MST
+</select>
+
+<select id="ST0605SHI1" resultType="Map">
+	SELECT			ROUT_ID, ROUT_NM
+	FROM			BMS_ROUT_MST
+	WHERE			DEL_YN = 'N'	
+	AND 			WAY_DIV = #{WAY_DIV}
+	<if test="CONTENT1 != null">
+		AND			ROUT_GRP = #{CONTENT1}	
+	</if>
+	
+</select>
+
+<select id="ST0605G1R0" resultType="Map" parameterType="Map">
+	SELECT
+		DATE_FORMAT(A.OPER_DT, '%Y-%m-%d') OPER_DT 
+		,A.ROUT_GRP
+		,A.DAY_DIV
+		,A.WAY_DIV
+		,A.OPER_SN
+		,A.NODE_ID
+		,A.NODE_SN
+		,A.ALLOC_NO
+		,A.COR_ID
+		,A.NODE_TYPE
+		,A.ARRV_TM
+		,A.DPRT_TM
+		,DATE_FORMAT(A.UPD_DTM, '%Y-%m-%d') UPD_DTM 
+		,B.ROUT_GRP_NM
+		,B.WAY_ASC_NM
+		,B.WAY_DESC_NM
+		,C.ROUT_ID
+		,C.NODE_NM
+		,C.ACCRU_LEN
+	FROM
+		BMS_DAY_OPER_ALLOC_PL_NODE_INFO A 
+		INNER JOIN BMS_ROUT_GRP_MST B
+		ON	A.ROUT_GRP = B.ROUT_GRP 
+		INNER JOIN BMS_ROUT_NODE_CMPSTN C
+		ON	 A.ROUT_ID =  C.ROUT_ID AND A.NODE_ID = C.NODE_ID AND A.NODE_SN = C.NODE_SN
+	<if test="@kr.tracom.util.CommonUtil@notEmpty(NODE_TYPE)">			 
+			AND C.NODE_TYPE = #{NODE_TYPE}
+	</if>
+	WHERE
+		A.OPER_DT = #{OPER_DT} AND A.DAY_DIV = #{DAY_DIV} AND C.ROUT_ID = #{ROUT_ID} AND A.NODE_TYPE = 'NT002'
+	<if test="@kr.tracom.util.CommonUtil@notEmpty(OPER_SN)">			 
+			AND A.OPER_SN = #{OPER_SN}
+	</if>
+	ORDER BY OPER_SN, NODE_SN
+</select>
+
+
+<select id="ST0605G1CNT" resultType="Map" parameterType="Map">
+		SELECT 
+			COUNT(*) CNT
+		FROM 
+			BMS_OPER_ALLOC_PL_NODE_INFO A
+		WHERE  
+			A.DAY_DIV = #{DAY_DIV} 
+			AND A.ROUT_GRP = #{ROUT_GRP}
+			AND A.WAY_DIV = #{WAY_DIV}
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(ROUT_ID)">
+				AND A.ROUT_ID = #{ROUT_ID} 
+			</if>
+			AND (A.NODE_TYPE = 'NT001' OR A.NODE_TYPE = 'NT002')
+		GROUP BY 
+			OPER_SN 
+		ORDER BY 
+			OPER_SN
+
+		<!-- SELECT 
+			COUNT(*) CNT
+		FROM 
+			BMS_OPER_ALLOC_PL_NODE_INFO A
+			INNER JOIN BMS_ROUT_NODE_CMPSTN B
+				ON	 A.ROUT_ID =  B.ROUT_ID AND A.NODE_ID = B.NODE_ID AND A.NODE_SN = B.NODE_SN
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(NODE_TYPE)">			 
+				AND B.NODE_TYPE = #{NODE_TYPE}
+		</if>
+		WHERE  A.DAY_DIV = #{DAY_DIV} AND B.ROUT_ID = #{ROUT_ID} AND A.NODE_TYPE = 'NT002'
+		GROUP BY 
+			OPER_SN 
+		ORDER BY 
+			OPER_SN -->
+</select>
+
+
+</mapper>

@@ -1,0 +1,5 @@
+[
+  { "id": "ALL", "text": "[전체]" },
+  { "id": "VHC_ID", "text": "차량 ID" },
+  { "id": "VHC_NM", "text": "차량 이름" }
+]

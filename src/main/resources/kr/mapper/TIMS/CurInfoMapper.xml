@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.tracom.tims.domain.CurInfoMapper">
+	
+	
+	
+	<!-- 현재운행정보 insert  -->
+	<insert id="insertCurOperInfo" parameterType="Map">
+		INSERT INTO BMS_CUR_OPER_INFO (
+			OPER_DT
+			,ROUT_GRP
+			,VHC_ID
+			,ROUT_ID				
+			,ALLOC_NO
+			,OPER_SN							
+			,NODE_ID
+			,COR_ID
+			,VHC_NO
+			,DRV_ID
+			,GPS_X
+			,GPS_Y
+			,GPS_X_RAW
+			,GPS_Y_RAW
+			,OPER_STS
+			,DRV_ANGLE
+			,CUR_SPD
+			,LINK_ID
+			,LINK_SN
+			,NODE_SN
+			,NODE_TYPE
+			,PRV_PLCE_NM
+			,NEXT_NODE_ID
+			,UPD_DTM
+		) 
+		VALUES (
+			#{OPER_DT}
+			<!-- ,(SELECT ROUT_GRP FROM BMS_ROUT_MST WHERE ROUT_ID = #{ROUT_ID}) -->			
+			<!-- ,(SELECT VHC_ID FROM BMS_VHC_MST WHERE VHC_NO = #{BUS_NO}) -->
+			,#{ROUT_GRP}
+			,#{VHC_ID}
+			,#{ROUT_ID}											
+			<!-- ,(SELECT FN_GET_CUR_ALLOC_NO(#{ROUT_ID}, VHC_ID, #{OPER_DT})) -->  <!--alloc no 찾기 -->
+			,#{ALLOC_NO}
+			<choose>
+				<when test="@kr.tracom.util.CommonUtil@notEmpty(OPER_SN)">
+					,#{OPER_SN}
+				</when>
+				<otherwise>
+					,(SELECT FN_GET_OPER_SN3(#{ROUT_ID}, #{NODE_ID}, #{VHC_ID}, #{UPD_DTM}, #{ALLOC_NO}))
+				</otherwise>
+			</choose>
+			,#{NODE_ID}
+			,#{COR_ID}
+			,#{BUS_NO}
+			,#{DRV_ID}
+			,#{LONGITUDE}
+			,#{LATITUDE}
+			,#{LONGITUDE_RAW}
+			,#{LATITUDE_RAW}			
+			<!-- ,(SELECT DL_CD FROM BMS_DL_CD_INFO WHERE CO_CD = 'OPER_STS' AND NUM_VAL4 = #{RUN_TYPE}) --> <!-- 운행 유형  -->
+			,#{OPER_STS}
+			,#{HEADING}
+			,#{SPEED}
+			,#{LINK_ID}
+			,#{LINK_SN}
+			,#{NODE_SN}
+			,(SELECT NODE_TYPE FROM BMS_NODE_MST WHERE NODE_ID = #{NODE_ID})
+			<!-- ,(IF(NODE_TYPE = 'NT001' OR NODE_TYPE = 'NT002', (SELECT NODE_NM FROM BMS_NODE_MST WHERE NODE_ID = #{NODE_ID}), NULL)) -->
+			,#{PRV_PLCE_NM}
+			,#{NEXT_NODE_ID}
+			,#{UPD_DTM}
+		)
+		ON DUPLICATE KEY UPDATE
+			ROUT_ID = VALUES(ROUT_ID)
+			,ALLOC_NO = VALUES(ALLOC_NO)
+			,OPER_SN = VALUES(OPER_SN)	
+			,NODE_ID = VALUES(NODE_ID)
+			,COR_ID = VALUES(COR_ID)
+			,VHC_NO = VALUES(VHC_NO)
+			,DRV_ID = VALUES(DRV_ID)
+			,GPS_X = VALUES(GPS_X)
+			,GPS_Y = VALUES(GPS_Y)
+			,GPS_X_RAW = VALUES(GPS_X_RAW)
+			,GPS_Y_RAW = VALUES(GPS_Y_RAW)
+			,OPER_STS = VALUES(OPER_STS)
+			,DRV_ANGLE = VALUES(DRV_ANGLE)
+			,CUR_SPD = VALUES(CUR_SPD)
+			,LINK_ID = VALUES(LINK_ID)
+			,NODE_SN = VALUES(NODE_SN)
+			,NODE_TYPE = VALUES(NODE_TYPE)
+			,PRV_PLCE_NM = VALUES(PRV_PLCE_NM)
+			,NEXT_NODE_ID = #{NEXT_NODE_ID}	
+			,UPD_DTM = VALUES(UPD_DTM);
+	</insert>
+
+   <!-- 버스 아이디를 받아오기 위함 -->
+    <select id="getBusId" resultType="String" parameterType="HashMap" >
+        SELECT
+            VHC_ID
+        FROM
+            BMS_VHC_MST
+        WHERE
+            VHC_NO = #{BUS_NO}
+    </select>
+
+    <!-- 노선정보를 받아옴 -->
+    <select id="getRoutMst" resultType="Map" parameterType="Map" >
+        SELECT * FROM BMS_ROUT_MST WHERE ROUT_ID = #{ROUT_ID} LIMIT 0, 1
+    </select>
+
+	<select id="getEventCode" resultType="Map" parameterType="Map">
+		SELECT TXT_VAL1, TXT_VAL2, DL_CD, DL_CD_NM FROM BMS_DL_CD_INFO WHERE CO_CD = #{CO_CD} AND ${VAL_TYPE} = #{VAL}
+	</select>
+
+<select id="selectCurAllocPlInfo" resultType="Map" parameterType="Map">
+	SELECT
+		OPER_DT,
+		ROUT_GRP,
+		ALLOC_NO,
+		WAY_DIV,
+		VHC_ID,
+		OPER_VHC_ID
+	FROM BMS_CUR_ALLOC_PL_VW 
+	WHERE OPER_DT = #{OPER_DT}
+		AND ROUT_GRP = #{ROUT_GRP}
+		AND ALLOC_NO = #{ALLOC_NO}
+	LIMIT 0, 1
+	</select>
+
+	<select id="getSttnLinkId" resultType="String" parameterType="Map">
+	SELECT ROUT_STTN_LINK_ID FROM BMS_ROUT_LINK_CMPSTN WHERE ROUT_ID = #{ROUT_ID} AND LINK_ID = #{LINK_ID}
+	</select>
+	<select id="selectCurAllocPlInfoByVhcId" resultType="Map" parameterType="Map">
+	SELECT
+		OPER_DT,
+		ROUT_GRP,
+		ALLOC_NO,
+		WAY_DIV,
+		VHC_ID,
+		OPER_VHC_ID
+	FROM BMS_CUR_ALLOC_PL_VW
+	WHERE OPER_DT = #{OPER_DT}
+	<if test="@kr.tracom.util.CommonUtil@notEmpty(ROUT_GRP)">
+		AND ROUT_GRP = #{ROUT_GRP}
+	</if>
+	<if test="@kr.tracom.util.CommonUtil@notEmpty(WAY_DIV)">
+		AND WAY_DIV = #{WAY_DIV}
+	</if>
+		AND VHC_ID = #{VHC_ID}
+	LIMIT 0, 1
+	</select>
+	
+    <!-- 현재운행중인 배차계획 정보를 받아옴-->
+	<select id="selectCurAllocPlInfoByOperVhcId" resultType="HashMap" parameterType="HashMap" >
+	SELECT
+		OPER_DT,
+		ROUT_GRP,
+		ALLOC_NO,
+		WAY_DIV,
+		VHC_ID,
+		OPER_VHC_ID
+	FROM BMS_CUR_ALLOC_PL_VW
+	WHERE OPER_DT = #{OPER_DT}/*SUBSTRING(NOW(), 0, 10)*/
+	<if test="@kr.tracom.util.CommonUtil@notEmpty(ROUT_GRP)">
+		AND ROUT_GRP = #{ROUT_GRP}
+	</if>
+	<if test="@kr.tracom.util.CommonUtil@notEmpty(WAY_DIV)">
+		AND WAY_DIV = #{WAY_DIV}
+	</if>
+		AND OPER_VHC_ID = #{VHC_ID}
+	LIMIT 0, 1
+	</select>
+	
+	<select id="minAllocNoCurAllocPlInfo" resultType="int" parameterType="HashMap" >
+		SELECT
+			ALLOC_NO
+		FROM
+			BMS_CUR_ALLOC_PL_VW
+		WHERE
+			OPER_DT = #{OPER_DT}
+	<if test="@kr.tracom.util.CommonUtil@notEmpty(ROUT_GRP)">
+		AND ROUT_GRP = #{ROUT_GRP}
+	</if>
+		ORDER BY ALLOC_NO ASC
+			LIMIT 0, 1
+	</select>
+
+	<select id="selectCurNearAllocPlInfo" resultType="String" parameterType="Map">
+		SELECT FN_GET_CUR_NEAR_ALLOC_PL_INFO(#{UPD_DTM},#{ROUT_GRP},#{WAY_DIV});
+		<!-- SELECT A.OPER_DT, A.ROUT_GRP, A.ALLOC_NO, A.ROUT_ID, A.COR_ID, B.VHC_ID, B.OPER_VHC_ID, 
+		ABS(TIME_TO_SEC(TIMEDIFF(TIME_FORMAT(#{UPD_DTM},'%H:%i:%S'), TIME_FORMAT(ROUT_ST_TM, '%H:%i:%S')))) AS DIFF
+		FROM BMS_CUR_OPER_ALLOC_PL_ROUT_INFO A
+		LEFT JOIN BMS_CUR_ALLOC_PL_INFO B ON A.OPER_DT = B.OPER_DT AND A.ROUT_GRP = B.ROUT_GRP AND
+		A.ALLOC_NO = B.ALLOC_NO
+		WHERE A.ROUT_GRP = #{ROUT_GRP} AND B.WAY_DIV = #{WAY_DIV}
+		ORDER BY DIFF ASC
+		LIMIT 0, 1; -->
+	</select>
+
+	<select id="selectCurNearAllocPlInfo2" resultType="String" parameterType="Map">
+		SELECT FN_GET_CUR_NEAR_ALLOC_PL_INFO2(#{UPD_DTM},#{ROUT_GRP},#{WAY_DIV},#{ALLOC_NO});
+	</select>
+
+	<insert id="insertCurAllocPlInfo" parameterType="Map">
+		INSERT INTO BMS_CUR_ALLOC_PL_INFO(
+		OPER_DT,ROUT_GRP,ALLOC_NO,WAY_DIV,VHC_ID,OPER_VHC_ID,UPD_DTM )
+		VALUES( #{OPER_DT}, #{ROUT_GRP}, #{ALLOC_NO}, #{WAY_DIV}, #{VHC_ID},
+		#{OPER_VHC_ID}, NOW() );
+	</insert>
+
+	<update id="updateOperVhcIdCurAllocPlInfo" parameterType="Map">
+		UPDATE BMS_CUR_ALLOC_PL_INFO SET OPER_VHC_ID = '', UPD_DTM = NOW()
+		WHERE OPER_DT = #{OPER_DT} AND ALLOC_NO != #{ALLOC_NO} AND OPER_VHC_ID = #{OPER_VHC_ID};
+		
+		UPDATE BMS_CUR_ALLOC_PL_INFO SET OPER_VHC_ID = #{OPER_VHC_ID}, UPD_DTM = NOW()
+		WHERE OPER_DT = #{OPER_DT} AND ROUT_GRP = #{ROUT_GRP} AND ALLOC_NO = #{ALLOC_NO};
+	</update>    
+	
+	<!-- 차량의 현재운행정보 가져오기  -->
+	<select id="selectCurOperInfo" resultType="Map" parameterType="Map">
+		SELECT  
+			A.OPER_DT
+			,A.ROUT_GRP
+			,A.VHC_ID
+			,A.ROUT_ID				
+			,A.ALLOC_NO
+			,A.OPER_SN							
+			,A.NODE_ID
+			,A.COR_ID
+			,A.VHC_NO
+			,A.DRV_ID
+			,A.GPS_X
+			,A.GPS_Y
+			,A.OPER_STS
+			,A.DRV_ANGLE
+			,A.CUR_SPD
+			,A.LINK_ID
+			,A.NODE_SN
+			,B.ROUT_NM
+		FROM 	
+			BMS_CUR_OPER_INFO A
+			LEFT JOIN BMS_ROUT_MST B ON A.ROUT_ID = B.ROUT_ID 
+		WHERE A.OPER_DT = #{OPER_DT}
+			AND A.VHC_ID = #{VHC_ID}
+		LIMIT 1
+	</select>
+	
+	<select id="selectCurOperInfoByVhcNo" resultType="Map" parameterType="Map">
+		SELECT
+			B.*
+		FROM
+			BMS_VHC_MST A
+		LEFT OUTER JOIN
+			BRT_CUR_OPER_INFO B
+		ON A.VHC_ID = B.VHC_ID
+		WHERE B.OPER_DT = #{OPER_DT}
+		  AND A.VHC_ID = #{VHC_NO}
+			LIMIT 0, 1
+	</select>
+	
+	
+	<!--돌발 정보-->
+	<insert id="insertIncidentInfo" parameterType="Map">
+		INSERT INTO BMS_INCDNT_INFO (
+			INCDNT_ID
+			,OPER_DT
+			,ROUT_GRP
+			,VHC_ID
+			,INCDNT_TYPE
+			,ROUT_ID
+			,ALLOC_NO
+			,OPER_SN
+			,COR_ID
+			,OCR_DTM
+			,VHC_NO			
+			,DRV_ID
+			,ROUT_NM
+			,LINK_ID
+			,NODE_ID
+			,GPS_X
+			,GPS_Y
+			,UPD_DTM
+		) 
+		VALUES (
+			(SELECT CONCAT('IC', LPAD(NEXTVAL(SEQ_BMS_INCDNT_INFO_0), 8, '0')) AS 'INCDNT_ID')		
+			,#{OPER_DT}
+			<!-- ,(SELECT ROUT_GRP FROM BMS_ROUT_MST WHERE ROUT_ID = #{ROUT_ID})			
+			,(SELECT VHC_ID FROM BMS_VHC_MST WHERE VHC_NO = #{BUS_NO}) -->
+			,#{ROUT_GRP}
+			,#{VHC_ID}
+			<!-- ,(SELECT DL_CD FROM BMS_DL_CD_INFO WHERE CO_CD = 'INCDNT_TYPE' AND NUM_VAL4 = #{EVENT_CD}) --> <!-- 운행위반유형  -->
+			,#{INCDNT_TYPE}
+			,#{ROUT_ID}
+			<!-- ,(SELECT FN_GET_CUR_ALLOC_NO(#{ROUT_ID}, VHC_ID, #{OPER_DT})) -->  <!--alloc no 찾기 -->
+			,#{ALLOC_NO}
+			<!-- ,(SELECT FN_GET_OPER_SN3(#{ROUT_ID}, #{NODE_ID}, #{VHC_ID}, #{UPD_DTM}, #{ALLOC_NO})) --> <!--oper sn 찾기 -->
+			<choose>
+				<when test="@kr.tracom.util.CommonUtil@notEmpty(OPER_SN)">
+					,#{OPER_SN}
+				</when>
+				<otherwise>
+					,(SELECT FN_GET_OPER_SN3(#{ROUT_ID}, #{NODE_ID}, #{VHC_ID}, #{UPD_DTM}, #{ALLOC_NO}))
+				</otherwise>
+			</choose>
+			,#{COR_ID}
+			,#{UPD_DTM}
+			,#{BUS_NO}
+			,#{DRV_ID}
+			,#{ROUT_NM}
+			<!-- ,(SELECT ROUT_GRP_NM FROM BMS_ROUT_MST WHERE ROUT_ID = #{ROUT_ID})
+			,(SELECT ROUT_NM FROM BMS_ROUT_MST WHERE ROUT_ID = #{ROUT_ID}) -->
+			,#{LINK_ID}
+			,#{NODE_ID}
+			,#{LONGITUDE}
+			,#{LATITUDE}
+			,NOW()
+		)
+		ON DUPLICATE KEY UPDATE
+			ROUT_ID = VALUES(ROUT_ID)
+			,ALLOC_NO = VALUES(ALLOC_NO)
+			,OPER_SN = VALUES(OPER_SN)
+			,COR_ID = VALUES(COR_ID)
+			,OCR_DTM = VALUES(OCR_DTM)
+			,VHC_NO = VALUES(VHC_NO)	
+			,DRV_ID = VALUES(DRV_ID)
+			,ROUT_NM = VALUES(ROUT_NM)
+			,LINK_ID = VALUES(LINK_ID)
+			,NODE_ID = VALUES(NODE_ID)
+			,GPS_X = VALUES(GPS_X)
+			,GPS_Y = VALUES(GPS_Y)
+			,UPD_DTM = VALUES(UPD_DTM)
+	</insert>	
+	
+	
+	<!-- 현재운행계획정보 갱신  -->
+	<select id="refreshCurOperAllocPLRoutInfo" statementType="CALLABLE">
+	{call PROC_MAKE_CUR_OPER_ALLOC_PL_ROUT_INFO()}
+	</select> 
+	
+	<select id="refreshCurOperAllocPLNodeInfo" statementType="CALLABLE">
+	{call PROC_MAKE_CUR_OPER_ALLOC_PL_NODE_INFO()}
+	</select>
+
+	<select id="selectCurOperAllocPlRouteInfo" resultType="Map" parameterType="Map">
+		SELECT OPER_DT, ROUT_GRP, ROUT_ID, COR_ID, OPER_SN, NODE_ID, NODE_SN, ALLOC_NO, NODE_TYPE, DPRT_TM, ARRV_TM, UPD_DTM
+		FROM BMS_CUR_OPER_ALLOC_PL_ROUT_INFO
+		WHERE OPER_DT = #{OPER_DT}
+		AND ROUT_GRP = #{ROUT_GRP}
+		AND ROUT_ID = #{ROUT_ID}
+	</select>
+	
+	<select id="selectNodeMst" resultType="Map" parameterType="Map">	
+		SELECT NODE_ID, MOCK_NODE_ID, NODE_NM, NODE_ENM, NODE_TYPE, GPS_X, GPS_Y, TM_X, TM_Y, 
+				ENTRY_RECOG_RADS, ADVNC_RECOG_RADS, USE_YN, UPD_DTM, UPD_ID
+		FROM BMS_NODE_MST
+		WHERE NODE_ID = #{NODE_ID}
+	</select>
+	
+	<select id="selectCurNearAllocPlInfo3" parameterType="HashMap" resultType="String">
+		SELECT FN_GET_CUR_NEAR_ALLOC_PL_INFO3(
+					NOW(), #{ROUT_GRP}, #{ALLOC_NO}, #{NODE_ID}
+				);
+	</select>
+	
+	<select id="selectCorDtlInfo" parameterType="String" resultType="Map">
+		SELECT A.COR_ID,
+			A.COR_NM,
+			A.REP_ROUT_ID,
+			B.ROUT_ID,
+			B.ROUT_SN,
+			C.COR_CNT,
+			D.WAY_DIV
+		FROM BRT_COR_MST A
+		LEFT OUTER JOIN BRT_COR_DTL_INFO B
+			ON A.COR_ID = B.COR_ID
+		LEFT OUTER JOIN (SELECT COR_ID, COUNT(COR_ID) AS COR_CNT FROM BRT_COR_DTL_INFO GROUP BY COR_ID) C
+			ON B.COR_ID = C.COR_ID
+		LEFT OUTER JOIN BMS_ROUT_MST D
+			ON B.ROUT_ID = D.ROUT_ID
+		WHERE A.REP_ROUT_ID = #{REP_ROUT_ID}
+		ORDER BY COR_ID, ROUT_SN
+	</select>
+	
+	<insert id="insertOrUpdateSigOperEventInfo" parameterType="HashMap">
+		INSERT INTO BMS_CRS_SIGOPER_EVENT_HIS (
+			 UPD_DTM
+		   , NODE_ID
+		   , REP_ROUT_ID
+		   , ROUT_ID
+		   , VHC_NO
+		   , CTRL_LV
+		   , STOP_SEC
+		   , CTRL_TYPE
+		   , CTRL_PHASE_NO
+		   , OCR_DTM
+		)
+		VALUES (
+			  NOW(3)
+			   , #{NODE_ID}
+			   , #{REP_ROUT_ID}
+			   , #{ROUT_ID}
+			   , #{VHC_NO}
+			   , #{CTRL_LV}
+			   , #{STOP_SEC}
+			   , #{CTRL_TYPE}
+			   , #{CTRL_PHASE_NO}
+			   , #{OCR_DTM}
+			   )
+			ON DUPLICATE KEY UPDATE
+			   REP_ROUT_ID = VALUES(REP_ROUT_ID)
+			   , ROUT_ID = VALUES(ROUT_ID)
+			   , VHC_NO = VALUES(VHC_NO)
+			   , CTRL_LV = VALUES(CTRL_LV)
+			   , STOP_SEC = VALUES(STOP_SEC)
+			   , CTRL_TYPE = VALUES(CTRL_TYPE)
+			   , CTRL_PHASE_NO = VALUES(CTRL_PHASE_NO)
+			   , OCR_DTM = VALUES(OCR_DTM)
+	</insert>
+	
+	<select id="selectIntgNodeList" parameterType="String" resultType="Map">
+		SELECT A.ROUT_ID
+			, A.NODE_ID
+			, A.NODE_NM
+			, A.NODE_TYPE
+			, A.NODE_SN
+			, D.LINK_SN
+			, B.ROUT_NM
+			, B.REP_ROUT_ID
+			, D.LINK_ID
+			, C.ED_NODE_ID AS NEXT_NODE_ID
+			, C.BEARING AS BEARING
+			, F.GPS_X AS ST_GPS_X
+			, F.GPS_Y AS ST_GPS_Y
+			, G.GPS_X AS ED_GPS_X
+			, G.GPS_Y AS ED_GPS_Y
+			, D.ROUT_STTN_LINK_ID
+			, E.ST_NODE_ID AS CUR_STTN_ID
+			, E.ED_NODE_ID AS NEXT_STTN_ID
+			, H.NODE_NM AS CUR_STTN_NM
+			, H.GPS_X AS STTN_ST_GPS_X
+			, H.GPS_Y AS STTN_ST_GPS_Y
+			, I.NODE_NM AS NEXT_STTN_NM
+			, I.GPS_X AS STTN_ED_GPS_X
+			, I.GPS_Y AS STTN_ED_GPS_Y
+		FROM BMS_ROUT_NODE_DISP_VW A
+		INNER JOIN BMS_ROUT_MST B
+			ON B.DEL_YN != 'Y' AND B.USE_YN = 'Y'
+		LEFT OUTER JOIN BMS_LINK_MST C
+			ON A.LINK_ID = C.LINK_ID
+		LEFT OUTER JOIN BMS_ROUT_LINK_CMPSTN D
+			ON A.ROUT_ID = D.ROUT_ID
+		AND A.LINK_ID = D.LINK_ID
+		LEFT OUTER JOIN
+		(SELECT X.ROUT_ID, X.LINK_ID, X.LINK_SN, Y.ST_NODE_ID, Y.ED_NODE_ID FROM BMS_ROUT_STTN_LINK_CMPSTN
+			X INNER JOIN BMS_STTN_LINK Y ON X.LINK_ID = Y.LINK_ID) E
+			ON D.ROUT_ID = E.ROUT_ID
+			AND D.ROUT_STTN_LINK_ID = E.LINK_ID
+		<!-- LEFT OUTER JOIN
+		(SELECT X.ROUT_ID, X.LINK_ID, X.LINK_SN, Y.ST_NODE_ID, Y.ED_NODE_ID FROM BMS_ROUT_STTN_LINK_CMPSTN
+			X INNER JOIN BMS_STTN_LINK Y ON X.LINK_ID = Y.LINK_ID) F
+			ON D.ROUT_ID = F.ROUT_ID
+			AND E.ED_NODE_ID = F.ST_NODE_ID 
+	           <![CDATA[AND E.LINK_SN < F.LINK_SN]]> -->
+		LEFT OUTER JOIN BMS_NODE_MST F
+			ON C.ST_NODE_ID = F.NODE_ID
+		LEFT OUTER JOIN BMS_NODE_MST G
+			ON C.ED_NODE_ID = G.NODE_ID
+		LEFT OUTER JOIN BMS_NODE_MST H
+			ON E.ST_NODE_ID = H.NODE_ID
+		LEFT OUTER JOIN BMS_NODE_MST I
+			ON E.ED_NODE_ID = I.NODE_ID
+		WHERE A.ROUT_ID = #{ROUT_ID}
+			AND A.NODE_TYPE NOT IN ('NT004','NT005','NT006','NT008','NT009','NT010')
+		GROUP BY A.ROUT_ID, A.NODE_SN
+		ORDER BY A.ROUT_ID, A.NODE_SN
+	</select>
+	
+	<select id="selectMilsStatus" parameterType="Map" resultType="Map">
+		SELECT NODE_ID ,
+			FCLT_ID ,
+			FCLT_KIND ,
+			PARAM_DIV ,
+			PARAM_KIND ,
+			MNG_ID ,
+			DATA_VAL ,
+			"5052" AS ATTR_ID 
+		FROM BMS_FCLT_COND_PARAM_INFO
+		WHERE PARAM_DIV = 'PD003' AND MNG_ID
+		IN (
+			<foreach collection="SVC_IDS" item="SVC_ID" index="index" separator=",">
+				${SVC_ID}
+			</foreach>
+		)
+	</select>
+</mapper>

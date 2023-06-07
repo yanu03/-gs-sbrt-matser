@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.tracom.mapper.cm.Login.LoginMapper">
+
+	<select id="selectMemberInfoForLogin" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT USER_ID, USER_NM, USER_PS
+		  FROM BMS_USER_MST WHERE USER_ID = #{USER_ID}
+	</select>
+	
+	<update id="updatePassword" parameterType="java.util.Map">
+		UPDATE BMS_USER_MST
+		   SET USER_PS = #{NEW_PASSWORD}
+		 WHERE USER_ID = #{USER_ID}
+	</update>
+	
+	<insert id="insertLoginHis" parameterType="Map">
+		INSERT INTO BMS_USER_HIS(
+			OCR_DTM
+			,USER_ID
+			,USER_NM
+			,LOGIN_STS
+			,IP
+		)
+		VALUES(
+			NOW()
+			,#{USER_ID}
+			,#{USER_NM}
+			,'LS001'
+			,#{IP}
+		)
+	</insert>
+	
+	<insert id="insertLogoutHis" parameterType="Map">
+		INSERT INTO BMS_USER_HIS(
+			OCR_DTM
+			,USER_ID
+			,USER_NM
+			,LOGIN_STS
+			,IP
+		)
+		VALUES(
+			NOW()
+			,#{SSN_USER_ID}
+			,#{SSN_USER_NM}
+			,'LS002'
+			,#{IP}
+		)
+	</insert>
+	
+	
+	<insert id="insertSsoMst" parameterType="Map">
+		INSERT INTO PLF_SSO_MST( SSO_ID,SSO_KEY,SSO_IV,UPD_DTM )
+		VALUES( #{SSO_ID}, #{SSO_KEY}, #{SSO_IV}, NOW() )
+		ON DUPLICATE KEY UPDATE
+			SSO_KEY	= VALUES(SSO_KEY)
+			, SSO_IV	= VALUES(SSO_IV)
+			, UPD_DTM		= VALUES(UPD_DTM)
+	</insert>
+	
+	<delete id="deleteSsoMst" parameterType="Map">
+		DELETE FROM PLF_SSO_MST
+		WHERE SSO_ID = #{SSO_ID}
+	</delete>
+
+	<select id="selectSsoMst" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT SSO_KEY,SSO_IV
+		  FROM PLF_SSO_MST WHERE SSO_ID = #{SSO_ID}
+	</select>
+	
+</mapper>

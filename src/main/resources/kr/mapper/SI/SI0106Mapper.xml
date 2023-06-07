@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.tracom.mapper.SI.SI0106Mapper">
+
+	<select id="SI0106G0R0" parameterType="Map" resultType="Map">
+		SELECT 		A.MTNC_ID
+				,	A.MTNC_NM
+				,	A.SLT_ID
+				,	A.DVC_ID
+				,	A.WORKER_ID
+				,	DATE_FORMAT(A.APPL_DTM,'%Y-%m-%d') APPL_DTM
+				,	A.CPMLT_YN
+				,	A.CPMLT_DTM
+				,	A.REMARK
+				,	A.UPD_ID
+				,	DATE_FORMAT(A.UPD_DTM, '%Y-%m-%d') UPD_DTM
+				,	B.SLT_NM
+				,	C.DVC_KIND
+				,	DL1.DL_CD_NM AS DVC_KIND_CD
+				
+		FROM		SLT_DVC_MTNC_MST A
+		LEFT JOIN	SLT_FCLT_MST B
+			ON		A.SLT_ID = B.SLT_ID
+		LEFT JOIN	SLT_DVC_INFO C
+			ON		A.DVC_ID = C.DVC_ID
+		LEFT JOIN	PLF_DL_CD_INFO DL1
+			ON		C.DVC_KIND = DL1.DL_CD
+			AND		DL1.CO_CD = 'DVC_KIND'						
+		<where>
+			<if test= "CONTENT != null and CONTENT != ''">
+				A.CPMLT_YN = #{CONTENT}
+			</if>
+		</where>	
+	
+	</select>
+	
+	<select id="SI0106G1R0" parameterType="Map" resultType="Map">
+		SELECT 		A.MTNC_ID
+				,	A.WORK_ID
+				,	A.WORK_TYPE
+				,	DL1.DL_CD_NM AS WORK_TYPE_CD
+				,	A.WORKER_ID
+				,	A.WORK_STS
+				,	DL2.DL_CD_NM AS WORK_STS_CD
+				,	DATE_FORMAT(A.WORK_DTM,'%Y-%m-%d') WORK_DTM
+				,	A.ATTACH_ID
+				,	A.WORK_DESC
+				,	A.MTRL_ID
+				,	A.MTRL_USE_CNT
+				,	A.UPD_ID
+				,	A.UPD_DTM
+				,	B.MTRL_NM
+				
+		FROM		SLT_DVC_MTNC_WORK_INFO A
+		LEFT JOIN	SLT_MTRL_MST B
+			ON		A.MTRL_ID = B.MTRL_ID
+		LEFT JOIN	PLF_DL_CD_INFO DL1
+			ON		A.WORK_TYPE = DL1.DL_CD
+			AND		DL1.CO_CD = 'WORK_TYPE'						
+		LEFT JOIN	PLF_DL_CD_INFO DL2
+			ON		A.WORK_STS = DL2.DL_CD
+			AND		DL1.CO_CD = 'WORK_STS'						
+	
+		WHERE		A.MTNC_ID = #{MTNC_ID} 
+	
+	</select>
+	
+	<select id="SI0106G1K0" resultType="Map">
+		SELECT CONCAT('WI', LPAD(NEXTVAL(SEQ_SLT_DVC_MTNC_WORK_INFO_0), 8, '0')) AS 'SEQ'
+	</select>
+	
+	<insert id="SI0106G1I0" parameterType="Map">
+		INSERT INTO	SLT_DVC_MTNC_WORK_INFO
+				(
+					MTNC_ID
+				,	WORK_ID
+				,	WORK_TYPE
+				,	WORKER_ID
+				,	WORK_STS
+				,	WORK_DTM
+				,	ATTACH_ID
+				,	WORK_DESC
+				,	MTRL_ID
+				,	MTRL_USE_CNT
+				,	UPD_ID
+				,	UPD_DTM		
+				)
+				
+		VALUES (
+					#{MTNC_ID}
+				,	#{WORK_ID}
+				,	#{WORK_TYPE}
+				,	#{WORKER_ID}
+				,	#{WORK_STS}
+				,	#{WORK_DTM}
+				,	#{ATTACH_ID}
+				,	#{WORK_DESC}
+				,	#{MTRL_ID}
+				,	#{MTRL_USE_CNT}
+				,	#{UPD_ID}
+				,	#{UPD_DTM}					
+				)		
+	
+	</insert>
+	
+	<update id="SI0106G0U0" parameterType="Map">
+		UPDATE  	SLT_DVC_MTNC_MST
+		SET		
+					CPMLT_YN = 'Y'
+				,	CPMLT_DTM = #{WORK_DTM}
+				
+		WHERE		MTNC_ID = #{MTNC_ID}
+	</update>
+	
+	<update id="SI0106G1U0" parameterType="Map">
+		UPDATE  	SLT_DVC_MTNC_WORK_INFO
+		SET		
+					WORK_TYPE = #{WORK_TYPE}
+				,	WORKER_ID = #{WORKER_ID}
+				,	WORK_STS = #{WORK_STS}
+				,	WORK_DTM = #{WORK_DTM}
+				,	ATTACH_ID = #{ATTACH_ID}
+				,	WORK_DESC = #{WORK_DESC}
+				,	MTRL_ID = #{MTRL_ID}
+				,	MTRL_USE_CNT = #{MTRL_USE_CNT}
+				,	UPD_ID = #{UPD_ID}
+				,	UPD_DTM	 = #{UPD_DTM}
+				
+		WHERE		MTNC_ID = #{MTNC_ID}
+		AND			WORK_ID = #{WORK_ID}	
+	</update>
+	
+	<update id="SI0106G2U0" parameterType="Map">
+		UPDATE  	SLT_MTRL_MST
+		SET			CUR_IVNT_CNT = CUR_IVNT_CNT - #{MTRL_USE_CNT}
+				
+		WHERE		MTRL_ID = #{MTRL_ID}
+	</update>
+	
+	<insert id="SI0106G3I0" parameterType="Map">
+		INSERT INTO	SLT_MTRL_HIS
+				(
+					MTRL_HIS_ID
+				,	UPD_DTM
+				,	MTRL_ID
+				,	INCM_DIV
+				,	QUANTITY
+				,	REASON			
+				)
+				
+		VALUES (
+					(SELECT CONCAT('MH', LPAD(NEXTVAL(SEQ_SLT_MTRL_HIS_0), 8, '0')) AS MTRL_HIS_ID)
+				,	#{WORK_DTM}
+				,	#{MTRL_ID}
+				,	'IC002'
+				,	-#{MTRL_USE_CNT}
+				,	#{WORK_TYPE_CD}				
+				)	
+	
+	</insert>
+	
+	<delete id="SI0106G1D0" parameterType="Map">
+		DELETE
+		FROM		SLT_DVC_MTNC_MST
+		WHERE		MTNC_ID = #{MTNC_ID}
+	
+	</delete>
+
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.tracom.mapper.cm.MemberMapper">
+
+	<select id="selectLoginAuthCheck" resultType="Map" parameterType="Map">
+		SELECT AUTH_CD 
+		  FROM BMS_USER_AUTH_CMPSTN 
+		 WHERE USER_ID = #{USER_ID}
+	</select>
+
+	<select id="selectMemberBasicOrganization" resultType="Map">
+		SELECT ORG_NM, ORG_ID 
+		  FROM BMS_ORG_MST 
+		 ORDER BY ORG_ID
+	</select>
+
+	<select id="selectMemberBasic" resultType="Map" parameterType="Map">
+		SELECT 
+			A.USER_ID
+			,A.ORG_ID
+			,A.USER_NM
+			,A.SCD_PS
+			,A.EMAIL
+			,A.HP_NO
+			,A.USE_YN
+			,A.REMARK
+			,A.JOB_POSITION
+			,A.JOB_DUTY
+			,B.AUTH_CD
+			,C.AUTH_NM
+		FROM BMS_USER_MST A
+		LEFT JOIN BMS_USER_AUTH_CMPSTN B
+		ON A.USER_ID = B.USER_ID
+		LEFT JOIN BMS_AUTHORITY_MST C
+		ON B.AUTH_CD = C.AUTH_CD
+		<where>
+			<if test="CONTENT != '' and CONTENT != null">
+				<if test="TYPE == 'ALL'">
+					AND A.USER_ID LIKE CONCAT('%',#{CONTENT},'%') || A.USER_NM LIKE CONCAT('%',#{CONTENT},'%')
+				</if>
+				<if test="TYPE == 'USER_ID'">
+					AND A.USER_ID LIKE CONCAT('%',#{CONTENT},'%')
+				</if>
+				<if test="TYPE == 'USER_NM'">
+					AND A.USER_NM LIKE CONCAT('%',#{CONTENT},'%')
+				</if>
+			</if>
+		</where>
+		ORDER BY A.USER_ID
+	</select>
+
+	<select id="selectMemberSearchItem" resultType="Map">
+		select USER_NM, USER_ID from BMS_USER_MST
+	</select>
+
+	<select id="selectMemberOragn" resultType="Map" parameterType="Map">
+		SELECT HPB.USER_ID, HOB.ORG_NM, HPB.USER_NM, HPB.EMAIL, HPB.HP_NO
+			,HPB.USE_YN,HPB.REMARK
+		 FROM BMS_USER_MST HPB
+			  LEFT OUTER JOIN BMS_ORG_MST HOB ON HPB.ORG_ID = HOB.ORG_ID
+
+		<where>
+			<if test="USER_ID != ''">
+				AND HPB.USER_ID = #{USER_ID}
+			</if>
+			<if test="USER_NM != ''">
+				AND HPB.USER_NM LIKE CONCAT( '%', #{USER_NM}, '%' )
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertMemberBasic" parameterType="Map">
+		insert into BMS_USER_MST( USER_ID,USER_NM,ORG_ID,USER_PS,EMAIL,HP_NO, USE_YN,REMARK,UPD_DTM,UPD_ID,JOB_POSITION,JOB_DUTY )
+		values( #{USER_ID},#{USER_NM},#{ORG_ID},#{USER_PS}, #{EMAIL},#{HP_NO},
+		'Y',#{REMARK},#{UPD_DTM},#{SSN_USER_ID},#{JOB_POSITION},#{JOB_DUTY} );
+		
+		insert into BMS_USER_AUTH_CMPSTN (USER_ID, AUTH_CD)
+		values(#{USER_ID}, #{AUTH_CD});
+	</insert>
+
+
+	<update id="updateMemberBasic" parameterType="Map">
+		UPDATE BMS_USER_MST
+		   SET USER_NM = #{USER_NM}, ORG_ID = #{ORG_ID}, 
+		   <if test="USER_PS != ''">
+		   USER_PS = #{USER_PS}
+		   </if>
+			 , EMAIL = #{EMAIL}, HP_NO = #{HP_NO}, USE_YN = #{USE_YN}, REMARK = #{REMARK}
+			 , UPD_DTM = #{UPD_DTM}, UPD_ID = #{SESSION_USER_ID}
+			 , JOB_POSITION = #{JOB_POSITION}, JOB_DUTY = #{JOB_DUTY}
+		 WHERE USER_ID = #{USER_ID};
+		 
+		 UPDATE BMS_USER_AUTH_CMPSTN
+		 	SET	AUTH_CD = #{AUTH_CD}
+		  WHERE USER_ID = #{USER_ID};
+	</update>
+
+	<delete id="deleteMemberBasic" parameterType="Map">
+		DELETE FROM BMS_USER_MST WHERE USER_ID = #{USER_ID};
+		DELETE FROM BMS_USER_AUTH_CMPSTN WHERE USER_ID = #{USER_ID};
+	</delete>
+</mapper>

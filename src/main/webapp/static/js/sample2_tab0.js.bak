@@ -1,0 +1,12 @@
+﻿$(function(){
+
+	$('#tab_panel0').append('<div id="tabs0"><div title="tab0"></div><div title="tab2"></div></div>');	
+
+	$('#tabs0').tabs({
+	    border:false,
+	    onSelect:function(title){
+
+	    }
+	});
+  
+});

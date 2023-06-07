@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.tracom.mapper.VH0602.VH0602Mapper">
+
+<select id="VH0602G0R0" parameterType="Map" resultType="Map">
+	SELECT				DATE_FORMAT(A.UPD_DTM, '%Y-%m-%d %H:%m:%s') UPD_DTM
+					,	A.NODE_ID
+					,	A.ROUT_GRP
+					,	A.ROUT_ID
+					,	A.VHC_NO
+					,	A.CTRL_LV
+					,	A.STOP_SEC
+					,	A.CTRL_TYPE
+					,	CT.DL_CD_NM CTRL_TYPE_NM
+					,	A.CTRL_PHASE_NO
+					,	DATE_FORMAT(A.OCR_DTM, '%Y-%m-%d %H:%m:%s') OCR_DTM					
+					,	A.OCR_DTM
+					,	B.CRS_NM
+					,	RG.DL_CD_NM AS ROUT_GRP_NM
+					,	D.ROUT_NM
+					
+					
+	FROM				BMS_CRS_SIGOPER_EVENT_HIS A
+			
+	LEFT JOIN			BMS_CRS_MST B
+	ON					A.NODE_ID = B.CRS_ID
+	LEFT JOIN BMS_DL_CD_INFO RG
+	ON A.ROUT_GRP = RG.DL_CD AND RG.CO_CD = 'ROUT_GRP'		
+	LEFT JOIN BMS_DL_CD_INFO CT
+	ON A.CTRL_TYPE= CT.DL_CD AND CT.CO_CD = 'CTRL_TYPE'
+
+	LEFT JOIN			BMS_ROUT_MST D
+	ON					A.ROUT_ID = D.ROUT_ID
+		
+
+	<where>
+		<if test="TYPE1 == 'ROUT_MODE'">
+				AND A.ROUT_GRP = #{CONTENT1}
+		</if>			
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT1)">
+				AND B.CRS_NM LIKE CONCAT('%', #{CONTENT1}, '%')
+		</if>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE) and @kr.tracom.util.CommonUtil@empty(L_DATE)">
+			<![CDATA[AND DATE_FORMAT(A.OCR_DTM, '%Y-%m-%d') >= #{F_DATE}]]>
+		</if>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(L_DATE) and @kr.tracom.util.CommonUtil@empty(F_DATE)">
+			<![CDATA[AND DATE_FORMAT(A.OCR_DTM, '%Y-%m-%d') <= #{L_DATE}]]>
+		</if>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE) and @kr.tracom.util.CommonUtil@notEmpty(L_DATE)">
+				AND DATE_FORMAT(A.OCR_DTM, '%Y-%m-%d') BETWEEN #{F_DATE} AND #{L_DATE}
+		</if>			
+	</where>
+	
+	ORDER BY			UPD_DTM DESC
+</select>
+
+</mapper>

@@ -1,0 +1,30 @@
+[
+    {
+        "DAY_OF_WEEK" : "1",
+        "DAY_OF_WEEK_NM" : "월요일"
+    },
+    {
+        "DAY_OF_WEEK" : "2",
+        "DAY_OF_WEEK_NM" : "화요일"
+    },
+    {
+        "DAY_OF_WEEK" : "3",
+        "DAY_OF_WEEK_NM" : "수요일"
+    },
+    {
+        "DAY_OF_WEEK" : "4",
+        "DAY_OF_WEEK_NM" : "목요일"
+    },
+    {
+        "DAY_OF_WEEK" : "5",
+        "DAY_OF_WEEK_NM" : "금요일"
+    },
+    {
+        "DAY_OF_WEEK" : "6",
+        "DAY_OF_WEEK_NM" : "토요일"
+    },
+    {
+        "DAY_OF_WEEK" : "7",
+        "DAY_OF_WEEK_NM" : "일요일"
+    }
+]

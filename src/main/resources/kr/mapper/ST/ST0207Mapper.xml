@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="kr.tracom.mapper.ST0207.ST0207Mapper">
+  
+  <select id="ST0207G0R0" resultType="Map">
+		SELECT  
+				DL_CD,
+				DL_CD_NM
+		FROM 
+				BMS_DL_CD_INFO
+		WHERE 
+				CO_CD = 'OPER_EVT_TYPE'
+				AND DL_CD NOT IN('ET008', 'ET009', 'ET010', 'ET011', 'ET012', 'ET013', 'ET014', 'ET015', 'ET016', 'ET017', 'ET018')
+		ORDER BY 
+				DL_CD
+		
+	</select>
+  
+
+  <select id="ST0207G1R0" resultType="Map">
+		SELECT
+			*,
+			ROUND(ACTUAL_OPER/OPER_PLAN * 100,2) AS PERCENT
+		FROM
+			(SELECT
+				DATE_FORMAT(A.OPER_DT, '%Y-%m-%d') OPER_DT,
+				A.EVT_TYPE,
+				B.DL_CD_NM,
+				A.VHC_NO,
+				COUNT(A.VHC_NO) AS OPER_PLAN,
+				SUM(IF (A.VHC_NO IS NOT NULL AND A.VHC_NO != '',1,0)) ACTUAL_OPER
+			FROM
+				BMS_ROUT_OPER_EVENT_STAT A
+			LEFT OUTER JOIN BMS_DL_CD_INFO B
+				ON A.EVT_TYPE = B.DL_CD
+			WHERE
+				A.EVT_TYPE IN
+				
+				<foreach collection="EVT_TYPE" item="item" index="index"  open="(" close=")" separator=",">
+					#{item}
+				</foreach>
+				AND B.CO_CD = 'OPER_EVT_TYPE'
+				
+				<if test="F_DATE != null and F_DATE != '' and L_DATE != null and L_DATE != '' ">
+					AND DATE_FORMAT(A.OPER_DT, '%Y-%m-%d') BETWEEN #{F_DATE} AND #{L_DATE}
+				</if>
+				
+			GROUP BY A.EVT_TYPE
+			ORDER BY A.OPER_DT) x
+  </select>
+  
+   <select id="ST0207G2R1" resultType="Map">
+ 		SELECT
+			DATE_FORMAT(A.OPER_DT, '%Y-%m-%d') OPER_DT,
+			A.ROUT_GRP,
+			B.ROUT_GRP_NM,
+			A.COMP_ID,
+			C.COMP_NM,
+			A.ROUT_ID,
+			D.ROUT_NM,
+			A.ALLOC_NO,
+			A.OPER_SN,
+			A.NODE_SN,
+			A.EVT_TYPE,
+			A.NODE_ID,
+			E.NODE_NM,
+			A.VHC_NO,
+			DATE_FORMAT(A.OCR_DTM, '%Y-%m-%d') OCR_DTM,
+			DATE_FORMAT(A.UPD_DTM, '%Y-%m-%d') UPD_DTM
+			
+		FROM
+			BMS_ROUT_OPER_EVENT_STAT A
+		LEFT OUTER JOIN BMS_ROUT_GRP_MST B
+			ON A.ROUT_GRP = B.ROUT_GRP
+			LEFT OUTER JOIN BMS_TRANSCOMP_MST C
+			ON A.COMP_ID = C.COMP_ID
+			LEFT OUTER JOIN BMS_ROUT_MST D
+			ON A.ROUT_ID = D.ROUT_ID
+			LEFT OUTER JOIN BMS_NODE_MST E
+			ON A.NODE_ID = E.NODE_ID
+			
+		WHERE
+			OPER_DT IS NOT NULL
+			
+			<if test="CONTENT != NULL">
+				AND A.EVT_TYPE LIKE CONCAT('%',#{CONTENT},'%') 
+			</if>
+			<if test="F_DATE != null and F_DATE != '' and L_DATE != null and L_DATE != '' ">
+				AND DATE_FORMAT(A.OPER_DT, '%Y-%m-%d') BETWEEN #{F_DATE} AND #{L_DATE}
+			</if>
+			
+		ORDER BY A.OPER_DT
+  </select>
+
+</mapper>
