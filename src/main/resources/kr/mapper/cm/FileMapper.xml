@@ -1,148 +1,232 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<mapper namespace="kr.tracom.mapper.cm.Find.FileMapper"> 	
- 	<!--  파일 리스트 -->
- 	<select id="selectMultiFileList"  resultType="Map" parameterType="java.lang.String">
- 		<![CDATA[
-			SELECT A.ATTACH_ID
-				 , B.FILE_SN
-				 , B.FILE_EXT 
-				 , B.FILE_PATH
-				 , B.FILE_NM
-				 , A.ORG_FILE_NM
-				 , B.FILE_SIZE
-			FROM BMS_MULTI_ATTACH_MST A
-				INNER JOIN BMS_MULTI_ATTACH_DTL_INFO B
-				ON A.ATTACH_ID = B.ATTACH_ID
-			 WHERE A.ATTACH_ID = #{fileId}
-			   AND NVL(A.USE_YN, 'Y') = 'Y' 		
-			 ORDER BY B.FILE_SN	
- 		]]>
- 	</select>
- 	
- 	<!-- 파일 리스트(이미지) -->
- 	<select id="selectMultiImageFileList" resultType="Map" parameterType="Map">
- 		<![CDATA[
-			SELECT A.ATTACH_ID
-				 , B.FILE_SN
-				 , B.FILE_EXT 
-				 , B.FILE_PATH
-				 , B.FILE_NM
-				 , A.ORG_FILE_NM
-				 , B.FILE_SIZE
-			FROM BMS_MULTI_ATTACH_MST A
-				INNER JOIN BMS_MULTI_ATTACH_DTL_INFO B
-				ON A.ATTACH_ID = B.ATTACH_ID
-			 WHERE A.ATTACH_ID = #{fileId}
-			   AND NVL(A.USE_YN, 'Y') = 'Y'
-			   AND UPPER(A.FILE_EXT) IN ('GIF','JPG','BMP','PNG') 		
-			 ORDER BY B.FILE_SN	
- 		]]>
- 	</select>
- 	
- 	<!-- 파일 상세조회 -->
- 	<select id="selectMultiFileView" resultType="Map" parameterType="Map">
- 		<![CDATA[
-			SELECT A.ATTACH_ID
-				 , B.FILE_SN
-				 , B.FILE_EXT 
-				 , B.FILE_PATH
-				 , B.FILE_NM
-				 , A.ORG_FILE_NM
-				 , B.FILE_SIZE
-			FROM BMS_MULTI_ATTACH_MST A
-				INNER JOIN BMS_MULTI_ATTACH_DTL_INFO B
-				ON A.ATTACH_ID = B.ATTACH_ID
-			 WHERE A.ATTACH_ID = #{fileId}
-				AND B.FILE_SN = #{fileSn}  		
- 		]]>
- 	</select>	
- 	
- 	<select id="selectMultiFileViewLast" resultType="Map" parameterType="Map">
- 		<![CDATA[
-			SELECT A.ATTACH_ID
-				 , B.FILE_SN
-				 , B.FILE_EXT 
-				 , B.FILE_PATH
-				 , B.FILE_NM
-				 , A.ORG_FILE_NM
-				 , B.FILE_SIZE
-			FROM BMS_MULTI_ATTACH_MST A
-				INNER JOIN BMS_MULTI_ATTACH_DTL_INFO B
-				ON A.ATTACH_ID = B.ATTACH_ID
-			 WHERE A.ATTACH_ID = #{fileId}
-			   AND B.FILE_SN = (SELECT MAX(FILE_SN) FROM BMS_MULTI_ATTACH_DTL_INFO WHERE ATTACH_ID = #{fileId} ) 
- 		]]>
- 	</select>	
- 		
- 	<select id="selectNextMultiFileID" resultType="java.lang.String">
-		<![CDATA[
-			SELECT SEQ_TB_CMN_FILE.NEXTVAL FROM db_root;			
-		]]>
-    </select> 
-    
-     <select id="selectNextMultiFileSN" resultType="java.lang.String" parameterType="java.lang.String">
-		<![CDATA[
-			SELECT NVL(MAX(FILE_SN),0)+1 AS FILE_SN 
-			  FROM BMS_MULTI_ATTACH_MST 
-			 WHERE ATTACH_ID = #{fileId}		
-		]]>
-    </select>  
-    
- 	<!--  파일 입력  
- 	* selectKey의 fileSn을 VO에서 String 선언 int인 경우  Integer로 
- 	-->
- 	<insert id="insertMultiFile" parameterType="Map">
- 		<selectKey resultType="java.lang.String" keyProperty="fileSn" order="BEFORE">
-			SELECT NVL(MAX(FILE_SN),0)+1 AS FILE_SN 
-			  FROM BMS_MULTI_ATTACH_MST 
-			 WHERE ATTACH_ID = #{fileId}
-		</selectKey>
+<mapper namespace="kr.tracom.mapper.cm.File.FileMapper"> 	
 
+	<select id="selectFileList" resultType="Map" >
+ 		<![CDATA[
+			SELECT 
+				a.ATCH_FILE_ID, b.FILE_SN, b.FILE_STRE_COURS, b.STRE_FILE_NM,
+				b.FILE_EXTSN, b.ORIGNL_FILE_NM, b.FILE_SIZE, a.CREAT_DT
+			FROM
+				TN_FILE a, TN_FILE_DETAIL b
+			WHERE
+				a.ATCH_FILE_ID = #atchFileId#
+			AND 
+				a.ATCH_FILE_ID = b.ATCH_FILE_ID
+					
+			ORDER BY b.FILE_SN	
+ 		]]>
+ 	</select>
+
+
+ 	<select id="selectNotImageFileList" resultType="Map" >
+ 		<![CDATA[
+			SELECT 
+				a.ATCH_FILE_ID, b.FILE_SN, b.FILE_STRE_COURS, b.STRE_FILE_NM,
+				b.FILE_EXTSN, b.ORIGNL_FILE_NM, b.FILE_SIZE, a.CREAT_DT
+			FROM
+				TN_FILE a, TN_FILE_DETAIL b
+			WHERE
+				a.ATCH_FILE_ID = #atchFileId#
+			AND 
+				a.ATCH_FILE_ID = b.ATCH_FILE_ID				
+			AND
+				UPPER(b.FILE_EXTSN) NOT IN ('GIF','JPG','BMP','PNG')
+			ORDER BY b.FILE_SN	
+ 		]]>
+ 	</select>
+ 	
+ 	<select id="selectAttachId" resultType="String">
+ 		SELECT CONCAT('AT', LPAD(NEXTVAL(SEQ_BMS_MULTI_ATTACH_MST_0), 8, '0')) AS 'ATTACH_ID'
+ 	</select>
+ 	 	
+	<insert id="insertFileInf" parameterType="kr.tracom.mapper.cm.File.FileVO" >
 		<![CDATA[
 			INSERT INTO BMS_MULTI_ATTACH_MST
-				(ATTACH_ID, FILE_SN, FILE_EXT, FILE_PATH, FILE_NM
-				, ORG_FILE_NM, FILE_SIZE, DISPLAY_SIZE, RGSDE, REGISTER
-				, DEL_AT)
-			VALUES 
-				(#{fileId}, #{fileSn}, #{fileExtsn}, #{filePath}, #{fileNm}
-				, #{name}, #{size}, #{displaySize}, SYSDATE, #{register}
-				, 'N')			
+			(ATTACH_ID, UPD_DTM)
+			VALUES
+			( #{atchFileId}, NOW())			
 		]]>
-    </insert>   
-      
- 	<!-- 파일  삭제여부 수정  -->
- 	<update id="updateMultiFileDelYN" parameterType="Map"> 
+	</insert>
+	
+	<insert id="insertFileInfs" parameterType="kr.tracom.mapper.cm.File.FileVO" >
 		<![CDATA[
-			UPDATE BMS_MULTI_ATTACH_MST 
-			   SET DEL_AT = 'Y'
-			     , UPDDE = SYSDATE
-			     , UPDUSR = #{register}
-			 WHERE ATTACH_ID = #{fileId}
+			INSERT INTO BMS_MULTI_ATTACH_MST
+			(ATTACH_ID, UPD_DTM)
+			VALUES
+			( #{atchFileId}, NOW())			
 		]]>
-		<if test='fileSn != null'>
-			<![CDATA[	AND FILE_SN = #{fileSn}	]]>
-		</if>
-    </update>
-     
- 	<!--  파일 삭제  -->
- 	 <delete id="deleteMultiFile" parameterType="Map"> 
+	</insert>
+	
+	<insert id="insertFileDetail" parameterType="kr.tracom.mapper.cm.File.FileVO" >
+		<![CDATA[
+			INSERT INTO BMS_MULTI_ATTACH_DTL_INFO
+			( ATTACH_ID, FILE_SN, FILE_PATH, FILE_NM, 
+			  ORG_FILE_NM, FILE_EXT, FILE_SIZE )
+			VALUES
+			( #{atchFileId}, #{fileSn}, #{fileStreCours}, #{streFileNm}, 
+			  #{orignlFileNm}, #{fileExtsn}, #{fileMg} )			
+		]]>
+	</insert>	
+	
+	<delete id="deleteFileDetail" parameterType="kr.tracom.mapper.cm.File.FileVO" >
+		<![CDATA[
+			DELETE FROM TN_FILE_DETAIL
+			WHERE
+				ATCH_FILE_ID = #atchFileId#
+			AND	
+				FILE_SN = #fileSn#			
+		]]>	
+	</delete>
+ 	
+	<select id="getMaxFileSN" resultType="Map">
+		<![CDATA[
+			SELECT NVL(MAX(FILE_SN),0)+1 AS FILE_SN
+			FROM TN_FILE_DETAIL
+			WHERE ATCH_FILE_ID =  #atchFileId#		
+		]]>
+	</select>
+
+ 	<select id="selectFileInf" resultType="kr.tracom.mapper.cm.File.FileVO">
  		<![CDATA[
-			DELETE 
-			  FROM BMS_MULTI_ATTACH_MST
-			 WHERE ATTACH_ID = #{fileId}
+			SELECT 
+				ATTACH_ID AS atchFileId,
+				FILE_SN AS fileSn,
+				ORG_FILE_NM AS orignlFileNm,
+				FILE_NM AS streFileNm,
+				FILE_SIZE AS fileMg,
+				FILE_PATH AS fileStreCours,
+				FILE_EXT AS fileExtsn
+			FROM
+				BMS_MULTI_ATTACH_DTL_INFO
+			WHERE
+				ATTACH_ID = #{atchFileId}
+		 ]]>	
+		 	<if test= "fileSn == 'pdf'">
+		 		AND FILE_EXT = #{fileSn}
+		 	</if>
+		 	<if test= "fileSn != 'pdf'">
+		 		AND FILE_SN = #{fileSn}	
+		 	</if>
+		 	
+			<!-- <isEqual prepend="AND" property="fileSn" compareValue="pdf">
+				FILE_EXTSN = #fileSn#	
+			</isEqual>
+			<isNotEqual prepend="AND" property="fileSn" compareValue="pdf">
+				FILE_SN = #fileSn#	
+			</isNotEqual> -->
+			
+ 	</select>
+
+	<update id="deleteCOMTNFILE" parameterType="kr.tracom.mapper.cm.File.FileVO">
+		<![CDATA[
+			UPDATE TN_FILE
+			SET USE_AT = 'N'
+			WHERE ATCH_FILE_ID = #atchFileId#
 		]]>
-		<if test='fileSn != null'>
-			<![CDATA[	AND FILE_SN = #{fileSn}	]]>
-		</if>
-    </delete>
-    
-    <update id="updateMultiFileCn" parameterType="Map"> 
-		UPDATE BMS_MULTI_ATTACH_MST 
-		   SET UPDDE = SYSDATE
-		     , UPDUSR = #{register}
-		 WHERE ATTACH_ID = #{fileId}
-		   AND FILE_SN = #{fileSn}
-    </update>
-    
+	</update>
+
+ 	<select id="selectFileListByFileNm" resultType="Map">
+	    <![CDATA[
+	        SELECT * FROM ( SELECT rownum rn, TB.* FROM (
+	    ]]>
+ 		<![CDATA[
+			SELECT 
+				a.ATCH_FILE_ID, b.FILE_SN, b.FILE_STRE_COURS, b.STRE_FILE_NM,
+				b.FILE_EXTSN, b.ORIGNL_FILE_NM, b.FILE_SIZE, a.CREAT_DT
+			FROM
+				TN_FILE a, TN_FILE_DETAIL b
+			WHERE
+				a.ATCH_FILE_ID = b.ATCH_FILE_ID			
+ 		]]>
+ 			<if test="searchCnd == 'streFileNm'">
+ 				<![CDATA[	b.STRE_FILE_NM LIKE '%' || #searchWrd# || '%' 		]]>
+ 			</if>
+ 			<if test="searchCnd == 'orignlFileNm'">
+ 				<![CDATA[	b.ORIGNL_FILE_NM LIKE '%' || #searchWrd# || '%' 		]]>
+ 			</if>
+ 		
+			<!-- <isEqual prepend="AND" property="searchCnd" compareValue="streFileNm">
+				<![CDATA[	b.STRE_FILE_NM LIKE '%' || #searchWrd# || '%' 		]]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCnd" compareValue="orignlFileNm">
+				<![CDATA[	b.ORIGNL_FILE_NM LIKE '%' || #searchWrd# || '%' 		]]>
+			</isEqual>	 -->
+			
+			
+		<![CDATA[			
+			ORDER BY a.ATCH_FILE_ID, b.FILE_SN	
+		]]>		 		
+	    <![CDATA[
+	         ) TB ) WHERE rn BETWEEN #firstIndex# + 1 AND #firstIndex# + #recordCountPerPage#
+	    ]]>
+ 	</select>
+
+ 	<select id="selectFileListCntByFileNm" resultType="Map">
+ 		<![CDATA[
+			SELECT 
+				COUNT(a.ATCH_FILE_ID)
+			FROM
+				TN_FILE a, TN_FILE_DETAIL b
+			WHERE
+				a.ATCH_FILE_ID = b.ATCH_FILE_ID						
+ 		]]>
+ 			<if test="searchCnd == 'streFileNm'">
+ 				<![CDATA[	b.STRE_FILE_NM LIKE '%' || #searchWrd# || '%' 		]]>
+ 			</if>
+ 			<if test="searchCnd == 'originFileNm'">
+ 				<![CDATA[	b.ORIGNL_FILE_NM LIKE '%' || #searchWrd# || '%' 		]]>
+ 			</if>
+ 		
+			<!-- <isEqual prepend="AND" property="searchCnd" compareValue="streFileNm">
+				<![CDATA[	b.STRE_FILE_NM LIKE '%' || #searchWrd# || '%' 		]]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCnd" compareValue="orignlFileNm">
+				<![CDATA[	b.ORIGNL_FILE_NM LIKE '%' || #searchWrd# || '%' 		]]>
+			</isEqual>	  -->		
+ 	</select>
+ 	
+  	<select id="selectImageFileList" resultType="Map" >
+ 		<![CDATA[
+			SELECT 
+				a.ATCH_FILE_ID, b.FILE_SN, b.FILE_STRE_COURS, b.STRE_FILE_NM,
+				b.FILE_EXTSN, b.ORIGNL_FILE_NM, b.FILE_SIZE, a.CREAT_DT
+			FROM
+				TN_FILE a, TN_FILE_DETAIL b
+			WHERE
+				a.ATCH_FILE_ID = #atchFileId#
+			AND 
+				a.ATCH_FILE_ID = b.ATCH_FILE_ID
+			AND
+				UPPER(b.FILE_EXTSN) IN ('GIF','JPG','BMP','PNG')						
+			ORDER BY b.FILE_SN	
+ 		]]>
+ 	</select>	
+
+  	<select id="selectVideoFileList" resultType="Map" >
+ 		<![CDATA[
+			SELECT 
+				a.ATCH_FILE_ID, b.FILE_SN, b.FILE_STRE_COURS, b.STRE_FILE_NM,
+				b.FILE_EXTSN, b.ORIGNL_FILE_NM, b.FILE_SIZE, a.CREAT_DT
+			FROM
+				TN_FILE a, TN_FILE_DETAIL b
+			WHERE
+				a.ATCH_FILE_ID = #atchFileId#
+			AND 
+				a.ATCH_FILE_ID = b.ATCH_FILE_ID
+			AND
+				UPPER(b.FILE_EXTSN) IN ('MP4','MP4')
+						
+			ORDER BY b.FILE_SN	
+ 		]]>
+ 	</select>	 	
+ 	
+	<select id="getSumFileSize" resultType="Map">
+		<![CDATA[
+			SELECT NVL(SUM(FILE_SIZE),0)
+			FROM TN_FILE_DETAIL
+			WHERE ATCH_FILE_ID =  #atchFileId#
+		]]>
+	</select>
+
 </mapper>

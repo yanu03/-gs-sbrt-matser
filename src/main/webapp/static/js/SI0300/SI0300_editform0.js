@@ -35,6 +35,9 @@ $(function(){
                         a_arrvalue =  new Array($('#BUS_DIV').textbox('getValue'), $('#BUS_DIV').textbox('getText'));
                         a_vals = $.jf_multidatatojson(a_arrfield, a_arrvalue);	//arr arr ?޾Ƽ? ó?? ?ϴ? ???? ????
                         break;
+					case "ATTACH_ID":
+						a_vals = $.jf_singledatatojson(target.id, $(target).textbox('getValue'));
+						break;
                     default:
                             if(!$(target).textbox('isValid')){$(target).textbox('clear'); break;}
                             a_vals = $.jf_singledatatojson(target.id, $(target).textbox('getValue'));
@@ -57,12 +60,16 @@ $(function(){
     $('#fm_panel0').append('<input id="CERTI_DT" class="tracom-textbox" name="CERTI_DT">');
     $('#fm_panel0').append('<input id="EPLY_YN" class="tracom-combobox" name="EPLY_YN">');
     $('#fm_panel0').append('<input id="RETIRE_DT" class="tracom-textbox" name="RETIRE_DT"><p>');
-    
-    $('#fm_panel0').append('<input id="ATTACH_ID" class="tracom-textbox" name="ATTACH_ID">');
-    $('#fm_panel0').append('<a id="file_btn" href="#"></a><p>');
+    $('#fm_panel0').append('<input id="ATTACH_ID" type="hidden" name="ATTACH_ID">');
+	var str = '<form id="filefrm" name="filefrm" method="post" enctype="multipart/form-data">'
+			+ '<input id="path" type="hidden" name="path" >'
+			+ '<input id="file_1" type="file" name="file_1">'
+			+ '<a id="filebtn" href="#"></a><p>'
+			+ '</form>'
+    $('#fm_panel0').append(str);
     // 나중에 사진 파일 받아올 수 있을때 분리해둔 공간에 img 넣어주기 
     // id는 추후 작업할 때 넣기
-    $('#fm_panel0').append('<div id="" style="margin:0 0 0 0;border:0.1px solid black;width:300px;height:200px;float:left;">이미지</div>');
+    $('#fm_panel0').append('<img id="picture" style="margin:0 0 0 0;border:0.1px solid black;width:300px;height:200px;float:left;"/>');
     $('#fm_panel0').append('<input id="REMARK" class="tracom-textbox" name="REMARK">');
 	
 	$('#fm_panel0').append('</table>');
@@ -256,10 +263,7 @@ $(function(){
         }
     });
 
-    $('#ATTACH_ID').textbox({
-        width: 350,
-        height: 25,
-        type:'text',
+    /*$('#file').textbox({
         required: false,
         maxlength: 10,
         readonly: false,
@@ -268,18 +272,67 @@ $(function(){
         labelWidth: 100,
 		labelPosition: 'before',
 		labelAlign: 'left',
+    });*/
+	$('#ATTACH_ID').textbox({
+		required: false,
+        maxlength: 10,
+        readonly: false,		
         onChange: function(newValue,oldValue){
+			debugger;
+			var imgUrl = "";
+			if(newValue==""||newValue==null){
+				imgUrl = "/static/img/common/noimg.jpg";
+			}
+			else{
+				var attachSn = 0; 
+				imgUrl = "/cmm/fms/getImage.do?atchFileId="+newValue+"&fileSn="+attachSn;
+			}
+			$("#picture").attr("src", imgUrl);
             if(!jv_rowclick) return false;
             $.uf_chkphoto(newValue);
         }
     });
-    $('#file_btn').linkbutton({
+
+	$("#file_1").change(function(){
+	   
+	});
+
+	
+    $('#filebtn').linkbutton({
         height: 24,
         iconCls: 'icon-save'
 	});
-    $('#file_btn').bind('click', function(){
+    $('#filebtn').bind('click', function(){
         // 사진 파일 선택 버튼
-        $.tracomalmsg('정보','파일 업로드는 작업중입니다.');
+ 	  event.preventDefault();
+	  var form = $("#filefrm")[0];
+	  var formData = new FormData(form); 			
+
+	   $('#path').val("SI0300"); //저장시 파일 경로
+
+        $.ajax({
+            type: 'POST',
+            enctype: 'multipart/form-data',
+            url: '/cm/fileUploadAction',
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function (data) {
+				debugger;
+				$('#ATTACH_ID').textbox('setValue',data.rows[0].atchFileId);
+  				
+  				
+                $('#filebtn').prop('disabled', false);
+                //$('#file_input_SI0102').val("");
+                //$('#fileUpload_SI0102').window('close');
+            },
+            error: function (e) {
+                //$('#result').text(e.responseText);
+                console.log('ERROR : ', e);
+                $('#filebtn').prop('disabled', false);
+            }
+        });
     });
 	$('#REMARK').textbox({
         width: 500,

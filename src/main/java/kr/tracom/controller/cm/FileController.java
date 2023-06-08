@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -47,9 +48,12 @@ public class FileController extends ControllerSupport {
 //	FileService fileService;
 	
 	@PostMapping("/cm/fileUploadAction")
-	public @ResponseBody Map<String, Object> fileUploadAction(MultipartHttpServletRequest multiRequest) {
+	public @ResponseBody Map<String, Object> fileUploadAction(MultipartHttpServletRequest multiRequest, HttpServletRequest request) {
 		try {
-			String path = "";
+			String path = (String)request.getParameter("path");
+			if(CommonUtil.empty(path)) {
+				path = "FILE";
+			}
 			List<FileVO> resultValue = null;
 			//fileService.uploadFile(multiRequest);
 			
@@ -61,7 +65,7 @@ public class FileController extends ControllerSupport {
 		         //result =fileUtil.parseFileInf(files, "BBS_", 0, "", "NOTICE");
 		         //atchFileId = fileMngService.insertFileInfs(result);
 //		         String checkResult = fileUtil.checkUploadFile(files,"NOTICE");
-		         String checkResult = fileUtil.checkUploadFile(files,"NOTICE",0);
+		         String checkResult = fileUtil.checkUploadFile(files,path,0);
 		           if(checkResult.contains("fail"))
 		           {
 //		              redirectAttr.addFlashAttribute("resultMsg", checkResult);
@@ -75,15 +79,15 @@ public class FileController extends ControllerSupport {
 //		             }
 		           }
 		           if(CommonUtil.empty(checkResult)) {
-		        	   resultValue = fileUtil.parseFileInf(files, "FILE_", 0, "", "FILE");
+		        	   resultValue = fileUtil.parseFileInf(files, "FILE_", 0, "", path);
 		           }
 		           else {
 		        	   resultValue = fileUtil.parseFileInf(files, "FILE_", 0, "", path);
 		           }
 		           //atchFileId = fileMngService.insertFileInfs(result);   
 		           atchFileId = fileService.insertFileInfs(resultValue);  
-		           result.setData("PLF_MULTI_ATTACH_MST", resultValue);
-		           result.setMsg(result.STATUS_SUCESS, "Read PLF_MULTI_ATTACH_MST");
+		           result.setData("rows", resultValue);
+		           result.setMsg(result.STATUS_SUCESS, "Read rows");
 		      }
 		      
 		      

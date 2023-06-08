@@ -1,7 +1,7 @@
 <!-- 
-íë¡ê·¸ë¨ëª : ì´ì ì ê´ë¦¬ 
-ìì±ì : ë°ìì©
-ìì±ì¼ : 2023.04.18
+프로그램명 : 운전자 관리 
+작성자 : 박원용
+작성일 : 2023.04.18
 -->
 <!DOCTYPE html>
 <html>
@@ -33,7 +33,7 @@
         return true;
     }
     $.pf_combineparams = function(a_obj){
-    	//ë°ì´í° ì¡°íì íë¼ë¯¸í°ë¥¼ ì í¨.
+    	//데이터 조회시 파라미터를 정함.
         let rtn_params;
         let v_searchVal = $('#sch_sb0').searchbox('getValue');
         if(a_obj.attr('id') == "dg0") rtn_params = {"TYPE" : "ALL", "CONTENT" : v_searchVal};
@@ -41,7 +41,7 @@
         return rtn_params;
     };
     $.pf_defaultparams = function(a_obj){
-    	//ë°ì´í° ì¶ê°ì defaultê°ì ì í¨.
+    	//데이터 추가시 default값을 정함.
         let rtn_params; 
         if(a_obj.attr('id') == "dg0") rtn_params = {DRV_ID:$.jf_seqdgdata('/si/SI0300G0K0','post'), GPS_X : 0, GPS_Y : 0, TM_X: 0, TM_Y : 0};
         return rtn_params;
@@ -49,21 +49,21 @@
     $.pf_acceptcfmsg = function(a_type){
         if(a_type == 'save'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){$.jf_savedgdata($('#dg0'), '/si/SI0300G0S0', 'post', null);}
-            else{$.tracomalmsg('ì ë³´', 'ë°ì´í°ê° ì ìì ì´ì§ ìì ì ì¥í  ì ììµëë¤.', null);}
+            else{$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);}
         }
         else if(a_type == 'close'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
                 $.jf_savedgdata($('#dg0'), '/si/SI0300G0S0', 'post', null);  
                 $.jf_close();
             }
-            else $.tracomalmsg('ì ë³´', 'ë°ì´í°ê° ì ìì ì´ì§ ìì ì ì¥í  ì ììµëë¤.', null);  
+            else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);  
         }
         else if(a_type == 'search'){
             if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
                 if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), '/common/updateCommonCo', 'post', 'search');
                 $.jf_retrieve($('#dg0'));
             }
-            else $.tracomalmsg('ì ë³´', 'ë°ì´í°ê° ì ìì ì´ì§ ìì ì ì¥í  ì ììµëë¤.', null);
+            else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
         return true;
     };
@@ -76,7 +76,7 @@
         if(a_type == 'close') $.jf_close();
         return true;
     };
-    // ê¸°ë¥ : ì¬ì§, í´ì§, í´ì¬ ì¤ í´ì¬ë¥¼ ê³¨ëì ë í´ì§ì¼ì ì íí  ì ìë dateboxíì±í íë¤
+    // 기능 : 재직, 휴직, 퇴사 중 퇴사를 골랐을 때 퇴직일을 선택할 수 있는 datebox활성화 한다
     $.uf_chkeply = function(){
         let v_eplyvalue = $('#EPLY_YN').combobox('getValue');
         if(v_eplyvalue != "EY002"){
@@ -87,23 +87,23 @@
 
         return true;
     };
-    // ê¸°ë¥ : ì¬ì§ì¬ë¶ ì íìì í´ì¬ ì¸ì ì íìíë©´ í´ì§ì¼ ì íì ë§ìì¤ë¤
+    // 기능 : 재직여부 선택에서 퇴사 외의 선택을하면 퇴직일 선택을 막아준다
     $.uf_chkretiredate = function(){
         let v_eplydate = $('#EPLY_DATE1').datebox('getValue');
         let v_eplyyn = $('#EPLY_YN').combobox('getText');
-        if(v_eplyyn == 'í´ì¬'){
+        if(v_eplyyn == '퇴사'){
             $('#RETIRE_DT').datebox('setValue',v_eplydate);
-        }else if(v_eplyyn != 'í´ì¬'){
+        }else if(v_eplyyn != '퇴사'){
             $('#RETIRE_DT').datebox('setValue','');
         }
     };
-    // ê¸°ë¥ : ì¬ì§ì¬ë¶ì ë ì§ê° ìì¬ì¼ ë³´ë¤ ë®ê² ì¤ì íì§ ëª»íê² ë§ìì¤ë¤.
+    // 기능 : 재직여부의 날짜가 입사일 보다 낮게 설정하지 못하게 막아준다.
     $.uf_chkretiredt = function(a_value){
         let rtn_value;
 
         let v_fromdate = $('#EPLY_DATE1').datebox('getValue');
         let v_eplyyn = $('#EPLY_YN').combobox('getText');
-        if(v_eplyyn == 'í´ì¬'){
+        if(v_eplyyn == '퇴사'){
             if(v_fromdate.length < 1) rtn_value = false;
             else if(a_value < v_fromdate){
                 $('#RETIRE_DT').datebox('setValue', v_fromdate);
@@ -114,8 +114,8 @@
         } 
         return rtn_value;
     }
-    // ê¸°ë¥ : ì¬ì§ ì¡´ì¬ ì¬ë¶ íì¸ (ì²¨ë¶ ìì´ëì ì¬ë¶ë¡ ììë¸ë¤)
-    // gridì ìµì¡° load ë ë ì²¨ë¶ ìì´ë(ATTACH_ID)ê° ìë ìë ìì Y/N ì¬ë¶ê° ëëë¤.
+    // 기능 : 사진 존재 여부 확인 (첨부 아이디의 여부로 알아낸다)
+    // grid에 최조 load 될때 첨부 아이디(ATTACH_ID)가 있냐 없냐 에서 Y/N 여부가 나뉜다.
     $.uf_chkphoto = function(a_value){
         let v_vals;
         let v_idx = $('#dg0').datagrid('getRowIndex',$('#dg0').datagrid('getSelected'));
@@ -125,7 +125,6 @@
             v_vals = $.jf_singledatatojson("ATTACH_YN", "N");
         }
         $('#dg0').datagrid('updateRow',{index:v_idx,row:v_vals});
-        íì¤, ì§ì´, ì§ì°, íí¸, ì ì°¬
         return true;
     }
 	</script>
@@ -137,14 +136,14 @@
             <div class="easyui-layout" data-options="fit:true" >
                 <div data-options="region:'center', border:true">
                     <!-- search panel -->
-                    <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'ë¡ë©ì¤...'">
+                    <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- search js -->
                     <script src="/static/js/SI0300/SI0300_sch_searchbox0.js"></script>
                 </div>
                 <div data-options="region:'east', border:true, maxWidth:1000, minWidth:1000">
                     <!-- btn0 panel -->
-                    <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'ë¡ë©ì¤...'">
+                    <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- btn0 js -->
                     <script src="/static/js/SI0300/SI0300_btn0.js"></script>
@@ -156,7 +155,7 @@
                 <form id="ef0" style="border:0px solid red;">
                 <div data-options="region:'north', border:true, minHeight:350, maxHeight:350">
                     <!-- form panel -->
-                    <div id="fm_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'ë¡ë©ì¤...'">
+                    <div id="fm_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- form js -->
                     <script src="/static/js/SI0300/SI0300_editform0.js"></script> 
@@ -164,7 +163,7 @@
                 </form>
                 <div data-options="region:'center', border:true">
                     <!-- dg panel -->
-                    <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'ë¡ë©ì¤...'">
+                    <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- dg js -->
                     <script src="/static/js/SI0300/SI0300_dg0.js"></script>

@@ -244,9 +244,9 @@ public class EgovFileMngUtil {
 			Entry<String, MultipartFile> entry = itr.next();
 			String subKey = entry.getKey();
 			String suffixStr = subKey.substring(subKey.lastIndexOf("_") + 1);
-			suffixStr = suffixStr.substring(2);
-			//int subKeyIndex = Integer.parseInt(subKey.substring(subKey.lastIndexOf("_") + 1))-1;
-			int subKeyIndex = Integer.parseInt(suffixStr)-1;
+			//suffixStr = suffixStr.substring(2);
+			int subKeyIndex = Integer.parseInt(subKey.substring(subKey.lastIndexOf("_") + 1))-1;
+			//int subKeyIndex = Integer.parseInt(suffixStr)-1;
 			file = entry.getValue();
 			String orginFileName = file.getOriginalFilename();
 
