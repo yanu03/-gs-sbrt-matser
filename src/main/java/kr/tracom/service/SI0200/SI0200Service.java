@@ -1,5 +1,6 @@
 package  kr.tracom.service.SI0200;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,8 +9,10 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import kr.tracom.mapper.SI0200.SI0200Mapper;
+import kr.tracom.platform.common.util.CommonUtil;
 import kr.tracom.support.ServiceSupport;
 import kr.tracom.support.exception.MessageException;
+import kr.tracom.util.Constants;
 import kr.tracom.util.Result;
 
 @Service
@@ -20,6 +23,21 @@ public class SI0200Service extends ServiceSupport {
 	
 	public List SI0200G0R0() throws Exception {
 		Map<String, Object> map = getSimpleDataMap("dma_search");
+		return si0200Mapper.SI0200G0R0(map);
+	}
+	
+	public List SI0200G0_exlDownload() throws Exception {
+		String param = (String)request.getAttribute("param");
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(CommonUtil.empty(param)) {
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", "");
+		}
+		else {
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", param);
+		}
+
 		return si0200Mapper.SI0200G0R0(map);
 	}
 	

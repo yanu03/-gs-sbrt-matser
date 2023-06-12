@@ -11,8 +11,6 @@ var js_dgstrct = [];	//다차원 array
 
 var js_mdstrct = [];	//win, form, value로 구성된 데이터
 
-var js_menulist = []; //메뉴리스트
-
 $.jf_moddgstrct = function(a_obj, a_idx){
 	for(let i=0; i<js_dgstrct.length; i++){
 		if(js_dgstrct[i].dg == a_obj.attr('id')){
@@ -428,9 +426,10 @@ $.jf_synctoform = function(a_obj, a_form, a_idx, a_row){
 	$.jf_moddgstrct(a_obj, a_idx);
 	//jv_editindex = a_idx;
 	
-	a_form.find('.easyui-combobox').each(function(){
+	a_form.find('.tracom-combobox').each(function(){
 		$(this).combobox('clear');
 	});
+	
 	$.jf_protectform(a_obj, a_form, false, a_idx);
 	// a_form.form('clear');
 	a_form.form('load', a_row);
@@ -515,12 +514,69 @@ $.jf_close = function(){
 	return true;
 }
 
-$.jf_exceldownlod = function(a_obj){
+//데이타 갱신
+$.jf_reupdate = function(a_obj, exl_obj){
 	
+	var data = $.jf_getdata(a_obj);
+	for(var i=data.length-1; i>=0; i--){
+		//let index = a_obj.datagrid('getRowIndex',i);
+		a_obj.datagrid('deleteRow',i);
+	}
+	
+	for(var i=0; i<exl_obj.length; i++){
+	   a_obj.datagrid('insertRow',{
+			index : i,
+			row: exl_obj[i]
+		});
+	};
 }
 
-$.jf_excelupload = function(a_obj){
-	
+$.jf_exceldownload = function(a_obj, url){
+	$.fileDownload(url)
+	.done(function () {})
+	.fail(function () {});
+}
+
+$.jf_excelupload = function(a_obj, a_form, url){
+	$.ajax({
+		type: 'POST',
+		enctype: 'multipart/form-data',
+		url: url,
+		data: a_form,
+		processData: false,
+		contentType: false,
+		cache: false,
+		success: function(data) {
+			$.jf_reupdate(a_obj,  data['rows']);
+		},
+		error: function(e) {
+			console.log('ERROR : ', e);
+		}
+	});
+}
+
+$.jf_getcurauthority = function(){
+	let v_arraylist = top.$.jf_getprogramauthority();
+	for(var i=0; i<v_arraylist.length; i++){
+		let curtabid = $.jf_curtabid();
+		if(v_arraylist[i].PROG_CD == curtabid){
+			return v_arraylist[i];
+		}
+	}
+}
+
+//권한 저장 여부
+$.jf_savah = function(){
+	let v_authorit = $.jf_getcurauthority();
+	return v_authorit.SAV_AH;
+}
+
+
+
+
+$.jf_curtabid = function(){
+   let v_tabPanel = top.$('#tab-main').tabs('getSelected');
+   return v_tabPanel.panel('options').id;
 }
 
 $.jf_curtabindex = function(a_tabs){
@@ -826,6 +882,12 @@ $.jf_savedgdata = function(a_obj, a_url, a_method, a_action) {
 	let deletedParam = a_obj.datagrid('getChanges', 'deleted');
 	let param = [];
 
+	if(deletedParam.length>0) {
+		for(let i=0; i<deletedParam.length; i++) {
+			deletedParam[i].rowStatus = "D";
+			param.push([...deletedParam][i]);
+		}
+	}
 	if(insertedParam.length>0) {
 		for(let i=0; i<insertedParam.length; i++) {
 			insertedParam[i].rowStatus = "C";
@@ -837,12 +899,6 @@ $.jf_savedgdata = function(a_obj, a_url, a_method, a_action) {
 		for(let i=0; i<updatedParam.length; i++) {
 			updatedParam[i].rowStatus = "U";
 			param.push([...updatedParam][i]);
-		}
-	}
-	if(deletedParam.length>0) {
-		for(let i=0; i<deletedParam.length; i++) {
-			deletedParam[i].rowStatus = "D";
-			param.push([...deletedParam][i]);
 		}
 	}
 	if(param.length <= 0) {
@@ -1002,7 +1058,9 @@ $.jf_fndmdstrct = function(a_win){
 }
 
 $.jf_protectform = function(a_obj, a_form, a_bool, a_idx, a_type){
-	if(typeof(a_form) == "undefined") return false;
+
+	if(a_bool!=true&&$.jf_savah()!='Y')return; //저장권한이 없으면 protect를 동작할수 없음
+		if(typeof(a_form) == "undefined") return false;
 	// $.jf_resetdgidx(a_obj);
 	if(a_idx < 0) a_bool = true;
 	// if(a_type == 'nodata') {
@@ -1031,8 +1089,12 @@ $.jf_protectform = function(a_obj, a_form, a_bool, a_idx, a_type){
 	a_form.find('.tracom-numberbox').each(function(){
 		$(this).numberbox({disabled:a_bool, value:null});
 	});
+
 	a_form.find('.tracom-numberspinner').each(function(){
 		$(this).numberspinner({disabled:a_bool, value:null});
+	});
+	a_form.find('.tracom-useyn').each(function(){
+		$(this).radiobutton({disabled:a_bool, value:null});
 	});
 	return true;
 }
@@ -1329,10 +1391,17 @@ $.jf_bgajax = function(a_url, a_method, a_param, a_type){
 }
 
 
-$.jf_setmenulist = function(a_menulist){
-	js_menulist = a_menulist;
-}
-
-$.jf_getmenulist = function(){
-	return js_menulist;
-}
+/*$.jf_disableform = function(a_form, a_value) {
+    a_form.find('.tracom-textbox').each(function() {
+        $(this).textbox('readonly', a_value);
+    });
+    a_form.find('.tracom-combobox').each(function() {
+        $(this).combobox('readonly', a_value)
+    });
+    a_form.find('.tracom-datebox').each(function() {
+        $(this).datebox('readonly', a_value)
+    });
+    a_form.find('.tracom-numberbox').each(function() {
+        $(this).numberbox('readonly', a_value)
+    });
+}*/

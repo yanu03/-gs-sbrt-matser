@@ -76,7 +76,7 @@
                b.linkbutton({
                    onClick:function(){
                 	   if(typeof item.PROG_CD != "undefined"){
-                   	   	jf_addtab(item.MENU_CD, "/static/ui"+item.PROG_PH.split('.')+'jsp', item.text);
+                   	   	jf_addtab(item.PROG_CD, "/static/ui"+item.PROG_PH.split('.')+'jsp', item.text);
                    	   }
                       //location.href = btn.PROG_PH;
                       //debugger;
@@ -101,7 +101,7 @@
                    m.menu({
                        onClick:function(item){
                     	   if(typeof item.PROG_CD != "undefined"){
-                    		   jf_addtab(item.MENU_CD, "/static/"+item.PROG_PH.split('.')+'.jsp', item.text);
+                    		   jf_addtab(item.PROG_CD, "/static/"+item.PROG_PH.split('.')+'.jsp', item.text);
                     	   }
                           //content.createProgram(item.MENU_CD, item.PROG_CD, item.PROG_PH, item.text);
                        }

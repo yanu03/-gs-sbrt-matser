@@ -15,6 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/static/jquery/jquery.fileDownload-1.4.5.js"></script> 
 	<script src="/static/js/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {});
@@ -70,6 +71,11 @@
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
+        else if(a_type == 'excelupload'){
+  		  $("#excelupload_p0").window('open');
+		  $("#excelinputfile").val('');
+        }
+
         return true;
     };
     $.pf_rejectcfmsg = function(a_type){
@@ -101,6 +107,12 @@
                     </div>
                     <!-- btn0 js -->
                     <script src="/static/js/SI0200/SI0200_btn0.js"></script>
+                    <div id="excelupload_p0" class="easyui-window" title="엑셀 업로드" data-options="modal:true,closed:true,iconCls:'icon-save'"
+                    	style="width:500px;height:200px;padding:10px;">
+                    	<form id="excelfrm" name="excelfrm" method="post" enctype="multipart/form-data">
+				<input id="excelinputfile" name="excelinputfile" type="file"/>
+			</form>
+		    </div>; 
                 </div>
             </div>
         </div>

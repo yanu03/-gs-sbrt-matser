@@ -54,9 +54,20 @@ public class Result {
 		resultMap.put("rows", data);
 	}
 
+
 	public void setData(String id, Map data) {
 		resultMap.put(id, data);
-		resultMap.put("rows", data);
+		if(id!=null&&"rows".equals(id)==false) {
+			resultMap.put("rows", data);
+		}
+	}
+	public void setDataNotRows(String id, String data[]) {
+		resultMap.put(id, data);
+	}
+	
+	//rows를 put 하지 않음
+	public void setDataNotRows(String id, Map data) {
+		resultMap.put(id, data);
 	}
 
 	public void setData(String id, List data) {
@@ -67,6 +78,11 @@ public class Result {
 		}
 	}
 
+	//rows를 put 하지 않음
+	public void setDataNotRows(String id, List data) {
+		resultMap.put(id, data);
+	}
+	
 	public Map<String, Object> getResult() {
 		if (resultMap.get(MESSAGE_KEY) == null) {
 			setMsg(STATUS_SUCESS);

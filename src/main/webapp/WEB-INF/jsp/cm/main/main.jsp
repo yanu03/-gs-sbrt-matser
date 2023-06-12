@@ -10,66 +10,62 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/demo/demo.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script type="text/javascript" src="/static//js/sample_comm.js"></script>
+	<script type="text/javascript" src="/static//js/common/main_comm.js"></script>
 	
-		<script type="text/javascript">
- 			var jf_addtab = function(a_menucd, a_pgmcode, a_str){
- 				 if($('#tab-main').tabs('getTab', 20)!=null) return false;
- 				 
- 				 //동일한 title의 tab이 열리지 않도록 한다.
- 				 if($('#tab-main').tabs('getTab', a_str)!=null) return false;
- 				 
- 				//var tabbody = $('<div class="easyui-panel" data-options="fit:true,border:false" style="padding:0 0 0 0;overflow:hidden;"></div>').attr("id", "tab_" + a_menucd).load(a_pgmcode);
- 				//var tabbody = $('<div class="easyui-panel"></div>').attr("id", "tab_" + a_menucd).load(a_pgmcode);
- 				
- 				/* $('#tab-main').tabs('add',{
- 					id : "tab_"+a_menucd,
- 			        title: a_str,
- 			        content: tabbody,
- 			        closable: true
- 			    }); */ 
- 				
- 				/* setTimeout(function tick() {
- 					$('#tab-main').tabs('add',{
- 	 					id : "tab_"+a_menucd,
- 	 			        title: a_str,
- 	 			        content: tabbody,
- 	 			        closable: true
- 	 			    });
- 				}, 500); */
- 				$('#tab-main').tabs('add',{
-			        //id : a_pgmcode,
-			        title: a_str,
-			        content: '<div class="easyui-panel" data-options="fit:true,border:false" style="padding:0 0 0 0;overflow:hidden;"><object data="'+a_pgmcode+'" type="text/html" style="border:0px;width:100%;height:100%;"></object></div>',
-			        closable: true
-         		}); 
- 			}
-
-
-		$( document ).ready(function() {
+	<script type="text/javascript">
+		var jf_addtab = function(a_progcd, a_pgmcode, a_str) {
+			debugger;
+			var authority = $.jf_getcurauthority(a_progcd);
 			
-			var a = function() {
-				alert(1);
+			if(authority.SCH_AH!="Y"){
+				$.tracomalmsg('정보','조회 권한이 없습니다.');
+				return;
 			}
-			$.ajax({
-				type : "POST",
-				data : JSON.stringify({
-					dma_search : {}
-				}),
-				url : "/main/allMenuInfo",
-				dataType : "json",
-				contentType : 'application/json; charset=utf-8',
-				success : function(response) {
-					//debugger;
-					//menuList = response.rows;	            
-					$.jf_setmenulist(response.rows);
-					$('#main_panel').panel('refresh', '/static/layout/main_layout.jsp');
-				},
-				error : function(response, textStatus, jqXHR) {
-				}
+			
+			if ($('#tab-main').tabs('getTab', 20) != null)
+				return false;
+
+			//동일한 title의 tab이 열리지 않도록 한다.
+			if ($('#tab-main').tabs('getTab', a_str) != null)
+				return false;
+
+			$('#tab-main').tabs('add',{
+				id : a_progcd,
+				title : a_str,
+				content : '<div class="easyui-panel" data-options="fit:true,border:false" style="padding:0 0 0 0;overflow:hidden;"><object data="'
+						+ a_pgmcode
+						+ '" type="text/html" style="border:0px;width:100%;height:100%;"></object></div>',
+				closable : true
 			});
-		});
-		</script>
+		}
+
+		$(document).ready(
+			function() {
+
+				var a = function() {
+					alert(1);
+				}
+				$.ajax({
+					type : "POST",
+					data : JSON.stringify({
+						dma_search : {}
+					}),
+					url : "/main/init",
+					dataType : "json",
+					contentType : 'application/json; charset=utf-8',
+					success : function(response) {
+						//menuList = response.rows;	            
+						$.jf_setmenulist(response.list_menu);
+						//$.jf_setdefInfo(response.map_defInfo);
+						$.jf_setprogramauthority(response.list_programAuthority);
+						$('#main_panel').panel('refresh','/static/layout/main_layout.jsp');
+					},
+					error : function(response, textStatus,
+							jqXHR) {
+					}
+				});
+			});
+	</script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">
 <!--최상이 div -->

@@ -127,6 +127,45 @@
         $('#dg0').datagrid('updateRow',{index:v_idx,row:v_vals});
         return true;
     }
+    
+
+	$.uf_preview = function(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				document.getElementById('picture').src = e.target.result;
+			};
+			reader.readAsDataURL(input.files[0]);
+		} else {
+			document.getElementById('picture').src = "";
+		}
+	}
+	
+	/* $.uf_filesave = function(input) {
+		var form = $("#filefrm")[0];
+		var formData = new FormData(form);
+
+		$('#path').val("SI0300"); //저장시 파일 경로
+
+		$.ajax({
+			type : 'POST',
+			enctype : 'multipart/form-data',
+			url : '/cm/fileUploadAction',
+			data : formData,
+			processData : false,
+			contentType : false,
+			cache : false,
+			success : function(data) {
+				debugger;
+				$('#ATTACH_ID')
+						.textbox('setValue', data.rows[0].atchFileId);
+			},
+			error : function(e) {
+				//$('#result').text(e.responseText);
+				console.log('ERROR : ', e);
+			}
+		});
+	} */
 	</script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">

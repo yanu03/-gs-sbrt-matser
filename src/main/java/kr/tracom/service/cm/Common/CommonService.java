@@ -53,6 +53,9 @@ public class CommonService extends ServiceSupport {
 		return commonMapper.selectProgramAuthorityList(param);
 	}	
 	
+	public List selectColumnTable(Map param) throws Exception {
+		return commonMapper.selectColumnTable(param);
+	}
 
 	/**
 	 * 공통그룹 조회

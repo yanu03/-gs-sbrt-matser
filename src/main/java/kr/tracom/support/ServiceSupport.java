@@ -352,6 +352,12 @@ public class ServiceSupport extends EgovAbstractServiceImpl {
 		return getSimpleDataMap(key, false);
 	}
 
+	protected Map<String, Object> getSimpleDataExcel(String key) throws Exception
+	{
+		Object obj = request.getAttribute(key);
+		return (Map<String, Object>) obj;
+	}
+	
 	/**
 	 * DataList를 취득합니다.<br/>
 	 * DataList형 자료는 rowStatus(행상태)가 포함되어 옵니다.<br/>

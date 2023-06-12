@@ -13,6 +13,7 @@ $(function(){
 	$('#btn_panel0').append('<a id="btn4" href="#">취소</a>&nbsp;');
 	$('#btn_panel0').append('<a id="btn5" href="#">저장</a>&nbsp;');
 	$('#btn_panel0').append('<a id="btn6" href="#">닫기</a>');
+	$('#btn_panel0').append('<a id="btn7" href="#">엑셀</a>&nbsp;');
 	
 	// $('#btn0').linkbutton({
     //     height: 24,

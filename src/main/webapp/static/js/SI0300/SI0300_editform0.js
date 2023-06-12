@@ -63,7 +63,7 @@ $(function(){
     $('#fm_panel0').append('<input id="ATTACH_ID" type="hidden" name="ATTACH_ID">');
 	var str = '<form id="filefrm" name="filefrm" method="post" enctype="multipart/form-data">'
 			+ '<input id="path" type="hidden" name="path" >'
-			+ '<input id="file_1" type="file" name="file_1">'
+			+ '<input id="file_1" type="file" name="file_1" onchange="$.uf_preview(this);" >'
 			+ '<a id="filebtn" href="#"></a><p>'
 			+ '</form>'
     $('#fm_panel0').append(str);
@@ -292,18 +292,12 @@ $(function(){
             $.uf_chkphoto(newValue);
         }
     });
-
-	$("#file_1").change(function(){
-	   
-	});
-
 	
     $('#filebtn').linkbutton({
         height: 24,
         iconCls: 'icon-save'
 	});
     $('#filebtn').bind('click', function(){
-        // 사진 파일 선택 버튼
  	  event.preventDefault();
 	  var form = $("#filefrm")[0];
 	  var formData = new FormData(form); 			
@@ -324,8 +318,6 @@ $(function(){
   				
   				
                 $('#filebtn').prop('disabled', false);
-                //$('#file_input_SI0102').val("");
-                //$('#fileUpload_SI0102').window('close');
             },
             error: function (e) {
                 //$('#result').text(e.responseText);

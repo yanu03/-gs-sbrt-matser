@@ -84,9 +84,9 @@ $(function(){
     $('#fm_panel0').append('<input id="VHC_TYPE" class="tracom-combobox" name="VHC_TYPE">&nbsp;&nbsp;');
     $('#fm_panel0').append('<input id="VHC_KIND" class="tracom-combobox" name="VHC_KIND">&nbsp;&nbsp;');
     $('#fm_panel0').append('<input id="VHC_FUEL" class="tracom-combobox" name="VHC_FUEL">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="PSG_CNT" class="tracom-numberspinner"name="PSG_CNT">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="USE_YN_Y" name="USE_YN">');
-    $('#fm_panel0').append('<input id="USE_YN_N" name="USE_YN"><p>');
+    $('#fm_panel0').append('<input id="PSG_CNT" class="tracom-numberspinner" name="PSG_CNT">&nbsp;&nbsp;');
+    $('#fm_panel0').append('<input id="USE_YN_Y" class="tracom-useyn" name="USE_YN">');
+    $('#fm_panel0').append('<input id="USE_YN_N" class="tracom-useyn" name="USE_YN"><p>');
     $('#fm_panel0').append('<input id="REMARK" class="tracom-textbox" name="REMARK">&nbsp;&nbsp;');
 	
 	$('#fm_panel0').append('</table>');

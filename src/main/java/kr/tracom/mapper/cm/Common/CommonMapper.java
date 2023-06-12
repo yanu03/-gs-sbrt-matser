@@ -59,7 +59,8 @@ public interface CommonMapper {
 	//시스템코드
 	public List<Map> selectSystemList(Map param);
 
-
+	public List<Map> selectColumnTable(Map param);
+	
 	/**
 	 * 그룹코드로 세부코드 정보 한번에 삭제하기
 	 * 

@@ -135,12 +135,12 @@ public class MainController extends ControllerSupport{
 				defInfo.put(Constants.SSN_IS_ADMIN, "N");
 			}
 			
-			int curSystem = (int)user.getCurSystem();
-			if(curSystem==0)curSystem=1;
-			defInfo.put(Constants.SSN_CUR_SYSTEM, curSystem);
-			defInfo.put(Constants.SSN_SYSTEM_BIT, user.getSystemBit());
+			//int curSystem = (int)user.getCurSystem();
+			//if(curSystem==0)curSystem=1;
+			//defInfo.put(Constants.SSN_CUR_SYSTEM, curSystem);
+			//defInfo.put(Constants.SSN_SYSTEM_BIT, user.getSystemBit());
 			
-			memberParam.put(Constants.SSN_SYSTEM_BIT, curSystem);
+			//memberParam.put(Constants.SSN_SYSTEM_BIT, curSystem);
 			memberParam.put("LEVEL", 1);
 			
 			//menuList = commonService.selectMenuList(memberParam);
@@ -150,21 +150,21 @@ public class MainController extends ControllerSupport{
 				List<Map<String, Object>> subMenuList = null;
 				Map subParam = user.getUserInfoByBase();
 				subParam.put("PARENT_MENU_CD", menuItem.get("MENU_CD"));
-				subParam.put(Constants.SSN_SYSTEM_BIT,curSystem);
+				//subParam.put(Constants.SSN_SYSTEM_BIT,curSystem);
 				subMenuList	= commonService.selectMenuListByLevel(subParam);
 				for(Map<String, Object>subMenuItem:subMenuList) {
 					List<Map<String, Object>> subMenuList2 = null;
 					Map subParam2 = user.getUserInfoByBase();
 					subParam2.put("PARENT_MENU_CD", subMenuItem.get("MENU_CD"));
-					subParam2.put(Constants.SSN_SYSTEM_BIT,curSystem);
-					subMenuList2	= commonService.selectMenuListByLevel(subParam2);
+					//subParam2.put(Constants.SSN_SYSTEM_BIT,curSystem);
+					subMenuList2 = commonService.selectMenuListByLevel(subParam2);
 					subMenuItem.put("items", subMenuList2);
 				}
 				menuItem.put("items", subMenuList);
 			}
-			result.setData("list_menu", menuList);
-			result.setData("map_defInfo", defInfo);
-			result.setData("list_programAuthority", commonService.selectProgramAuthorityList(memberParam));
+			result.setDataNotRows("list_menu", menuList);
+			result.setDataNotRows("map_defInfo", defInfo);
+			result.setDataNotRows("list_programAuthority", commonService.selectProgramAuthorityList(memberParam));
 			result.setMsg(result.STATUS_SUCESS, "메뉴정보가 조회 되었습니다.");
 		} catch (Exception ex) {
 			ex.printStackTrace();
