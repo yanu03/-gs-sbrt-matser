@@ -32,21 +32,25 @@ $(function(){
     $('#btn0').bind('click', function(){
 		//조회 endedit 태우는 방법을 찾아라!
 		if($.jf_changeddg($('#dg0'), 'all')) {
-			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
+			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'search');
 		}else{
 			$.jf_retrieve($('#dg0'));	
         }
     });
     $('#btn1').bind('click', function(){
-        $.jf_resetdg($('#dg1'));
-        $.jf_resetdg($('#dg2'));
+        if($.jf_changeddg($('#dg2'), null)) {
+			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
+		}else{
+			$.jf_resetdg($('#dg1'));
+            $.jf_resetdg($('#dg2'));
+		}
     });
     $('#btn2').bind('click', function(){
         $.jf_savedgdata($('#dg2'), '/al/AL0105G2S0', 'post', null);
     });
     $('#btn3').bind('click', function(){
         if($.jf_changeddg($('#dg2'), null)) {
-            $.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
+            $.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'close');
         }else{
             $.jf_close();
         }

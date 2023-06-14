@@ -232,7 +232,7 @@ $(function(){
         label:'메일',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
-            $.uf_chknumber(newValue, "EMAIL");
+            // $.uf_chknumber(newValue, "EMAIL");
         }
     });
     $('#DRV_CNT').numberbox({

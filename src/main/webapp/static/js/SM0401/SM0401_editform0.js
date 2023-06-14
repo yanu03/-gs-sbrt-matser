@@ -38,6 +38,12 @@ $(function(){
           a_arrvalue =  new Array($('#JOB_DUTY').textbox('getValue'), $('#JOB_DUTY').textbox('getText'));
           a_vals = $.jf_multidatatojson(a_arrfield, a_arrvalue);	//arr arr ?޾Ƽ? ó?? ?ϴ? ???? ????
           break;
+        case "USE_YN_Y":	//radio sample
+        case "USE_YN_N":
+          if($(target).radiobutton('options').checked){
+              a_vals = $.jf_singledatatojson('status', $(target).radiobutton('options').value);
+          } 
+          break;
         default:
           if(!$(target).textbox('isValid')){$(target).textbox('clear'); break;}
           a_vals = $.jf_singledatatojson(target.id, $(target).textbox('getValue'));
@@ -59,7 +65,7 @@ $(function(){
   $('#fm_panel0').append('<input id="JOB_DUTY" class="tracom-combobox" name="JOB_DUTY">&nbsp;&nbsp;');
   $('#fm_panel0').append('사용여부&nbsp;<input id="USE_YN_Y" class="tracom-radiobutton" name="USE_YN">');
   $('#fm_panel0').append('<input id="USE_YN_N" class="tracom-radiobutton" name="USE_YN"><p>');
-  $('#fm_panel0').append('<input id="USER_PS" class="tracom-textbox" name="USER_PS">');
+  $('#fm_panel0').append('<input id="NEW_USER_PS" class="tracom-textbox" name="NEW_USER_PS">');
   $('#fm_panel0').append('<input id="CHK_USER_PS" class="tracom-textbox" name="CHK_USER_PS"><p>');
   $('#fm_panel0').append('<input id="REMARK" class="tracom-textbox" name="REMARK">');
 	
@@ -184,7 +190,7 @@ $(function(){
 		}
 	});
   
-  $('#USER_PS').textbox({
+  $('#NEW_USER_PS').textbox({
     width: 300,
     height: 25,
     type:'password',
@@ -192,7 +198,7 @@ $(function(){
     maxlength: 100,
     readonly: false,
     value:'',
-    label: '새 비밀번호',
+    label: '비밀번호',
     labelWidth: 130,
     labelAlign: 'right',
     onChange: function(newValue,oldValue){

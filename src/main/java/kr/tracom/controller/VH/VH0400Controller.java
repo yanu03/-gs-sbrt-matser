@@ -20,13 +20,13 @@ public class VH0400Controller extends ControllerSupport {
 
 	@RequestMapping("/vh/VH0400G0R0")
 	public @ResponseBody Map<String, Object> VH0400G0R0() throws Exception {
-		result.setData("dlt_BMS_OPER_EVENT_HIS", vh0400Service.VH0400G0R0());
+		result.setData("rwos", vh0400Service.VH0400G0R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/vh/VH0400EVT")
 	public @ResponseBody Map<String, Object> VH0400EVT() throws Exception {
-		result.setData("dlt_evtType", vh0400Service.VH0400EVT());
+		result.setData("rows", vh0400Service.VH0400EVT());
 		return result.getResult();
 	}
 	

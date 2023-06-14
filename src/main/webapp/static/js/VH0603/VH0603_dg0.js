@@ -11,9 +11,9 @@ $(function(){
   let v_tdate = $.tracomtodate('d');
 
     $('#dg0').datagrid({
-    url:'/vh/VH0603G0R0',	//json 조회 url
+    url:'http://localhost:8183/vh/VH0603G0R0',	//json 조회 url
     method: 'POST', // url 던져서 쿼리 가져올때는 POST
-    queryParams: JSON.stringify({"dma_search" : {"TYPE" : "All", "CONTENT" : "", "F_DATE" : v_fdate, "T_DATE" : v_tdate}}),	//json 조회 params
+    queryParams: JSON.stringify({"dma_search" : {CONTENT1 : "", F_DATE : v_fdate, L_DATE : v_tdate}}),	//json 조회 params
     singleSelect: true,
     border: false,
     loadMsg: '데이터 로딩중입니다',
@@ -26,20 +26,22 @@ $(function(){
         {field:'UPD_DTM',title:'갱신일시',width:200,align:'center',halign:'center',sortable:true},
         {field:'CRS_ID',title:'교차로아이디',width:200,align:'left',halign:'center',hidden:true},
         {field:'CRS_NM',title:'교차로명',width:200,align:'left',halign:'center',sortable:true},
-        {field:'CTR_STS',title:'제어기상태',width:200,align:'center',halign:'center',sortable:true},
+        {field:'CTR_STS',title:'제어기상태',width:100,align:'center',halign:'center',sortable:true},
         {field:'CTR_MODE',title:'신호제어모드',width:200,align:'center',halign:'center',sortable:true},
-        {field:'A_PHASE_NO',title:'A_현시번호',width:200,halign:'center',align:'right',sortable:true},
-        {field:'A_PHASE_TM',title:'A_현시진행시간',width:200,align:'right',halign:'center',sortable:true},
-        {field:'B_PHASE_NO',title:'B_현시번호',width:200,halign:'center',align:'right'},
-        {field:'B_PHASE_TM',title:'B_현시진행시간',width:200,halign:'center',align:'right',sortable:true},
+        {field:'A_PHASE_NO',title:'A_현시번호',width:150,halign:'center',align:'right',sortable:true},
+        {field:'A_PHASE_TM',title:'A_현시진행시간',width:150,align:'right',halign:'center',sortable:true},
+        {field:'B_PHASE_NO',title:'B_현시번호',width:150,halign:'center',align:'right',sortable:true},
+        {field:'B_PHASE_TM',title:'B_현시진행시간',width:150,halign:'center',align:'right',sortable:true},
       ]],
-	frozenColumns:[[
+		frozenColumns:[[
 		]],
 		//event 정의
     loader: function(param, success, error){$.tracomdgloader($(this), param, success, error);
     },
-    loadFilter: function(data){
-      return data;
+    loadFilter: function(a_data){
+			let rtn_datas;
+			rtn_datas = $.uf_formatcolumn(a_data);
+      return rtn_datas;
     },
     onLoadSuccess: function(data){
         $.jf_setfocus($('#dg0'), -1);
@@ -56,6 +58,9 @@ $(function(){
     onAfterEdit: function(index,row,changes){},
     onCancelEdit:function(index,row){},
     onBeforeSortColumn: function(sort, order){},
+		onSortColumn: function(sort,order){
+
+		},
 	});
 
 });

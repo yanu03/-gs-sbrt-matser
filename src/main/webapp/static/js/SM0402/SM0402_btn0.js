@@ -57,12 +57,15 @@ $(function(){
         else $.tracomalmsg('정보','필수 입력창을 입력후 추가해주세요');
     });
     $('#btn3').bind('click', function(){
-        //$.jf_delete($('#dg0'));
-        // 삭제를 할때 사용된 코드가 있는지 확인이 꼭 필요함
-        // 현재는 삭제할때 확인할 수 있는 url이 없지만 있다면 확인 url을 던져서 return 값이 '0' 이면 삭제할 수 있게
-        // url이 없어서  삭제는 막아둔 상태이다
-        //if($.jf_chkchilddata($('#dg1'))) 
-        $.jf_delete($('#dg0'));
+        if($.jf_datalength($('#dg1'))>0) {
+            $.tracomalmsg('정보', '하위 데이터 삭제 후 가능합니다.'); 
+            return false;
+        }
+        else {
+            if($.jf_changeddg($('#dg1'))) $.tracomalmsg('정보', '저장 후 삭제 가능합니다.'); 
+            else $.jf_delete($('#dg0'));
+            return true;
+        }
     });
     $('#btn4').bind('click', function(){
         if($.jf_changeddg($('#dg0'), 'all')) {
@@ -72,7 +75,10 @@ $(function(){
 		}
     });
     $('#btn5').bind('click', function(){
-        if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g'))$.jf_savedgdata($('#dg0'), '/authority/saveAuthority', 'post', null);
+        if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
+            $.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
+            $.jf_savedgdata($('#dg0'), '/authority/saveAuthority', 'post', null);
+        }
         else $.tracomalmsg('정보','필수 입력창을 입력후 저장해주세요');
     });
     $('#btn6').bind('click', function(){

@@ -36,11 +36,14 @@
     $.pf_ajaxafterproc = function(){return true;};
 
     $.pf_combineparams = function(a_obj){
-        let params;
-        let searchVal = $('#sch_sb0').searchbox('getValue');
-        params = {TYPE : "ALL", CONTENT : searchVal, };
+        let rtn_params;
+        let v_searchval = $('#sch_sb0').searchbox('getValue');
+        let v_fdate = $('#sch_fdd').datebox('getValue');
+        let v_tdate = $('#sch_tdd').datebox('getValue');
+        rtn_params = {TYPE : "ALL", CONTENT1 : v_searchval, CONTENT2 : v_searchval,
+        								CONTENT3 : v_searchval, F_DATE : v_fdate, L_DATE : v_tdate};
         
-        return params;
+        return rtn_params;
     };    
     // 기능 : 라디오 버튼에 따라 from to date을 바꿔주는 함수
     $.uf_changedate = function(a_value){

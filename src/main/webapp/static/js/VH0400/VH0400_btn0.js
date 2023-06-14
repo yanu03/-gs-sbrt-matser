@@ -22,7 +22,7 @@ $(function(){
 	
 	//btn 기능 binding
   $('#btn0').bind('click', function(){
-    $.jf_retrieve($('#dg1'));	
+    $.jf_retrieve($('#dg0'));	
   });
   
   $('#btn1').bind('click', function(){

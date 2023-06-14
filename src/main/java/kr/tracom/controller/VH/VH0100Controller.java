@@ -20,7 +20,7 @@ public class VH0100Controller extends ControllerSupport {
 
 	@RequestMapping("/vh/VH0100G0R0")
 	public @ResponseBody Map<String, Object> VH0100G0R0() throws Exception {
-		result.setData("dlt_BMS_DSPTCH_LOG", vh0100Service.VH0100G0R0());
+		result.setData("rows", vh0100Service.VH0100G0R0());
 		return result.getResult();
 	}
 	

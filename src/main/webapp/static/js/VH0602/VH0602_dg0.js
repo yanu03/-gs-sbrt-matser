@@ -7,10 +7,13 @@ $(function(){
 	//single main grid
 	$('#dg_panel0').append('<table id="dg0" class="easyui-datagrid" style="width:100%;height:100%"></table>');
 
+    let v_fdate = $.tracomfromdate('d');
+    let v_tdate = $.tracomtodate('d');
+
     $('#dg0').datagrid({
-    url:'/vh/VH0602G0R0',	//json 조회 url
+    url:'http://localhost:8183/vh/VH0602G0R0',	//json 조회 url
     method: 'POST', // url 던져서 쿼리 가져올때는 POST
-    queryParams: JSON.stringify({"dma_search" : {"TYPE" : "All", "CONTENT1" : "", "CONTENT2" : "", "CONTENT3" : ""}}),	//json 조회 params
+    queryParams: JSON.stringify({"dma_search" : {CONTENT1 : "", F_DATE : v_fdate, L_DATE : v_tdate}}),	//json 조회 params
     singleSelect: true,
     border: false,
     loadMsg: '데이터 로딩중입니다',
@@ -21,23 +24,25 @@ $(function(){
     multiSort: true,
     columns:[[
         {field:'UPD_DTM',title:'갱신일시',width:200,align:'center',halign:'center',sortable:true},
-        {field:'CRS_ID',title:'대표노선명',width:200,align:'left',halign:'center',hidden:true},
-        {field:'CRS_NM',title:'노선명',width:200,align:'left',halign:'center',sortable:true},
-        {field:'CTR_STS',title:'교차로명',width:200,align:'center',halign:'center',sortable:true},
-        {field:'CTR_MODE',title:'차량번호',width:200,align:'center',halign:'center',sortable:true},
-        {field:'A_PHASE_NO',title:'교차로우선신호제어방식',width:200,halign:'center',align:'right',sortable:true},
-        {field:'A_PHASE_TM',title:'우선신호제어단계',width:200,align:'right',halign:'center',sortable:true},
-        {field:'B_PHASE_NO',title:'정류소요구대기시간',width:200,halign:'center',align:'right'},
-        {field:'B_PHASE_TM',title:'교차로우선신호제어현시',width:200,halign:'center',align:'right',sortable:true},
-        {field:'B_PHASE_TM',title:'발생일시',width:200,halign:'center',align:'right',sortable:true},
+        {field:'ROUT_GRP_NM',title:'노선그룹명',width:150,align:'center',halign:'center',sortable:true},
+        {field:'ROUT_NM',title:'노선명',width:200,align:'left',halign:'center',sortable:true},
+        {field:'CRS_NM',title:'교차로명',width:200,align:'center',halign:'center',sortable:true},
+        {field:'VHC_NO',title:'차량번호',width:180,align:'center',halign:'center',sortable:true},
+        {field:'CTRL_TYPE_NM',title:'교차로우선신호제어방식',width:200,halign:'center',align:'center',sortable:true},
+        {field:'CTRL_LV',title:'우선신호제어단계',width:180,align:'right',halign:'center',sortable:true},
+        {field:'STOP_SEC',title:'정류소요구대기시간',width:180,halign:'center',align:'right',sortable:true},
+        {field:'CTRL_PHASE_NO',title:'교차로우선신호제어현시',width:180,halign:'center',align:'right',sortable:true},
+        {field:'OCR_DTM',title:'발생일시',width:190,halign:'center',align:'center',sortable:true},
       ]],
 	frozenColumns:[[
 		]],
 		//event 정의
     loader: function(param, success, error){$.tracomdgloader($(this), param, success, error);
     },
-    loadFilter: function(data){
-      return data;
+    loadFilter: function(a_data){
+      let rtn_data;
+      rtn_data = $.uf_formatcolumn(a_data);
+      return a_data;
     },
     onLoadSuccess: function(data){
         $.jf_setfocus($('#dg0'), -1);

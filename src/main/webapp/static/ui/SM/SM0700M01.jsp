@@ -31,20 +31,20 @@
     $.pf_acceptcfmsg = function(a_type){
         if(a_type == 'save'){
             if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') ){
-                $.jf_savedgdata($('#dg0'), '/sm/SM0700G0S0', 'post', null);
+                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/sm/SM0700G0S0', 'post', null);
             }
             else{$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);}
         }
         else if(a_type == 'close'){
             if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') ){
-                $.jf_savedgdata($('#dg0'), '/sm/SM0700G0S0', 'post', null);  
+                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/sm/SM0700G0S0', 'post', null);  
                 $.jf_close();
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);  
         }
         else if(a_type == 'search'){
             if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') ){
-                $.jf_savedgdata($('#dg0'), '/sm/SM0700G0S0', 'post', null);  
+                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/sm/SM0700G0S0', 'post', null);  
                 $.jf_retrieve($('#dg0'));
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
@@ -70,7 +70,7 @@
     	//데이터 추가시 default값을 정함.
         let rtn_params;
         if(a_obj.attr('id') == "dg0"){
-            rtn_params = {INTG_ID:$.jf_seqdgdata('/sm/SM0700G0K0','post')};
+            rtn_params = {INTG_ID:$.jf_seqdgdata('http://localhost:8183/sm/SM0700G0K0','post')};
         }
         return rtn_params;
     };

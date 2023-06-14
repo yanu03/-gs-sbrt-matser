@@ -181,29 +181,29 @@
     // 기능 : value를 받아 이미지 바꿔주기
     $.uf_changeimg = function(a_value){
       if(a_value == "맑음"){
-        $('#weatherimg').attr("src","/js/PI0400/weather/sunny.jpg");
+        $('#weatherimg').attr("src","//static/js/PI0400/weather/sunny.jpg");
       }else if(a_value == "구름조금"){
-        $('#weatherimg').attr("src","/js/PI0400/weather/lesscloud.jpg");
+        $('#weatherimg').attr("src","//static/js/PI0400/weather/lesscloud.jpg");
       }else if(a_value == "구름많음"){
-        $('#weatherimg').attr("src","/js/PI0400/weather/cloudiest.jpg");
+        $('#weatherimg').attr("src","//static/js/PI0400/weather/cloudiest.jpg");
       }else if(a_value == "흐림"){
-        $('#weatherimg').attr("src","/js/PI0400/weather/cloudy.jpg");
+        $('#weatherimg').attr("src","//static/js/PI0400/weather/cloudy.jpg");
       }else if(a_value == "비"){
-        $('#weatherimg').attr("src","/js/PI0400/weather/rain.jpg");
+        $('#weatherimg').attr("src","//static/js/PI0400/weather/rain.jpg");
       }else if(a_value == "비/눈"){
-        $('#weatherimg').attr("src","/js/PI0400/weather/rainnsnow.jpg");
+        $('#weatherimg').attr("src","//static/js/PI0400/weather/rainnsnow.jpg");
       }else if(a_value == "눈/비"){
-        $('#weatherimg').attr("src","/js/PI0400/weather/snownrain.jpg");
+        $('#weatherimg').attr("src","//static/js/PI0400/weather/snownrain.jpg");
       }else if(a_value == "눈"){
-        $('#weatherimg').attr("src","/js/PI0400/weather/snow.jpg");
+        $('#weatherimg').attr("src","//static/js/PI0400/weather/snow.jpg");
       }else{
-        $('#weatherimg').attr("src","/js/PI0400/weather/defaultImg.jpg");
+        $('#weatherimg').attr("src","//static/js/PI0400/weather/defaultImg.jpg");
         $('#weatherimg').attr("alt","데이터 없음");
       }
     };
     $.uf_imgobserver = function(a_value){
       if(a_value < 1){
-        $('#weatherimg').attr("src","/js/PI0400/weather/defaultImg.jpg");
+        $('#weatherimg').attr("src","//static/js/PI0400/weather/defaultImg.jpg");
         $('#weatherimg').attr("alt","데이터 없음");
       }
     };

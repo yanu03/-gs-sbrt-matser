@@ -20,78 +20,78 @@ public class SI0402Controller extends ControllerSupport {
 		
 	@RequestMapping("/si/SI0402G1R0")
 	public @ResponseBody Map<String, Object> SI0402G1R0() throws Exception {
-		result.setData("dlt_BMS_ROUT_NODE_CMPSTN", si0402Service.SI0402G1R0());
+		result.setData("rows", si0402Service.SI0402G1R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/si/SI0402G1S0")
 	public @ResponseBody Map<String, Object> SI0402G1S0() throws Exception {
 		Map map = si0402Service.SI0402G1S0();
-		result.setData("dma_result", map);
+		result.setData("rows", map);
 		return result.getResultSave();
 	}	
 	
 	@RequestMapping("/si/updateBearing")
 	public @ResponseBody Map<String, Object> updateBearing() throws Exception {
 		Map map = si0402Service.updateBearing();
-		result.setData("dma_result", map);
+		result.setData("rows", map);
 		return result.getResultSave();
 	}	
 	
 	
 	@RequestMapping("/si/SI0402P0R0")
 	public @ResponseBody Map<String, Object> SI0402P0R0() throws Exception {
-		result.setData("dlt_BMS_NODE_MST", si0402Service.SI0402P0R0());
+		result.setData("rows", si0402Service.SI0402P0R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/si/SI0402P1R0")
 	public @ResponseBody Map<String, Object> SI0402P1R0() throws Exception {
-		result.setData("dlt_BMS_MOCK_LINK_NODE", si0402Service.SI0402P1R0());
+		result.setData("rows", si0402Service.SI0402P1R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/si/SI0402P2R0")
 	public @ResponseBody Map<String, Object> SI0402P2R0() throws Exception {
-		result.setData("dlt_BMS_STTN_MST", si0402Service.SI0402P2R0());
+		result.setData("rows", si0402Service.SI0402P2R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/si/SI0402P2S0")
 	public @ResponseBody Map<String, Object> SI0402P2S0() throws Exception {
 		Map map = si0402Service.SI0402P2S0();
-		result.setData("dma_result", map);
+		result.setData("rows", map);
 		return result.getResultSave();
 	}	
 	
 	@RequestMapping("/si/SI0402P2K0")
 	public @ResponseBody Map<String, Object> SI0402P2K0() throws Exception {
-		result.setData("dma_SEQ_BMS_STTN_MST_0", si0402Service.SI0402P2K0());
+		result.setData("rows", si0402Service.SI0402P2K0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/si/SI0402P3R0")
 	public @ResponseBody Map<String, Object> SI0402P3R0() throws Exception {
-		result.setData("dlt_BMS_CRS_MST", si0402Service.SI0402P3R0());
+		result.setData("rows", si0402Service.SI0402P3R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/si/SI0402P3S0")
 	public @ResponseBody Map<String, Object> SI0402P3S0() throws Exception {
 		Map map = si0402Service.SI0402P3S0();
-		result.setData("dma_result", map);
+		result.setData("rows", map);
 		return result.getResultSave();
 	}
 	
 	@RequestMapping("/si/SI0402P3K0")
 	public @ResponseBody Map<String, Object> SI0402P3K0() throws Exception {
-		result.setData("dma_SEQ_BMS_CRS_MST_0", si0402Service.SI0402P3K0());
+		result.setData("rows", si0402Service.SI0402P3K0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/si/SI0402P5R0")
 	public @ResponseBody Map<String, Object> SI0402P5R0() throws Exception {
-		result.setData("dlt_BMS_GRG_MST", si0402Service.SI0402P5R0());
+		result.setData("rows", si0402Service.SI0402P5R0());
 		return result.getResult();
 	}	
 }

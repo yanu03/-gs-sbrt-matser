@@ -55,41 +55,34 @@
         if(a_type == 'save'){
             if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') && $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
                 if($.jf_changeddg($('#dg0'), null)){
-                    $.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
-                    $.jf_savedgdata($('#dg0'), '/common/updateCommonCo', 'post', null);
+                    $.uf_acceptcfmsg($('#dg0'), 'CO_CD');
                 }
                 if($.jf_changeddg($('#dg1'), null)) {
-                    $.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
-                    $.jf_savedgdata($('#dg1'), '/common/selectCommonDtlUpdate', 'post', null);
+                    $.uf_acceptcfmsg($('#dg1'), 'DL_CD');
                 }
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
         else if(a_type == 'subsave'){
             if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
-                $.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
-                $.jf_savedgdata($('#dg1'), '/common/selectCommonDtlUpdate', 'post', null);
+                $.uf_acceptcfmsg($('#dg1'), 'DL_CD');
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
         else if(a_type == 'search'){
             if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') && $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
                 if($.jf_changeddg($('#dg0'), null)){
-                    $.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));  
-                    $.jf_savedgdata($('#dg0'), '/common/updateCommonCo', 'post', 'search');
+                    $.uf_acceptcfmsg($('#dg0'), 'CO_CD');
                 }
                 if($.jf_changeddg($('#dg1'), null)){
-                    $.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
-                    $.jf_savedgdata($('#dg1'), '/common/selectCommonDtlUpdate', 'post', 'search');
-                } 
-                $.jf_retrieve($('#dg0'));
+                    $.uf_acceptcfmsg($('#dg1'), 'DL_CD');
+                }
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
         else if(typeof(a_type) == 'number'){
             if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
-                //$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
-                $.jf_savedgdata($('#dg1'), '/common/selectCommonDtlUpdate', 'post', null);
+                $.uf_acceptcfmsg($('#dg1'), 'DL_CD', a_type);
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
@@ -114,8 +107,8 @@
         //data base를 조회한다.
         // db 조회가 안돼서 테스트를 못하니까
         //임시로 uf를 만들고 child datagrid에 데이터가 없는 것들을 임의로 삭제할 수 있게 
-        if($.uf_chkchild()) $.tracomalmsg('정보', '사용된 데이터가 있어 삭제할 수 없습니다.', null);
-        else return true;
+        // $.tracomalmsg('정보', '사용된 데이터가 있어 삭제할 수 없습니다.', null);
+        return true;
     };
     $.pf_ajaxafterproc = function(a_type){
         if(a_type == 'search') $.jf_retrieve($('#dg0'));
@@ -146,11 +139,71 @@
             return rtn_value +1;
         } 
     };
-    // $.uf_chkchild = function(){
-    //     let v_child = $('#dg1').datagrid('getSelected');
-    //     if(v_child == null) return false;
-    //     else return true;
-    // };
+    // 중복키 찾기
+    $.uf_chkkey = function(a_obj, a_data, a_index, a_field){
+        let rtn_value;
+        let v_editorvalue;
+        let v_inserted;
+
+        if(a_data.length == 0) rtn_value = true;
+        else{
+            v_editorvalue = $.uf_chknewdata(a_obj, a_index, a_field);
+            
+            if(typeof(v_editorvalue) == 'undefined') rtn_value = true;
+            else{
+                for(let i=0; i < a_data.length; i++){
+                    if(a_obj.attr('id') == 'dg0'){
+                        if(typeof(a_data[i].CO_CD) != 'undefined'){
+                            if(a_data[i].CO_CD == v_editorvalue) {
+                                rtn_value = false;
+                                break;
+                            }
+                            else rtn_value = true;
+                        }
+                    }
+                    else if(a_obj.attr('id') == 'dg1'){
+                        if(typeof(a_data[i].DL_CD) != 'undefined'){
+                            if(a_data[i].DL_CD == v_editorvalue) {
+                                rtn_value = false;
+                                break;
+                            }
+                            else rtn_value = true;
+                        }
+                    }
+                }
+                if(rtn_value == false){
+                    $.tracomalmsg('정보', '중복된 키값입니다 ');
+                    $.jf_setfocus(a_obj, $.jf_fnddgstrct(a_obj));
+                }
+            }
+            
+        }
+        return rtn_value;
+    };
+    // 추가된 row의 value를 반환
+    $.uf_chknewdata = function(a_obj, a_index, a_field){
+        let rtn_value;
+        let v_inserted = a_obj.datagrid('getChanges','inserted');
+        let v_editoroption;
+
+        if(v_inserted.length > 0){
+            v_editoroption = a_obj.datagrid('getEditor',{index:a_index, field:a_field});
+            if(v_editoroption != null) rtn_value = $(v_editoroption.target).textbox('getValue');
+        }
+
+        return rtn_value;
+    };
+
+    // pf의 코드가 길어져서 반복되는 코드를 나눴습니다.
+    $.uf_acceptcfmsg = function(a_obj, a_type, a_index){    
+        if($.uf_chkkey(a_obj, a_obj.datagrid('getRows'),  $.jf_fnddgstrct(a_obj), a_type)) {
+            if(typeof(a_index) != 'number') $.jf_endedit(a_obj, $.jf_fnddgstrct(a_obj));
+
+            if(a_obj.attr('id') == 'dg0') $.jf_savedgdata(a_obj, 'http://localhost:8183/common/updateCommonCo', 'post', null);
+            else if(a_obj.attr('id') == 'dg1') $.jf_savedgdata($('#dg1'), 'http://localhost:8183/common/selectCommonDtlUpdate', 'post', null);
+        }
+        return true;
+    }
 	</script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">
@@ -220,4 +273,5 @@
 </div>
 </body>
 </html>
+
 

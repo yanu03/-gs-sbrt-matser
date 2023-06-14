@@ -22,26 +22,26 @@ public class AL0204Controller extends ControllerSupport{
 	
 	@RequestMapping("/al/AL0204G0R0")
 	public @ResponseBody Map<String, Object> AL0204G0R0() throws Exception {
-		result.setData("dlt_BMS_ROUT_MST", al0204Service.AL0204G0R0());
+		result.setData("rows", al0204Service.AL0204G0R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/al/AL0204G1R0")
 	public @ResponseBody Map<String, Object> AL0204G1R0() throws Exception {
-		result.setData("dlt_BMS_DAY_OPER_ALLOC_PL_NODE_INFO", al0204Service.AL0204G1R0());
+		result.setData("rows", al0204Service.AL0204G1R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/al/AL0204G1R0_CNT")
 	public @ResponseBody Map<String, Object> AL0204G1R0_CNT() throws Exception {
-		result.setData("dlt_BMS_DAY_OPER_ALLOC_PL_NODE_INFO_CNT", al0204Service.AL0204G1CNT());
+		result.setData("rows", al0204Service.AL0204G1CNT());
 		return result.getResult();
 	}	
 	
 	@RequestMapping("/al/AL0204G1S0")
 	public @ResponseBody Map<String, Object> AL0203G1S0() throws Exception {
 		Map map = al0204Service.AL0204G1S0();
-		result.setData("dma_result", map);
+		result.setData("rows", map);
 		return result.getResultSave();
 	}	
 }

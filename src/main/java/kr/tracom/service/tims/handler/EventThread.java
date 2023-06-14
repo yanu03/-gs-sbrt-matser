@@ -487,7 +487,7 @@ public class EventThread extends Thread {
 								||(CommonUtil.empty(allocVhcId)==false)&&(allocVhcId.equals(allocOperVhcId)==false)) {
 							curAllocPlInfo = curInfoMapper.selectCurAllocPlInfoByVhcId(busEventMap);
 				            if(curAllocPlInfo==null){
-				            	busEventMap.put("ROUT_GRP", "RR00000002"); //임시로
+				            	//busEventMap.put("ROUT_GRP", "RR00000002"); //임시로
 				            }
 				            else{
 				                busEventMap.put("ALLOC_NO", curAllocPlInfo.get("ALLOC_NO"));
@@ -496,7 +496,7 @@ public class EventThread extends Thread {
 									busEventMap.put("ROUT_GRP", curAllocPlInfo.get("ROUT_GRP"));
 								}
 								else {
-									busEventMap.put("ROUT_GRP", "RR00000002"); //임시로
+									//busEventMap.put("ROUT_GRP", "RR00000002"); //임시로
 								}
 				                curInfoMapper.updateOperVhcIdCurAllocPlInfo(busEventMap);
 				            }

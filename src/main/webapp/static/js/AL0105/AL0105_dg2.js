@@ -12,7 +12,7 @@ $(function(){
     url:'/al/AL0105G2R0',	//json 조회 url http://192.168.34.9:8181/repRout/selectRepRoutList
     method: 'POST', // url 던져서 쿼리 가져올때는 POST
     //method: 'GET', // json 데이터 가져올때는 GET
-    queryParams: JSON.stringify({dma_search : {TYPE:"ALL",CONTENT : ""}}),	//json 조회 params
+    queryParams: JSON.stringify({dma_search : {ALLOCID:"",CONTENT : ""}}),	//json 조회 params
     //queryParams: {},
 		singleSelect: true,
 		border: false,

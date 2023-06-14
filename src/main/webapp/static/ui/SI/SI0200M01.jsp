@@ -87,6 +87,10 @@
         if(a_type == 'close') $.jf_close();
         return true;
     };
+    $.pf_deleteafter = function(a_obj){
+        if($.jf_datalength($('#dg0')) == 0) $.jf_protectform($('#dg0'), $('#ef0'), true, 0);
+        return true;
+    }
 	</script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">

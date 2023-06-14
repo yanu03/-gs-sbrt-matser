@@ -4,22 +4,22 @@
 수정자 : 양현우
 수정일 : 2023-04-07
 **/
-$(function () {
+$(function() {
 
 	$('#ef0').form({
-		onSubmit: function (param) {
+		onSubmit: function(param) {
 		},
-		success: function (data) {
+		success: function(data) {
 		},
-		onProgress: function (percent) {
+		onProgress: function(percent) {
 		},
-		onBeforeLoad: function (param) {
+		onBeforeLoad: function(param) {
 		},
-		onLoadSuccess: function (data) {
+		onLoadSuccess: function(data) {
 		},
-		onLoadError: function () {
+		onLoadError: function() {
 		},
-		onChange: function (target) {
+		onChange: function(target) {
 			if (!jv_rowclick) return false;
 			// if (!$.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f')) return false;
 
@@ -31,8 +31,8 @@ $(function () {
 				case "USE_YN_N":
 					if ($(target).radiobutton('options').checked) {
 						a_vals = $.jf_singledatatojson('USE_YN', $(target).radiobutton('options').value);
-					}	
-					break;						
+					}
+					break;
 				case "ROUT_GRP":
 					a_arrfield = new Array("ROUT_GRP", "ROUT_GRP_NM");
 					a_arrvalue = new Array($('#ROUT_GRP').textbox('getValue'), $('#ROUT_GRP').textbox('getText'));
@@ -109,7 +109,7 @@ $(function () {
 		readonly: true,
 		value: '',
 		label: '노선ID : ',
-		onChange: function (newValue, oldValue) {
+		onChange: function(newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
 	});
@@ -120,11 +120,11 @@ $(function () {
 		editable: true,
 		url: '/common/selectCommonDtlList',
 		method: 'post',
-		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "ROUT_GRP"}}),
+		queryParams: JSON.stringify({ "dma_search": { "CO_CD": "ROUT_GRP" } }),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
 		label: '노선그룹 : ',
-		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
+		loader: function(param, success, error) { $.tracomcbloader($(this), param, success, error) }
 	});
 
 	$('#ROUT_NM').textbox({
@@ -136,7 +136,7 @@ $(function () {
 		readonly: false,
 		value: '',
 		label: '노선명 : ',
-		onChange: function (newValue, oldValue) {
+		onChange: function(newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
 	});
@@ -147,11 +147,11 @@ $(function () {
 		editable: true,
 		url: '/common/selectCommonDtlList',
 		method: 'post',
-		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "ROUT_TYPE"}}),
+		queryParams: JSON.stringify({ "dma_search": { "CO_CD": "ROUT_TYPE" } }),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
 		label: '노선유형 : ',
-		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
+		loader: function(param, success, error) { $.tracomcbloader($(this), param, success, error) }
 	});
 
 	$('#ROUT_DIV').combobox({
@@ -160,12 +160,12 @@ $(function () {
 		editable: true,
 		url: '/common/selectCommonDtlList',
 		method: 'post',
-		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "ROUT_DIV"}}),
+		queryParams: JSON.stringify({ "dma_search": { "CO_CD": "ROUT_DIV" } }),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
 		label: '노선구분 : ',
 		panelMaxHeight: 100,
-		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
+		loader: function(param, success, error) { $.tracomcbloader($(this), param, success, error) }
 	});
 
 	$('#AREA').combobox({
@@ -174,11 +174,11 @@ $(function () {
 		editable: true,
 		url: '/common/selectCommonDtlList',
 		method: 'post',
-		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "AREA"}}),
+		queryParams: JSON.stringify({ "dma_search": { "CO_CD": "AREA" } }),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
 		label: '권역 : ',
-		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
+		loader: function(param, success, error) { $.tracomcbloader($(this), param, success, error) }
 	});
 
 	$('#WAY_DIV').combobox({
@@ -187,12 +187,12 @@ $(function () {
 		editable: true,
 		url: '/common/selectCommonDtlList',
 		method: 'post',
-		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "WAY_DIV"}}),
+		queryParams: JSON.stringify({ "dma_search": { "CO_CD": "WAY_DIV" } }),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
 		label: '상하행 : ',
 		panelMaxHeight: 170,
-		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
+		loader: function(param, success, error) { $.tracomcbloader($(this), param, success, error) }
 	});
 
 	$('#ST_STTN_NM').textbox({
@@ -204,7 +204,7 @@ $(function () {
 		readonly: false,
 		value: '',
 		label: '기점 : ',
-		onChange: function (newValue, oldValue) {
+		onChange: function(newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
 	});
@@ -218,7 +218,7 @@ $(function () {
 		readonly: false,
 		value: '',
 		label: '종점 : ',
-		onChange: function (newValue, oldValue) {
+		onChange: function(newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
 	});
@@ -233,7 +233,7 @@ $(function () {
 		readonly: false,
 		value: '',
 		label: '회차정류소 : ',
-		onChange: function (newValue, oldValue) {
+		onChange: function(newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
 	});
@@ -243,12 +243,12 @@ $(function () {
 		height: 25,
 		min: 0,
 		max: 99999,
-		labelWidth: 100, 
+		labelWidth: 100,
 		precision: 0,
 		readonly: false,
 		value: '',
 		label: '운행횟수 : ',
-		onChange: function (newValue, oldValue) {
+		onChange: function(newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
 	});
@@ -258,12 +258,12 @@ $(function () {
 		height: 25,
 		min: 0,
 		max: 99999,
-		labelWidth: 100, 
+		labelWidth: 100,
 		precision: 0,
 		readonly: false,
 		value: '',
 		label: '배차횟수 : ',
-		onChange: function (newValue, oldValue) {
+		onChange: function(newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
 	});
@@ -278,7 +278,7 @@ $(function () {
 		readonly: false,
 		value: '',
 		label: '첫차시간(시분) : ',
-		onChange: function (newValue, oldValue) {
+		onChange: function(newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
 	});
@@ -293,7 +293,7 @@ $(function () {
 		readonly: false,
 		value: '',
 		label: '막차시간(시분) : ',
-		onChange: function (newValue, oldValue) {
+		onChange: function(newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
 	});
@@ -308,7 +308,7 @@ $(function () {
 		readonly: false,
 		value: '',
 		label: '운행간격(분) : ',
-		onChange: function (newValue, oldValue) {
+		onChange: function(newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
 	});
@@ -320,7 +320,7 @@ $(function () {
 		labelPosition: 'after',
 		labelAlign: 'left',
 		checked: true,
-		onChange: function (checked) {
+		onChange: function(checked) {
 			if (!jv_rowclick) return false;
 		}
 	});
@@ -331,7 +331,7 @@ $(function () {
 		labelWidth: 100,
 		labelPosition: 'after',
 		labelAlign: 'left',
-		onChange: function (checked) {
+		onChange: function(checked) {
 			if (!jv_rowclick) return false;
 		}
 	});
@@ -344,8 +344,8 @@ $(function () {
 		readonly: false,
 		value: '',
 		label: '비고 :',
-		multiline:true,
-		onChange: function (newValue, oldValue) {
+		multiline: true,
+		onChange: function(newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
 	});

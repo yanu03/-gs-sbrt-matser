@@ -76,6 +76,10 @@
         if(a_type == 'close') $.jf_close();
         return true;
     };
+    $.pf_deleteafter = function(a_obj){
+        if($.jf_datalength($('#dg0')) == 0) $.jf_protectform($('#dg0'), $('#ef0'), true, 0);
+        return true;
+    }
     // 기능 : 재직, 휴직, 퇴사 중 퇴사를 골랐을 때 퇴직일을 선택할 수 있는 datebox활성화 한다
     $.uf_chkeply = function(){
         let v_eplyvalue = $('#EPLY_YN').combobox('getValue');

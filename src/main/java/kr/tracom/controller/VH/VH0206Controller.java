@@ -20,7 +20,7 @@ public class VH0206Controller extends ControllerSupport {
 
 	@RequestMapping("/vh/VH0206G0R0")
 	public @ResponseBody Map<String, Object> VH0206G0R0() throws Exception {
-		result.setData("dlt_BMS_DVC_COND_PARAM_INFO_HIS", vh0206Service.VH0206G0R0());
+		result.setData("rows", vh0206Service.VH0206G0R0());
 		return result.getResult();
 	}
 	

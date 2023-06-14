@@ -39,6 +39,7 @@
 	</where>
 	
 	ORDER BY			A.UPD_DTM DESC
+<!-- 	LIMIT 10000; -->
 </select>
 
 </mapper>

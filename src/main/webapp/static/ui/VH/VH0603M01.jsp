@@ -39,10 +39,12 @@
     	//데이터 조회시 파라미터를 정함.
         let rtn_params;
 
-        let v_searchVal = $('#sch_sb0').searchbox('getValue');
+        let v_searchval = $('#sch_sb0').searchbox('getValue');
         let v_fdate = $('#sch_fdd').datebox('getValue');
         let v_tdate = $('#sch_tdd').datebox('getValue');
-        rtn_params = {TYPE : "ALL", CONTENT : v_searchVal, F_DATE : v_fdate, T_DATE : v_tdate};
+        let v_ctrsts = $.uf_changetype('CTR_STS', $('#sch_lb0').combobox('getText'));
+        let v_ctrmode = $.uf_changetype('CTR_MODE', $('#sch_lb1').combobox('getText'));
+        rtn_params = {CONTENT1 : v_searchval, F_DATE : v_fdate, L_DATE : v_tdate, TYPE1 : v_ctrsts, TYPE2 : v_ctrmode};
         
         return rtn_params;
     };
@@ -82,6 +84,74 @@
 
     //     return true;
     // };
+    
+    $.uf_changetype = function(a_type, a_value){
+        let rtn_value;
+            if(a_type == 'CTR_STS'){
+                if(a_value == '불량') rtn_value = 0;
+                else if(a_value == '정상') rtn_value = 1;
+                else if(a_value == '네트워크 오류') rtn_value = 2;
+                
+            }
+            else if(a_type == 'CTR_MODE'){
+                if(a_value == 'OFFLINE') rtn_value = 0;
+                else if(a_value == 'ONLINE') rtn_value = 1;
+                else if(a_value == '전이') rtn_value = 2;
+            }
+            if(a_value == '-전체-') rtn_value = null;
+        return rtn_value; 
+    };
+    $.uf_addvalue = function(a_data){
+        let rtn_values;
+        let v_value = [{DL_CD:'all',DL_CD_NM: '-전체-'}];
+        rtn_values = [...v_value, ...a_data];
+        return rtn_values
+    };
+    $.uf_formatcolumn = function(a_data){
+        let rtn_data;
+
+        if(typeof(a_data.length) == 'undefined') return a_data;
+        for(let i=0; i < a_data.length; i ++){
+            a_data[i].A_PHASE_TM = $.uf_timefilter(a_data[i].A_PHASE_TM);
+            a_data[i].B_PHASE_TM = $.uf_timefilter(a_data[i].B_PHASE_TM);
+            a_data[i].CTR_STS = $.uf_ctrstatusfilter(a_data[i].CTR_STS);
+            a_data[i].CTR_MODE = $.uf_ctrmdoefilter(a_data[i].CTR_MODE);
+        }
+        rtn_data = a_data;
+        return rtn_data;
+    };
+
+    $.uf_timefilter = function(a_time){
+        let rtn_value;
+        if(a_time >= 120){
+            a_time -= 120;
+            rtn_value = '2분' + a_time + '초';
+        }
+        else if(a_time >= 60){
+            a_time -= 60;
+            rtn_value = '1분' + a_time + '초';
+        }
+        else if(a_time < 60){
+            rtn_value = a_time + '초';
+        }
+
+        return rtn_value;
+    };
+    $.uf_ctrstatusfilter = function(a_status){
+        let rtn_value;
+        if(a_status == '0') rtn_value = '불량' 
+        else if(a_status == '1') rtn_value = '정상'
+        else if(a_status == '2') rtn_value = '네트워크 오류'
+
+        return rtn_value;
+    };
+    $.uf_ctrmdoefilter = function(a_mode){
+        let rtn_value;
+        if(a_mode == '0') rtn_value= 'OFFLINE'
+        else if(a_mode == '1') rtn_value = 'ONLINE' 
+
+        return rtn_value;
+    }
 	</script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">
@@ -95,8 +165,8 @@
                     <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- search js -->
-                    <script src="/static/js/VH0603/VH0603_sch_selectbox0.js"></script>
                     <script src="/static/js/VH0603/VH0603_sch_searchbox0.js"></script> 
+                    <script src="/static/js/VH0603/VH0603_sch_selectbox0.js"></script>
                     <script src="/static/js/VH0603/VH0603_sch_fromtodate0.js"></script>
                     <script src="/static/js/VH0603/VH0603_radio0.js"></script> 
                 </div>

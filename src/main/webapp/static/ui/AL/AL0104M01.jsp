@@ -32,39 +32,54 @@
 	$.pf_defaultparams = function(a_obj){let params;params = {};return params;};
 	$.pf_modalselect = function(a_obj){return true;};
 
+    $.pf_ajaxafterproc = function(a_type){
+        if(a_type == 'search') $.jf_retrieve($('#dg0'));
+        return true;
+    }
+
     $.pf_combineparams = function(a_obj){
-        let params;
+        let rtn_params;
         let searchVal = $('#sch_sb0').searchbox('getValue');
-        if(a_obj.attr('id') == 'dg0')params = {TYPE : "ALL", CONTENT : searchVal};
-       
-        return params;
+        if(a_obj.attr('id') == 'dg0')rtn_params = {TYPE:"ALL",CONTENT : searchVal};
+
+        return rtn_params;
     };    
     $.pf_acceptcfmsg = function(a_type){
+        console.log(a_type);
         if(a_type == 'save'){
-            $.jf_savedgdata($('#dg2'), '/al/AL0104G2S0', 'post', null);	
+            $.jf_savedgdata($('#dg2'), 'http://localhost:8183/al/AL0104G2S0', 'post', null);	
         }
-        if(a_type == 'search'){
-            $.jf_savedgdata($('#dg2'), '/al/AL0104G2S0', 'post', null);	
+        else if(a_type == 'close')$.jf_savedgdata($('#dg2'), 'http://localhost:8183/al/AL0104G2S0', 'post', null);
+        else if(a_type == 'search'){
+            $.jf_savedgdata($('#dg2'), 'http://localhost:8183/al/AL0104G2S0', 'post', null);	
             $.jf_retrieve($('#dg0'));
+        }
+        else if(typeof(a_type) == 'number'){
+            $.jf_savedgdata($('#dg2'), 'http://localhost:8183/al/AL0104G2S0', 'post', null);
         }
         return true;
     };
     $.pf_rejectcfmsg = function(a_type){
+        console.log(a_type);
         if(a_type == 'save'){
             $.jf_resetdg($('#dg1'));
             $.jf_resetdg($('#dg2'));
         }
-        if(a_type == 'close') $.jf_close();
-        if(a_type == 'search'){
-            $.jf_resetdg($('#dg0'), 'all');
+        else if(a_type == 'close') $.jf_close();
+        else if(a_type == 'search'){
+            $.jf_resetdg($('#dg2'), 'all');
             $.jf_retrieve($('#dg0'));
+        }
+        else if(typeof(a_type) == 'number'){
+            $.jf_resetdg($('#dg2'));
+            $.jf_setfocus($('#dg0'), a_type);
         }
         return true;
     };
     $.pf_childparams = function(a_obj, a_row){
         let rtn_params;
         if(a_obj.attr('id') == 'dg2') rtn_params = {ALLOC_ID: a_row.ALLOC_ID};
-        if(a_obj.attr('id') == 'dg1') params = {TYPE : ""};
+        if(a_obj.attr('id') == 'dg1') rtn_params = {CONTENT : ""};
         return rtn_params;
     }
     $.uf_movevhc = function(a_type){
@@ -97,6 +112,7 @@
                     }
                 }
             }
+            $.jf_setfocus($('#dg1'), -1);
         }
         return true;
     };
@@ -131,30 +147,44 @@
         </div>
         <div data-options="region:'east', border:true, maxWidth:1500, minWidth:1500">
             <div class="easyui-layout" data-options="fit:true">
-                <div data-options="region:'center', border:true, width:725">
-                    <!-- dg1 panel -->
-                    <div id="dg_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
-                    </div>
-                    <!-- dg1 js -->
-                    <script src="/static/js/AL0104/AL0104_dg1.js"></script>
-                </div>
-                <div data-options="region:'east', border:true, minWidth:775, maxWidth:775">
+                <div data-options="region:'center', border:true, width:775">
                     <div class="easyui-layout" data-options="fit:true">
-                        <div data-options="region:'west', border:true, minWidth:50, maxWidth:50">
-                            <!-- move btn panel -->
-                            <div id="btn_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
-                            </div>
-                            <!-- move btn js -->
-                            <script src="/static/js/AL0104/AL0104_subbtn0.js"></script>
+                        <div data-options="region:'north', border:true,minHeight:30, maxHeight:30">
+                            <b align='center'>배정되지 않은 차량 목록</b>
                         </div>
-                        <div data-options="region:'center', border:true, minWidth:725, maxWidth:725">
-                            <!-- dg2 panel -->
-                            <div id="dg_panel2" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
+                        <div data-options="region:'center', border:true">
+                            <!-- dg1 panel -->
+                            <div id="dg_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                             </div>
-                            <!-- dg2 js -->
-                            <script src="/static/js/AL0104/AL0104_dg2.js"></script>
+                            <!-- dg1 js -->
+                            <script src="/static/js/AL0104/AL0104_dg1.js"></script>
                         </div>
-                    </div>                    
+                    </div>
+                </div>
+                <div data-options="region:'east', border:true, minWidth:825, maxWidth:825">
+                    <div class="easyui-layout" data-options="fit:true">
+                        <div data-options="region:'north', border:true,minHeight:30, maxHeight:30">
+                            <b align='center'>배정된 차량 목록</b>
+                        </div>
+                        <div data-options="region:'center', border:true">
+                            <div class="easyui-layout" data-options="fit:true">
+                                <div data-options="region:'west', border:true, minWidth:50, maxWidth:50">
+                                    <!-- move btn panel -->
+                                    <div id="btn_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
+                                    </div>
+                                    <!-- move btn js -->
+                                    <script src="/static/js/AL0104/AL0104_subbtn0.js"></script>
+                                </div>
+                                <div data-options="region:'center', border:true">
+                                    <!-- dg2 panel -->
+                                    <div id="dg_panel2" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
+                                    </div>
+                                    <!-- dg2 js -->
+                                    <script src="/static/js/AL0104/AL0104_dg2.js"></script>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

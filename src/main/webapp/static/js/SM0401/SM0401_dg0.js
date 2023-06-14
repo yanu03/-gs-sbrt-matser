@@ -10,7 +10,7 @@ $(function(){
     $('#dg0').datagrid({
     url:'/member/searchMemberBasic',	//json 조회 url
     method: 'POST', // url 던져서 쿼리 가져올때는 POST
-    queryParams: JSON.stringify({dma_search : {TYPE: "ALL", CONTENT : "",USE_YN: "All"}}),	//json 조회 params
+    queryParams: JSON.stringify({"dma_search" : {"CONTENT": ""}}),	//json 조회 params
     singleSelect: true,
     border: false,
     loadMsg: '데이터 로딩중입니다',
@@ -24,6 +24,8 @@ $(function(){
         {field:'USER_NM',title:'사용자명',width:150,align:'left',halign:'center'},
         {field:'AUTH_CD',title:'권한그룹',width:80,halign:'center',align:'center',hidden:true},
         {field:'AUTH_NM',title:'권한그룹',width:120,halign:'center',align:'left',sortable:true},
+        {field:'USER_PS',title:'비밀번호',width:120,halign:'center',align:'left',hidden:true},
+        {field:'NEW_USER_PS',title:'신규비밀번호',width:120,halign:'center',align:'left',hidden:true},
         {field:'REMARK',title:'비고',width:500,align:'left',halign:'center'},
     	]],
 	frozenColumns:[[

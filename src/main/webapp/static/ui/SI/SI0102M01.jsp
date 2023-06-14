@@ -17,9 +17,7 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/sample_comm.js"></script>
 	<script type="text/javascript">
-    $( document ).ready(function() {
-    	debugger;
-    });
+    $( document ).ready(function() {});
     $.pf_append = function(){return true;};
     $.pf_delete = function(){return true;};
     $.pf_validatedata = function(a_obj, a_idx, a_type){return true;};
@@ -48,27 +46,27 @@
     $.pf_defaultparams = function(a_obj){
     	//데이터 추가시 default값을 정함.
         let rtn_params; 
-        if(a_obj.attr('id') == "dg0") rtn_params = {COMP_ID:$.jf_seqdgdata('/si/SI0102G0K0','post'), GPS_X : 0, GPS_Y : 0, TM_X: 0, TM_Y : 0};
+        if(a_obj.attr('id') == "dg0") rtn_params = {COMP_ID:$.jf_seqdgdata('http://localhost:8183/si/SI0102G0K0','post'), GPS_X : 0, GPS_Y : 0, TM_X: 0, TM_Y : 0};
         return rtn_params;
     };
     $.pf_acceptcfmsg = function(a_type){
         if(a_type == 'save'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
-                $.jf_savedgdata($('#dg0'), '/si/SI0102G0S0', 'post', null);
+                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/si/SI0102G0S0', 'post', null);
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
             
         }
         else if(a_type == 'close'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
-                $.jf_savedgdata($('#dg0'), '/si/SI0102G0S0', 'post', null);  
+                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/si/SI0102G0S0', 'post', null);  
                 $.jf_close();
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);  
         }
         else if(a_type == 'search'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f')){
-                if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), '/si/SI0102G0S0', 'post', 'search');
+                if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), 'http://localhost:8183/si/SI0102G0S0', 'post', 'search');
                 $.jf_retrieve($('#dg0'));
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
@@ -84,9 +82,14 @@
         if(a_type == 'close') $.jf_close();
         return true;
     };
+    $.pf_deleteafter = function(a_obj){
+        if($.jf_datalength($('#dg0')) == 0) $.jf_protectform($('#dg0'), $('#ef0'), true, 0);
+        return true;
+    }
     $.uf_chknumber = function(a_value, a_type){
+        // debugger;
         let v_value;
-        let v_reg = /[가-힣a-zA-Z\s]/g;
+        let v_reg = /[ㄱ-ㅎ|가-힣|ㅏ-ㅣ|a-z|A-Z]/g;
         // value가 없으면 바로 리턴을 시켜준다.
         if(a_value.length < 1) return true;
         // value가 있을 경우 특수 문자 및 문자(한글, 영어)를 검사한다
@@ -104,6 +107,7 @@
         return true;
     };
     $.uf_changetext = function(a_value, a_type){
+        // debugger;
         let rtn_value;
         let v_reg = /-/g;
         if(a_value.search(v_reg) < 0){
@@ -121,6 +125,13 @@
         }
         rtn_value = a_value;
         return rtn_value; 
+    };
+
+    $.uf_blocktext = function(a_value){
+        let v_reg = /^[a-z|A-Z|ㄱ-ㅎ|가-힣]/g;
+        if(a_value.search(v_reg) < 0){
+            console.log(1);
+        }
     }
 	</script>
 </head>

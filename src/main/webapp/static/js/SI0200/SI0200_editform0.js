@@ -243,7 +243,7 @@ $(function(){
     $('#RELS_DT').datebox({
         width: 200,
         height: 25,
-        editable: true ,
+        editable: false,
         required: false,
         maxlength: 10,
         formatter: $.tracomdateformatter,

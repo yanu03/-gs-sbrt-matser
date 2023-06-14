@@ -21,32 +21,32 @@ public class MO0204Controller extends ControllerSupport {
 
 	@RequestMapping("/mo/MO0204G0R0")
 	public @ResponseBody Map<String, Object> MO0204G0R0() throws Exception {
-		result.setData("dlt_BRT_CUR_OPER_INFO", MO0204Service.MO0204G0R0());
+		result.setData("rows", MO0204Service.MO0204G0R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/mo/MO0204G1R0")
 	public @ResponseBody Map<String, Object> MO0204G1R0() throws Exception {
-		result.setData("dlt_BMS_DVC_INFO", MO0204Service.MO0204G1R0());
-		result.setData("dlt_BMS_DVC_INFO2", MO0204Service.MO0204G1R0());
+		result.setData("rows", MO0204Service.MO0204G1R0());
+		result.setData("rows", MO0204Service.MO0204G1R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/mo/MO0204G1R1")
 	public @ResponseBody Map<String, Object> MO0204G1R1() throws Exception {
-		result.setData("dlt_PARAM_KIND", MO0204Service.MO0204G1R1());
+		result.setData("rows", MO0204Service.MO0204G1R1());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/mo/MO0204SHI1")
 	public @ResponseBody Map<String, Object> MO0204SHI0() throws Exception {
-		result.setData("dlt_searchitem2", MO0204Service.MO0204SHI1());
+		result.setData("rows", MO0204Service.MO0204SHI1());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/mo/MO0204G2R0")
 	public @ResponseBody Map<String, Object> MO0204G2R0() throws Exception {
-		result.setData("dlt_BMS_ROUT_LINK_CMPSTN", MO0204Service.MO0204G2R0());
+		result.setData("rows", MO0204Service.MO0204G2R0());
 		return result.getResult();
 	}
 	

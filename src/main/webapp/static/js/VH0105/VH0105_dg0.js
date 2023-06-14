@@ -7,10 +7,12 @@ $(function(){
 	//single main grid
 	$('#dg_panel0').append('<table id="dg0" class="easyui-datagrid" style="width:100%;height:100%"></table>');
 
+	var v_fdate = $.tracomfromdate('d');
+	var v_tdate = $.tracombasicdate();
     $('#dg0').datagrid({
-    url:'/vh/VH0105G0R0',	//json 조회 url
+    url:'http://localhost:8183/vh/VH0105G0R0',	//json 조회 url
     method: 'POST', // url 던져서 쿼리 가져올때는 POST
-    queryParams: JSON.stringify({"dma_search" : {"TYPE" : "All", "CONTENT1" : "", "CONTENT2" : "", "CONTENT3" : ""}}),	//json 조회 params
+    queryParams: JSON.stringify({"dma_search" : {"TYPE" : "All", "CONTENT1" : "", "CONTENT2" : "", "CONTENT3" : "","F_DATE": v_fdate,"L_DATE":v_tdate}}),	//json 조회 params
     singleSelect: true,
     border: false,
     loadMsg: '데이터 로딩중입니다',
@@ -20,31 +22,31 @@ $(function(){
     remoteSort: false,
     multiSort: true,
     columns:[[
-        {field:'SEND_DTM',title:'운행일',width:200,align:'center',halign:'center',sortable:true},
-        {field:'UPD_DTM',title:'갱신일시',width:200,align:'center',halign:'center',sortable:true},
-        {field:'ROUT_NM',title:'대표노선명',width:200,align:'center',halign:'center',sortable:true},
-        {field:'VHC_NO',title:'노선명',width:200,align:'center',halign:'center',sortable:true},
-        {field:'ROUT_NM',title:'차량번호',width:200,halign:'center',align:'left',sortable:true},
-        {field:'DRV_NM',title:'운전자명',width:200,align:'left',halign:'center',sortable:true},
-        {field:'LINK_NM',title:'배차번호',width:200,halign:'center',align:'left'},
-        {field:'DSPTCH_DIV',title:'운행순번',width:200,halign:'center',align:'center',sortable:true},
-        {field:'GPS_X',title:'노드명',width:200,halign:'center',align:'left'},
-        {field:'GPS_Y',title:'경도',width:200,halign:'center',align:'left'},
-        {field:'DSPTCH_CONTS',title:'위도',width:200,halign:'center',align:'left'},
-        {field:'DSPTCH_CONTS',title:'운행상태',width:200,halign:'center',align:'left'},
-        {field:'ALLOC_NO',title:'버스상태',width:200,halign:'center',align:'left'},
-        {field:'DSPTCH_CONTS',title:'OBE상태',width:200,halign:'center',align:'left'},
-        {field:'EVT_TYPE',title:'차량진행각도',width:200,halign:'center',align:'left'},
-        {field:'EVT_CONTS',title:'현재속도',width:200,halign:'center',align:'left'},
-        {field:'EVT_CONTS',title:'가속여부',width:200,halign:'center',align:'left'},
-        {field:'EVT_CONTS',title:'감속여부',width:200,halign:'center',align:'left'},
-        {field:'EVT_CONTS',title:'현재정차시간',width:200,halign:'center',align:'left'},
-        {field:'EVT_CONTS',title:'운행거리',width:200,halign:'center',align:'left'},
-        {field:'EVT_CONTS',title:'노드유형',width:200,halign:'center',align:'left'},
-        {field:'EVT_CONTS',title:'링크명',width:200,halign:'center',align:'left'},
-        {field:'EVT_CONTS',title:'이전정류소명',width:200,halign:'center',align:'left'},
+        {field:'ROUT_GRP_NM',title:'노선그룹',width:100,align:'center',halign:'center',sortable:true},
+        {field:'ROUT_NM',title:'노선명',width:150,align:'center',halign:'center',sortable:true},
+        {field:'VHC_NO',title:'차량번호',width:150,halign:'center',align:'center',sortable:true},
+        {field:'DRV_NM',title:'운전자명',width:100,align:'center',halign:'center',sortable:true},
+        {field:'ALLOC_NO',title:'배차번호',width:80,halign:'center',align:'center'},
+        {field:'OPER_SN',title:'운행순번',width:80,halign:'center',align:'center',sortable:true},
+        {field:'NODE_NM',title:'노드명',width:200,halign:'center',align:'left'},
+        {field:'GPS_X',title:'경도',width:150,halign:'center',align:'right'},
+        {field:'GPS_Y',title:'위도',width:150,halign:'center',align:'right'},
+        {field:'OPER_STS',title:'운행상태',width:200,halign:'center',align:'left'},
+        {field:'BUS_STS',title:'버스상태',width:200,halign:'center',align:'left'},
+        {field:'OBE_STS',title:'OBE상태',width:200,halign:'center',align:'left'},
+        {field:'DRV_ANGLE',title:'차량진행각도(º)',width:150,halign:'center',align:'right'},
+        {field:'CUR_SPD',title:'현재속도(km/h)',width:150,halign:'center',align:'right'},
+        {field:'ACLRTN_YN',title:'가속여부',width:200,halign:'center',align:'left'},
+        {field:'DCLRTN_YN',title:'감속여부',width:200,halign:'center',align:'left'},
+        {field:'CUR_STOP_TM',title:'현재정차시간',width:200,halign:'center',align:'left'},
+        {field:'OPER_LEN',title:'운행거리',width:200,halign:'center',align:'left'},
+        {field:'NODE_TYPE_NM',title:'노드유형',width:200,halign:'center',align:'center'},
+        {field:'LINK_NM',title:'링크명',width:250,halign:'center',align:'left'},
+        {field:'PRV_PLCE_NM',title:'이전정류소명',width:200,halign:'center',align:'left'},
       ]],
 	frozenColumns:[[
+			{field:'OPER_DT',title:'운행일',width:150,align:'center',halign:'center',sortable:true},
+      {field:'UPD_DTM',title:'갱신일시',width:200,align:'center',halign:'center',sortable:true},
 		]],
 		//event 정의
     loader: function(param, success, error){$.tracomdgloader($(this), param, success, error);

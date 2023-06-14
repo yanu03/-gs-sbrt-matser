@@ -20,20 +20,25 @@ public class ST0205Controller extends ControllerSupport {
 	
 	@RequestMapping("/st/ST0205G0R0")
 	public @ResponseBody Map<String, Object> ST0205G0R0() throws Exception {
-		result.setData("dlt_BMS_ROUT_AVER_OPER_SP_STAT", st0205Service.ST0205G0R0());
-		result.setData("dlt_BMS_ROUT_AVER_OPER_SP_STAT_2", st0205Service.ST0205G0R1());
+		result.setData("rows", st0205Service.ST0205G0R0());
+		return result.getResult();
+	}
+	
+	@RequestMapping("/st/ST0205G0R1")
+	public @ResponseBody Map<String, Object> ST0205G0R1() throws Exception {
+		result.setData("rows", st0205Service.ST0205G0R1());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/st/ST0205G1R0")
 	public @ResponseBody Map<String, Object> ST0205G1R0() throws Exception {
-		result.setData("dlt_BMS_ROUT_AVER_OPER_SP_STAT_C1", st0205Service.ST0205G1R0());
+		result.setData("rows", st0205Service.ST0205G1R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/st/ST0205G1R1")
 	public @ResponseBody Map<String, Object> ST0205G1R1() throws Exception {
-		result.setData("dlt_BMS_ROUT_AVER_OPER_SP_STAT_P1", st0205Service.ST0205G1R1());
+		result.setData("rows", st0205Service.ST0205G1R1());
 		return result.getResult();
 	}
 	

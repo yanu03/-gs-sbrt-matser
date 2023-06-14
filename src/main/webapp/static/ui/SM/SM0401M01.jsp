@@ -56,20 +56,20 @@
     $.pf_acceptcfmsg = function(a_type){
         if(a_type == 'save'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
-                if($.uf_chkuserpw() && $.uf_chkuserid()) $.jf_savedgdata($('#dg0'), '/member/updateMemberBasic', 'post', null);
+                if($.uf_chkuserpw() && $.uf_chkuserid()) $.jf_savedgdata($('#dg0'), 'http://localhost:8183/member/updateMemberBasic', 'post', null);
             }
             else{$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);}
         }
         else if(a_type == 'close'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
-                $.jf_savedgdata($('#dg0'), '/member/updateMemberBasic', 'post', null);  
+                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/member/updateMemberBasic', 'post', null);  
                 $.jf_close();
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);  
         }
         else if(a_type == 'search'){
           if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f')){
-                if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), '/member/updateMemberBasic', 'post', 'search');
+                if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), 'http://localhost:8183/member/updateMemberBasic', 'post', 'search');
                 $.jf_retrieve($('#dg0'));
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
@@ -85,6 +85,10 @@
       if(a_type == 'close') $.jf_close();
         return true;
     };
+    $.pf_deleteafter = function(a_obj){
+        if($.jf_datalength($('#dg0')) == 0) $.jf_protectform($('#dg0'), $('#ef0'), true, 0);
+        return true;
+    }
     // 기능 : 새로 추가한 데이터 사용자 ID readonly를 풀어준다
     $.uf_unlockbox = function(){
       let v_newRows = $('#dg0').datagrid('getChanges', 'inserted');
@@ -145,7 +149,7 @@
       let v_chkpsvalue;
       
         for(let i=0; i < v_changedatas.length; i++){
-          v_psvalue = v_changedatas[i].USER_PS;
+          v_psvalue = v_changedatas[i].NEW_USER_PS;
           v_chkpsvalue = v_changedatas[i].CHK_USER_PS;
           // focus 하기 위해 바뀐 row를 찾아준다.
           v_changerow = $('#dg0').datagrid('getRows').find(object => object === v_changedatas[i]);

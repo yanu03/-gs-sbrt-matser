@@ -30,11 +30,12 @@
 					<!--  ,   MAX(CASE A.EVT_DATA )-->
 					,	B.NODE_NM AS EVE_NODE_NM
 					,	B.NODE_TYPE
-					, 	C.ROUT_NM
+					, C.ROUT_NM
 					,	D.ORGA_NM
 					,	E.DRV_NM
 					,	F.LINK_NM
-					,   G.NODE_NM AS NODE_NM
+					, G.NODE_NM AS NODE_NM
+					, DL.DL_CD_NM AS EVT_TYPE_NM
 	FROM				BMS_OPER_EVENT_HIS A
 	LEFT JOIN 			BMS_NODE_MST B
 	ON 					A.EVT_DATA = B.NODE_ID
@@ -48,6 +49,8 @@
 	ON					A.LINK_ID = F.LINK_ID
 	LEFT JOIN 			BMS_NODE_MST G
 	ON 					A.NODE_ID = G.NODE_ID
+	LEFT JOIN				BMS_DL_CD_INFO DL
+	ON 					A.EVT_TYPE = DL.DL_CD AND DL.CO_CD = 'OPER_EVT_TYPE'
 	WHERE				A.OPER_DT IS NOT NULL
 		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE) and @kr.tracom.util.CommonUtil@empty(L_DATE)">
 			<![CDATA[AND A.OPER_DT >= #{F_DATE}]]>
@@ -104,6 +107,7 @@ UNION
 					,	E.DRV_NM
 					,	F.LINK_NM
 					,   G.NODE_NM AS NODE_NM
+					, DL.DL_CD_NM AS EVT_TYPE_NM
 	FROM				BMS_CUR_OPER_EVENT_HIS A
 	LEFT JOIN 			BMS_NODE_MST B
 	ON 					A.EVT_DATA = B.NODE_ID
@@ -117,6 +121,8 @@ UNION
 	ON					A.LINK_ID = F.LINK_ID
 	LEFT JOIN 			BMS_NODE_MST G
 	ON 					A.NODE_ID = G.NODE_ID
+	LEFT JOIN				BMS_DL_CD_INFO DL
+	ON 					A.EVT_TYPE = DL.DL_CD AND DL.CO_CD = 'OPER_EVT_TYPE'
 	WHERE				A.OPER_DT IS NOT NULL
 		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT1)">
 				AND A.ROUT_GRP = #{CONTENT1}
@@ -125,7 +131,7 @@ UNION
 				AND A.ROUT_ID = #{CONTENT2}
 		</if>
 		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT3)">
-				AND A.VHC_ID = #{CONTENT3}
+				AND A.VHC_NO = #{CONTENT3}
 		</if>
 		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT4)">
 				AND A.EVT_TYPE = #{CONTENT4}

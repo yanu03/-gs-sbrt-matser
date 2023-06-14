@@ -33,6 +33,7 @@ $(function(){
     $('#sub_btn0').bind('click', function(){
         if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
             if(!$.jf_changeddg($('#dg0'), null)){
+								$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
                 $.jf_append($('#dg1'), $.pf_defaultparams($('#dg1')));
             }else{
                 $.tracomalmsg('정보', '저장되지 않는 데이터가 있어 추가할 수 없습니다.', null);
@@ -50,7 +51,6 @@ $(function(){
 		}
     });
     $('#sub_btn3').bind('click', function(){
-        // 저장은 공통 세이브가 해결 될때 합치겠습니다.
         if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
             $.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
             $.jf_savedgdata($('#dg1'), '/common/selectCommonDtlUpdate', 'post', null);

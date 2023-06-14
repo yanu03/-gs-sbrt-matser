@@ -20,20 +20,20 @@ public class ST0206Controller extends ControllerSupport {
 	
 	@RequestMapping("/st/ST0206G0R0")
 	public @ResponseBody Map<String, Object> ST0206G0R0() throws Exception {
-		result.setData("dlt_BMS_NODE_MST", st0206Service.ST0206G0R0());
+		result.setData("rows", st0206Service.ST0206G0R0());
 		//st0206Service.ST0206PROC();
 		return result.getResult();
 	}
 	
 	@RequestMapping("/st/ST0206G1R0")
 	public @ResponseBody Map<String, Object> ST0206G1R0() throws Exception {
-		result.setData("dlt_BMS_ROUT_STTN_STOP_STAT", st0206Service.ST0206G1R0());
+		result.setData("rows", st0206Service.ST0206G1R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/st/ST0206G1R1")
 	public @ResponseBody Map<String, Object> ST0206G1R1() throws Exception {
-		result.setData("dlt_BMS_ROUT_STTN_STOP_STAT_2", st0206Service.ST0206G1R1());
+		result.setData("rows", st0206Service.ST0206G1R1());
 		return result.getResult();
 	}
 	

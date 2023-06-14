@@ -5,8 +5,8 @@
  */
 $(function(){
 	//from date to date
-	$('#sch_panel0').append('일시&nbsp;<input id="sch_fdd" type="text"> - ');
-	$('#sch_panel0').append('<input id="sch_tdd" type="text">&nbsp;&nbsp;&nbsp;&nbsp;');
+	$('#sch_panel1').append('일시&nbsp;<input id="sch_fdd" type="text"> - ');
+	$('#sch_panel1').append('<input id="sch_tdd" type="text">&nbsp;&nbsp;&nbsp;&nbsp;');
 	
 	$('#sch_fdd').datebox({
     width: 110,

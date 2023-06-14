@@ -176,7 +176,7 @@ $(function(){
         width: 180,
 		height: 24,
 		editable: false,
-		url: 'js/SI0200/JSON folder/area_data.json',
+		url: '/static/js/SI0200/JSON folder/area_data.json',
 		method: 'get',
 		queryParams: {},
 		valueField: 'id',
@@ -211,7 +211,7 @@ $(function(){
          *  운수사를 선택할 수 있는 그리드는 center에 둔다. 그리드의 row를 클릭 후 확인 버튼을 누르면
          *  해당 운수사 ID, 운수사명을 form안으로 넣어준다 
          */ 
-        $.tracomalmsg('정보','주석을 읽어주세요<br><br><br>location : public/js/SI0200/SI0200_form.js<br><br> btn id : sch_rout_btn');
+        $.tracomalmsg('정보','주석을 읽어주세요<br><br><br>location : public//static/js/SI0200/SI0200_form.js<br><br> btn id : sch_rout_btn');
     });
 
     $('#CHAS_NO').textbox({
@@ -237,7 +237,7 @@ $(function(){
         height: 25,
         type:'text',
         editable: false,
-		url: 'js/SI0200/JSON folder/maker_data.json',
+		url: '/static/js/SI0200/JSON folder/maker_data.json',
 		method: 'get',
 		queryParams: {},
 		valueField: 'id',
@@ -301,7 +301,7 @@ $(function(){
         height: 25,
         type:'text',
         editable: false,
-		url: 'js/SI0200/JSON folder/rout_type_data.json',
+		url: '/static/js/SI0200/JSON folder/rout_type_data.json',
 		method: 'get',
 		queryParams: {},
 		valueField: 'id',
@@ -331,7 +331,7 @@ $(function(){
         height: 25,
         type:'text',
         editable: false,
-		url: 'js/SI0200/JSON folder/vhc_type_data.json',
+		url: '/static/js/SI0200/JSON folder/vhc_type_data.json',
 		method: 'get',
 		queryParams: {},
 		valueField: 'id',
@@ -361,7 +361,7 @@ $(function(){
         height: 25,
         type:'text',
         editable: false,
-		url: 'js/SI0200/JSON folder/vhc_kind_data.json',
+		url: '/static/js/SI0200/JSON folder/vhc_kind_data.json',
 		method: 'get',
 		queryParams: {},
 		valueField: 'id',
@@ -391,7 +391,7 @@ $(function(){
         height: 25,
         type:'text',
         editable: false,
-		url: 'js/SI0200/JSON folder/VHC_FUEL_data.json',
+		url: '/static/js/SI0200/JSON folder/VHC_FUEL_data.json',
 		method: 'get',
 		queryParams: {},
 		valueField: 'id',

@@ -76,7 +76,7 @@ public class MemberController extends ControllerSupport{
 	public @ResponseBody Map<String, Object> updateMemberBasic() throws Exception {
 		Map hash = service.saveMemberBasicList();
 		result.setData("dma_result", hash);
-		result.setData("dlt_memberBasic", service.selectMemberBasic());
+		//result.setData("dlt_memberBasic", service.selectMemberBasic());
 		return result.getResultSave();
 	}
 	

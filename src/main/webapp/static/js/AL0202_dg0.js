@@ -9,7 +9,7 @@ $(function(){
 	$('#dg_panel0').append('<table id="dg0" class="easyui-datagrid" style="width:100%;height:100%"></table>');
 	
 	$('#dg0').datagrid({
-    url:'/AL/AL0202G0R0',	//json 조회 url
+    url:'http://localhost:8183/AL/AL0202G0R0',	//json 조회 url
     method: 'POST',
     queryParams: JSON.stringify({"dma_search" : {CONTENT : "", TYPE:'ALL'}}),						//json 조회 params
 	singleSelect: true, //signleSelect : 단일 선택 true, 체크박스 포함일때 false
@@ -20,7 +20,7 @@ $(function(){
 	showFooter: true,
     columns:[[
         {field:'ALLOC_NM',title:'배차명',width:150,halign:'center',align:'left'},
-        {field:'ALLOC_ENM',title:'배차영문명',width:100,halign:'center',align:'center',hidden:true},
+        /*{field:'ALLOC_ENM',title:'배차영문명',width:100,halign:'center',align:'center',hidden:true},
         {field:'ROUT_GRP',title:'노선그룹',width:150,halign:'center',align:'center',hidden:true},
         {field:'ROUT_GRP_NM',title:'노선그룹',width:100,halign:'center',align:'center'},
 		{field:'DAY_DIV',title:'요일구분',width:100,align:'left',halign:'center',hidden:true},
@@ -40,7 +40,7 @@ $(function(){
 		{field:'AM_PEAK',title:'오전첨두시배차간격',width:180,align:'right',halign:'center'},
 		{field:'PM_PEAK',title:'오후첨두시배차간격',width:180,align:'right',halign:'center'},
 		{field:'NONE_PEAK',title:'비첨두시배차간격',width:180,align:'center',halign:'center'},
-		{field:'REMARK',title:'비고',width:300,halign:'center',align:'left'},
+		{field:'REMARK',title:'비고',width:300,halign:'center',align:'left'},*/
 			]],
 		frozenColumns:[[
 		{field:'ALLOC_ID',title:'배차ID',width:100,halign:'center',align:'center'}
@@ -59,18 +59,18 @@ $(function(){
 		},
 		onBeforeSelect: function(index,row){
 			let a_rtn = false;
-			if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f')){
-				if($.jf_changeddg($('#dg1'), null)){
+			if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
+				/*if($.jf_changeddg($('#dg1'), null)){
 					$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'focussave');
 					a_rtn = false;
 				}else{
 					a_rtn = true;
-				}				
+				}*/				
+				a_rtn = true;
 			}	
 			return a_rtn;
 		},
 		onSelect: function(index,row){
-			$.jf_synctoform($('#dg0'), $('#ef0'), index, row);	//form edit일떄 사용
 			$.jf_childretrieve($('#dg1'), $.pf_childparams($('#dg1'), row));
 		},
 		onBeforeEdit: function(index,row){},

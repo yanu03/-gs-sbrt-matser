@@ -47,20 +47,29 @@ $(function(){
             $.jf_beginedit($('#dg0'), a_index);
         }
     },
-    onBeforeSelect: function(a_index,row){
+    onBeforeSelect: function(a_index,a_row){
         let rtn_value = false;
         if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') && $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
-            $.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
-            if($.jf_changeddg($('#dg1'), null) ){
-                $.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', a_index);
-                rtn_value = false;
-            }else{
-                rtn_value = true;
-            }				
+            if(!$.uf_chkkey($('#dg0'), $('#dg0').datagrid('getRows'), $.jf_fnddgstrct($('#dg0')), 'CO_CD') ||
+                !$.uf_chkkey($('#dg1'), $('#dg1').datagrid('getRows'),  $.jf_fnddgstrct($('#dg1')), 'DL_CD')) {
+                    rtn_value = false;
+            }
+            else{
+                $.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
+                $.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
+                if($.jf_changeddg($('#dg1'), null) ){
+                    $.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', a_index);
+                    rtn_value = false;
+                }else{
+                    rtn_value = true;
+                }
+            }
         }
+        
         return rtn_value;
     },
     onSelect: function(a_index,a_row){
+        
         $.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));	//grid edit일때 사용
         $.jf_childretrieve($('#dg1'), $.pf_childparams($('#dg1'), a_row));
     },

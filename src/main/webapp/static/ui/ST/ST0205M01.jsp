@@ -16,8 +16,8 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
   <script src="/static/js/Highcharts-Gantt-10.2.0/code/highcharts.js"></script>
+  <script src="/static/js/sample_comm.js"></script>
   <script src="/static/js/jquery.pivotgrid.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {});
     var uv_chart1data;

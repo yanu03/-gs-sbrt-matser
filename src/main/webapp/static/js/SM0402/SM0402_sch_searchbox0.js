@@ -15,7 +15,7 @@ $(function(){
 	}
 
 	$('#sch_sb0').searchbox({
-		width: 150,
+		width: 180,
 		height: 24,
 		prompt: '권한코드, 권한코드명',
 		searcher: $.jf_schbox

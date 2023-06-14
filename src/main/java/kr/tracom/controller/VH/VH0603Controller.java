@@ -20,7 +20,7 @@ public class VH0603Controller extends ControllerSupport {
 
 	@RequestMapping("/vh/VH0603G0R0")
 	public @ResponseBody Map<String, Object> VH0603G0R0() throws Exception {
-		result.setData("dlt_BMS_CRS_SIGOPER_PHASE_INFO_HIS", vh0603Service.VH0603G0R0());
+		result.setData("rows", vh0603Service.VH0603G0R0());
 		return result.getResult();
 	}
 	

@@ -10,7 +10,7 @@ $(function(){
     $('#dg1').datagrid({
     url:'/al/AL0105G1R0',	//json 조회 url
     method: 'POST', // url 던져서 쿼리 가져올때는 POST
-    queryParams: JSON.stringify({dma_search : {TYPE:"ALL"}}),	//json 조회 params
+    queryParams: JSON.stringify({dma_search : {CONTENT:""}}),	//json 조회 params
     singleSelect: true,
     border: false,
     loadMsg: '데이터 로딩중입니다',

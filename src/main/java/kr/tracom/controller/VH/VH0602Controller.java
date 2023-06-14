@@ -20,7 +20,7 @@ public class VH0602Controller extends ControllerSupport {
 
 	@RequestMapping("/vh/VH0602G0R0")
 	public @ResponseBody Map<String, Object> VH0602G0R0() throws Exception {
-		result.setData("dlt_BMS_CRS_SIGOPER_EVENT_HIS", vh0602Service.VH0602G0R0());
+		result.setData("rows", vh0602Service.VH0602G0R0());
 		return result.getResult();
 	}
 	

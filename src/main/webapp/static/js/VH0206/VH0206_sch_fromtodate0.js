@@ -17,12 +17,13 @@ $(function(){
     value: $.tracomfromdate('d'),
     formatter: $.tracomdateformatter,
     parser: $.tracomdateparser,
-		onSelect: function(date){},
+		onSelect: function(date){
+			$('#sch_rb0').radiobutton('check');
+		},
 		onChange: function(a_newValue, oldValue){
 			let v_todate = $('#sch_tdd').datebox('getValue');
 			if(v_todate.length < 1) return false;
 			if(a_newValue > v_todate) $('#sch_fdd').datebox('setValue', v_todate);
-			$.uf_limitdate();
 			return true;
 		}
 	});
@@ -36,12 +37,13 @@ $(function(){
     value: $.tracomtodate('d'),	//초기값
     formatter: $.tracomdateformatter,
     parser: $.tracomdateparser,
-		onSelect: function(date){},
+		onSelect: function(date){
+			$('#sch_rb0').radiobutton('check');
+		},
 		onChange: function(a_newValue, oldValue){
 			let v_fromdate = $('#sch_fdd').datebox('getValue');
 			if(v_fromdate.length < 1) return false;
 			if(a_newValue < v_fromdate) $('#sch_tdd').datebox('setValue', v_fromdate);
-			$.uf_limitdate();
 			return true;
 		}
 	});

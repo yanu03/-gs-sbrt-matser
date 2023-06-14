@@ -13,10 +13,19 @@
 		,A.DATA_VAL
 		, DATE_FORMAT(A.SEND_DTM, '%Y-%m-%d %H:%i:%s') SEND_DTM 
 		,B.VHC_NO
+		,C.DL_CD_NM AS PARAM_DIV_NM
+		,D.DL_CD_NM AS PARAM_KIND_NM
+		,E.DL_CD_NM AS DVC_KIND_NM
 	FROM
 		BMS_DVC_CUR_STATUS_PARAM_INFO A
 		LEFT JOIN BMS_VHC_DVC_CMPSTN VDC ON A.DVC_ID = VDC.DVC_ID
 		LEFT JOIN BMS_VHC_MST B ON VDC.VHC_ID = B.VHC_ID
+		LEFT JOIN BMS_DL_CD_INFO C
+		ON        A.PARAM_DIV = C.DL_CD AND C.CO_CD = 'PARAM_DIV'
+		LEFT JOIN BMS_DL_CD_INFO D
+		ON       	A.PARAM_KIND = D.DL_CD AND D.CO_CD = 'PARAM_KIND'
+		LEFT JOIN BMS_DL_CD_INFO E
+		ON       	A.DVC_KIND = E.DL_CD AND E.CO_CD = 'DVC_KIND'
 	<where>
 		<if test="@kr.tracom.util.CommonUtil@notEmpty(VHC_ID)">
 				VDC.VHC_ID = #{VHC_ID}
@@ -30,14 +39,14 @@
 		<if test="@kr.tracom.util.CommonUtil@notEmpty(PARAM_KIND)">
 				AND A.PARAM_KIND = #{PARAM_KIND}
 		</if>
-		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE_VH0206) and @kr.tracom.util.CommonUtil@empty(L_DATE_VH0206)">
-			<![CDATA[AND DATE_FORMAT(A.SEND_DTM, '%Y-%m-%d') >= #{F_DATE_VH0206}]]>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE) and @kr.tracom.util.CommonUtil@empty(L_DATE)">
+			<![CDATA[AND DATE_FORMAT(A.SEND_DTM, '%Y-%m-%d') >= #{F_DATE}]]>
 		</if>
-		<if test="@kr.tracom.util.CommonUtil@notEmpty(L_DATE_VH0206) and @kr.tracom.util.CommonUtil@empty(F_DATE_VH0206)">
-			<![CDATA[AND DATE_FORMAT(A.SEND_DTM, '%Y-%m-%d') <= #{L_DATE_VH0206}]]>
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(L_DATE) and @kr.tracom.util.CommonUtil@empty(F_DATE)">
+			<![CDATA[AND DATE_FORMAT(A.SEND_DTM, '%Y-%m-%d') <= #{L_DATE}]]>
 		</if>
-		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE_VH0206) and @kr.tracom.util.CommonUtil@notEmpty(L_DATE_VH0206)">
-			AND DATE_FORMAT(A.SEND_DTM, '%Y-%m-%d') BETWEEN #{F_DATE_VH0206} AND #{L_DATE_VH0206}
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE) and @kr.tracom.util.CommonUtil@notEmpty(L_DATE)">
+			AND DATE_FORMAT(A.SEND_DTM, '%Y-%m-%d') BETWEEN #{F_DATE} AND #{L_DATE}
 		</if>			
 	</where>
 	ORDER BY

@@ -23,9 +23,20 @@ $(function(){
         {field:'INTG_ID',title:'뉴스/기상ID',width:150,align:'center',halign:'center',sortable:true},
         {field:'INTG_NM',title:'뉴스/기상명',width:150,align:'left',halign:'center',sortable:true,editor:{type:'textbox', options:{maxlength:30}}},
         {field:'INTG_TYPE',title:'유형',width:130,align:'left',halign:'center',formatter:function(value,row){return row.INTG_TYPE_NM;},
-        editor:{type:'combobox',options:{valueField:'DL_CD',textField:'DL_CD_NM',method:'post',
-        url:'/common/selectCommonDtlList',queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "INTG_TYPE"}}),required:false,panelHeight:200,panelMinHeight:20,panelMaxHeight:400
-        ,loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}, }}},
+          editor:{type:'combobox',options:{
+            method:'post',
+            url:'/common/selectCommonDtlList',
+            queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "INTG_TYPE"}}),
+            valueField:'DL_CD',
+            textField:'DL_CD_NM',
+            required:false,
+            editable:false,
+            panelHeight:200,
+            panelMinHeight:20,
+            panelMaxHeight:400,
+            loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}, 
+            }
+          }},
         {field:'INTG_URL',title:'연계 URL',width:550,halign:'center',align:'left',editor:{type:'textbox', options:{maxlength:200,required:true}}},
         {field:'INTG_API_KEY',title:'연계 API키',width:550,halign:'center',align:'left',editor:{type:'textbox', options:{maxlength:200}}},
         {field:'REMARK',title:'비고',width:300,align:'left',halign:'center',editor:{type:'textbox', options:{maxlength:200}}}

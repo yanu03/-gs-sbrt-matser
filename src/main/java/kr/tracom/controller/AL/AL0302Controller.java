@@ -20,58 +20,58 @@ public class AL0302Controller extends ControllerSupport {
 	
 	@RequestMapping("/al/AL0302G0R0")
 	public @ResponseBody Map<String, Object> AL0302G0R0() throws Exception {
-		result.setData("dlt_BMS_OPER_PL_MST", al0302Service.AL0302G0R0());
+		result.setData("rows", al0302Service.AL0302G0R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/al/AL0302G1R0")
 	public @ResponseBody Map<String, Object> AL0302G1R0() throws Exception {
-		result.setData("dlt_BMS_ALLOC_PL_MST", al0302Service.AL0302G1R0());
+		result.setData("rows", al0302Service.AL0302G1R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/al/AL0302G1S0")
 	public @ResponseBody Map<String, Object> AL0302G1S0() throws Exception {
 		Map map = al0302Service.AL0302G1S0();
-		result.setData("dma_result", map);
+		result.setData("rows", map);
 		return result.getResultSave();
 	}
 	
 	@RequestMapping("/al/AL0302G1S1")
 	public @ResponseBody Map<String, Object> AL0302G1S1() throws Exception {
 		Map map = al0302Service.AL0302G1S1();
-		result.setData("dma_result", map);
+		result.setData("rows", map);
 		return result.getResultSave();
 	}
 	
 	@RequestMapping("/al/AL0302SHI1")
 	public @ResponseBody Map<String, Object> AL0302SHI1() throws Exception {
-		result.setData("dlt_searchitem2", al0302Service.AL0302SHI1());
+		result.setData("rows", al0302Service.AL0302SHI1());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/al/AL0302G2R0")
 	public @ResponseBody Map<String, Object> AL0302G2R0() throws Exception {
-		result.setData("dlt_BMS_OPER_DT_ALLOC_PL_MST", al0302Service.AL0302G2R0());
+		result.setData("rows", al0302Service.AL0302G2R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/al/AL0302G2S0")
 	public @ResponseBody Map<String, Object> AL0302G2S0() throws Exception {
 		Map map = al0302Service.AL0302G2S0();
-		result.setData("dma_result", map);
+		result.setData("rows", map);
 		return result.getResultSave();
 	}
 	
 	@RequestMapping("/al/AL0302P0R0")
 	public @ResponseBody Map<String, Object> AL0302P0R0() throws Exception {
-		result.setData("dlt_BMS_VHC_MST", al0302Service.AL0302P0R0());
+		result.setData("rows", al0302Service.AL0302P0R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/al/AL0302P1R0")
 	public @ResponseBody Map<String, Object> AL0302P1R0() throws Exception {
-		result.setData("dlt_BMS_DRV_MST", al0302Service.AL0302P1R0());
+		result.setData("rows", al0302Service.AL0302P1R0());
 		return result.getResult();
 	}
 }

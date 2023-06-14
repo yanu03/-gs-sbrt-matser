@@ -139,21 +139,11 @@
 		</div>
 		<div data-options="region:'center', border:false">	
 			<div class="easyui-layout" data-options="fit:true">
-				<div data-options="region:'west', border:false, minWidth:1230, maxWidth:1230">
+				<div data-options="region:'west', border:false, minWidth:295, maxWidth:295">
 					<div class="easyui-layout" data-options="fit:true">
-						<form id="ef0" method="post">
-							<div data-options="region:'north', border:false, minHeight:200, maxHeight:200">
-								<div id="fm_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
-								</div>
-								<!--edit form object -->
-								<script src="/static/js/AL0202_editform0.js"></script>
-							</div>
-						</form>
-						<div data-options="region:'center', border:false">
 							<div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 							</div>
 							<script src="/static/js/AL0202_dg0.js"></script>
-						</div>			
 						<!--datagrid0 -->
 					</div>
 				</div>

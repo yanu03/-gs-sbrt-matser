@@ -21,39 +21,39 @@ public class ST0201Controller extends ControllerSupport {
 	
 	@RequestMapping("/st/ST0201G0R0")
 	public @ResponseBody Map<String, Object> ST0201G0R0() throws Exception {
-		result.setData("dlt_BMS_ROUT_MST", ST0201Service.ST0201G0R0());
+		result.setData("rows", ST0201Service.ST0201G0R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/st/ST0201SHI1")
 	public @ResponseBody Map<String, Object> ST0201SHI1() throws Exception {
-		result.setData("dlt_BMS_ROUT_NODE_CMPSTN", ST0201Service.ST0201SHI1());
+		result.setData("rows", ST0201Service.ST0201SHI1());
 		return result.getResult();
 	}
 
 	@RequestMapping({ "/st/ST0201SHI2" })
 	@ResponseBody
 	public Map<String, Object> ST0201SHI2() throws Exception {
-		this.result.setData("dma_sub_search2", this.ST0201Service.selectRout());
+		this.result.setData("rows", this.ST0201Service.selectRout());
 
 		return this.result.getResult();
 	}
 	
 	@RequestMapping("/st/ST0201G1R0")
 	public @ResponseBody Map<String, Object> ST0201G1R0() throws Exception {
-		result.setData("dma_sub_search3", ST0201Service.ST0201G1R0());
+		result.setData("rows", ST0201Service.ST0201G1R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/st/ST0201G1R1")
 	public @ResponseBody Map<String, Object> ST0201G1R1() throws Exception {
-		result.setData("dma_sub_search3", ST0201Service.ST0201G1R1());
+		result.setData("rows", ST0201Service.ST0201G1R1());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/st/ST0201G2R0")
 	public @ResponseBody Map<String, Object> ST0201G2R0() throws Exception {
-		result.setData("dlt_BMS_ROUT_LINK_STAT", ST0201Service.ST0201G2R0());
+		result.setData("rows", ST0201Service.ST0201G2R0());
 		return result.getResult();
 	}
 	

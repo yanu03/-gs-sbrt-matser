@@ -42,14 +42,19 @@ $(function(){
     },
     onClickRow: function(index,row){},
     onDblClickRow: function(index,row){},
-    onBeforeSelect: function(index,row){
-        let rtn_value;
-        if($.jf_changeddg($('#dg2'),'all')) rtn_value = false;
-        else rtn_value = true;
+    onBeforeSelect: function(a_index,row){
+        let rtn_value = false;
+        if($.jf_changeddg($('#dg2'), null) ){
+            $.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', a_index);
+            rtn_value = false;
+        }else{
+            rtn_value = true;
+        }
         return rtn_value;
     },
     onSelect: function(a_index,a_row){
-        //$.jf_childretrieve($('#dg1'), $.pf_childparams($('#dg1'), null));
+        // $.jf_childretrieve($('#dg1'),null);
+        $.jf_childretrieve($('#dg1'));
         $.jf_childretrieve($('#dg2'), $.pf_childparams($('#dg2'), a_row));  
     },
     onBeforeEdit: function(index,row){},

@@ -48,7 +48,8 @@ $(function(){
     });
     $('#btn2').bind('click', function(){
         if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
-			if(!$.jf_changeddg($('#dg1'), null)){
+						if(!$.jf_changeddg($('#dg1'), null)){
+								$.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
                 $.jf_append($('#dg0'), $.pf_defaultparams($('#dg0')));
             }else{
                 $.tracomalmsg('정보', '저장되지 않는 데이터가 있어 추가할 수 없습니다.', null);
@@ -66,8 +67,9 @@ $(function(){
             return false;
         }
         else {
-            if($.jf_changeddg('#dg1', 'all')) $.tracomalmsg('정보', '저장 후 삭제 가능합니다.'); 
+            if($.jf_changeddg($('#dg1'))) $.tracomalmsg('정보', '저장 후 삭제 가능합니다.'); 
             else $.jf_delete($('#dg0'));
+            return true;
         } 
         
     });
@@ -88,7 +90,7 @@ $(function(){
         else $.tracomalmsg('정보','필수 입력창을 입력후 저장해주세요');
     });
     $('#btn6').bind('click', function(){
-        if($.jf_changeddg($('#dg0'), null)) $.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'close');
+        if($.jf_changeddg($('#dg0'), 'all')) $.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'close');
         else $.jf_close();
     });
     

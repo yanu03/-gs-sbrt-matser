@@ -53,8 +53,15 @@ $(function(){
             $.jf_beginedit($('#dg1'), a_index);
         }
     },
-    onBeforeSelect: function(index,row){
-        return $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g');
+    onBeforeSelect: function(a_index,a_row){
+        let rtn_value = false;
+        if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
+            if(!$.uf_chkkey($('#dg1'), $('#dg1').datagrid('getRows'),  $.jf_fnddgstrct($('#dg1')), 'DL_CD') ) {
+                rtn_value = false;
+            }
+            else rtn_value = true;
+        }
+        return rtn_value;
     },
     onSelect: function(a_index,a_row){
         $.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));	//grid edit일때 사용

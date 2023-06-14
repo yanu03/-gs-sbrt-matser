@@ -53,21 +53,21 @@ public class AL0305Controller extends ControllerSupport {
 	
 	@RequestMapping("/al/AL0305G0R0")
 	public @ResponseBody Map<String, Object> AL0305G0R0() throws Exception {
-		result.setData("dlt_BMS_OPER_DT_ALLOC_PL_MST", AL0305Service.AL0305G0R0());
+		result.setData("rows", AL0305Service.AL0305G0R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/al/AL0305G0S0")
 	public @ResponseBody Map<String, Object> AL0305G0S0() throws Exception {
 		Map map = AL0305Service.AL0305G0S0();
-		result.setData("dma_result", map);
+		result.setData("rows", map);
 		return result.getResultSave();
 	}
 
 	@RequestMapping("/al/AL0305G0SEND")
 	public @ResponseBody Map<String, Object> AL0305G0SEND() throws Exception {
 		Map map = AL0305Service.AL0305G0SEND();
-		result.setData("dma_result", map);
+		result.setData("rows", map);
 		return result.getResultSave();
 	}
 	

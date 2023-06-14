@@ -9,7 +9,7 @@ $(function(){
 	$('#subbtn_panel0').append('<a id="sub_btn0" href="#">추가</a>&nbsp;');
 	$('#subbtn_panel0').append('<a id="sub_btn1" href="#">삭제</a>&nbsp;');
 	$('#subbtn_panel0').append('<a id="sub_btn2" href="#">취소</a>&nbsp;');
-	$('#subbtn_panel0').append('<a id="sub_btn3" href="#">권한별 등록 정보 저장</a>&nbsp;');
+	$('#subbtn_panel0').append('<a id="sub_btn3" href="#">사용자 저장</a>&nbsp;');
 	
 	$('#sub_btn0').linkbutton({
         height: 24,
@@ -33,8 +33,10 @@ $(function(){
     $('#sub_btn0').bind('click', function(){
         if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
             if(!$.jf_changeddg($('#dg0'), null)){
-                //$.jf_append($('#dg1'), $.pf_defaultparams($('#dg1')));
-                // 이 부분에 팝업을 띄워 주는 코드 한줄 넣어줘야함
+                // let v_values = {USER_ID:$('#USER_ID').textbox('getValue'), USER_NM:$('USER_NM').textbox('getValue')};
+                let v_values = {USER_ID:null, USER_NM:null, AUTH_CD: null};
+                // $.mf_selusermdopen($('#dg1'), null,null,null,'g');
+                $.mf_selusermdopen($('#dg1'), $('#ef0'), v_values, null, 'g');
             }else{
                 $.tracomalmsg('정보', '저장되지 않는 데이터가 있어 추가할 수 없습니다.', null);
             }

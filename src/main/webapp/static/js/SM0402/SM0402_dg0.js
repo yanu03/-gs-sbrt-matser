@@ -28,7 +28,7 @@ $(function(){
         // type:'combobox', 
         // options:{
         //     required:true,
-        //     url: '/common/selectCommonDtlList',
+        //     url: 'http://localhost:8183/common/selectCommonDtlList',
         //     method: 'post',
         //     queryParams: JSON.stringify({dma_search : {CO_CD : "SYSTEM_BIT"}}),
         //     valueField: 'DL_CD',
@@ -61,7 +61,7 @@ $(function(){
         if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') && $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
             $.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
             if($.jf_changeddg($('#dg1'), null) ){
-                $.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'focussave');
+                $.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', a_index);
                 rtn_value = false;
             }else{
                 rtn_value = true;

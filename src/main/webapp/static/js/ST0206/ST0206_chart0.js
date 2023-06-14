@@ -78,17 +78,17 @@ $(function(){
       },
       {
         type: 'spline', //라인그래프
-        name: '최대 정차시간',
+        name: '전체 최대 정차시간',
         data: $.uf_chart0avgdata(a_data, 'MAX_STOP_TIME')
       },
       {
         type: 'spline', //라인그래프
-        name: '최소 정차시간',
+        name: '전체 최소 정차시간',
         data: $.uf_chart0avgdata(a_data, 'MIN_STOP_TIME')
       },
       {
         type: 'spline', //라인그래프
-        name: '평균 정차시간',
+        name: '전체 평균 정차시간',
         data: $.uf_chart0avgdata(a_data, 'AVRG_STOP_TIME')
       }
       ]

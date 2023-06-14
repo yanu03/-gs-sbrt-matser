@@ -37,7 +37,12 @@
 
     $.pf_combineparams = function(a_obj){
     	//데이터 조회시 파라미터를 정함.
-        let rtn_params = {};
+        let rtn_params;
+
+        let v_searchval = $('#sch_sb0').searchbox('getValue');
+        let v_fdate = $('#sch_fdd').datebox('getValue');
+        let v_tdate = $('#sch_tdd').datebox('getValue');
+        rtn_params = {CONTENT1 : v_searchval, F_DATE : v_fdate, L_DATE : v_tdate};
         
         return rtn_params;
     };
@@ -58,23 +63,51 @@
 
         return true;
     };
-    $.uf_limitdate = function(){
-        // 기능 : fromdate가 todate 보다 한달 이상 멀어지지않게 해주는 함수
-        let v_fromdt = new Date($('#sch_fdd').datebox('getValue'));
-        let v_todt = new Date($('#sch_tdd').datebox('getValue'));
-        // fromdate와 todate을 onchange될때마다 값을 가져온다.
-        let v_datedifference = v_fromdt.getTime() - v_todt.getTime();
-        v_datedifference = v_datedifference / (24 * 60 * 60 * 1000);
-        // 두 날짜의 요일 차이를 계산해 준다.
-        if(v_datedifference < -30) {
-            let monthAgoDate = new Date(v_todt.setMonth(v_todt.getMonth() - 1));
-            monthAgoDate = $.tracomdateformatter(monthAgoDate);
-            $('#sch_fdd').datebox('setValue', monthAgoDate);
-            // 만약 fromdate가 todate보다 30일 더 멀어지게 된다면
-            // todate의 기준으로 부터 30일 전의 날짜로 설정해준다.
+    // $.uf_limitdate = function(){
+    //     // 기능 : fromdate가 todate 보다 한달 이상 멀어지지않게 해주는 함수
+    //     let v_fromdt = new Date($('#sch_fdd').datebox('getValue'));
+    //     let v_todt = new Date($('#sch_tdd').datebox('getValue'));
+    //     // fromdate와 todate을 onchange될때마다 값을 가져온다.
+    //     let v_datedifference = v_fromdt.getTime() - v_todt.getTime();
+    //     v_datedifference = v_datedifference / (24 * 60 * 60 * 1000);
+    //     // 두 날짜의 요일 차이를 계산해 준다.
+    //     if(v_datedifference < -30) {
+    //         let monthAgoDate = new Date(v_todt.setMonth(v_todt.getMonth() - 1));
+    //         monthAgoDate = $.tracomdateformatter(monthAgoDate);
+    //         $('#sch_fdd').datebox('setValue', monthAgoDate);
+    //         // 만약 fromdate가 todate보다 30일 더 멀어지게 된다면
+    //         // todate의 기준으로 부터 30일 전의 날짜로 설정해준다.
+    //     }
+
+    //     return true;
+    // };
+    $.uf_formatcolumn = function(a_data){
+        let rtn_data;
+
+        if(typeof(a_data.length) == 'undefined') return a_data;
+        for(let i=0; i < a_data.length; i++){
+            a_data[i].STOP_SEC = $.uf_timefilter(a_data[i].STOP_SEC);
+        }
+        rtn_data = a_data;
+        return rtn_data;
+    };
+    $.uf_timefilter = function(a_time){
+        let rtn_value = '';
+        if(a_time == '') return rtn_value;
+
+        if(a_time >= 120){
+            a_time -= 120;
+            rtn_value = '2분' + a_time + '초';
+        }
+        else if(a_time >= 60){
+            a_time -= 60;
+            rtn_value = '1분' + a_time + '초';
+        }
+        else if(a_time < 60){
+            rtn_value = a_time + '초';
         }
 
-        return true;
+        return rtn_value;
     };
 	</script>
 </head>
@@ -89,7 +122,7 @@
                     <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- search js -->
-                    <!-- <script src="/static/js/SI0200/SI0200_sch_selectbox.js"></script>-->
+                    <!-- <script src="//static/js/SI0200/SI0200_sch_selectbox.js"></script>-->
                     <script src="/static/js/VH0602/VH0602_sch_searchbox0.js"></script> 
                     <script src="/static/js/VH0602/VH0602_sch_fromtodate0.js"></script>
                     <script src="/static/js/VH0602/VH0602_radio0.js"></script>

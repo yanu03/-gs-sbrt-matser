@@ -20,13 +20,13 @@
     $( document ).ready(function() { });
     $.pf_append = function(){return true;};
     $.pf_delete = function(){return true;};
-    
     $.pf_setfocus = function(a_obj, a_idx){return true;};
     $.pf_retrieve = function(a_obj) {return true;};
     $.pf_rejectcfmsg = function(){return true;};
     $.pf_childretrieve = function(){return true;};
     $.pf_setfooter = function(a_obj){return true;};
     $.pf_modalselect = function(a_obj){return true;};
+    $.pf_chkchilddata = function(a_obj){return true;};
 
     $.pf_childparams = function(a_obj, a_row){
         let rtn_params;
@@ -44,9 +44,10 @@
     $.pf_defaultparams = function(a_obj){
     	//데이터 추가시 default값을 정함.
         let rtn_params = {};
-        if(a_obj.attr('id') == 'dg0') rtn_params = {USE_YN : "Y", AUTH_CD : $.jf_seqdgdata('/authority/selectAuthorityKey','post')};
+        if(a_obj.attr('id') == 'dg0') rtn_params = {USE_YN : "Y", AUTH_CD : $.jf_seqdgdata('http://localhost:8183/authority/selectAuthorityKey','post')};
         if(a_obj.attr('id') == 'dg1') {
             let v_getauth = $('#dg0').datagrid('getSelected');
+            console.log(v_getauth.AUTH_CD);
             rtn_params = {AUTH_CD : v_getauth.AUTH_CD};
         }
         return rtn_params;
@@ -55,20 +56,20 @@
         if(a_type == 'save'){
             if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') && $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
                 // 저장시 차례대로 저장이 필요함 
-                $.jf_savedgdata($('#dg0'), '/authority/saveAuthority', 'post', null);
-                $.jf_savedgdata($('#dg1'), '/authority/saveAuthorityMember', 'post', null);
+                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/authority/saveAuthority', 'post', null);
+                $.jf_savedgdata($('#dg1'), 'http://localhost:8183/authority/saveAuthorityMember', 'post', null);
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
-        if(a_type == 'focussave'){
-            if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){as
-                $.jf_savedgdata($('#dg1'), '/authority/saveAuthorityMember', 'post', null);
+        if(typeof(a_type) == 'number'){
+            if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
+                $.jf_savedgdata($('#dg1'), 'http://localhost:8183/authority/saveAuthorityMember', 'post', null);
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
         else if(a_type == 'search'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f')){
-                if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), '/member/updateMemberBasic', 'post', 'search');
+                if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), 'http://localhost:8183/member/updateMemberBasic', 'post', 'search');
                 $.jf_retrieve($('#dg0'));
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
@@ -78,7 +79,10 @@
     $.pf_rejectcfmsg = function(a_type){
         if(a_type == 'save') $.jf_resetdg($('#dg0'));
         if(a_type == 'subsave') $.jf_resetdg($('#dg1'));
-        if(a_type == 'focussave')$.jf_resetdg($('#dg1'));
+        if(typeof(a_type) == 'number'){
+            $.jf_resetdg($('#dg1'));
+            $.jf_setfocus($('#dg0'),a_type);
+        }
         if(a_type == 'search'){
             $.jf_resetdg($('#dg0'), 'ALL');
             $.jf_retrieve($('#dg0'));
@@ -86,14 +90,7 @@
         if(a_type == 'close') $.jf_close();
         return true;
     };
-    $.pf_chkchilddata = function(a_obj){
-        //data base를 조회한다.
-        // db 조회가 안돼서 테스트를 못하니까
-        //임시로 uf를 만들고 child datagrid에 데이터가 없는 것들을 임의로 삭제할 수 있게 
-        // if($.uf_chkchild()) $.tracomalmsg('정보', '사용된 데이터가 있어 삭제할 수 없습니다.', null);
-        // else 
-        return true;
-    };
+    
     $.pf_ajaxafterproc = function(a_type){
         if(a_type == "search") $.jf_retrieve($('#dg0'));
         return true;
@@ -101,19 +98,20 @@
     // 기능 : 사용자 ID가 중복된 ID인지 확인
     $.pf_validatedata = function(a_obj, a_idx, a_type){
         let rtn_value = true;
-            if(a_obj.attr('id') == "dg1"){
-                let v_userdatas = $('#dg1').datagrid('getRows');
-                let v_ed = $('#dg1').datagrid('getEditor', {index:a_idx, field:'USER_ID'});
-                let v_keyvalue = $(v_ed.target).textbox('getValue');
+        if(a_obj.attr('id') == "dg1"){
+            let v_userdatas = $('#dg1').datagrid('getRows');
+            let v_ed = $('#dg1').datagrid('getEditor', {index:a_idx, field:'USER_ID'});
+            let v_keyvalue = $(v_ed.target).textbox('getValue');
 
-                for(let i=0; i < v_userdatas.length; i++){
-                    if(v_userdatas[i].USER_ID == v_keyvalue) {
-                        if(a_idx == i) rtn_value = true;
-                        else rtn_value = false; break;
-                    }
+            for(let i=0; i < v_userdatas.length; i++){
+                if(v_userdatas[i].USER_ID == v_keyvalue) {
+                    if(a_idx == i) rtn_value = true;
+                    else rtn_value = false; break;
                 }
-                if(rtn_value == false) $.tracomalmsg('정보', '중복된 ID 입니다.', null);
             }
+            if(rtn_value == false) $.tracomalmsg('정보', '중복된 ID 입니다.', null);
+        }
+
         return rtn_value;
     };
 	</script>
@@ -138,6 +136,7 @@
                     <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- btn0 js -->
+                    <script src="/static/js/SM0402/SM0402_btn0.js"></script>
                 </div>
             </div>
         </div>
@@ -182,6 +181,9 @@
         </div>
 	</div>	
 </div>
+<div id="seluser">
+    <script src="/static/js/SM0402/SM0402_modal_seluser0.js"></script>
+</div>
 </body>
 </html>
-<script src="/static/js/SM0402/SM0402_btn0.js"></script>
+

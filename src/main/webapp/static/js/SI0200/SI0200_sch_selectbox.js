@@ -11,7 +11,7 @@ $(function(){
 		width: 120,
 		height: 24,
 		editable: false,
-		url: 'js/SI0200/JSON folder/SI0200_selectbox_data.json',
+		url: '/static/js/SI0200/JSON folder/SI0200_selectbox_data.json',
 		method: 'get',
 		queryParams: {},
 		valueField: 'id',

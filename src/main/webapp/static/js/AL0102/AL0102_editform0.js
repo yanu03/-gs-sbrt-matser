@@ -65,10 +65,16 @@ $(function(){
         label: '날짜 :',
         // labelWidth: 54,
         // labelAlign: 'right',
-        onChange: function(a_newValue,oldValue){
+        onChange: function(a_newValue,a_oldValue){
             // 휴일불러오기를 누를시 요일과 날짜를 맞추려고 넣었습니다.
-            $.uf_syncweek("",a_newValue);
+            if(!$.uf_datevalidate(a_newValue)){
+                //$.uf_changeoldvalue(oldValue);
+                $('#HOLI_DT').datebox('setValue',a_oldValue);
+                return false;
+            } 
+            $.uf_syncweek("",a_newValue); 
             if(!jv_rowclick) return false;
+            return true;
         }
 	});
 

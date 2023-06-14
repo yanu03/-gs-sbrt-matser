@@ -8,7 +8,7 @@ $(function(){
 	$('#tab0').append('<table id="dg1" class="easyui-datagrid" style="width:100%;height:100%"></table>');
 	
 	$('#dg1').datagrid({
-    url:'/repRout/selectRepRoutListByNode',	//json 조회 url
+    url:'http://localhost:8183/repRout/selectRepRoutListByNode',	//json 조회 url
     method: 'post',
     //queryParams: JSON.stringify({dma_sub_search : {STTN_ID : ""}}),						//json 조회 params
     // queryParams: {},

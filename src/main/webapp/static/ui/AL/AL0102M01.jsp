@@ -59,7 +59,7 @@
     $.pf_acceptcfmsg = function(a_type){
         if(a_type == 'save'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
-                $.jf_savedgdata($('#dg0'), '/al/AL0102G0S0', 'post', null);  
+                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/al/AL0102G0S0', 'post', null);  
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
@@ -71,7 +71,7 @@
         }
         else if(a_type == 'close'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
-                $.jf_savedgdata($('#dg0'), '/al/AL0102G0S0', 'post', null);  
+                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/al/AL0102G0S0', 'post', null);  
                 $.jf_close();
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);  
@@ -79,7 +79,7 @@
         else if(a_type == 'search'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
                 $('#sch_ns0').numberspinner('setValue', uv_oldyear);
-                $.jf_savedgdata($('#dg0'), '/al/AL0102G0S0', 'post', null);  
+                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/al/AL0102G0S0', 'post', null);  
                 $.jf_retrieve($('#dg0'));
             }
             else{
@@ -124,8 +124,7 @@
     };
     $.uf_loadholi = function(a_date){
         // 휴일 불러오는 url 
-        
-        let v_url = '/intg/getIntgInfo?INTG_KIND=IK004&YEAR='+a_date;
+        let v_url = 'http://localhost:8183/intg/getIntgInfo?INTG_KIND=IK004&YEAR='+a_date;
         $.ajax({
             type: 'post',
             url: v_url,
@@ -153,7 +152,7 @@
     $.uf_saveholi = function(a_param){
         $.ajax({
             type: 'post',
-            url: '/al/AL0102G0S0',
+            url: 'http://localhost:8183/al/AL0102G0S0',
             data: a_param,
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -226,6 +225,34 @@
         }
         rtn_params = a_values;
         return rtn_params;
+    };
+
+    // 같은 날짜로 안되게 막기
+    $.uf_datevalidate = function(a_date){
+        // debugger;
+        let rtn_value = true;
+        let v_data = $('#dg0').datagrid('getRows');
+        let v_selecteddata = $('#dg0').datagrid('getSelected');
+        let v_selectyear;
+        let v_curyear = $('#sch_ns0').numberspinner('getValue');
+        v_selectyear = a_date.substr(0,4);
+        
+        // sink to form 보다 datebox의 onChange가 먼저 일어나기 떄문에 
+        // 현 데이터에서 select된 데이터를 제외시키는게 상관이 없다
+        let v_filtereddata = v_data.filter(obj => obj.HOLI_DT  !== v_selecteddata.HOLI_DT);
+
+        for(let i=0; i < v_filtereddata.length; i++){
+            if(v_filtereddata[i].HOLI_DT == a_date) {
+                $.tracomalmsg('정보', '중복된 날짜 입니다.');
+                rtn_value = false;
+            }
+        }
+        if(v_selectyear != v_curyear){
+            $.tracomalmsg('정보', v_curyear+'년 만 선택할 수 있습니다.');
+            rtn_value = false;
+        }
+
+        return rtn_value;
     };
 	</script>
 </head>

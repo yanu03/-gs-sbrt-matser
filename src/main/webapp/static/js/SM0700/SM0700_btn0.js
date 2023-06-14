@@ -70,6 +70,7 @@ $(function(){
     });
     $('#btn5').bind('click', function(){
         if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
+          $.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
           $.jf_savedgdata($('#dg0'), '/sm/SM0700G0S0', 'post', null);
         }
         else $.tracomalmsg('정보','필수 입력창을 입력후 저장해주세요');

@@ -35,9 +35,9 @@ $(function(){
                         a_arrvalue =  new Array($('#BUS_DIV').textbox('getValue'), $('#BUS_DIV').textbox('getText'));
                         a_vals = $.jf_multidatatojson(a_arrfield, a_arrvalue);	//arr arr ?޾Ƽ? ó?? ?ϴ? ???? ????
                         break;
-					case "ATTACH_ID":
-						a_vals = $.jf_singledatatojson(target.id, $(target).textbox('getValue'));
-						break;
+                    case "ATTACH_ID":
+                        a_vals = $.jf_singledatatojson(target.id, $(target).textbox('getValue'));
+                        break;
                     default:
                             if(!$(target).textbox('isValid')){$(target).textbox('clear'); break;}
                             a_vals = $.jf_singledatatojson(target.id, $(target).textbox('getValue'));
@@ -138,7 +138,7 @@ $(function(){
 	});
     $('#sch_comp_btn').bind('click', function(){
         let v_values = {VHC_ID:"",COMP_ID:$('#COMP_NM').textbox('getValue'), COMP_NM:$('#COMP_NM').textbox('getValue'), AREA:""};
-        $.mf_selcompmdopen($('#ef0'), v_values, $('#BUS_DIV'));
+        $.mf_selcompmdopen($('#dg0'),$('#ef0'), v_values, $('#BUS_DIV'),'f');
     });
 
     $('#BUS_DIV').combobox({
