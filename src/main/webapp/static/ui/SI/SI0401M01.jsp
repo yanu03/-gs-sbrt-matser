@@ -10,7 +10,7 @@
 	 <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
 		$( document ).ready(function() {
 			
@@ -103,7 +103,7 @@
 					<!-- 검색 object -->
 					<!-- <script src="/static/js/SI0501_sch_selectbox0.js"></script> -->
 					<!--검색 selectbox 가져와야함-->
-					<script src="/static/js/SI0401_sch_searchbox0.js"></script>
+					<script src="/static/js/SI/SI0401/SI0401_sch_searchbox0.js"></script>
 
 				</div>
 				</form>
@@ -111,7 +111,7 @@
 					<div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 					</div>
 					<!-- 버튼 object -->
-					<script src="/static/js/SI0401_btn0.js"></script>
+					<script src="/static/js/SI/SI0401/SI0401_btn0.js"></script>
 				</div>
 			</div>
 		</div>
@@ -124,14 +124,14 @@
 								<div id="fm_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 								</div>
 								<!--edit form object -->
-								<script src="/static/js/SI0401_editform0.js"></script>
+								<script src="/static/js/SI/SI0401/SI0401_editform0.js"></script>
 							</div>
 						</form>
 						<div data-options="region:'center', border:false">
 							<div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 							</div>			
 							<!--datagrid0 -->
-							<script src="/static/js/SI0401_dg0.js"></script>
+							<script src="/static/js/SI/SI0401/SI0401_dg0.js"></script>
 						</div>
 					</div>
 				</div>
@@ -141,13 +141,13 @@
 							<div id="subbtn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 							</div>
 							<!--sub button -->
-							<script src="/static/js/SI0401_subbtn0.js"></script>
+							<script src="/static/js/SI/SI0401/SI0401_subbtn0.js"></script>
 						</div>
 						<div data-options="region:'center', border:true">
 							<div id="dg_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 							</div>	
 							<!--datagrid1 -->
-							<script src="/static/js/SI0401_dg1.js"></script>
+							<script src="/static/js/SI/SI0401/SI0401_dg1.js"></script>
 						</div>
 					</div>
 				</div>
@@ -157,7 +157,7 @@
 </div>
 
 <div id="selcomp">
-    <script src="/static/js/modal_selcomp.js"></script>
+    <script src="/static/js/common/modal_selcomp.js"></script>
 </div>
 
 </body>

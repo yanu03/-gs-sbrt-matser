@@ -66,13 +66,13 @@
 		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT1)">
 				AND A.ROUT_GRP = #{CONTENT1}
 		</if>	
-		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE)">
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE_VH0105)">
 			<![CDATA[AND DATE_FORMAT(A.OPER_DT, '%Y-%m-%d') >= #{F_DATE}]]>
 		</if>
-		<if test="@kr.tracom.util.CommonUtil@notEmpty(L_DATE)">
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(L_DATE_VH0105)">
 			<![CDATA[AND DATE_FORMAT(A.OPER_DT, '%Y-%m-%d') <= #{L_DATE}]]>
 		</if>
-		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE) and @kr.tracom.util.CommonUtil@notEmpty(L_DATE)">
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE_VH0105) and @kr.tracom.util.CommonUtil@notEmpty(L_DATE_VH0105)">
 			AND DATE_FORMAT(A.OPER_DT, '%Y-%m-%d') BETWEEN #{F_DATE} AND #{L_DATE}
 		</if>	
 		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT2)">
@@ -165,7 +165,7 @@ UNION
 		<if test="@kr.tracom.util.CommonUtil@notEmpty(OPER_STS)">
 				A.OPER_STS = #{OPER_STS}
 		</if>
-		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE) and @kr.tracom.util.CommonUtil@notEmpty(L_DATE)">
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE_VH0105) and @kr.tracom.util.CommonUtil@notEmpty(L_DATE_VH0105)">
 			AND DATE_FORMAT(A.OPER_DT, '%Y-%m-%d') BETWEEN #{F_DATE} AND #{L_DATE}
 		</if>	
 	</where>

@@ -1023,5 +1023,40 @@
 		ORDER BY			LINK_SN
 		
 </select>
+
+
+<!-- 특정 노선의 노드 개수 -->
+<select id="cntNodeOfRout" resultType="Map" parameterType="Map">
+	SELECT COUNT(A.NODE_ID)
+	FROM BMS_ROUT_NODE_CMPSTN A
+	LEFT JOIN BMS_NODE_MST NM
+		ON A.NODE_ID =  NM.NODE_ID
+	WHERE A.ROUT_ID = #{ROUT_ID}
+	<if test="@kr.tracom.util.CommonUtil@notEmpty(NODE_TYPE)">
+			AND NM.NODE_TYPE = #{NODE_TYPE}
+	</if>
+</select>
+
+<select id="cntLinkOfRout" resultType="Map" parameterType="Map">
+	SELECT COUNT(A.NODE_ID)
+	FROM BMS_ROUT_NODE_CMPSTN A	
+	WHERE A.LINK_NODE_YN = 'Y' A.ROUT_ID = #{ROUT_ID}	
+</select>
 	
+<delete id="deleteRoutLinkCmpstn" parameterType="Map">
+	DELETE FROM BMS_ROUT_LINK_CMPSTN
+	WHERE ROUT_ID = #{ROUT_ID}
+	<if test="@kr.tracom.util.CommonUtil@notEmpty(LINK_SN)">
+			AND LINK_SN = #{LINK_SN}
+	</if>
+</delete>
+
+<delete id="deleteRoutSttnLinkCmpstn" parameterType="Map">
+	DELETE FROM BMS_ROUT_STTN_LINK_CMPSTN
+	WHERE ROUT_ID = #{ROUT_ID}
+	<if test="@kr.tracom.util.CommonUtil@notEmpty(LINK_SN)">
+			AND LINK_SN = #{LINK_SN}
+	</if>
+</delete>
+
 </mapper>

@@ -31,4 +31,6 @@ public interface RoutMapper {
 	public List<Map<String, Object>> selectSttnItem();
 	public List<Map<String, Object>> selectSttnCrsDispList(Map param);
 	public List<Map<String, Object>> selectSttnCrsLink(Map param);
+	public Map<String, Object> cntNodeOfRout(Map param); //특정노선의 노드 개수
+	public Map<String, Object> cntLinkOfRout(Map param); //특정노선의 링크 개수
 }

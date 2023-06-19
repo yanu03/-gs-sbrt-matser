@@ -10,8 +10,8 @@
 	 <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
-	<script src="/static/js/map_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
+	<script src="/static/js/common/map_comm.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=100faa0e8b0c72a3da69169f45883b0b"></script>
 	<script type="text/javascript">
 		$( document ).ready(function() {
@@ -75,7 +75,7 @@
 	</script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">
-<div style="positon:left;margin:0 0 0 0;border:0px solid red;width:100%;height:100vh;">
+<div style="position:left;margin:0 0 0 0;border:0px solid red;width:100%;height:100vh;">
 	<div class="easyui-layout" data-options="fit:true">
 		<div data-options="region:'north', border:false, maxHeight:50, minHeight:50">
 			<div class="easyui-layout" data-options="fit:true">
@@ -88,7 +88,7 @@
 					<!-- 검색 object -->
 					<!-- <script src="/static/js/SI0501_sch_selectbox0.js"></script> -->
 					<!--검색 selectbox 가져와야함-->
-					<script src="/static/js/SI0503_sch_searchbox0.js"></script>
+					<script src="/static/js/SI/SI0503/SI0503_sch_searchbox0.js"></script>
 
 				</div>
 				</form>
@@ -96,7 +96,7 @@
 					<div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 					</div>
 					<!-- 버튼 object -->
-					<script src="/static/js/SI0503_btn0.js"></script>
+					<script src="/static/js/SI/SI0503/SI0503_btn0.js"></script>
 				
 				</div>
 			</div>
@@ -110,14 +110,14 @@
 								<div id="fm_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 								</div>
 								<!--edit form object -->
-								<script src="/static/js/SI0503_editform0.js"></script>
+								<script src="/static/js/SI/SI0503/SI0503_editform0.js"></script>
 							</div>
 						</form>
 						<div data-options="region:'center', border:false">
 							<div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 							</div>			
 							<!--datagrid0 -->
-							<script src="/static/js/SI0503_dg0.js"></script>
+							<script src="/static/js/SI/SI0503/SI0503_dg0.js"></script>
 						</div>
 					</div>
 				</div>
@@ -125,11 +125,11 @@
 					<div id="tab_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 					</div>
 					<!--tabs -->
-					<script src="/static/js/SI0501_tabs0.js"></script>
+					<script src="/static/js/SI/SI0501/SI0501_tabs0.js"></script>
 					<!--datagrid1 -->
-					<script src="/static/js/SI0503_dg1.js"></script>
+					<script src="/static/js/SI/SI0503/SI0503_dg1.js"></script>
 					<!--map0 -->
-					<script src="/static/js/SI0503_map0.js"></script>
+					<script src="/static/js/SI/SI0503/SI0503_map0.js"></script>
 				</div>
 			</div>
 		</div>

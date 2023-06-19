@@ -10,7 +10,7 @@
 	 <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/AL/AL0203/sample_comm.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=100faa0e8b0c72a3da69169f45883b0b"></script>
 	<script type="text/javascript">
 		$( document ).ready(function() {
@@ -458,7 +458,7 @@
 	</script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">
-<div style="positon:left;margin:0 0 0 0;border:0px solid red;width:100%;height:100vh;">
+<div style="position:left;margin:0 0 0 0;border:0px solid red;width:100%;height:100vh;">
 	<div class="easyui-layout" data-options="fit:true">
 		<div data-options="region:'north', border:false, maxHeight:50, minHeight:50">
 			<div class="easyui-layout" data-options="fit:true">
@@ -467,15 +467,15 @@
 				<div data-options="region:'west', border:false, minWidth:600, maxWidth:600">
 					<div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 					</div>
-					<script src="/static/js/AL0202_sch_searchbox0.js"></script>
-					<script src="/static/js/AL0302_sch_selectbox0.js"></script>
+					<script src="/static/js/AL/AL0202/AL0202_sch_searchbox0.js"></script>
+					<script src="/static/js/AL/AL0302/AL0302_sch_selectbox0.js"></script>
 				</div>
 				</form>
 				<div data-options="region:'center', border:false">
 					<div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 					</div>
 					<!-- 버튼 object -->
-					<script src="/static/js/AL0203_btn0.js"></script>
+					<script src="/static/js/AL/AL0203/AL0203_btn0.js"></script>
 				</div>
 			</div>
 		</div>
@@ -486,7 +486,7 @@
 						<div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 						</div>			
 						<!--datagrid0 -->
-						<script src="/static/js/AL0203_dg0.js"></script>
+						<script src="/static/js/AL/AL0203/AL0203_dg0.js"></script>
 					</div>
 				</div>
 				<div data-options="region:'center', border:false">
@@ -494,21 +494,21 @@
 						<div data-options="region:'north', border:true, maxHeight:30, minHeight:30">
 							<div id="sch_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 							</div>
-							<!-- <script src="/static/js/AL0203_sch_selectbox0.js"></script> -->
-							<script src="/static/js/AL0302_fromtodate0.js"></script>
+							<!-- <script src="/static/js/AL/AL0203/AL0203_sch_selectbox0.js"></script> -->
+							<script src="/static/js/AL/AL0302/AL0302_fromtodate0.js"></script>
 						</div>
 						<!-- 상하행이 필요하다면 넣어야함, 현재 필요 x
 						<div data-options="region:'north', border:true, maxHeight:30, minHeight:30">
 							<div id="sch_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 							</div>
-							<script src="/static/js/AL0203_sch_selectbox0.js"></script>
+							<script src="/static/js/AL/AL0203/AL0203_sch_selectbox0.js"></script>
 						</div> -->
 						<div data-options="region:'center', border:true">
 							<div id="dg_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 							</div>	
 							<!--datagrid1 -->
-							<!-- <script src="/static/js/AL0203_dg1_hidden.js"></script> -->
-							<script src="/static/js/AL0203_dg1.js"></script>
+							<!-- <script src="/static/js/AL/AL0203/AL0203_dg1_hidden.js"></script> -->
+							<script src="/static/js/AL/AL0203/AL0203_dg1.js"></script>
 						</div>
 					</div>
 				</div>

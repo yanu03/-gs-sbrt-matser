@@ -15,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
 
     var uv_dg0Load = false;
@@ -181,29 +181,29 @@
     // 기능 : value를 받아 이미지 바꿔주기
     $.uf_changeimg = function(a_value){
       if(a_value == "맑음"){
-        $('#weatherimg').attr("src","//static/js/PI0400/weather/sunny.jpg");
+        $('#weatherimg').attr("src","/static/img/sunny.jpg");
       }else if(a_value == "구름조금"){
-        $('#weatherimg').attr("src","//static/js/PI0400/weather/lesscloud.jpg");
+        $('#weatherimg').attr("src","/static/img/lesscloud.jpg");
       }else if(a_value == "구름많음"){
-        $('#weatherimg').attr("src","//static/js/PI0400/weather/cloudiest.jpg");
+        $('#weatherimg').attr("src","/static/img/cloudiest.jpg");
       }else if(a_value == "흐림"){
-        $('#weatherimg').attr("src","//static/js/PI0400/weather/cloudy.jpg");
+        $('#weatherimg').attr("src","/static/img/cloudy.jpg");
       }else if(a_value == "비"){
-        $('#weatherimg').attr("src","//static/js/PI0400/weather/rain.jpg");
+        $('#weatherimg').attr("src","/static/img/rain.jpg");
       }else if(a_value == "비/눈"){
-        $('#weatherimg').attr("src","//static/js/PI0400/weather/rainnsnow.jpg");
+        $('#weatherimg').attr("src","/static/img/rainnsnow.jpg");
       }else if(a_value == "눈/비"){
-        $('#weatherimg').attr("src","//static/js/PI0400/weather/snownrain.jpg");
+        $('#weatherimg').attr("src","/static/img/snownrain.jpg");
       }else if(a_value == "눈"){
-        $('#weatherimg').attr("src","//static/js/PI0400/weather/snow.jpg");
+        $('#weatherimg').attr("src","/static/img/snow.jpg");
       }else{
-        $('#weatherimg').attr("src","//static/js/PI0400/weather/defaultImg.jpg");
+        $('#weatherimg').attr("src","/static/img/defaultImg.jpg");
         $('#weatherimg').attr("alt","데이터 없음");
       }
     };
     $.uf_imgobserver = function(a_value){
       if(a_value < 1){
-        $('#weatherimg').attr("src","//static/js/PI0400/weather/defaultImg.jpg");
+        $('#weatherimg').attr("src","/static/img/defaultImg.jpg");
         $('#weatherimg').attr("alt","데이터 없음");
       }
     };
@@ -221,14 +221,14 @@
               <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
               </div>
               <!-- search js -->
-              <script src="/static/js/PI0400/PI0400_sch_nspin0.js"></script>
+              <script src="/static/js/PI/PI0400/PI0400_sch_nspin0.js"></script>
             </div>
             <div data-options="region:'east', border:true, maxWidth:600, minWidth:600">
               <!-- bnt panel -->
               <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
               </div>
               <!-- btn js -->
-              <script src="/static/js/PI0400/PI0400_btn0.js"></script>
+              <script src="/static/js/PI/PI0400/PI0400_btn0.js"></script>
             </div>
           </div>
         </div>
@@ -237,11 +237,11 @@
           <div id="tab_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
           </div>
           <!-- tab js -->
-          <script src="/static/js/PI0400/PI0400_tabs0.js"></script>
+          <script src="/static/js/PI/PI0400/PI0400_tabs0.js"></script>
           <!-- dg0 js -->
-          <script src="/static/js/PI0400/PI0400_dg0.js"></script>
+          <script src="/static/js/PI/PI0400/PI0400_dg0.js"></script>
           <!-- dg1 js -->
-          <script src="/static/js/PI0400/PI0400_dg1.js"></script>
+          <script src="/static/js/PI/PI0400/PI0400_dg1.js"></script>
         </div>
       </div>
     </div>
@@ -253,7 +253,7 @@
           <div id="fm_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
           </div>
           <!-- show form js -->
-          <script src="/static/js/PI0400/PI0400_editform0.js"></script>
+          <script src="/static/js/PI/PI0400/PI0400_editform0.js"></script>
         </div>
         </form>
         <div data-options="region:'center', border:true">
@@ -263,14 +263,14 @@
               <div id="img_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
               </div>
               <!-- img js -->
-              <script src="/static/js/PI0400/PI0400_img0.js"></script>
+              <script src="/static/js/PI/PI0400/PI0400_img0.js"></script>
             </div>
             <div data-options="region:'east', border:true, maxWidth:700, minWidth:700">
               <!-- dg2 panel -->
               <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
               </div>
               <!-- dg2 js -->
-              <script src="/static/js/PI0400/PI0400_dg2.js"></script>
+              <script src="/static/js/PI/PI0400/PI0400_dg2.js"></script>
             </div>
           </div>
         </div>

@@ -15,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {
     
@@ -58,14 +58,14 @@
                     <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- news search js -->
-                    <script src="/static/js/PI0302/PI0302_sch_searchbox0.js"></script>
+                    <script src="/static/js/PI/PI0302/PI0302_sch_searchbox0.js"></script>
                 </div>
                 <div data-options="region:'east', border:true, maxWidth:600, minWidth:600">
                     <!-- news btn panel -->
                     <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- news btn js -->
-                    <script src="/static/js/PI0302/PI0302_btn0.js"></script>
+                    <script src="/static/js/PI/PI0302/PI0302_btn0.js"></script>
                 </div>
             </div>
         </div>
@@ -76,14 +76,14 @@
                     <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- news dg0 js -->
-                    <script src="/static/js/PI0302/PI0302_dg0.js"></script>
+                    <script src="/static/js/PI/PI0302/PI0302_dg0.js"></script>
                 </div>
                 <div data-options="region:'east', border:true, maxWidth:700, minWidth:700">
                     <!-- send news panel -->
                     <div id="dg_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- send news js -->
-                    <script src="/static/js/PI0302/PI0302_dg1.js"></script>
+                    <script src="/static/js/PI/PI0302/PI0302_dg1.js"></script>
                 </div>
             </div>
         </div>

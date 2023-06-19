@@ -1,5 +1,0 @@
-[
-    {"id" : "ALL", "text" : "[전체]"},
-    {"id" : "USER_ID", "text" : "사용자 ID"},
-    {"id" : "USER_NM", "text" : "사용자 명"}
-]

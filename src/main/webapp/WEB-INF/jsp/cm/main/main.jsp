@@ -14,7 +14,7 @@
 	
 	<script type="text/javascript">
 		var jf_addtab = function(a_progcd, a_pgmcode, a_str) {
-			debugger;
+			
 			var authority = $.jf_getcurauthority(a_progcd);
 			
 			if(authority.SCH_AH!="Y"){

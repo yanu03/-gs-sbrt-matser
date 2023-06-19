@@ -18,8 +18,8 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
-    <script src="/js/vhcdvc_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
+    <script src="/static/js/common/vhcdvc_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {
     
@@ -47,21 +47,21 @@
         let rtn_params; 
         let v_default = $('#dg0').datagrid('getSelected');
         if(a_obj.attr('id') == "dg1"){
-            rtn_params = {VHC_ID:v_default.VHC_ID, VHC_NO:v_default.VHC_NO, DVC_ID:$.jf_seqdgdata('http://localhost:8183/vd/VD0100G0K0','post'), USE_YN : "Y"};
+            rtn_params = {VHC_ID:v_default.VHC_ID, VHC_NO:v_default.VHC_NO, DVC_ID:$.jf_seqdgdata('/vd/VD0100G0K0','post'), USE_YN : "Y"};
         } 
         return rtn_params;
     };
     $.pf_acceptcfmsg = function(a_type){
         if(a_type == 'save'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg1')), 'f')){
-                $.jf_savedgdata($('#dg1'), 'http://localhost:8183/vd/VD0100G0S0', 'post', null);
+                $.jf_savedgdata($('#dg1'), '/vd/VD0100G0S0', 'post', null);
             }
             else
                 $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
         else if(a_type == 'focussave'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg1')), 'f')){
-                $.jf_savedgdata($('#dg1'), 'http://localhost:8183/vd/VD0100G0S0', 'post', 'focussave');
+                $.jf_savedgdata($('#dg1'), '/vd/VD0100G0S0', 'post', 'focussave');
 
             }
             else
@@ -196,14 +196,14 @@
                     </div>
                     <!-- search js -->
                     <!-- <script src="//static/js/SI0200/SI0200_sch_selectbox.js"></script>-->
-                    <script src="/static/js/VD0100/VD0100_sch_searchbox0.js"></script> 
+                    <script src="/static/js/VD/VD0100/VD0100_sch_searchbox0.js"></script> 
                 </div>
                 <div data-options="region:'east', border:true, maxWidth:1000, minWidth:1000">
                     <!-- btn0 panel -->
                     <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- btn0 js -->
-                    <script src="/static/js/VD0100/VD0100_btn0.js"></script>
+                    <script src="/static/js/VD/VD0100/VD0100_btn0.js"></script>
                 </div>
             </div>
         </div>
@@ -214,7 +214,7 @@
                     <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- dg0 js -->
-                    <script src="/static/js/VD0100/VD0100_dg0.js"></script>
+                    <script src="/static/js/VD/VD0100/VD0100_dg0.js"></script>
                 </div>
                 <div data-options="region:'center', border:true">
                     <div class="easyui-layout" data-options="fit:true" >
@@ -224,7 +224,7 @@
                             <div id="fm_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                             </div>
                             <!-- form js -->
-                            <script src="/static/js/VD0100/VD0100_editform0.js"></script>
+                            <script src="/static/js/VD/VD0100/VD0100_editform0.js"></script>
                         </div>
                         </form>
                         <div data-options="region:'center', border:true">
@@ -232,7 +232,7 @@
                             <div id="dg_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                             </div>
                             <!-- dg1 js -->
-                            <script src="/static/js/VD0100/VD0100_dg1.js"></script>
+                            <script src="/static/js/VD/VD0100/VD0100_dg1.js"></script>
                         </div>
                     </div>
                 </div>
@@ -242,7 +242,7 @@
 	</div>	
 </div>
 <div id="sel_dvc_coords">
-    <script src="/static/js/VD0100/VD0100_modal0.js"></script>
+    <script src="/static/js/VD/VD0100/VD0100_modal0.js"></script>
 </div>
 </body>
 </html>

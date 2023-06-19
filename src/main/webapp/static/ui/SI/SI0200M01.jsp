@@ -16,7 +16,7 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="/static/jquery/jquery.fileDownload-1.4.5.js"></script> 
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {});
     $.pf_append = function(){return true;}
@@ -103,14 +103,14 @@
                     <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- search js -->
-                    <script src="/static/js/SI0200/SI0200_sch_searchbox0.js"></script>
+                    <script src="/static/js/SI/SI0200/SI0200_sch_searchbox0.js"></script>
                 </div>
                 <div data-options="region:'east', border:true, maxWidth:1000, minWidth:1000">
                     <!-- btn0 panel -->
                     <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- btn0 js -->
-                    <script src="/static/js/SI0200/SI0200_btn0.js"></script>
+                    <script src="/static/js/SI/SI0200/SI0200_btn0.js"></script>
                     <div id="excelupload_p0" class="easyui-window" title="엑셀 업로드" data-options="modal:true,closed:true,iconCls:'icon-save'"
                     	style="width:500px;height:200px;padding:10px;">
                     	<form id="excelfrm" name="excelfrm" method="post" enctype="multipart/form-data">
@@ -128,7 +128,7 @@
                     <div id="fm_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- form js -->
-                    <script src="/static/js/SI0200/SI0200_editform0.js"></script>
+                    <script src="/static/js/SI/SI0200/SI0200_editform0.js"></script>
                 </div>
                 </form>
                 <div data-options="region:'center', border:true">
@@ -136,14 +136,14 @@
                     <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- dg js -->
-                    <script src="/static/js/SI0200/SI0200_dg0.js"></script>
+                    <script src="/static/js/SI/SI0200/SI0200_dg0.js"></script>
                 </div>
             </div>
         </div>
 	</div>	
 </div>
 <div id="selcomp">
-    <script src="/static/js/modal_selcomp.js"></script>
+    <script src="/static/js/common/modal_selcomp.js"></script>
 </div>
 </body>
 </html>

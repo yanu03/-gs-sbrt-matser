@@ -15,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {
     
@@ -51,15 +51,15 @@
     };    
     $.pf_acceptcfmsg = function(a_type){
         if(a_type == 'save'){
-            $.jf_savedgdata($('#dg2'), 'http://localhost:8183/al/AL0105G2S0', 'post', null);	
+            $.jf_savedgdata($('#dg2'), '/al/AL0105G2S0', 'post', null);	
         }
-        else if(a_type == 'close') $.jf_savedgdata($('#dg2'), 'http://localhost:8183/al/AL0105G2S0', 'post', null);
+        else if(a_type == 'close') $.jf_savedgdata($('#dg2'), '/al/AL0105G2S0', 'post', null);
         else if(a_type == 'search'){
-            $.jf_savedgdata($('#dg2'), 'http://localhost:8183/al/AL0105G2S0', 'post', null);	
+            $.jf_savedgdata($('#dg2'), '/al/AL0105G2S0', 'post', null);	
             $.jf_retrieve($('#dg0'));
         }
         else if(typeof(a_type) == 'number'){
-            $.jf_savedgdata($('#dg2'), 'http://localhost:8183/al/AL0105G2S0', 'post', null);	
+            $.jf_savedgdata($('#dg2'), '/al/AL0105G2S0', 'post', null);	
         }
         return true;
     };
@@ -130,14 +130,14 @@
                     <!-- search panel -->
                     <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'"></div>
                     <!-- search js -->
-                    <!-- <script src="js/AL0105/AL0105_sch_selectbox0.js"></script> -->
-                    <script src="js/AL0105/AL0105_sch_searchbox0.js"></script>
+                    <!-- <script src="/static/js/AL/AL0105/AL0105_sch_selectbox0.js"></script> -->
+                    <script src="/static/js/AL/AL0105/AL0105_sch_searchbox0.js"></script>
                 </div>
                 <div data-options="region:'east', border:true, minWidth:800, maxWidth:800">
                     <!-- btn panel -->
                     <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'"></div>
                     <!-- btn js -->   
-                    <script src="js/AL0105/AL0105_btn0.js"></script>
+                    <script src="/static/js/AL/AL0105/AL0105_btn0.js"></script>
                 </div>        
             </div>
         </div>
@@ -146,7 +146,7 @@
             <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
             </div>
             <!-- dg0 js -->
-            <script src="js/AL0105/AL0105_dg0.js"></script>
+            <script src="/static/js/AL/AL0105/AL0105_dg0.js"></script>
         </div>
         <div data-options="region:'east', border:true, width:1500">
             <div class="easyui-layout" data-options="fit:true">
@@ -157,7 +157,7 @@
                             <!-- <div id="sch_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'"> -->
                             <!-- </div> -->
                             <!-- dg1 js -->
-                            <!-- <script src="js/AL0105/AL0105_sch_searchbox1.js"></script> -->
+                            <!-- <script src="/static/js/AL/AL0105/AL0105_sch_searchbox1.js"></script> -->
                             <b align='center'>배정되지 않은 운전자 목록</b>
                         </div>
                         <div data-options="region:'center', border:true">
@@ -165,7 +165,7 @@
                             <div id="dg_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                             </div>
                             <!-- dg1 js -->
-                            <script src="js/AL0105/AL0105_dg1.js"></script>
+                            <script src="/static/js/AL/AL0105/AL0105_dg1.js"></script>
                         </div>
                     </div>
                 </div>
@@ -181,14 +181,14 @@
                                     <div id="btn_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                                     </div>
                                     <!-- move btn js -->
-                                    <script src="js/AL0105/AL0105_subbtn0.js"></script>
+                                    <script src="/static/js/AL/AL0105/AL0105_subbtn0.js"></script>
                                 </div>
                                 <div data-options="region:'center', border:true">
                                     <!-- dg2 panel -->
                                     <div id="dg_panel2" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                                     </div>
                                     <!-- dg2 js -->
-                                    <script src="js/AL0105/AL0105_dg2.js"></script>
+                                    <script src="/static/js/AL/AL0105/AL0105_dg2.js"></script>
                                 </div>
                             </div>    
                         </div>

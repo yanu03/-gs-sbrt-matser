@@ -15,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {});
     $.pf_append = function(){return true;};
@@ -28,7 +28,7 @@
     $.pf_modalselect = function(a_obj){return true;}
     $.pf_childparams = function(a_obj, a_row){let rtn_params = {};return rtn_params;};
 
-    $.pf_ajaxafterproc = function(){
+    $.pf_ajaxafterproc = function(a_type){
         if(a_type == 'search') $.jf_retrieve($('#dg0'));
         return true;
     }
@@ -83,6 +83,7 @@
     // 기능 : 재직, 휴직, 퇴사 중 퇴사를 골랐을 때 퇴직일을 선택할 수 있는 datebox활성화 한다
     $.uf_chkeply = function(){
         let v_eplyvalue = $('#EPLY_YN').combobox('getValue');
+        debugger;
         if(v_eplyvalue != "EY002"){
             $('#RETIRE_DT').datebox('disable');
         }else if(v_eplyvalue == "EY002"){
@@ -153,6 +154,7 @@
 
 		$.ajax({
 			type : 'POST',
+			
 			enctype : 'multipart/form-data',
 			url : '/cm/fileUploadAction',
 			data : formData,
@@ -182,14 +184,14 @@
                     <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- search js -->
-                    <script src="/static/js/SI0300/SI0300_sch_searchbox0.js"></script>
+                    <script src="/static/js/SI/SI0300/SI0300_sch_searchbox0.js"></script>
                 </div>
                 <div data-options="region:'east', border:true, maxWidth:1000, minWidth:1000">
                     <!-- btn0 panel -->
                     <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- btn0 js -->
-                    <script src="/static/js/SI0300/SI0300_btn0.js"></script>
+                    <script src="/static/js/SI/SI0300/SI0300_btn0.js"></script>
                 </div>
             </div>
         </div>
@@ -201,7 +203,7 @@
                     <div id="fm_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- form js -->
-                    <script src="/static/js/SI0300/SI0300_editform0.js"></script> 
+                    <script src="/static/js/SI/SI0300/SI0300_editform0.js"></script> 
                 </div>
                 </form>
                 <div data-options="region:'center', border:true">
@@ -209,14 +211,14 @@
                     <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- dg js -->
-                    <script src="/static/js/SI0300/SI0300_dg0.js"></script>
+                    <script src="/static/js/SI/SI0300/SI0300_dg0.js"></script>
                 </div>
             </div>
         </div>
 	</div>	
 </div>
 <div id="selcomp">
-    <script src="/static/js/modal_selcomp.js"></script>
+    <script src="/static/js/common/modal_selcomp.js"></script>
 </div>
 </body>
 </html>

@@ -15,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {});
     $.pf_append = function(){return true;};
@@ -67,15 +67,15 @@
                     <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- search js -->
-                    <script src="/static/js/SM0403/SM0403_sch_searchbox0.js"></script>
-                    <script src="/static/js/SM0403/SM0403_fromtodate0.js"></script>
+                    <script src="/static/js/SM/SM0403/SM0403_sch_searchbox0.js"></script>
+                    <script src="/static/js/SM/SM0403/SM0403_fromtodate0.js"></script>
                 </div>
                 <div data-options="region:'east', border:true, maxWidth:600, minWidth:600">
                     <!-- btn panel -->
                     <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- btn js -->
-                    <script src="/static/js/SM0403/SM0403_btn0.js"></script>
+                    <script src="/static/js/SM/SM0403/SM0403_btn0.js"></script>
                 </div>
             </div>
         </div>
@@ -84,7 +84,7 @@
             <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
             </div>
             <!-- dg js -->
-            <script src="/static/js/SM0403/SM0403_dg0.js"></script>
+            <script src="/static/SM/js/SM0403/SM0403_dg0.js"></script>
         </div>
 	</div>
 </div>

@@ -29,7 +29,7 @@ public interface ExcelInterface {
     default void setExcelHeader(String[] headerTitle, HSSFSheet sheet, CellStyle style){
         HSSFRow headerRow = sheet.createRow(0);
 
-        style.setAlignment(HorizontalAlignment.CENTER);
+        //style.setAlignment(HorizontalAlignment.CENTER);
 
         for(int i=0; i<headerTitle.length; i++){
             HSSFCell headerCell = headerRow.createCell(i);
@@ -42,7 +42,7 @@ public interface ExcelInterface {
             HSSFRow bodyRow = sheet.createRow(i + 1);
             Map<String, Object> data = dataList.get(i);
 
-            style.setAlignment(HorizontalAlignment.CENTER);
+           //style.setAlignment(HorizontalAlignment.CENTER);
 
             for(int j=0; j<getterMethod.length; j++) {
                 HSSFCell bodyCell = bodyRow.createCell(j);

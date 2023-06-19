@@ -15,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() { });
     $.pf_append = function(){return true;};
@@ -44,7 +44,7 @@
     $.pf_defaultparams = function(a_obj){
     	//데이터 추가시 default값을 정함.
         let rtn_params = {};
-        if(a_obj.attr('id') == 'dg0') rtn_params = {USE_YN : "Y", AUTH_CD : $.jf_seqdgdata('http://localhost:8183/authority/selectAuthorityKey','post')};
+        if(a_obj.attr('id') == 'dg0') rtn_params = {USE_YN : "Y", AUTH_CD : $.jf_seqdgdata('/authority/selectAuthorityKey','post')};
         if(a_obj.attr('id') == 'dg1') {
             let v_getauth = $('#dg0').datagrid('getSelected');
             console.log(v_getauth.AUTH_CD);
@@ -56,20 +56,20 @@
         if(a_type == 'save'){
             if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') && $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
                 // 저장시 차례대로 저장이 필요함 
-                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/authority/saveAuthority', 'post', null);
-                $.jf_savedgdata($('#dg1'), 'http://localhost:8183/authority/saveAuthorityMember', 'post', null);
+                $.jf_savedgdata($('#dg0'), '/authority/saveAuthority', 'post', null);
+                $.jf_savedgdata($('#dg1'), '/authority/saveAuthorityMember', 'post', null);
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
         if(typeof(a_type) == 'number'){
             if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
-                $.jf_savedgdata($('#dg1'), 'http://localhost:8183/authority/saveAuthorityMember', 'post', null);
+                $.jf_savedgdata($('#dg1'), '/authority/saveAuthorityMember', 'post', null);
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
         else if(a_type == 'search'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f')){
-                if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), 'http://localhost:8183/member/updateMemberBasic', 'post', 'search');
+                if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), '/member/updateMemberBasic', 'post', 'search');
                 $.jf_retrieve($('#dg0'));
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
@@ -127,8 +127,8 @@
                     <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- search js -->
-                    <script src="/static/js/SM0402/SM0402_sch_searchbox0.js"></script>
-                    <script src="/static/js/SM0402/SM0402_sch_radio0.js"></script>
+                    <script src="/static/js/SM/SM0402/SM0402_sch_searchbox0.js"></script>
+                    <script src="/static/js/SM/SM0402/SM0402_sch_radio0.js"></script>
                 </div>
                 </form>
                 <div data-options="region:'east', border:true, maxWidth:1400, minWidth:1400">
@@ -136,7 +136,7 @@
                     <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- btn0 js -->
-                    <script src="/static/js/SM0402/SM0402_btn0.js"></script>
+                    <script src="/static/js/SM/SM0402/SM0402_btn0.js"></script>
                 </div>
             </div>
         </div>
@@ -155,7 +155,7 @@
                             <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                             </div>
                             <!-- dg0 js -->
-                            <script src="/static/js/SM0402/SM0402_dg0.js"></script>
+                            <script src="/static/js/SM/SM0402/SM0402_dg0.js"></script>
                         </div>
                     </div>
                 </div>
@@ -166,14 +166,14 @@
                             <div id="subbtn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                             </div>                            
                             <!-- btn1 js -->
-                            <script src="/static/js/SM0402/SM0402_subbtn0.js"></script>
+                            <script src="/static/js/SM/SM0402/SM0402_subbtn0.js"></script>
                         </div>
                         <div data-options="region:'center', border:true">
                             <!-- dg1 panel -->
                             <div id="dg_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                             </div>
                             <!-- dg1 js -->
-                            <script src="/static/js/SM0402/SM0402_dg1.js"></script>
+                            <script src="/static/js/SM/SM0402/SM0402_dg1.js"></script>
                         </div>
                     </div>
                 </div>
@@ -182,7 +182,7 @@
 	</div>	
 </div>
 <div id="seluser">
-    <script src="/static/js/SM0402/SM0402_modal_seluser0.js"></script>
+    <script src="/static/js/SM/SM0402/SM0402_modal_seluser0.js"></script>
 </div>
 </body>
 </html>

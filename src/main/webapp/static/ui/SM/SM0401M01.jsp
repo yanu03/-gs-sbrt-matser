@@ -18,7 +18,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {
     
@@ -56,20 +56,20 @@
     $.pf_acceptcfmsg = function(a_type){
         if(a_type == 'save'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
-                if($.uf_chkuserpw() && $.uf_chkuserid()) $.jf_savedgdata($('#dg0'), 'http://localhost:8183/member/updateMemberBasic', 'post', null);
+                if($.uf_chkuserpw() && $.uf_chkuserid()) $.jf_savedgdata($('#dg0'), '/member/updateMemberBasic', 'post', null);
             }
             else{$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);}
         }
         else if(a_type == 'close'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
-                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/member/updateMemberBasic', 'post', null);  
+                $.jf_savedgdata($('#dg0'), '/member/updateMemberBasic', 'post', null);  
                 $.jf_close();
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);  
         }
         else if(a_type == 'search'){
           if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f')){
-                if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), 'http://localhost:8183/member/updateMemberBasic', 'post', 'search');
+                if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), '/member/updateMemberBasic', 'post', 'search');
                 $.jf_retrieve($('#dg0'));
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
@@ -233,14 +233,14 @@
               <div id="sch_panel0"  class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
               </div>
               <!-- user searchbox js -->
-              <script src="/static/js/SM0401/SM0401_sch_searchbox0.js"></script>
+              <script src="/static/js/SM/SM0401/SM0401_sch_searchbox0.js"></script>
             </div>
             <div data-options="region:'east', border:true, maxWidth:1200, minWidth:1200">
               <!-- user btn panel -->
               <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
               </div>
               <!-- user btn js -->
-              <script src="/static/js/SM0401/SM0401_btn0.js"></script>
+              <script src="/static/js/SM/SM0401/SM0401_btn0.js"></script>
             </div>
           </div>
         </div>
@@ -250,7 +250,7 @@
           <div id="fm_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
           </div>
           <!-- user form js -->
-          <script src="/static/js/SM0401/SM0401_editform0.js"></script>
+          <script src="/static/js/SM/SM0401/SM0401_editform0.js"></script>
         </div>
         </form>        
       </div>
@@ -260,7 +260,7 @@
       <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
       </div>
       <!-- user datagrid js  -->
-      <script src="/static/js/SM0401/SM0401_dg0.js"></script>
+      <script src="/static/js/SM/SM0401/SM0401_dg0.js"></script>
     </div>
 	</div>
 </div>

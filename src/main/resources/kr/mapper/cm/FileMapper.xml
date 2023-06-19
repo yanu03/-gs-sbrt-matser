@@ -41,12 +41,13 @@
  	</select>
  	 	
 	<insert id="insertFileInf" parameterType="kr.tracom.mapper.cm.File.FileVO" >
-		<![CDATA[
+
 			INSERT INTO BMS_MULTI_ATTACH_MST
 			(ATTACH_ID, UPD_DTM)
 			VALUES
 			( #{atchFileId}, NOW())			
-		]]>
+	ON DUPLICATE KEY UPDATE
+		UPD_DTM		= VALUES(UPD_DTM)
 	</insert>
 	
 	<insert id="insertFileInfs" parameterType="kr.tracom.mapper.cm.File.FileVO" >
@@ -59,14 +60,18 @@
 	</insert>
 	
 	<insert id="insertFileDetail" parameterType="kr.tracom.mapper.cm.File.FileVO" >
-		<![CDATA[
 			INSERT INTO BMS_MULTI_ATTACH_DTL_INFO
 			( ATTACH_ID, FILE_SN, FILE_PATH, FILE_NM, 
 			  ORG_FILE_NM, FILE_EXT, FILE_SIZE )
 			VALUES
 			( #{atchFileId}, #{fileSn}, #{fileStreCours}, #{streFileNm}, 
 			  #{orignlFileNm}, #{fileExtsn}, #{fileMg} )			
-		]]>
+		ON DUPLICATE KEY UPDATE
+			FILE_PATH		= VALUES(FILE_PATH)
+			,FILE_NM		= VALUES(FILE_NM)
+			,ORG_FILE_NM		= VALUES(ORG_FILE_NM)
+			,FILE_EXT		= VALUES(FILE_EXT)
+			,FILE_SIZE		= VALUES(FILE_SIZE)
 	</insert>	
 	
 	<delete id="deleteFileDetail" parameterType="kr.tracom.mapper.cm.File.FileVO" >

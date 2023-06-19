@@ -43,9 +43,10 @@
 		<!-- WAY_DIV, --> 
 		HOLI_YN, REMARK
 		FROM BMS_ROUT_MST A INNER JOIN BMS_ROUT_NODE_CMPSTN B 
-		ON A.ROUT_ID = B.ROUT_ID AND A.DEL_YN !="Y" AND B.NODE_TYPE != 'NT006'
-		
-		WHERE USE_YN = 'Y'  
+		ON A.ROUT_ID = B.ROUT_ID AND A.DEL_YN !="Y" 
+		LEFT JOIN BMS_NODE_MST NM
+		ON	 B.NODE_ID =  NM.NODE_ID AND NM.NODE_TYPE != 'NT006'
+		WHERE A.USE_YN = 'Y'  
 		<if test="@kr.tracom.util.CommonUtil@notEmpty(STTN_ID)">
 			AND B.STTN_ID = #{STTN_ID}
 		</if>

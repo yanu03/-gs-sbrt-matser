@@ -15,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {});
     $.pf_append = function(){return true;};
@@ -31,20 +31,20 @@
     $.pf_acceptcfmsg = function(a_type){
         if(a_type == 'save'){
             if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') ){
-                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/sm/SM0700G0S0', 'post', null);
+                $.jf_savedgdata($('#dg0'), '/sm/SM0700G0S0', 'post', null);
             }
             else{$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);}
         }
         else if(a_type == 'close'){
             if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') ){
-                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/sm/SM0700G0S0', 'post', null);  
+                $.jf_savedgdata($('#dg0'), '/sm/SM0700G0S0', 'post', null);  
                 $.jf_close();
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);  
         }
         else if(a_type == 'search'){
             if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') ){
-                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/sm/SM0700G0S0', 'post', null);  
+                $.jf_savedgdata($('#dg0'), '/sm/SM0700G0S0', 'post', null);  
                 $.jf_retrieve($('#dg0'));
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
@@ -70,7 +70,7 @@
     	//데이터 추가시 default값을 정함.
         let rtn_params;
         if(a_obj.attr('id') == "dg0"){
-            rtn_params = {INTG_ID:$.jf_seqdgdata('http://localhost:8183/sm/SM0700G0K0','post')};
+            rtn_params = {INTG_ID:$.jf_seqdgdata('/sm/SM0700G0K0','post')};
         }
         return rtn_params;
     };
@@ -93,14 +93,14 @@
                 <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                 </div>
                 <!-- search js -->
-                <script src="/static/js/SM0700/SM0700_sch_searchbox0.js"></script>
+                <script src="/static/js/SM/SM0700/SM0700_sch_searchbox0.js"></script>
             </div>
             <div data-options="region:'east', border:true, maxWidth:800, minWidth:800">
                 <!-- btn panel -->
                 <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                 </div>
                 <!-- btn js -->
-                <script src="/static/js/SM0700/SM0700_btn0.js"></script>
+                <script src="/static/js/SM/SM0700/SM0700_btn0.js"></script>
             </div>
         </div>
         </div>
@@ -109,7 +109,7 @@
             <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
             </div>
             <!-- dg js -->
-            <script src="/static/js/SM0700/SM0700_dg0.js"></script>
+            <script src="/static/js/SM/SM0700/SM0700_dg0.js"></script>
         </div>
 	</div>
 </div>

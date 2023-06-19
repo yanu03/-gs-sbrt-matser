@@ -15,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {
     
@@ -123,9 +123,9 @@
                     </div>
                     <!-- search js -->
                     <!-- <script src="//static/js/SI0200/SI0200_sch_selectbox.js"></script>-->
-                    <script src="/static/js/VH0602/VH0602_sch_searchbox0.js"></script> 
-                    <script src="/static/js/VH0602/VH0602_sch_fromtodate0.js"></script>
-                    <script src="/static/js/VH0602/VH0602_radio0.js"></script>
+                    <script src="/static/js/VH/VH0602/VH0602_sch_searchbox0.js"></script> 
+                    <script src="/static/js/VH/VH0602/VH0602_sch_fromtodate0.js"></script>
+                    <script src="/static/js/VH/VH0602/VH0602_radio0.js"></script>
                 </div>
                 </form>
                 <div data-options="region:'east', border:true, maxWidth:1000, minWidth:1000">
@@ -133,7 +133,7 @@
                     <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- btn0 js -->
-                    <script src="/static/js/VH0602/VH0602_btn0.js"></script>
+                    <script src="/static/js/VH/VH0602/VH0602_btn0.js"></script>
                 </div>
             </div>
         </div>
@@ -142,7 +142,7 @@
             <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
             </div>
             <!-- dg0 js -->
-            <script src="/static/js/VH0602/VH0602_dg0.js"></script>
+            <script src="/static/js/VH/VH0602/VH0602_dg0.js"></script>
         </div>
 	</div>	
 </div>

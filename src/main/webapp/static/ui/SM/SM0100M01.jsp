@@ -14,7 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() { });
     $.pf_append = function(){return true;};
@@ -199,8 +199,8 @@
         if($.uf_chkkey(a_obj, a_obj.datagrid('getRows'),  $.jf_fnddgstrct(a_obj), a_type)) {
             if(typeof(a_index) != 'number') $.jf_endedit(a_obj, $.jf_fnddgstrct(a_obj));
 
-            if(a_obj.attr('id') == 'dg0') $.jf_savedgdata(a_obj, 'http://localhost:8183/common/updateCommonCo', 'post', null);
-            else if(a_obj.attr('id') == 'dg1') $.jf_savedgdata($('#dg1'), 'http://localhost:8183/common/selectCommonDtlUpdate', 'post', null);
+            if(a_obj.attr('id') == 'dg0') $.jf_savedgdata(a_obj, '/common/updateCommonCo', 'post', null);
+            else if(a_obj.attr('id') == 'dg1') $.jf_savedgdata($('#dg1'), '/common/selectCommonDtlUpdate', 'post', null);
         }
         return true;
     }
@@ -217,8 +217,8 @@
                     <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- search js -->
-                    <script src="/static/js/SM0100/SM0100_sch_searchbox0.js"></script>
-                    <script src="/static/js/SM0100/SM0100_sch_radio0.js"></script>
+                    <script src="/static/js/SM/SM0100/SM0100_sch_searchbox0.js"></script>
+                    <script src="/static/js/SM/SM0100/SM0100_sch_radio0.js"></script>
                 </div>
                 </form>
                 <div data-options="region:'east', border:true, maxWidth:1400, minWidth:1400">
@@ -226,7 +226,7 @@
                     <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- btn0 js -->
-                    <script src="/static/js/SM0100/SM0100_btn0.js"></script>
+                    <script src="/static/js/SM/SM0100/SM0100_btn0.js"></script>
                 </div>
             </div>
         </div>
@@ -245,25 +245,25 @@
                             <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                             </div>
                             <!-- dg0 js -->
-                            <script src="/static/js/SM0100/SM0100_dg0.js"></script>
+                            <script src="/static/js/SM/SM0100/SM0100_dg0.js"></script>
                         </div>
                     </div>
                 </div>
                 <div data-options="region:'east', border:true, maxWidth:1200, minWidth:1200">
                     <div class="easyui-layout" data-options="fit:true" >
                         <div data-options="region:'north', border:true, minHeight:50, maxHeight:50">
-                            <!-- btn1 panel -->
+                            <!-- subbtn0 panel -->
                             <div id="subbtn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                             </div>                            
-                            <!-- btn1 js -->
-                            <script src="/static/js/SM0100/SM0100_subbtn0.js"></script>
+                            <!-- subbtn0 js -->
+                            <script src="/static/js/SM/SM0100/SM0100_subbtn0.js"></script>
                         </div>
                         <div data-options="region:'center', border:true">
                             <!-- dg1 panel -->
                             <div id="dg_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                             </div>
                             <!-- dg1 js -->
-                            <script src="/static/js/SM0100/SM0100_dg1.js"></script>
+                            <script src="/static/js/SM/SM0100/SM0100_dg1.js"></script>
                         </div>
                     </div>
                 </div>

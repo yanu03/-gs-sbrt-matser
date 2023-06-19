@@ -215,11 +215,11 @@ public class EgovFileMngUtil {
 			}
 		}
 
-//		if ("".equals(atchFileId) || atchFileId == null) {
+		if ("".equals(atchFileId) || atchFileId == null) {
 //			atchFileIdString = idgenService.getNextStringId();
-//		} else {
-//			atchFileIdString = atchFileId;
-//		}
+		} else {
+			atchFileIdString = atchFileId;
+		}
 		
 		LocalDate now = LocalDate.now();
 		// 포맷 정의

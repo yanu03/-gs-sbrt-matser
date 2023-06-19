@@ -78,10 +78,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                .logoutRequestMatcher(new AntPathRequestMatcher("/user/login"))
                 .logoutSuccessUrl("/user/login")
                 .invalidateHttpSession(true);
         //http.authenticationProvider(authenticationProvider);
+        http.exceptionHandling()
+        .authenticationEntryPoint(new AjaxAuthenticationEntryPoint("/user/login"));
     }
 
     @Override

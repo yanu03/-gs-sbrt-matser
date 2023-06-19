@@ -48,18 +48,20 @@ public class FileController extends ControllerSupport {
 //	FileService fileService;
 	
 	@PostMapping("/cm/fileUploadAction")
-	public @ResponseBody Map<String, Object> fileUploadAction(MultipartHttpServletRequest multiRequest, HttpServletRequest request) {
+	public @ResponseBody Map<String, Object> fileUploadAction(MultipartHttpServletRequest multiRequest) {
 		try {
-			String path = (String)request.getParameter("path");
+			String path = (String)multiRequest.getParameter("path");
 			if(CommonUtil.empty(path)) {
 				path = "FILE";
 			}
+			String atchFileId = (String)multiRequest.getParameter("attach_id");
+			
 			List<FileVO> resultValue = null;
 			//fileService.uploadFile(multiRequest);
 			
 			final Map<String, MultipartFile> files = multiRequest.getFileMap();
 		    //  List<FileVO> resultValue = null;
-		      String atchFileId = "";
+		      //String atchFileId = "";
 		      
 		      if (!files.isEmpty()) {
 		         //result =fileUtil.parseFileInf(files, "BBS_", 0, "", "NOTICE");
@@ -79,10 +81,10 @@ public class FileController extends ControllerSupport {
 //		             }
 		           }
 		           if(CommonUtil.empty(checkResult)) {
-		        	   resultValue = fileUtil.parseFileInf(files, "FILE_", 0, "", path);
+		        	   resultValue = fileUtil.parseFileInf(files, "FILE_", 0, atchFileId, path);
 		           }
 		           else {
-		        	   resultValue = fileUtil.parseFileInf(files, "FILE_", 0, "", path);
+		        	   resultValue = fileUtil.parseFileInf(files, "FILE_", 0, atchFileId, path);
 		           }
 		           //atchFileId = fileMngService.insertFileInfs(result);   
 		           atchFileId = fileService.insertFileInfs(resultValue);  

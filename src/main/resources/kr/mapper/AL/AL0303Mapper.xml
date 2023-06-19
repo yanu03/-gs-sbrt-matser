@@ -279,7 +279,7 @@
 	
 	<update id="updateCurAllocPlInfo" parameterType="Map">
 		UPDATE 
-			BMS_CUR_ALLOC_PL_INFO
+			BMS_CUR_ALLOC_PL_VHC_INFO
 		SET	
 			OPER_VHC_ID = #{RPC_VHC_ID}
 		WHERE 

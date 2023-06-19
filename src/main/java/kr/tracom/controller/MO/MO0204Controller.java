@@ -28,7 +28,7 @@ public class MO0204Controller extends ControllerSupport {
 	@RequestMapping("/mo/MO0204G1R0")
 	public @ResponseBody Map<String, Object> MO0204G1R0() throws Exception {
 		result.setData("rows", MO0204Service.MO0204G1R0());
-		result.setData("rows", MO0204Service.MO0204G1R0());
+		//result.setData("rows", MO0204Service.MO0204G1R0());
 		return result.getResult();
 	}
 	

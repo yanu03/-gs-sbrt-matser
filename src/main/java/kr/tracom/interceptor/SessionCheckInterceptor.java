@@ -1,3 +1,4 @@
+
 package kr.tracom.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +39,7 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 					response.setContentType("application/json");
 					response.setCharacterEncoding("UTF-8");
 					session.setAttribute("errMsg","Session이 종료 되었습니다.");
-					response.sendRedirect("/user/login");
+					//response.sendRedirect("/user/login");
 					//response.getWriter().write("{\"rsMsg\":{\"statusCode\":\"E\", \"errorCode\" : \"E0001\", \"message\":\"Session이 종료 되었습니다.\",\"status\":\"Error\"}}");
 				}
 			}

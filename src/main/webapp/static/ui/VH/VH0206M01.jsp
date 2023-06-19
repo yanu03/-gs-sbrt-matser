@@ -15,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function(){});
 
@@ -91,16 +91,16 @@
                 <!-- search panel -->
                 <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'"></div>
                 <!-- search js -->
-                <script src="/static/js/VH0206/VH0206_sch_searchbox0.js"></script>
-                <script src="/static/js/VH0206/VH0206_sch_fromtodate0.js"></script>
-                <script src="/static/js/VH0206/VH0206_sch_radio0.js"></script>
+                <script src="/static/js/VH/VH0206/VH0206_sch_searchbox0.js"></script>
+                <script src="/static/js/VH/VH0206/VH0206_sch_fromtodate0.js"></script>
+                <script src="/static/js/VH/VH0206/VH0206_sch_radio0.js"></script>
             </div>
             </form>
             <div data-options="region:'east', border:true, minWidth:600, maxWidth:600">
                 <!-- btn panel -->
                 <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'"></div>
                 <!-- btn js -->   
-                <script src="/static/js/VH0206/VH0206_btn0.js"></script>
+                <script src="/static/js/VH/VH0206/VH0206_btn0.js"></script>
             </div>        
         </div>
     </div>
@@ -109,7 +109,7 @@
         <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
         </div>
         <!-- dg0 js -->
-        <script src="/static/js/VH0206/VH0206_dg0.js"></script>
+        <script src="/static/js/VH/VH0206/VH0206_dg0.js"></script>
     </div>
 	</div>	
 </div>

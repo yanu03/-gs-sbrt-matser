@@ -1,3 +1,4 @@
+
 package kr.tracom.service.AL0102;
 
 import java.util.HashMap;
@@ -8,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import kr.tracom.mapper.AL0102.AL0102Mapper;
+import kr.tracom.platform.common.util.CommonUtil;
 import kr.tracom.support.ServiceSupport;
 import kr.tracom.support.exception.MessageException;
-import kr.tracom.util.DateUtil;
 import kr.tracom.util.Result;
-import kr.tracom.mapper.AL0102.AL0102Mapper;
 
 @Service
 public class AL0102Service extends ServiceSupport{
@@ -20,6 +21,21 @@ public class AL0102Service extends ServiceSupport{
 	@Autowired
 	private AL0102Mapper AL0102Mapper;
 		
+	public List AL0102G0_exlDownload() throws Exception {
+		String param = (String)request.getAttribute("param");
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(CommonUtil.empty(param)) {
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", "");
+		}
+		else {
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", param);
+		}
+
+		return AL0102Mapper.AL0102G0R0(map);
+	}
+	
 	public List AL0102G0R0() throws Exception {
 		Map<String, Object> map = getSimpleDataMap("dma_search");
 		return AL0102Mapper.AL0102G0R0(map);

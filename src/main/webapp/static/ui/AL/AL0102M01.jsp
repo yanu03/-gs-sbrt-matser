@@ -15,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {
     
@@ -59,7 +59,7 @@
     $.pf_acceptcfmsg = function(a_type){
         if(a_type == 'save'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
-                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/al/AL0102G0S0', 'post', null);  
+                $.jf_savedgdata($('#dg0'), '/al/AL0102G0S0', 'post', null);  
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
@@ -71,7 +71,7 @@
         }
         else if(a_type == 'close'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
-                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/al/AL0102G0S0', 'post', null);  
+                $.jf_savedgdata($('#dg0'), '/al/AL0102G0S0', 'post', null);  
                 $.jf_close();
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);  
@@ -79,7 +79,7 @@
         else if(a_type == 'search'){
             if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
                 $('#sch_ns0').numberspinner('setValue', uv_oldyear);
-                $.jf_savedgdata($('#dg0'), 'http://localhost:8183/al/AL0102G0S0', 'post', null);  
+                $.jf_savedgdata($('#dg0'), '/al/AL0102G0S0', 'post', null);  
                 $.jf_retrieve($('#dg0'));
             }
             else{
@@ -124,7 +124,7 @@
     };
     $.uf_loadholi = function(a_date){
         // 휴일 불러오는 url 
-        let v_url = 'http://localhost:8183/intg/getIntgInfo?INTG_KIND=IK004&YEAR='+a_date;
+        let v_url = '/intg/getIntgInfo?INTG_KIND=IK004&YEAR='+a_date;
         $.ajax({
             type: 'post',
             url: v_url,
@@ -152,7 +152,7 @@
     $.uf_saveholi = function(a_param){
         $.ajax({
             type: 'post',
-            url: 'http://localhost:8183/al/AL0102G0S0',
+            url: '/al/AL0102G0S0',
             data: a_param,
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -268,14 +268,14 @@
                             <div id="sch_panel0"  class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                             </div>
                             <!-- vacation searchbox js -->
-                            <script src="/static/js/AL0102/AL0102_sch_nspin0.js"></script>
+                            <script src="/static/js/AL/AL0102/AL0102_sch_nspin0.js"></script>
                         </div>
                         <div data-options="region:'east', border:true, maxWidth:1200, minWidth:1200">
                             <!-- vacation btn panel -->
                             <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                             </div>
                             <!-- vacation btn js -->
-                            <script src="/static/js/AL0102/AL0102_btn0.js"></script>
+                            <script src="/static/js/AL/AL0102/AL0102_btn0.js"></script>
                         </div>
                     </div>
                 </div>
@@ -285,7 +285,7 @@
                     <div id="fm_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                     </div>
                     <!-- vacation form js -->
-                    <script src="/static/js/AL0102/AL0102_editform0.js"></script>
+                    <script src="/static/js/AL/AL0102/AL0102_editform0.js"></script>
                 </div>
                 </form>        
             </div>
@@ -295,7 +295,7 @@
             <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
             </div>
             <!-- vacation datagrid js  -->
-            <script src="/static/js/AL0102/AL0102_dg0.js"></script>
+            <script src="/static/js/AL/AL0102/AL0102_dg0.js"></script>
         </div>
 	</div>
 </div>

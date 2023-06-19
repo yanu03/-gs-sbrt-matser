@@ -16,8 +16,8 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
   <script src="/static/js/Highcharts-Gantt-10.2.0/code/highcharts.js"></script>
-  <script src="/static/js/sample_comm.js"></script>
-  <script src="/static/js/jquery.pivotgrid.js"></script>
+  <script src="/static/js/common/sample_comm.js"></script>
+  <script src="/static/js/common/jquery.pivotgrid.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {});
     var uv_chart1data;
@@ -143,14 +143,14 @@
                 <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                 </div>
                 <!-- search js -->
-                <script src="/static/js/ST0205/ST0205_sch_fromtodate0.js"></script>
+                <script src="/static/js/ST/ST0205/ST0205_sch_fromtodate0.js"></script>
             </div>
             <div data-options="region:'east', border:true, maxWidth:800, minWidth:800">
                 <!-- btn panel -->
                 <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                 </div>
                 <!-- btn js -->
-                <script src="/static/js/ST0205/ST0205_btn0.js"></script>
+                <script src="/static/js/ST/ST0205/ST0205_btn0.js"></script>
             </div>
         </div>
       </div>
@@ -163,14 +163,14 @@
                 <div id="chart_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                 </div>
                 <!-- chart0 js -->
-                <script src="/static/js/ST0205/ST0205_chart0.js"></script>
+                <script src="/static/js/ST/ST0205/ST0205_chart0.js"></script>
               </div>s
               <div data-options="region:'east', border:true, width:'50%'">
                 <!-- chart1 panel -->
                 <div id="chart_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                 </div>
                 <!-- chart1 js -->
-                <script src="/static/js/ST0205/ST0205_chart1.js"></script>
+                <script src="/static/js/ST/ST0205/ST0205_chart1.js"></script>
               </div>
             </div>
           </div>
@@ -181,14 +181,14 @@
                 <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                 </div>
                 <!-- dg0 js -->
-                <script src="/static/js/ST0205/ST0205_dg0.js"></script>
+                <script src="/static/js/ST/ST0205/ST0205_dg0.js"></script>
               </div>
               <div data-options="region:'east', border:true, width:'50%'">
                 <!-- dg1 panel -->
                 <div id="dg_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                 </div>
                 <!-- dg1 js -->
-                <script src="/static/js/ST0205/ST0205_dg1.js"></script>
+                <script src="/static/js/ST/ST0205/ST0205_dg1.js"></script>
               </div>
             </div>
           </div>

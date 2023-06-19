@@ -16,8 +16,8 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
   <script src="/static/js/Highcharts-Gantt-10.2.0/code/highcharts.js"></script>
-  <script src="/static/js/jquery.pivotgrid.js"></script>
-	<script src="/static/js/sample_comm.js"></script>
+  <script src="/static/js/common/jquery.pivotgrid.js"></script>
+	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {
       
@@ -90,7 +90,7 @@
         if(v_treeicon){
             v_treeicon.remove();
         }
-        if(v_treefoldericon){
+        else if(v_treefoldericon){
           v_treefoldericon.remove();
         }
       }
@@ -217,7 +217,7 @@
       let v_data = [];
       let v_hourstat = [];
       let v_hours = [];
-
+      
       if(typeof(v_data) != 'undefined'){
         for(let i=0; i < a_data.length; i++){
           if(a_data[i].NODE_ID == a_node) v_data.push(a_data[i]);
@@ -229,6 +229,7 @@
           else v_hourstat.push(i +'시');
         }
         for(let i=0; i < v_hourstat.length; i++){  
+          
           v_hours.push(v_data.filter(obj => obj.STAT_H == v_hourstat[i]));
           v_hours = v_hours[0];
           if(typeof(v_hours) == 'undefined' || v_hours.length == 0){
@@ -281,15 +282,15 @@
                   <div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                   </div>
                   <!-- search js -->
-                  <script src="/static/js/ST0206/ST0206_sch_selectbox0.js"></script>
+                  <script src="/static/js/ST/ST0206/ST0206_sch_selectbox0.js"></script>
                 </div>
                 <div data-options="region:'center', border:true">
                   <!-- search panel -->
                   <div id="sch_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                   </div>
                   <!-- search js -->
-                  <script src="/static/js/ST0206/ST0206_sch_selectbox1.js"></script>
-                  <script src="/static/js/ST0206/ST0206_sch_fromtodate0.js"></script>
+                  <script src="/static/js/ST/ST0206/ST0206_sch_selectbox1.js"></script>
+                  <script src="/static/js/ST/ST0206/ST0206_sch_fromtodate0.js"></script>
                 </div>
               </div>
             </div>
@@ -298,7 +299,7 @@
                 <div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                 </div>
                 <!-- btn js -->
-                <script src="/static/js/ST0206/ST0206_btn0.js"></script>
+                <script src="/static/js/ST/ST0206/ST0206_btn0.js"></script>
             </div>
         </div>
       </div>
@@ -309,7 +310,7 @@
             <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
             </div>
             <!-- dg0 js -->
-            <script src="/static/js/ST0206/ST0206_dg0.js"></script>
+            <script src="/static/js/ST/ST0206/ST0206_dg0.js"></script>
           </div>
           <div data-options="region:'east', border:true, maxWidth:1450, minWidth:1450">
             <div class="easyui-layout" data-options="fit:true">
@@ -318,26 +319,26 @@
                 <div id="chart_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                 </div>
                 <!-- chart0 js -->
-                <script src="/static/js/ST0206/ST0206_chart0.js"></script>
+                <script src="/static/js/ST/ST0206/ST0206_chart0.js"></script>
               </div>
               <div data-options="region:'center', border:true">
                 <!-- dg1 panel -->
                 <div id="dg_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                 </div>
                 <!-- dg1 js -->
-                <script src="/static/js/ST0206/ST0206_dg1.js"></script>
+                <script src="/static/js/ST/ST0206/ST0206_dg1.js"></script>
 
                 <!-- dg2 panel -->
                 <div id="dg_panel2" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                 </div>
                 <!-- dg2 js -->
-                <script src="/static/js/ST0206/ST0206_dg2.js"></script>
+                <script src="/static/js/ST/ST0206/ST0206_dg2.js"></script>
 
                 <!-- dg3 panel --> 
                 <div id="dg_panel3" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
                 </div>
                 <!-- dg3 js -->
-                <script src="/static/js/ST0206/ST0206_dg3.js"></script>
+                <script src="/static/js/ST/ST0206/ST0206_dg3.js"></script>
               </div>
             </div>
           </div>

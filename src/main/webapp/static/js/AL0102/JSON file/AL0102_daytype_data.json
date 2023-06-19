@@ -1,5 +1,0 @@
-[
-    {"DAY_TYPE":"DY001","DAY_TYPE_NM" : "평일"},
-    {"DAY_TYPE":"DY002","DAY_TYPE_NM" : "휴일"},
-    {"DAY_TYPE":"DY003","DAY_TYPE_NM" : "비정기 휴일"}
-]
