@@ -881,6 +881,22 @@ $.jf_reloadpgm = function() {
 	top.$('#'+pgmId+'_obj').attr('data', pgmId+'.html');
 }
 
+
+$.jf_progress = function(status, title, msg) {
+	if(status=='close'){
+		$.messager.progress(status);
+	}
+	else{
+		$.messager.progress({
+		  title:title,
+		  msg:msg
+		});
+		setTimeout( function() {
+			$.messager.progress('close');
+		}, 6000);
+	}
+}
+
 /** 
 작성자 : 양현우
 작성일 : 2023-04-04
@@ -918,6 +934,12 @@ $.jf_savedgdata = function(a_obj, a_url, a_method, a_action) {
 
 	//실제로 사용할 param
 	param = JSON.stringify({'rows' : param});
+		debugger;
+		$.messager.progress({
+		  title:'저장',
+		  msg:'저장중입니다. 잠시만 기다려 주세요.'
+		});
+
 	
 	$.ajax({
 		type: a_method,
@@ -926,6 +948,7 @@ $.jf_savedgdata = function(a_obj, a_url, a_method, a_action) {
 		dataType: 'json',
 		contentType: 'application/json; charset=utf-8',
 		success: function(data){
+			$.messager.progress('close');
 			if(typeof(data['rows']) != "undefined"){
 				a_obj.datagrid('acceptChanges');
 				$.messager.show({
@@ -943,6 +966,7 @@ $.jf_savedgdata = function(a_obj, a_url, a_method, a_action) {
 		
 		},
 		error: function(error){
+			$.messager.progress('close');
 			if (error.status == 403) {
 				alert("세션이 만료되어 로그인 페이지로 돌아갑니다.");
 				top.location.replace("/user/login");
