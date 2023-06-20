@@ -93,5 +93,11 @@ public class SI0402Controller extends ControllerSupport {
 	public @ResponseBody Map<String, Object> SI0402P5R0() throws Exception {
 		result.setData("rows", si0402Service.SI0402P5R0());
 		return result.getResult();
+	}
+	
+	@RequestMapping("/si/SI0402G1K0")
+	public @ResponseBody Map<String, Object> SI0402G1K0() throws Exception {
+		result.setData("rows", si0402Service.SI0402G1K0());
+		return result.getResult();
 	}	
 }

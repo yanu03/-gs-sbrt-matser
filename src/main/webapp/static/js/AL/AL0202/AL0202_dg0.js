@@ -16,10 +16,15 @@ $(function(){
 	border: false,
 	loadMsg: '데이터 로딩중입니다',
 	emptyMsg: '데이터가 없습니다',
-	rownumbers: true,
+	rownumbers: false, //DEL_YN 구현중 css hidden 적용시 rownumbers는 적용이 안되어 false 처리 하였음.
 	showFooter: true,
+    rowStyler: function(index, row) {
+    	return 'id=row-' + index;  // 'row-{index}' 형태의 ID를 각 행에 추가합니다.
+	},
     columns:[[
-        {field:'ALLOC_NM',title:'배차명',width:150,halign:'center',align:'left'},
+		{field:'ALLOC_ID',title:'배차ID',width:100,halign:'center',align:'center'},
+        {field:'ALLOC_NM',title:'배차명',width:150,halign:'center',align:'left',editor:{type:'textbox',options:{required:true}}},
+		{field:'REMARK',title:'비고',width:300,halign:'center',align:'left',editor:{type:'textbox'}},
         /*{field:'ALLOC_ENM',title:'배차영문명',width:100,halign:'center',align:'center',hidden:true},
         {field:'ROUT_GRP',title:'노선그룹',width:150,halign:'center',align:'center',hidden:true},
         {field:'ROUT_GRP_NM',title:'노선그룹',width:100,halign:'center',align:'center'},
@@ -42,9 +47,9 @@ $(function(){
 		{field:'NONE_PEAK',title:'비첨두시배차간격',width:180,align:'center',halign:'center'},
 		{field:'REMARK',title:'비고',width:300,halign:'center',align:'left'},*/
 			]],
-		frozenColumns:[[
+		/*frozenColumns:[[
 		{field:'ALLOC_ID',title:'배차ID',width:100,halign:'center',align:'center'}
-					]],
+					]],*/
 		loader: function(param, success, error){$.tracomdgloader($(this), param, success, error);
 		},
 		//event 정의
@@ -56,21 +61,26 @@ $(function(){
 		},
 		onClickRow: function(index,row){},
 		onDblClickRow: function(index,row){
+			if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
+				$.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
+				$.jf_beginedit($('#dg0'), index);
+			}			
 		},
 		onBeforeSelect: function(index,row){
 			let a_rtn = false;
 			if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
-				/*if($.jf_changeddg($('#dg1'), null)){
-					$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'focussave');
+				$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
+				if($.jf_changeddg($('#dg1'), null)){
+					$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', index);
 					a_rtn = false;
 				}else{
 					a_rtn = true;
-				}*/				
-				a_rtn = true;
+				}				
 			}	
 			return a_rtn;
 		},
 		onSelect: function(index,row){
+			$.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
 			$.jf_childretrieve($('#dg1'), $.pf_childparams($('#dg1'), row));
 		},
 		onBeforeEdit: function(index,row){},

@@ -48,7 +48,8 @@
 		if(a_obj.attr('id') == "dg1") {
 			let v_row = $.jf_curdgrow($('#dg0'));
 			rtn_params = {
-			ALLOC_ID: v_row.ALLOC_ID, DAY_DIV: v_row.DAY_DIV, WAY_DIV: v_row.WAY_DIV, DAY_DIV_NM : v_row.DAY_DIV_NM, WAY_DIV_NM: v_row.WAY_DIV_NM, ROUT_ID: v_row.ROUT_ID}
+			ALLOC_ID: v_row.ALLOC_ID, DAY_DIV: v_row.DAY_DIV, WAY_DIV: v_row.WAY_DIV, OPER_SN:$.jf_seqdgdata('/AL/AL0202G1K0', 'post'),
+			DAY_DIV_NM : v_row.DAY_DIV_NM, WAY_DIV_NM: v_row.WAY_DIV_NM, ROUT_ID: v_row.ROUT_ID}
 		}
 		
 
@@ -65,20 +66,13 @@
 			else
 				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
 		}
-		if(a_type == 'subsave'){
+		if(typeof(a_type) == 'number'){
 			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') ){
-				$.jf_savedgdata($('#ef0'), '/AL/AL0202G0S0', 'post', null)
-			}
-			else
-				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);				
-		}
-		if(a_type == 'focussave'){
-			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
 				$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
 				$.jf_savedgdata($('#dg1'), '/al/AL0202G1S0', 'post', null)	//그리드 순서에 따른 전체 저장 부분 갱신 필요
 			}
 			else
-				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
+				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);				
 		}
 		return true;
 	}
@@ -87,17 +81,16 @@
 		if(a_type == 'save'){
 			$.jf_resetdg($('#dg0'), 'all');
 		}
-		if(a_type == 'subsave1'){
+		if(typeof(a_type) == 'number'){
 			$.jf_resetdg($('#dg1'));
-		}
-		if(a_type == 'focussave'){
-			$.jf_resetdg($('#dg1'));
+			$.jf_setfocus($('#dg0'), a_type);
 		}
 		return true;
 	}
 
 	$.pf_ajaxafterproc = function(a_type){
 		//저장 ajax 동작후 call back 함수
+		if(a_type == 'search') $.jf_retrieve($('#dg0'));
 		return true;
 	}		
 
@@ -112,6 +105,15 @@
 			// js_wayDiv = a_row.WAY_DIV; //상하행 조건 제외하는걸로 변경
 		}
 		return rtn_params;
+	}
+	
+	//시간 겹치는 체크
+	$.uf_timecheck = function() {
+		let v_allocNo = $.jf_curdgfieldvalue($('#dg1'), 'ALLOC_NO');
+		let v_data = $.jf_getdata($('#dg1'));
+		for(var i=0; i<v_data.length; i++) {
+			
+		}
 	}
 
 	</script>
@@ -139,16 +141,8 @@
 		</div>
 		<div data-options="region:'center', border:false">	
 			<div class="easyui-layout" data-options="fit:true">
-				<div data-options="region:'west', border:false, minWidth:1230, maxWidth:1230">
+				<div data-options="region:'west', border:false, minWidth:700, maxWidth:700">
 					<div class="easyui-layout" data-options="fit:true">
-						<form id="ef0" method="post">
-							<div data-options="region:'north', border:false, minHeight:200, maxHeight:200">
-								<div id="fm_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
-								</div>
-								<!--edit form object -->
-								<script src="/static/js/AL/AL0202/AL0202_editform0.js"></script>
-							</div>
-						</form>
 						<div data-options="region:'center', border:false">
 							<div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 							</div>

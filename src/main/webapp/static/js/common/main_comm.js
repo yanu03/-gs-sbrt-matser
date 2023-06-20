@@ -11,7 +11,6 @@ $.jf_setmenulist = function(a_menulist){
 }
 
 $.jf_getmenulist = function(){
-	debugger;
 	return js_menulist;
 }
 

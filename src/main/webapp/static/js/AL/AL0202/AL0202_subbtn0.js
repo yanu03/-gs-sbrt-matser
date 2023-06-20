@@ -6,7 +6,7 @@
 		$('#subbtn_panel0').append('<a id="subbtn0" href="#">새로고침</a>');
 	}
 	if(authority.SAV_AH=="Y"){
-		$('#subbtn_panel0').append('<a id="subbtn1" href="#">추가</a>');
+		$('#subbtn_panel0').append('<a id="subbtn1" href="#">삽입</a>');
 		$('#subbtn_panel0').append('<a id="subbtn2" href="#">삭제</a>');
 	}
 
@@ -35,10 +35,10 @@
 		}				
   });
   $('#subbtn1').bind('click', function(){
-	//추가
-	  if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')) $.jf_append($('#dg1'), $.pf_defaultparams($('#dg1')));
-	});
-	$('#subbtn2').bind('click', function(){
+		//추가
+	  if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')) $.jf_insert($('#dg1'), $.pf_defaultparams($('#dg1')), $.jf_curdgindex($('#dg1'))+1);
+  });
+  $('#subbtn2').bind('click', function(){
 		$.jf_delete($('#dg1'));
-	});
+  });
 });

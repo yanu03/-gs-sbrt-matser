@@ -43,16 +43,18 @@ $(function(){
 			// {field:'WAY_DIV',title:'상하행구분2',width:100,halign:'center',align:'center'},
 			{field:'WAY_DIV_NM',title:'상하행구분',width:100,halign:'center',align:'center',hidden:true},
 			{field:'OLD_WAY_DIV',title:'상하행구분',width:100,halign:'center',align:'center',hidden:true},
-			{field:'OPER_SN',title:'운행순번',width:100,halign:'center',align:'center',editor:{type:'numberbox',options:{required:true,min:0,max:100}}},
+			//{field:'OPER_SN',title:'운행순번',width:100,halign:'center',align:'center',editor:{type:'numberbox',options:{required:true,min:0,max:100}}},
+			{field:'OPER_SN',title:'운행순번',width:100,halign:'center',align:'center',hidden:true},
 			{field:'OLD_OPER_SN',title:'운행순번',width:100,halign:'center',align:'center',hidden:true},
-			{field:'ROUT_ST_TM',title:'노선시작(시분)',width:120,halign:'center',align:'center',editor:{type:'textbox', options:{maxlength: 5}}},
-			{field:'ROUT_ED_TM',title:'노선종료(시분)',width:120,halign:'center',align:'center',editor:{type:'textbox', options:{maxlength: 5}}},
+			{field:'ROUT_ST_TM',title:'시작시간(시분)',width:120,halign:'center',align:'center',editor:{type:'textbox', options:{maxlength: 5}}},
+			{field:'ROUT_ED_TM',title:'종료시간(시분)',width:120,halign:'center',align:'center',editor:{type:'textbox', options:{maxlength: 5}}},
 
 		]],
 		loader: function(param, success, error){$.tracomdgloader($(this), param, success, error);
 			},
 			//event 정의
 			onLoadSuccess: function(data){
+				$.jf_mergedg($('#dg1'), 'ALLOC_NO');
 				$.jf_setfocus($('#dg1'), -1);
 				$.jf_setfooter($('#dg1'));
 			},

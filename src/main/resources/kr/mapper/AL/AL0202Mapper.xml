@@ -49,6 +49,7 @@
 		ON A.ROUT_GRP= RD.DL_CD AND RD.CO_CD = 'ROUT_GRP'
 
 	<where>
+		AND DEL_YN != 'Y'
 		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT)">
 			<if test="TYPE == 'ALL'||TYPE == ''">
 				AND (A.ALLOC_ID LIKE CONCAT('%',#{CONTENT},'%') || A.ALLOC_NM LIKE CONCAT('%',#{CONTENT},'%'))
@@ -150,6 +151,10 @@
 	
 	<select id="AL0202G0K0" resultType="Map">
 		SELECT CONCAT('AL', LPAD(NEXTVAL(SEQ_BMS_ALLOC_OPER_MST_0), 8, '0')) AS 'SEQ'
+	</select>
+	
+	<select id="AL0202G1K0" resultType="Map">
+		SELECT NEXTVAL(SEQ_BMS_OPER_ALLOC_PL_ROUT_INFO_0) AS 'SEQ'
 	</select>
 	
 	<select id="AL0202P0R0" resultType="Map">

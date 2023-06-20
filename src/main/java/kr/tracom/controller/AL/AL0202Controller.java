@@ -76,6 +76,12 @@ public class AL0202Controller extends ControllerSupport {
 		return result.getResult();
 	}
 	
+	@RequestMapping("/AL/AL0202G1K0")
+	public @ResponseBody Map<String, Object> AL0202G1K0() throws Exception {
+		result.setData("rows", al0202Service.AL0202G1K0());
+		return result.getResult();
+	}
+	
 	/*@RequestMapping("/AL/AL0202G1CNT")
 	public @ResponseBody Map<String, Object> AL0202G1CNT() throws Exception {
 		result.setData("dlt_OPER_ALLOC_PL_ROUT_CNT", al0202Service.AL0202G1CNT());

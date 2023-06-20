@@ -50,7 +50,9 @@ public class AL0201Service extends ServiceSupport {
 				} else if (rowStatus.equals("U")) {
 					uCnt += AL0201Mapper.AL0201G0U0(data);
 				} else if (rowStatus.equals("D")) {
-					dCnt += AL0201Mapper.AL0201G0D0(data);
+					//dCnt += AL0201Mapper.AL0201G0D0(data);
+					//DEL_YN 처리하기 위함
+					dCnt += AL0201Mapper.AL0201G0U0(data);
 				} 
 			}			
 		} catch(Exception e) {

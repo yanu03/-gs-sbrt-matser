@@ -107,7 +107,8 @@ public class AL0202Service extends ServiceSupport {
 				} else if (rowStatus.equals("U")) {
 					al0201Mapper.AL0201G0U0(data);
 				} else if (rowStatus.equals("D")) {
-					al0201Mapper.AL0201G0D0(data);
+					//al0201Mapper.AL0201G0D0(data);
+					al0201Mapper.AL0201G0U0(data);
 				} 
 			}			
 		} catch(Exception e) {
@@ -189,5 +190,9 @@ public class AL0202Service extends ServiceSupport {
 	}
 	public Map AL0202G0K0() throws Exception {
 		return al0202Mapper.AL0202G0K0(); 
+	}
+	
+	public Map AL0202G1K0() throws Exception {
+		return al0202Mapper.AL0202G1K0(); 
 	}
 }
