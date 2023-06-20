@@ -107,6 +107,8 @@
 			$.jf_addnode($('#dg1'), $.jf_curdgfieldvalue($('#dg0'), 'ROUT_ID'), curPoint);
 			let v_row = {
 				NODE_ID : $.jf_seqdgdata('/si/SI0402G1K0', 'post')
+				,OLD_NODE_ID : ""
+				,OLD_NODE_SN : ""
 				,WAY_DIV : $.jf_curdgfieldvalue($('#dg0'), 'WAY_DIV')
 			}
 			$('#dg1').datagrid('updateRow',{index:$.jf_curdgindex($('#dg1')),row:v_row});
