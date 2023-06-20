@@ -61,6 +61,8 @@
 			$('#dg1').datagrid('updateRow',{index:v_index,row:v_aboveRow});			
 			$('#dg1').datagrid('updateRow',{index:v_index-1,row:v_belowRow});			
 			$('#dg1').datagrid('selectRow', v_index - 1);
+			$.jf_deleteline();
+			$.jf_drawline($('#dg1').datagrid('getData')['rows']);
 		};
 	})
 	
@@ -99,6 +101,8 @@
 			$('#dg1').datagrid('updateRow',{index:v_index,row:v_belowRow});			
 			$('#dg1').datagrid('updateRow',{index:v_index+1,row:v_aboveRow});			
 			$('#dg1').datagrid('selectRow', v_index + 1);
+			$.jf_deleteline();
+			$.jf_drawline($('#dg1').datagrid('getData')['rows']);
 		}
 	});
 	$('#subbtn2').bind('click', function(){
