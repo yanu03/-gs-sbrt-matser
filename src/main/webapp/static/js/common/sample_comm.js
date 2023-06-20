@@ -882,18 +882,18 @@ $.jf_reloadpgm = function() {
 }
 
 
-$.jf_progress = function(status, title, msg) {
+$.jf_progress = function(status, object) {
 	if(status=='close'){
 		$.messager.progress(status);
 	}
 	else{
 		$.messager.progress({
-		  title:title,
-		  msg:msg
+		  title:object.title,
+		  msg:object.msg
 		});
 		setTimeout( function() {
 			$.messager.progress('close');
-		}, 6000);
+		}, 60000);
 	}
 }
 
@@ -935,11 +935,10 @@ $.jf_savedgdata = function(a_obj, a_url, a_method, a_action) {
 	//실제로 사용할 param
 	param = JSON.stringify({'rows' : param});
 		debugger;
-		$.messager.progress({
-		  title:'저장',
-		  msg:'저장중입니다. 잠시만 기다려 주세요.'
-		});
-
+	$.jf_progress('open',{
+	  title:'저장',
+	  msg:'저장중입니다. 잠시만 기다려 주세요.'
+	});
 	
 	$.ajax({
 		type: a_method,
@@ -948,7 +947,7 @@ $.jf_savedgdata = function(a_obj, a_url, a_method, a_action) {
 		dataType: 'json',
 		contentType: 'application/json; charset=utf-8',
 		success: function(data){
-			$.messager.progress('close');
+			$.jf_progress('close');
 			if(typeof(data['rows']) != "undefined"){
 				a_obj.datagrid('acceptChanges');
 				$.messager.show({
