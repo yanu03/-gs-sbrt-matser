@@ -32,9 +32,9 @@ public interface SI0402Mapper {
 	
 	public int SI0402G1DA0(Map param); //노선과노드구성 테이블 삭제
 	
-	public Map SI0402G1K1();
+	public Map SI0402G1K1(); //링크아이디 생성
 	
-	public Map SI0402G1K2();
+	public Map SI0402G1K2(); //정류소 링크아이디 생성
 	
 	public Map SI0402G1K3();
 	

@@ -48,8 +48,8 @@ public class SI0402Service extends ServiceSupport {
 		int uCnt = 0;
 		int dCnt = 0;
 		boolean isLinkChange = false; //링크가 추가되거나, 변경되었는지 체크
-		
-		//Map<String, Object> map = getSimpleDataMap("dma_sub_search");
+		double beforeSttnNodeSn = 0;
+		//Map<String, Object> beforeSttnData = null;
 
 		List<Map<String, Object>> param = getSimpleList("dlt_BMS_ROUT_NODE_CMPSTN");
 		Map<String, Object> map = null;
@@ -58,159 +58,102 @@ public class SI0402Service extends ServiceSupport {
 		}
 		
 		try {
-			//String exl_update = (String) map.get("EXL_UPDATE");
-			//String reInstall = (String) map.get("RE_INSTALL");
-			
-			/*if(CommonUtil.notEmpty(exl_update)&&"true".equals(exl_update)) {
-				if(param.size()>0) {
-					Map delParam = new HashMap();
-					delParam.put("ROUT_ID", param.get(0).get("ROUT_ID"));
-					si0402Mapper.SI0402G1DA0(delParam);
-				}
-			}*/
-			
-			
-		
+			List<Map<String, Object>> routNodeList = si0402Mapper.SI0402G1R1(map);
 			
 			for (int i = 0; i < param.size(); i++) {
 				Map data = (Map) param.get(i);
-				
-				//링크가 추가되거나, 변경되었는지 체크
-				if(CommonUtil.notEmpty(data.get("NODE_SN"))&&CommonUtil.notEmpty(data.get("OLD_NODE_SN"))&&
-						(data.get("NODE_SN").equals(data.get("OLD_NODE_SN"))==false) /*|| CommonUtil.notEmpty(reInstall)&& "Y".equals(reInstall)*/) {
-					isLinkChange = true;
-				}
-				
 				String rowStatus = (String) data.get("rowStatus");
 				String nodeType = (String) data.get("NODE_TYPE");
-				//String lastNodeId = (String) map.get("LAST_NODE_ID");
-				
-				
-				String nodeType2 = null;
-				
+				String nodeId = (String)data.get("NODE_ID");
+				String oldNodeId = (String)data.get("OLD_NODE_ID");
+				String sttnId = (String)data.get("STTN_ID");
+				String crsId = (String)data.get("CRS_ID");
+				double curNodeSn = 0; 
+				if(CommonUtil.notEmpty(data.get("NODE_SN"))) {
+					curNodeSn = CommonUtil.decimalToDouble(data.get("NODE_SN"));
+				}
+				double oldNodeSn = 0;
+				if(CommonUtil.notEmpty(oldNodeSn)) {
+					oldNodeSn = CommonUtil.decimalToDouble(oldNodeSn);
+				}
+				String nextNodeType = null;
 				if(i < param.size()-1) {
 					Map data2 = (Map) param.get(i+1);
-					nodeType2 = (String) data2.get("NODE_TYPE");
+					nextNodeType = (String) data2.get("NODE_TYPE"); //다음 노드유형
 				}
 				
+				//추가한 데이터의 처응의 이전 정류장의 순번을 찾음 start[
+				if(routNodeList.size()>0) {
+					if(beforeSttnNodeSn >0 && routNodeList.size()>0) {
+						for(int j=routNodeList.size()-1; j>=0;j--) {
+							beforeSttnNodeSn = CommonUtil.decimalToDouble(routNodeList.get(j).get("NODE_SN"));
+							if(beforeSttnNodeSn < curNodeSn) {
+								//beforeSttnData = routNodeList.get(j);
+								break;
+							}							
+						}
+					}
+				}
+				//추가한 데이터의 처응의 이전 정류장의 순번을 찾음 end]
+				
+				//노드가 추가되거나, 변경되었을때 링크 변경 상태로 함.
+
+				
+				//String lastNodeId = (String) map.get("LAST_NODE_ID");
+				
+			
 				if (rowStatus.equals("C")) {
 					Map key = null;
 					
-					if(CommonUtil.empty(data.get("NODE_ID"))){
+					isLinkChange = true;
+					
+					if(CommonUtil.empty(nodeId)){
 						key = si0402Mapper.SI0402G1K0();
 					}
-					
-					/*if(Constants.NODE_TYPE_VERTEX.equals(nodeType)==true){
-						data.put("STTN_ID","");
-						data.put("STTN_NO","");
-						data.put("GRG_ID","");
-					}*/
-					
-					if((Constants.NODE_TYPE_VERTEX.equals(nodeType)==false)
-						&&(Constants.NODE_TYPE_SOUND.equals(nodeType)==false)
-						&&(Constants.NODE_TYPE_GARAGE.equals(nodeType)==false)
-						&&(Constants.NODE_TYPE_SIGNAL.equals(nodeType)==false)
-					) {
-						if((CommonUtil.empty(nodeType2)==false)&&(Constants.NODE_TYPE_GARAGE.equals(nodeType2)==false)
-							/*&&(CommonUtil.empty(lastNodeId)||data.get("NODE_ID").equals(lastNodeId)==false)*/)
-						{
-							Map linkKeyMap = si0402Mapper.SI0402G1K1();
-							data.put("LINK_ID",linkKeyMap.get("SEQ"));	
-						}
-						//else if(data.get("NODE_ID").equals(lastNodeId)){
-						//	data.put("LINK_ID","");	
-						//}
-						data.put("LINK_NODE_YN","Y");
-					}
-					else {
-						data.put("LINK_ID","");	
-					}
+					data.put("LINK_NODE_YN","Y");
 					
 					if(key!=null)data.put("NODE_ID",key.get("SEQ"));
-					if(CommonUtil.empty(data.get("OLD_NODE_SN"))||"0".equals(data.get("OLD_NODE_SN"))){
+					
+					if(oldNodeSn==0){ //이전 노드 순번이 없을때(새로 생성)
 						iCnt += si0402Mapper.SI0402G1I0(data);
 					}
-					else {
-						if(CommonUtil.empty(data.get("OLD_NODE_ID"))==false
-								&&data.get("OLD_NODE_ID").equals(data.get("NODE_ID"))==false){
-							iCnt += si0402Mapper.SI0402G1U0_1(data);
-						}
-						else{
-							iCnt += si0402Mapper.SI0402G1U0(data);
-						}
-					}
-					
+
 					if((Constants.NODE_TYPE_BUSSTOP.equals(nodeType)||Constants.NODE_TYPE_CROSS.equals(nodeType))
-						&&(CommonUtil.notEmpty(data.get("STTN_ID"))||CommonUtil.notEmpty(data.get("CRS_ID")))){
-						if(Constants.NODE_TYPE_BUSSTOP.equals(nodeType)&&CommonUtil.notEmpty(data.get("STTN_ID"))){
+						&&(CommonUtil.notEmpty(sttnId)||CommonUtil.notEmpty(crsId))){
+						if(Constants.NODE_TYPE_BUSSTOP.equals(nodeType)&&CommonUtil.notEmpty(sttnId)){
 							data.put("TYPE","STTN_ID");	
-							//data.put("WAY_DIV",map.get("WAY_DIV"));	
-							routMapper.updateSttn(data);
-						
+							routMapper.updateSttn(data); //타입이 정류소로 변경된경우
 						}
-						else if(Constants.NODE_TYPE_CROSS.equals(nodeType)&&CommonUtil.notEmpty(data.get("CRS_ID"))){
+						else if(Constants.NODE_TYPE_CROSS.equals(nodeType)&&CommonUtil.notEmpty(crsId)){
 							data.put("TYPE","CRS_ID");
-							routMapper.updateCrs(data);
+							routMapper.updateCrs(data); //타입이 교차로로 변경된경우
 						}
-						
-						//routMapper.updateRoutNodeToAnotherRoute(data);
-						//routMapper.updateMainRoutNodeToAnotherRoute(data);
 					}
 				} else if (rowStatus.equals("U")) {
-					
-					/*if(Constants.NODE_TYPE_VERTEX.equals(nodeType)==true){
-						data.put("STTN_ID","");
-						data.put("STTN_NO","");
-						data.put("GRG_ID","");
-					}*/
-					
-					if((Constants.NODE_TYPE_VERTEX.equals(nodeType)==false)
-						&&(Constants.NODE_TYPE_SOUND.equals(nodeType)==false)
-						&&(Constants.NODE_TYPE_GARAGE.equals(nodeType)==false)
-						&&(Constants.NODE_TYPE_SIGNAL.equals(nodeType)==false)
-					) {
-						int nodeSn = Integer.parseInt((String)data.get("NODE_SN"));
-						if((CommonUtil.empty(nodeType2)==false)&&(Constants.NODE_TYPE_GARAGE.equals(nodeType2)==false)
-							/*&&(CommonUtil.empty(lastNodeId)||data.get("NODE_ID").equals(lastNodeId)==false)*/)
-						{
-							String linkId = (String)data.get("LINK_ID");
-							if (CommonUtil.empty(linkId)==true) {
-								Map linkKeyMap = si0402Mapper.SI0402G1K1();
-								data.put("LINK_ID",linkKeyMap.get("SEQ"));
-							}
-						}
-						//else if(data.get("NODE_ID").equals(lastNodeId) && nodeSn > 10){
-						//	data.put("LINK_ID","");	
-						//}
-						data.put("LINK_NODE_YN","Y");
+					if((curNodeSn>0)&&(oldNodeSn>0)&&(curNodeSn!=oldNodeSn)) {
+						isLinkChange = true;
 					}
-					else {
-						data.put("LINK_ID","");	
-					}
-					
+					data.put("LINK_NODE_YN","Y");
+
 					if((Constants.NODE_TYPE_BUSSTOP.equals(nodeType)||Constants.NODE_TYPE_CROSS.equals(nodeType))
-						&&(CommonUtil.notEmpty(data.get("STTN_ID"))||CommonUtil.notEmpty(data.get("CRS_ID")))){
+						&&(CommonUtil.notEmpty(sttnId)||CommonUtil.notEmpty(crsId))){
 						
-						if(Constants.NODE_TYPE_BUSSTOP.equals(nodeType)&&CommonUtil.notEmpty(data.get("STTN_ID"))){
+						if(Constants.NODE_TYPE_BUSSTOP.equals(nodeType)&&CommonUtil.notEmpty(sttnId)){
 							data.put("TYPE","STTN_ID");
-							//data.put("WAY_DIV",map.get("WAY_DIV"));	
-							routMapper.updateSttn(data);
+							routMapper.updateSttn(data); //타입이 정류소로 변경된경우
 						}
-						else if(Constants.NODE_TYPE_CROSS.equals(nodeType)&&CommonUtil.notEmpty(data.get("CRS_ID"))){
+						else if(Constants.NODE_TYPE_CROSS.equals(nodeType)&&CommonUtil.notEmpty(crsId)){
 							data.put("TYPE","CRS_ID");
-							routMapper.updateCrs(data);
-						}
+							routMapper.updateCrs(data); //타입이 교차로로 변경된경우
+						}					
 						
-						//routMapper.updateRoutNodeToAnotherRoute(data);
-						//routMapper.updateMainRoutNodeToAnotherRoute(data);
-						
-						if(CommonUtil.notEmpty(data.get("OLD_NODE_ID"))){ //일반노드에서 정류소/교차로 노드로 변경시 NODE_ID를 변경해야함
+						if(CommonUtil.notEmpty(oldNodeId)){ //일반노드에서 정류소/교차로 노드로 변경시 NODE_ID를 변경해야함
 							Map delParam = new HashMap();
 							delParam.put("ROUT_ID", data.get("ROUT_ID"));
-							delParam.put("NODE_ID", data.get("OLD_NODE_ID"));
-							delParam.put("OLD_NODE_SN", data.get("OLD_NODE_SN"));
-							si0402Mapper.SI0402G1D0(delParam);
-							uCnt += si0402Mapper.SI0402G1I0(data);
+							delParam.put("NODE_ID", oldNodeId);
+							delParam.put("OLD_NODE_SN", oldNodeSn);
+							si0402Mapper.SI0402G1D0(delParam); //이전노드 삭제
+							uCnt += si0402Mapper.SI0402G1I0(data); //새로운 노드 생성
 						}
 						else {
 							uCnt += si0402Mapper.SI0402G1U0(data);
@@ -218,18 +161,12 @@ public class SI0402Service extends ServiceSupport {
 					}
 					else {
 						data.put("TYPE","NODE_ID");
-						//routMapper.updateRoutNodeToAnotherRoute(data);
-						//routMapper.updateMainRoutNodeToAnotherRoute(data);
 						uCnt += si0402Mapper.SI0402G1U0(data);
 					}
 					
 				} else if (rowStatus.equals("D")) {
+					isLinkChange = true;
 					dCnt += si0402Mapper.SI0402G1D0(data);
-					
-					//정류소,교차로 테이블의 NODE_ID 초기화
-					//data.put("NODE_ID", "");
-					//routMapper.updateSttn(data);
-					//routMapper.updateCrs(data);
 				}
 			}
 			
@@ -239,13 +176,10 @@ public class SI0402Service extends ServiceSupport {
 				double routLen = 0;
 				int sttnIndex = 0;
 				
-				si0402Mapper.SI0402G1DA1(map);
-				si0402Mapper.SI0402G1DA2(map);
-				si0402Mapper.SI0402G1DA3(map);
-				si0402Mapper.SI0402G1DA4(map);
-				List<Map<String, Object>> routNodeList = si0402Mapper.SI0402G1R1(map);
+				map.put("LINK_SN",beforeSttnNodeSn);
+				routMapper.deleteRoutLinkCmpstnSnMore(map);
+				routMapper.deleteRoutSttnLinkCmpstnSnMore(map);
 				
-				//List<Map<Object, Object>> routSttnLinkIdList = new ArrayList();
 				List<Object> routSttnLinkIdKeysList = new ArrayList();
 				List<Object> routSttnLinkIdValuesList = new ArrayList();
 				
@@ -254,59 +188,58 @@ public class SI0402Service extends ServiceSupport {
 					//정류소별 링크
 					for (int i = 0; i < routNodeList.size()-1; i++) {
 						Map sttnData = routNodeList.get(i);
-						sttnData.put("ROUT_LINK_ID", sttnData.get("LINK_ID"));
+						
 						String nodeType = (String) sttnData.get("NODE_TYPE");
 						
-						if(!Constants.NODE_TYPE_BUSSTOP.equals(nodeType)){
+						double curSttnNodeSn = 0; 
+						if(CommonUtil.notEmpty(sttnData.get("NODE_SN"))) {
+							curSttnNodeSn = CommonUtil.decimalToDouble(sttnData.get("NODE_SN"));
+						}
+						
+						if(!Constants.NODE_TYPE_BUSSTOP.equals(nodeType)||curSttnNodeSn<beforeSttnNodeSn){
 							continue;
-						}						
+						}
+						//sttnData.put("ROUT_LINK_ID", sttnData.get("LINK_ID"));
 						
 						double len = 0;
-						Map sttnData2 = null;
+						Map nextSttnData = null;
 						
-						Map beforeNode = sttnData;
-						for(int j = i+1; j < routNodeList.size(); j++ ) {
-							Map curNode = routNodeList.get(j);
-							String nodeType2 = (String) curNode.get("NODE_TYPE");
-							len += DataInterface.getDistanceBetween(CommonUtil.decimalToDouble(beforeNode.get("GPS_X")), CommonUtil.decimalToDouble(beforeNode.get("GPS_Y")), 
-									CommonUtil.decimalToDouble(curNode.get("GPS_X")), CommonUtil.decimalToDouble(curNode.get("GPS_Y")));
-							if(Constants.NODE_TYPE_BUSSTOP.equals(nodeType2)) {
-								sttnData2 = curNode;
+						Map tmpBeforeNode = sttnData;
+						for(int j = i+1; j < routNodeList.size(); j++ ) { //다음 
+							Map tmpNode = routNodeList.get(j);
+							double stGpsX = CommonUtil.decimalToDouble(tmpBeforeNode.get("GPS_X"));
+							double stGpsY = CommonUtil.decimalToDouble(tmpBeforeNode.get("GPS_Y"));
+							double edGpsX = CommonUtil.decimalToDouble(tmpNode.get("GPS_X"));
+							double edGpsY = CommonUtil.decimalToDouble(tmpNode.get("GPS_Y"));
+							
+							String tmpNodeType = (String) tmpNode.get("NODE_TYPE");
+							
+							len += DataInterface.getDistanceBetween(CommonUtil.decimalToDouble(stGpsX), CommonUtil.decimalToDouble(stGpsY), 
+									CommonUtil.decimalToDouble(edGpsX), CommonUtil.decimalToDouble(edGpsY));
+							if(Constants.NODE_TYPE_BUSSTOP.equals(tmpNodeType)) {
+								nextSttnData = tmpNode;
 								break;
 							}
-							beforeNode = curNode;
+							tmpBeforeNode = tmpNode;
 						}
 						
-						if(sttnData2 == null) {
+						if(nextSttnData == null) {
 							continue;
 						}
-						
-						
 						
 						//매핑링크 List 
 						Map<Object, Object> routSttnLinkIdMap = new HashMap<>();
-						//routSttnLinkIdMap.put(linkKeyMap.get("SEQ"), data.get("NODE_ID"));
-						//routSttnLinkIdList.add(routSttnLinkIdMap);
-						routSttnLinkIdValuesList.add(sttnData2.get("NODE_ID")); //도착 정류소ID
+						routSttnLinkIdValuesList.add(nextSttnData.get("NODE_ID")); //도착 정류소ID
 						
-						//sttnData.put("LINK_ID",linkKeyMap.get("SEQ"));
 						sttnData.put("LINK_SN",(i+1));
 						sttnData.put("ST_NODE_ID",sttnData.get("NODE_ID"));
-						sttnData.put("ED_NODE_ID",sttnData2.get("NODE_ID"));
-						String linkNm = sttnData.get("NODE_NM") + "-" + sttnData2.get("NODE_NM");
+						sttnData.put("ED_NODE_ID",nextSttnData.get("NODE_ID"));
+						String linkNm = sttnData.get("NODE_NM") + "-" + nextSttnData.get("NODE_NM");
 						sttnData.put("LINK_NM",linkNm);
 						
-						
-//						if(i==0) {
-//							data.put("ACCRU_LEN",0);
-//							si0402Mapper.updateLengthRoutNodeCmpstn(data);
-//						}
 						sttnData.put("LEN",CommonUtil.pointRound(len,3));
-						//routLen += len;
 						
 						Map<Object, Object> sttnLink = si0402Mapper.getSttnLinkIdByNode(sttnData);
-						
-						
 						
 						if(sttnLink!=null&&CommonUtil.notEmpty(sttnLink.get("LINK_ID"))) { //링크가 있는 경우 기존 링크 사용함
 							routSttnLinkIdKeysList.add(sttnLink.get("LINK_ID")); //ROUT_STTN_LINK_ID
@@ -314,218 +247,70 @@ public class SI0402Service extends ServiceSupport {
 							si0402Mapper.SI0402G1I2_2(sttnData); //링크 insert
 						}
 						else {
-							Map linkKeyMap = si0402Mapper.SI0402G1K2();
+							Map linkKeyMap = si0402Mapper.SI0402G1K2(); //정류소 링크아이디 생성
 							routSttnLinkIdKeysList.add(linkKeyMap.get("SEQ")); //ROUT_STTN_LINK_ID
 							sttnData.put("STTN_LINK_ID",linkKeyMap.get("SEQ"));
 							si0402Mapper.SI0402G1I2(sttnData); //링크 insert
 						}
-						//si0402Mapper.SI0402G1I2(sttnData); //링크 insert
-						
-//						data2.put("ACCRU_LEN",(int)routLen);
-//						si0402Mapper.updateLengthRoutNodeCmpstn(data2);
 					}					
 					
-					
-					//BMS_ROUT_LINK_CMPSTN
 					for (int i = 0; i < routNodeList.size()-1; i++) {
 						
 						Map data = routNodeList.get(i);
 						String nodeType = (String) data.get("NODE_TYPE");
+						double curNodeSn = 0; 
+						if(CommonUtil.notEmpty(data.get("NODE_SN"))) {
+							curNodeSn = CommonUtil.objectToDouble(data.get("NODE_SN"));
+						}
+						if(curNodeSn<beforeSttnNodeSn){
+							continue;
+						}
 						
-						Map data2 = routNodeList.get(i+1);
+						Map nextData = routNodeList.get(i+1);
 						if(Constants.NODE_TYPE_BUSSTOP.equals(nodeType)){
 							sttnCnt++;
 						}
+
+						if(CommonUtil.empty(data.get("LINK_ID"))) { //링크가 없는 경우
+							Map linkKeyMap = si0402Mapper.SI0402G1K1(); //링크아이디 생성
+							data.put("LINK_ID", linkKeyMap.get("SEQ"));
+						}
 						
-						
-						
-						//if(data.get("NODE_ID") != routSttnLinkIdList.get(sttnIndex).get("NODE_ID")) {
-						
-						//data.put("ROUT_STTN_LINK_ID", routSttnLinkIdList.get(sttnIndex).get("SEQ"));
 						if(sttnIndex<routSttnLinkIdKeysList.size()) {
 							data.put("ROUT_STTN_LINK_ID", routSttnLinkIdKeysList.get(sttnIndex));
-							/*if(sttnIndex==0) {
-								if(data.get("NODE_ID") == routSttnLinkIdValuesList.get(sttnIndex)) {
-									sttnIndex++;
-								}
-							}
-							else*/ 
-							{
-								if(data2.get("NODE_ID") == routSttnLinkIdValuesList.get(sttnIndex)) {
-									sttnIndex++;
-								}
+							if(nextData.get("NODE_ID") == routSttnLinkIdValuesList.get(sttnIndex)) {
+								sttnIndex++;
 							}
 						}
 						
 						data.put("LINK_SN",(i+1));
 						data.put("ST_NODE_ID",data.get("NODE_ID"));
-						data.put("ED_NODE_ID",data2.get("NODE_ID"));
-						String linkNm = data.get("NODE_NM") + "-" + data2.get("NODE_NM");
+						data.put("ED_NODE_ID",nextData.get("NODE_ID"));
+						String linkNm = data.get("NODE_NM") + "-" + nextData.get("NODE_NM");
 						data.put("LINK_NM",linkNm);
-						double len = DataInterface.getDistanceBetween(CommonUtil.decimalToDouble(data.get("GPS_X")), CommonUtil.decimalToDouble(data.get("GPS_Y")), 
-								CommonUtil.decimalToDouble(data2.get("GPS_X")), CommonUtil.decimalToDouble(data2.get("GPS_Y")));
-						short bearing = DataInterface.bearingP1toP2(CommonUtil.decimalToDouble(data.get("GPS_X")), CommonUtil.decimalToDouble(data.get("GPS_Y")), 
-								CommonUtil.decimalToDouble(data2.get("GPS_X")), CommonUtil.decimalToDouble(data2.get("GPS_Y")));
+						
+						double stGpsX = CommonUtil.decimalToDouble(data.get("GPS_X"));
+						double stGpsY = CommonUtil.decimalToDouble(data.get("GPS_Y"));
+						double edGpsX = CommonUtil.decimalToDouble(nextData.get("GPS_X"));
+						double edGpsY = CommonUtil.decimalToDouble(nextData.get("GPS_Y"));
+						
+						double len = DataInterface.getDistanceBetween(CommonUtil.decimalToDouble(stGpsX), CommonUtil.decimalToDouble(stGpsY), 
+								CommonUtil.decimalToDouble(edGpsX), CommonUtil.decimalToDouble(edGpsY));
+						short bearing = DataInterface.bearingP1toP2(CommonUtil.decimalToDouble(stGpsX), CommonUtil.decimalToDouble(stGpsY), 
+								CommonUtil.decimalToDouble(edGpsX), CommonUtil.decimalToDouble(edGpsY));
 						data.put("BEARING",bearing);
 						
-						if(i==0) {
-							data.put("ACCRU_LEN",0);
-							si0402Mapper.updateLengthRoutNodeCmpstn(data);
-						}
 						data.put("LEN",CommonUtil.pointRound(len,3));
 						routLen += len;
+						
 						si0402Mapper.SI0402G1I1(data); //링크 insert
 						
-						data2.put("ACCRU_LEN",(int)routLen);
-						si0402Mapper.updateLengthRoutNodeCmpstn(data2);
+						
+						nextData.put("ACCRU_LEN",(int)routLen);
+						si0402Mapper.updateLengthRoutNodeCmpstn(nextData);
 					}
-					
-					//정류소/교차로별 링크
-					for (int i = 0; i < routNodeList.size()-1; i++) {
-						Map sttnCrsdata = routNodeList.get(i);
-						String nodeType = (String) sttnCrsdata.get("NODE_TYPE");
-						
-						if(!Constants.NODE_TYPE_BUSSTOP.equals(nodeType) && !Constants.NODE_TYPE_CROSS.equals(nodeType)){
-							continue;
-						}
-						double len = 0;
-						Map sttnCrsdata2 = null;
-						
-						Map beforeNode = sttnCrsdata;
-						for(int j = i+1; j < routNodeList.size(); j++ ) {
-							Map curNode = routNodeList.get(j);
-							String nodeType2 = (String) curNode.get("NODE_TYPE");
-							len += DataInterface.getDistanceBetween(CommonUtil.decimalToDouble(beforeNode.get("GPS_X")), CommonUtil.decimalToDouble(beforeNode.get("GPS_Y")), 
-									CommonUtil.decimalToDouble(curNode.get("GPS_X")), CommonUtil.decimalToDouble(curNode.get("GPS_Y")));							
-							if(Constants.NODE_TYPE_BUSSTOP.equals(nodeType2) || Constants.NODE_TYPE_CROSS.equals(nodeType2)) {
-								sttnCrsdata2 = curNode;
-								break;
-							}
-							beforeNode = curNode;
-						}	
-						
-						if(sttnCrsdata2 == null) {
-							continue;
-						}
-						
-
-						sttnCrsdata.put("LINK_SN",(i+1));
-						sttnCrsdata.put("ST_NODE_ID",sttnCrsdata.get("NODE_ID"));
-						sttnCrsdata.put("ED_NODE_ID",sttnCrsdata2.get("NODE_ID"));
-						String linkNm = sttnCrsdata.get("NODE_NM") + "-" + sttnCrsdata2.get("NODE_NM");
-						sttnCrsdata.put("LINK_NM",linkNm);
-						
-						
-//						if(i==0) {
-//							data.put("ACCRU_LEN",0);
-//							si0402Mapper.updateLengthRoutNodeCmpstn(data);
-//						}
-						sttnCrsdata.put("LEN",CommonUtil.pointRound(len,3));
-						//routLen += len;
-						Map<Object, Object> sttnCrsLink = si0402Mapper.getSttnCrsLinkIdByNode(sttnCrsdata);
-						if(sttnCrsLink!=null&&CommonUtil.notEmpty(sttnCrsLink.get("LINK_ID"))) {
-							sttnCrsdata.put("STTN_LINK_CRS_ID",sttnCrsLink.get("LINK_ID"));
-							si0402Mapper.SI0402G1I3_2(sttnCrsdata); //링크 insert
-						}
-						else {
-							Map linkKeyMap = si0402Mapper.SI0402G1K3();
-							sttnCrsdata.put("STTN_LINK_CRS_ID",linkKeyMap.get("SEQ"));
-							si0402Mapper.SI0402G1I3(sttnCrsdata); //링크 insert
-						}
-						//si0402Mapper.SI0402G1I3(sttnCrsdata); //링크 insert
-						
-//						data2.put("ACCRU_LEN",(int)routLen);
-//						si0402Mapper.updateLengthRoutNodeCmpstn(data2);
-					}
-					
-					//정류소/집중모니터링 교차로별 링크
-					for (int i = 0; i < routNodeList.size()-1; i++) {
-						Map sttnMoCrsdata = routNodeList.get(i);
-						String nodeType = (String) sttnMoCrsdata.get("NODE_TYPE");
-						
-						
-						if(!Constants.NODE_TYPE_BUSSTOP.equals(nodeType) && !Constants.NODE_TYPE_CROSS.equals(nodeType)){
-							continue;
-						}
-						
-						//현시가 있는 교차로만 찾아서 넣기
-						else if(Constants.NODE_TYPE_CROSS.equals(nodeType)) {
-							String phaseNo = (String) sttnMoCrsdata.get("PHASE_NO");
-							if("".equals(phaseNo)) {
-								continue;
-							}
-						}
-						double len = 0;
-						Map sttnMoCrsdata2 = null;
-						Map beforeNode = sttnMoCrsdata;
-						
-						for(int j = i+1; j < routNodeList.size(); j++ ) {
-							Map curNode = routNodeList.get(j);
-							String nodeType2 = (String) curNode.get("NODE_TYPE");
-							len += DataInterface.getDistanceBetween(CommonUtil.decimalToDouble(beforeNode.get("GPS_X")), CommonUtil.decimalToDouble(beforeNode.get("GPS_Y")), 
-												CommonUtil.decimalToDouble(curNode.get("GPS_X")), CommonUtil.decimalToDouble(curNode.get("GPS_Y")));
-							
-							if(Constants.NODE_TYPE_BUSSTOP.equals(nodeType2) || Constants.NODE_TYPE_CROSS.equals(nodeType2)) {
-								if(Constants.NODE_TYPE_CROSS.equals(nodeType2)) {
-									String phaseNo2 = (String) curNode.get("PHASE_NO");
-									if("".equals(phaseNo2)) {
-										beforeNode = curNode;
-										continue;
-									}
-								}
-								sttnMoCrsdata2 = curNode;
-								break;
-							}
-							beforeNode = curNode;
-						}	
-						
-						if(sttnMoCrsdata2 == null) {
-							continue;
-						}
-						
-						sttnMoCrsdata.put("LINK_SN",(i+1));
-						sttnMoCrsdata.put("ST_NODE_ID",sttnMoCrsdata.get("NODE_ID"));
-						sttnMoCrsdata.put("ED_NODE_ID",sttnMoCrsdata2.get("NODE_ID"));
-						String linkNm = sttnMoCrsdata.get("NODE_NM") + "-" + sttnMoCrsdata2.get("NODE_NM");
-						sttnMoCrsdata.put("LINK_NM",linkNm);
-						
-//						if(i==0) {
-//							data.put("ACCRU_LEN",0);
-//							si0402Mapper.updateLengthRoutNodeCmpstn(data);
-//						}
-						sttnMoCrsdata.put("LEN",CommonUtil.pointRound(len,3));
-						//routLen += len;
-						
-						Map<Object, Object> sttnMoCrsLink = si0402Mapper.getSttnMoCrsLinkIdByNode(sttnMoCrsdata);
-						if(sttnMoCrsLink!=null&&CommonUtil.notEmpty(sttnMoCrsLink.get("LINK_ID"))) {
-							sttnMoCrsdata.put("STTN_LINK_MO_CRS_ID",sttnMoCrsLink.get("LINK_ID"));
-							si0402Mapper.SI0402G1I4_2(sttnMoCrsdata); //링크 insert
-						}
-						else {
-							Map linkKeyMap = si0402Mapper.SI0402G1K4();
-							sttnMoCrsdata.put("STTN_LINK_MO_CRS_ID",linkKeyMap.get("SEQ"));							
-							si0402Mapper.SI0402G1I4(sttnMoCrsdata); //링크 insert
-						}
-						//si0402Mapper.SI0402G1I4(sttnMoCrsdata); //링크 insert
-						
-//						data2.put("ACCRU_LEN",(int)routLen);
-//						si0402Mapper.updateLengthRoutNodeCmpstn(data2);
-					}
-					
-					Map routMap = new HashMap();
-					double routStrtLen = DataInterface.getDistanceBetween(CommonUtil.decimalToDouble(routNodeList.get(0).get("GPS_X")), CommonUtil.decimalToDouble(routNodeList.get(0).get("GPS_Y")), 
-							CommonUtil.decimalToDouble(routNodeList.get(routNodeList.size()-1).get("GPS_X")), CommonUtil.decimalToDouble(routNodeList.get(routNodeList.size()-1).get("GPS_Y")));
-							
-					routMap.put("ROUT_ID", (String)routNodeList.get(0).get("ROUT_ID"));
-					
-					routMap.put("ROUT_LEN", CommonUtil.pointRound(routLen,3));
-					routMap.put("ROUT_STRT_LEN", CommonUtil.pointRound(routStrtLen,3));
-					routMap.put("STTN_CNT", sttnCnt);
-					routMapper.updateRout(routMap);
-					routMapper.updateStSttnEdSttnRout(param.get(0));
 				}
 			}
-
 		} catch(Exception e) {
 			if (e instanceof DuplicateKeyException)
 			{

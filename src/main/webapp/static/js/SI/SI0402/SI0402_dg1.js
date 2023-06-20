@@ -19,9 +19,11 @@ $(function(){
 		showFooter: true,
 		columns:[[
 			{field:'NODE_ID',title:'노드ID',width:150,halign:'center',align:'left'},
+			{field:'OLD_NODE_ID',title:'이전노드ID',width:150,halign:'center',align:'left',hidden:true},
 			{field:'NODE_NM',title:'노드명',width:200,halign:'center',align:'left',editor:{type:'textbox', options:{required:true,validType:['length[0,20]']}}},
 			{field:'WAY_DIV',title:'상하행',width:100,halign:'center',align:'center',hidden:true},
 			{field:'NODE_SN',title:'노드순번',width:100,halign:'center',align:'right'},
+			{field:'OLD_NODE_SN',title:'이전노드순번',width:100,halign:'center',align:'right', hidden:true},
 			{field:'NODE_TYPE_NM',title:'유형',width:150,halign:'center',align:'center', hidden:true},
 			{field:'NODE_TYPE',title:'유형',width:130,align:'left',halign:'center',formatter:function(value,row){return row.NODE_TYPE_NM;},
 			editor:{type:'combobox',options:{valueField:'DL_CD',textField:'DL_CD_NM',method:'post',

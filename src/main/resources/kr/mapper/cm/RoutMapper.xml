@@ -1059,4 +1059,13 @@
 	</if>
 </delete>
 
+<delete id="deleteRoutLinkCmpstnSnMore" parameterType="Map">
+	DELETE FROM BMS_ROUT_LINK_CMPSTN
+	WHERE ROUT_ID = #{ROUT_ID} AND LINK_SN >= #{LINK_SN}
+</delete>
+
+<delete id="deleteRoutSttnLinkCmpstnSnMore" parameterType="Map">
+	DELETE FROM BMS_ROUT_STTN_LINK_CMPSTN
+	WHERE ROUT_ID = #{ROUT_ID} AND LINK_SN >= #{LINK_SN}
+</delete>
 </mapper>
