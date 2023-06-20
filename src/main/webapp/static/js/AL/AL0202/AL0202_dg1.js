@@ -8,8 +8,8 @@ $(function(){
 	$('#dg_panel1').append('<table id="dg1" class="easyui-datagrid" style="width:100%;height:100%"></table>');
 	
 	$('#dg1').datagrid({
-		// url:'http://localhost:8183/AL/AL0202G1R0',	//json 조회 url
-		url:'http://localhost:8183/al/AL0201G1R0',	//URL 변경됨
+		// url:'/AL/AL0202G1R0',	//json 조회 url
+		url:'/al/AL0201G1R0',	//URL 변경됨
 		method: 'post',
 		// queryParams: {},						//json 조회 params
 		singleSelect: true, //signleSelect : 단일 선택 true, 체크박스 포함일때 false
@@ -26,7 +26,7 @@ $(function(){
 			{field:'ROUT_NM',title:'노선명',width:100,halign:'center',align:'left',hidden:true},			
 			{field:'ROUT_ID',title:'노선명',width:130,align:'left',halign:'center',formatter:function(value,row){return row.ROUT_NM;},
 			editor:{type:'combobox',options:{valueField: 'ROUT_ID', textField: 'ROUT_NM',method:'post',
-			url: 'http://localhost:8183/rout/selectRoutList'
+			url: '/rout/selectRoutList'
 			// ,queryParams: JSON.stringify({"dma_search" : {"TYPE": "ROUT_GRP","CONTENT" : $('#ROUT_GRP').combobox('getValue') }}) //미완성, CONTENT 순서가 안맞음 노선그룹을 못가져옴
 			,queryParams: JSON.stringify({"dma_search" : {"TYPE": "ROUT_GRP","CONTENT" : '' }}) //미완성, CONTENT 순서가 안맞음 노선그룹을 못가져옴
 			,required:true,panelHeight:100,panelMinHeight:20,panelMaxHeight:400
@@ -38,7 +38,7 @@ $(function(){
 			{field:'DAY_DIV_NM',title:'요일구분',width:100,halign:'center',align:'center',hidden:true},
 			{field:'WAY_DIV',title:'상하행구분',width:100,align:'center',halign:'center',formatter:function(value,row){return row.WAY_DIV_NM;},
 			editor:{type:'combobox',options:{valueField:'DL_CD',textField:'DL_CD_NM',method:'post',
-			url:'http://localhost:8183/common/selectCommonDtlList',queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "WAY_DIV"}}),required:false,panelHeight:100,panelMinHeight:20,panelMaxHeight:400
+			url:'/common/selectCommonDtlList',queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "WAY_DIV"}}),required:false,panelHeight:100,panelMinHeight:20,panelMaxHeight:400
 			,loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}}}},
 			// {field:'WAY_DIV',title:'상하행구분2',width:100,halign:'center',align:'center'},
 			{field:'WAY_DIV_NM',title:'상하행구분',width:100,halign:'center',align:'center',hidden:true},

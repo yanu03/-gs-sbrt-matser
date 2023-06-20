@@ -11,7 +11,7 @@ $(function(){
     var f_date = $.tracomfromdate('m');
     var l_date = $.tracomtodate('d');
 	$('#dg1').datagrid({
-    url:'http://localhost:8183/al/AL0305G0R0',	//json 조회 url
+    url:'/al/AL0305G0R0',	//json 조회 url
     method: 'POST',
     queryParams: {},						//json 조회 params
 	singleSelect: true, //signleSelect : 단일 선택 true, 체크박스 포함일때 false
@@ -34,24 +34,24 @@ $(function(){
 		{field:'VHC_NO',title:'차량번호',width:150,halign:'center',align:'center', hidden:true},
 		{field:'VHC_ID',title:'차량번호',width:130,align:'center',halign:'center',formatter:function(value,row){return row.VHC_NO;},
 		editor:{type:'combobox',options:{valueField:'VHC_ID',textField:'VHC_NO',method:'post',
-		url:'http://localhost:8183/vhc/selectVhcList',queryParams: JSON.stringify({"dma_search" : {"content" : ""}}),required:false,panelHeight:200,panelMinHeight:20,panelMaxHeight:400
+		url:'/vhc/selectVhcList',queryParams: JSON.stringify({"dma_search" : {"content" : ""}}),required:false,panelHeight:200,panelMinHeight:20,panelMaxHeight:400
 		,loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}}}},
 		{field:'COMP_NM',title:'운수사',width:200,halign:'center',align:'left'},
 		{field:'DRV_NM',title:'운전자명',width:150,halign:'center',align:'center', hidden:true},
 		{field:'DRV_ID',title:'운전자명',width:130,align:'center',halign:'center',formatter:function(value,row){return row.DRV_NM;},
 		editor:{type:'combobox',options:{valueField:'DRV_ID',textField:'DRV_NM',method:'post',
-		url:'http://localhost:8183/drv/selectAllocDrvList',queryParams: JSON.stringify({"dma_search" : {"TYPE" : "ALL", "CONTENT" : ""}}),required:false,panelHeight:200,panelMinHeight:20,panelMaxHeight:400
+		url:'/drv/selectAllocDrvList',queryParams: JSON.stringify({"dma_search" : {"TYPE" : "ALL", "CONTENT" : ""}}),required:false,panelHeight:200,panelMinHeight:20,panelMaxHeight:400
 		,loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}}}},
 		{field:'SEC_VHC_NO',title:'차량번호',width:150,halign:'center',align:'center', hidden:true},
 		{field:'SEC_VHC_ID',title:'차량번호',width:130,align:'center',halign:'center',formatter:function(value,row){return row.SEC_VHC_NO;},
 		editor:{type:'combobox',options:{valueField:'VHC_ID',textField:'VHC_NO',method:'post',
-		url:'http://localhost:8183/vhc/selectVhcList',queryParams: JSON.stringify({"dma_search" : {"content" : ""}}),required:false,panelHeight:200,panelMinHeight:20,panelMaxHeight:400
+		url:'/vhc/selectVhcList',queryParams: JSON.stringify({"dma_search" : {"content" : ""}}),required:false,panelHeight:200,panelMinHeight:20,panelMaxHeight:400
 		,loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}}}},
 		{field:'SEC_COMP_NM',title:'운수사',width:200,halign:'center',align:'left'},
 		{field:'SEC_DRV_NM',title:'운전자명',width:100,halign:'center',align:'center',hidden:true},
 		{field:'SEC_DRV_ID',title:'운전자명',width:130,align:'center',halign:'center',formatter:function(value,row){return row.SEC_DRV_NM;},
 		editor:{type:'combobox',options:{valueField:'DRV_ID',textField:'DRV_NM',method:'post',
-		url:'http://localhost:8183/drv/selectAllocDrvList',queryParams: JSON.stringify({"dma_search" : {"content" : ""}}),required:false,panelHeight:200,panelMinHeight:20,panelMaxHeight:400
+		url:'/drv/selectAllocDrvList',queryParams: JSON.stringify({"dma_search" : {"content" : ""}}),required:false,panelHeight:200,panelMinHeight:20,panelMaxHeight:400
 		,loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}}}},
 		{field:'SEC_TRAN_TM',title:'교대시각',width:100,halign:'center',align:'center',editor:{type:'textbox'}},
 	]

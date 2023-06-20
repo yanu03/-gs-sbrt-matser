@@ -2,6 +2,9 @@
 	
 	var authority = $.jf_getcurauthority();
 
+	if(authority.SCH_AH=="Y"){
+		$('#subbtn_panel0').append('<a id="subbtn6" href="#">새로고침</a>');
+	}
 	if(authority.SAV_AH=="Y"){
 		$('#subbtn_panel0').append('<a id="subbtn0" href="#">상</a>');
 		$('#subbtn_panel0').append('<a id="subbtn1" href="#">하</a>');
@@ -20,6 +23,10 @@
 	    height: 24,
 	    iconCls: 'icon-remove',
 	   	plain: false
+	});	
+	$('#subbtn6').linkbutton({
+	    height: 24,
+	    iconCls: 'icon-reload'
 	});	
 	
 	//btn 기능 binding
@@ -96,6 +103,14 @@
 	});
 	$('#subbtn2').bind('click', function(){
 		$.jf_delete($('#dg1'));
+		$.jf_drawroute($('#dg1').datagrid('getData')['rows']);
 	});
+	$('#subbtn6').bind('click', function(){
+		if($.jf_changeddg($('#dg1'), null)) {
+			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', $.jf_curdgindex($('#dg1')));
+		}else{
+			$.jf_childretrieve($('#dg1'), $.pf_childparams($('#dg1'), $.jf_curdgrow($('#dg0'))));
+		}				
+  	});	
    
 });

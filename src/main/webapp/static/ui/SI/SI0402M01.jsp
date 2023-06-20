@@ -54,7 +54,7 @@
 
 	$.pf_acceptcfmsg = function(a_type){
 		if(a_type == 'save'){
-			if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
+			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') ){
 				$.jf_savedgdata($('#dg1'), '/si/SI0402G1S0', 'post', null)
 			}
 			else

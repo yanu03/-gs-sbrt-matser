@@ -50,6 +50,10 @@ $(function(){
 		},
 		//event 정의
 		onLoadSuccess: function(data){
+			isPathAdd = false;
+			isSttnAdd = false;
+			isCrossAdd = false;	
+			$.uf_changeGeoBtn();
 			$.jf_cleargrid($('#dg1'), data.rows.length);
 			$.jf_setfocus($('#dg0'), -1);
 			$.jf_setfooter($('#dg0'));
