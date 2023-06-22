@@ -934,7 +934,6 @@ $.jf_savedgdata = function(a_obj, a_url, a_method, a_action) {
 
 	//실제로 사용할 param
 	param = JSON.stringify({'rows' : param});
-		debugger;
 	$.jf_progress('open',{
 	  title:'저장',
 	  msg:'저장중입니다. 잠시만 기다려 주세요.'
@@ -1074,6 +1073,10 @@ $.jf_modmdstrct = function(a_win, a_obj, a_form, a_values, a_rtnobj, a_type){
 				js_mdstrct[i].form = a_form.attr("id");
 				js_mdstrct[i].type = 'f';
 			}
+			else if(a_type == 'c'){
+				js_mdstrct[i].datagrid = a_obj.attr("id");
+				js_mdstrct[i].type = 'c';
+			}
 			js_mdstrct[i].values = a_values;
 			js_mdstrct[i].rtnobj = a_rtnobj.attr("id");
 			return true;
@@ -1089,6 +1092,10 @@ $.jf_modmdstrct = function(a_win, a_obj, a_form, a_values, a_rtnobj, a_type){
 		v_strct.rtnobj = a_rtnobj.attr("id");
 		v_strct.type = 'f';		
 	}
+	else if(a_type == "c"){
+		v_strct.datagrid = a_obj.attr("id");
+		v_strct.type = 'c';		
+	}	
 	v_strct.win = a_win.attr("id");
 	v_strct.values = a_values;
 	js_mdstrct.push(v_strct);
@@ -1231,12 +1238,6 @@ $.jf_mergedg = function (a_obj, a_fields) {
 			v_endIndex = i;
 		}
 	}
-
-	a_obj.datagrid('mergeCells', {
-		index: v_startIndex,
-		field: a_fields,
-		rowspan: v_endIndex - v_startIndex + 1
-	});
 
 	return true;
 }
@@ -1399,6 +1400,16 @@ $.jf_getdata = function(a_obj) {
 $.jf_gettime = function() {
 	var v_today = new Date();   
 	return $.jf_leadingZeros(v_today.getHours(), 2) + ':' + $.jf_leadingZeros(v_today.getMinutes(), 2) + ':' + $.jf_leadingZeros(v_today.getSeconds(), 2);
+}
+
+/** 
+작성자 : 양현우
+작성일 : 2023-06-20
+기능 : 문자열 시간(예: 07:03) 초 변경
+**/
+$.jf_converttime = function(a_str) {
+	let [hours, minutes] = a_str.split(':');
+	return (+hours) * 60 * 60 + (+minutes) * 60;
 }
 
 $.jf_leadingZeros = function(a_number, a_digits){
