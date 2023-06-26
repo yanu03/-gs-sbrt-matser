@@ -36,7 +36,11 @@
   });
   $('#subbtn1').bind('click', function(){
 		//추가
-	  if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')) $.jf_insert($('#dg1'), $.pf_defaultparams($('#dg1')), $.jf_curdgindex($('#dg1'))+1);
+	  if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
+			$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
+			$.jf_insert($('#dg1'), $.pf_defaultparams($('#dg1')), $.jf_curdgindex($('#dg1'))+1);
+			
+		} 
   });
   $('#subbtn2').bind('click', function(){
 		$.jf_delete($('#dg1'));
