@@ -66,6 +66,32 @@
 	</select>
 
 	<select id="AL0202G1R0" resultType="Map">
+		<!-- 06/22 테이블 수정후 쿼리 -->
+		SELECT		A.ALLOC_ID
+				,	A.SN
+				,	A.ALLOC_NO
+				,	A.OPER_SN
+				,	A.ROUT_ID
+				,	B.ROUT_NM
+				,	B.WAY_DIV
+				,	WD.DL_CD_NM	WAY_DIV_NM
+				,	A.COR_ID
+				,	A.ROUT_ST_TM
+				,	A.ROUT_ED_TM
+				,	A.REST_TM
+				,	A.VHC_ID
+				,	A.DRV_ID
+				,	A.UPD_DTM
+				,	A.UPD_ID
+		FROM		BMS_OPER_ALLOC_PL_ROUT_INFO A
+		LEFT JOIN	BMS_ROUT_MST B
+		ON			A.ROUT_ID = B.ROUT_ID
+		LEFT JOIN 	BMS_DL_CD_INFO WD
+		ON 			B.WAY_DIV = WD.DL_CD 
+		AND			WD.CO_CD = 'WAY_DIV'	
+		WHERE A.ALLOC_ID = #{ALLOC_ID}
+		ORDER BY ALLOC_NO, STR_TO_DATE(ROUT_ST_TM, '%H:%i')
+	<!-- 수정전
 		SELECT A.ALLOC_ID,
 	       A.ROUT_ID,
 	       RM.ROUT_NM,
@@ -90,7 +116,7 @@
 		LEFT JOIN BMS_DL_CD_INFO WD
 		ON A.WAY_DIV= WD.DL_CD AND WD.CO_CD = 'WAY_DIV'
 	  WHERE A.ALLOC_ID = #{ALLOC_ID}
-	  ORDER BY ALLOC_NO, OPER_SN
+	  ORDER BY ALLOC_NO, OPER_SN -->
 			
 		<!-- 차량과 운전자까지 가져오는 쿼리
 		SELECT A.ROUT_GRP,
@@ -139,6 +165,7 @@
 			AND A.DAY_DIV = #{DAY_DIV}
 			ORDER BY ROUT_GRP, DAY_DIV, ALLOC_NO, OPER_SN -->
 	</select>
+		
 	
 	<select id="AL0202G1CNT" resultType="Map">
 		SELECT COUNT(*) CNT
@@ -193,23 +220,66 @@
 	</select>
 	
 	<insert id="AL0202G1I0" parameterType="Map">
-		INSERT INTO BMS_OPER_ALLOC_PL_ROUT_INFO(ALLOC_ID,ROUT_ID,DAY_DIV,WAY_DIV,OPER_SN,ALLOC_NO,COR_ID,ALLOC_NM,ROUT_ST_TM,ROUT_ED_TM,REST_TM,UPD_DTM,UPD_ID )
-		VALUES(#{ALLOC_ID},#{ROUT_ID},#{DAY_DIV},#{WAY_DIV},#{OPER_SN},#{ALLOC_NO},#{COR_ID},#{ALLOC_NM},#{ROUT_ST_TM},#{ROUT_ED_TM},#{REST_TM},#{UPD_DTM},#{SSN_USER_ID})
+		<selectKey resultType="string" keyProperty="SN" order="BEFORE">
+        	SELECT IFNULL(MAX(SN)+1,1) FROM BMS_OPER_ALLOC_PL_ROUT_INFO  WHERE  ALLOC_ID = #{ALLOC_ID}
+    	</selectKey>    
+    
+		INSERT INTO 	BMS_OPER_ALLOC_PL_ROUT_INFO
+						(
+						ALLOC_ID,
+						SN,
+						ALLOC_NO,
+						OPER_SN,
+						ROUT_ID,
+						COR_ID,
+						ROUT_ST_TM,
+						ROUT_ED_TM,
+						REST_TM,
+						VHC_ID,
+						DRV_ID,
+						UPD_DTM,
+						UPD_ID
+						)
+		VALUES			
+						(
+						#{ALLOC_ID},
+						#{SN},
+						#{ALLOC_NO},
+						#{OPER_SN},
+						#{ROUT_ID},
+						#{COR_ID},
+						#{ROUT_ST_TM},
+						#{ROUT_ED_TM},
+						#{REST_TM},
+						#{VHC_ID},
+						#{DRV_ID},
+						#{UPD_DTM},
+						#{SSN_USER_ID}
+						)
 	</insert>
 	
 	<update id="AL0202G1U0" parameterType="Map">
-		UPDATE BMS_OPER_ALLOC_PL_ROUT_INFO
-		SET ROUT_ID = #{ROUT_ID}, DAY_DIV = #{DAY_DIV}}, WAY_DIV = #{WAY_DIV}, OPER_SN = #{OPER_SN}, ALLOC_NO = #{ALLOC_NO}
-			, COR_ID = #{COR_ID}, ALLOC_NM = #{ALLOC_NM}, ROUT_ST_TM = #{ROUT_ST_TM}, ROUT_ED_TM = #{ROUT_ED_TM}
-			, REST_TM = #{REST_TM}, UPD_DTM = #{UPD_DTM}, UPD_ID = #{SSN_USER_ID}' 
-		WHERE ALLOC_ID = #{ALLOC_ID} AND DAY_DIV = #{DAY_DIV}  AND OPER_SN = #{OPER_SN} AND ALLOC_NO = #{ALLOC_NO} 
+		UPDATE 			BMS_OPER_ALLOC_PL_ROUT_INFO
+		SET 			ALLOC_NO = #{ALLOC_NO},
+						OPER_SN = #{OPER_SN},
+						ROUT_ID = #{ROUT_ID},
+						COR_ID = #{COR_ID},
+						ROUT_ST_TM = #{ROUT_ST_TM},
+						ROUT_ED_TM = #{ROUT_ED_TM},
+						REST_TM = #{REST_TM},
+						VHC_ID = #{VHC_ID},
+						DRV_ID = #{DRV_ID},
+						UPD_DTM = #{UPD_DTM},
+						UPD_ID = #{SSN_USER_ID}
+		WHERE			ALLOC_ID = #{ALLOC_ID} 
+		AND				SN = #{SN} 
 	</update>
 	
 	<delete id="AL0202G1D0" parameterType="Map">
-		DELETE FROM BMS_OPER_ALLOC_PL_NODE_INFO
-		WHERE ALLOC_ID = #{ALLOC_ID} AND ALLOC_NO = #{ALLOC_NO}  AND OPER_SN = #{OPER_SN};
-		DELETE FROM BMS_OPER_ALLOC_PL_ROUT_INFO
-		WHERE ALLOC_ID = #{ALLOC_ID} AND ALLOC_NO = #{ALLOC_NO}  AND OPER_SN = #{OPER_SN}; 
+		DELETE 
+		FROM 			BMS_OPER_ALLOC_PL_ROUT_INFO
+		WHERE 			ALLOC_ID = #{ALLOC_ID}
+		AND 			SN = #{SN} 
 	</delete>
 	
 	<delete id="AL0202G1DA0" parameterType="Map">

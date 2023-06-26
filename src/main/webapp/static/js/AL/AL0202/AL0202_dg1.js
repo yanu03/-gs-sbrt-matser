@@ -34,11 +34,12 @@ $(function(){
 		showFooter: true,
 		columns:[[
 			// {field:'ROUT_ID',title:'노선ID',width:100,halign:'center',align:'left'},
+			{field:'SN',title:'순번',width:100,halign:'center',align:'center',hidden:true},
 			{field:'ALLOC_NO',title:'배차번호',width:100,halign:'center',align:'center',editor:{type:'numberbox',options:{required:true,min:0,max:100}}},
 			{field:'OLD_ROUT_ID',title:'노선ID',width:100,halign:'center',align:'left',hidden:true},
 			{field:'ALLOC_ID',title:'배차ID',width:100,halign:'center',align:'left',hidden:true},
 			{field:'ROUT_NM',title:'노선명',width:130,halign:'center',align:'left',hidden:false},			
-			{field:'ROUT_ID',title:'노선ID',width:100,halign:'center',align:'left',hidden:false},			
+			{field:'ROUT_ID',title:'노선ID',width:100,halign:'center',align:'left',hidden:true},			
 			/*
 			수정전 selectbox처리
 			{field:'ROUT_ID',title:'노선명',width:130,align:'left',halign:'center',formatter:function(value,row){return row.ROUT_NM;},
@@ -59,7 +60,7 @@ $(function(){
 			editor:{type:'combobox',options:{valueField:'DL_CD',textField:'DL_CD_NM',method:'post',
 			url:'/common/selectCommonDtlList',queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "WAY_DIV"}}),required:false,panelHeight:100,panelMinHeight:20,panelMaxHeight:400
 			,loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}}}},*/
-			{field:'WAY_DIV',title:'상하행구분코드',width:100,halign:'center',align:'center',hidden:false},
+			{field:'WAY_DIV',title:'상하행구분코드',width:100,halign:'center',align:'center',hidden:true},
 			{field:'WAY_DIV_NM',title:'상하행구분',width:100,halign:'center',align:'center',hidden:false},
 			{field:'OLD_WAY_DIV',title:'상하행구분',width:100,halign:'center',align:'center',hidden:true},
 			//{field:'OPER_SN',title:'운행순번',width:100,halign:'center',align:'center',editor:{type:'numberbox',options:{required:true,min:0,max:100}}},
@@ -113,7 +114,14 @@ $(function(){
 				//edit중이 아닐때
 				if($.jf_fnddgstrct($('#dg1')) != -1){
 					if(a_field == 'ROUT_NM' && a_index == $.jf_curdgindex($('#dg1'))){
-						let v_values = {ROUT_ID:null, ROUT_NM:null, WAY_DIV: null, WAY_DIV_NM: null, REMARK:null};
+						let v_allocNoEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ALLOC_NO'});
+						let v_allocNo = $(v_allocNoEditor.target).textbox('getText');
+						let v_stTimeEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ROUT_ST_TM'});
+						let v_curStTime = $(v_stTimeEditor.target).textbox('getText');
+						let v_edTimeEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ROUT_ED_TM'});
+						let v_curEdTime = $(v_edTimeEditor.target).textbox('getText');	
+						
+						let v_values = {ALLOC_NO:v_allocNo ,ROUT_ID:null, ROUT_NM:null, WAY_DIV: null, WAY_DIV_NM: null, ROUT_ST_TM:v_curStTime, ROUT_ED_TM:v_curEdTime};
 						$.mf_selroutmdopen($('#dg1'), null, v_values, $('#dg1'), 'c');				
 					}
 				}

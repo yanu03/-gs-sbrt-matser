@@ -153,20 +153,21 @@ public class AL0202Service extends ServiceSupport {
 				
 				String allocId = data.get("ALLOC_ID").toString();
 				String routId = data.get("ROUT_ID").toString();
-				String dayDiv = data.get("DAY_DIV").toString();
-				if(CommonUtil.empty(data.get("OPER_SN")))break;
-				int operSn = Integer.valueOf(data.get("OPER_SN").toString());
+				//String dayDiv = data.get("DAY_DIV").toString();
+				//if(CommonUtil.empty(data.get("OPER_SN")))break;
+				//int operSn = Integer.valueOf(data.get("OPER_SN").toString());
 				
 				if (rowStatus.equals("C")) {
-					//iCnt += al0202Mapper.AL0202G1I0(data);
-					iCnt += al0201Mapper.AL0201G1I0(data);
-					operPlanService.makeOperAllocPlNodeInfo(allocId, routId, dayDiv, operSn, true);
+					iCnt += al0202Mapper.AL0202G1I0(data);
+					//iCnt += al0201Mapper.AL0201G1I0(data);
+					//operPlanService.makeOperAllocPlNodeInfo(allocId, routId, dayDiv, operSn, true);
 				} else if (rowStatus.equals("U")) {
-					//uCnt += al0202Mapper.AL0202G1U0(data);
-					iCnt += al0201Mapper.AL0201G1U0(data);
-					operPlanService.makeOperAllocPlNodeInfo(allocId, routId, dayDiv, operSn, true);
+					uCnt += al0202Mapper.AL0202G1U0(data);
+					//iCnt += al0201Mapper.AL0201G1U0(data);
+					//operPlanService.makeOperAllocPlNodeInfo(allocId, routId, dayDiv, operSn, true);
 				} else if (rowStatus.equals("D")) {
-					dCnt += al0201Mapper.AL0201G1D0(data);
+					//dCnt += al0201Mapper.AL0201G1D0(data);
+					dCnt += al0202Mapper.AL0202G1D0(data);
 				} 
 			}			
 		} catch(Exception e) {

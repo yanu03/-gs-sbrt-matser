@@ -47,9 +47,12 @@
 		if(a_obj.attr('id') == "dg0") rtn_params = {ALLOC_ID:$.jf_seqdgdata('/AL/AL0202G0K0', 'post')}
 		if(a_obj.attr('id') == "dg1") {
 			let v_row = $.jf_curdgrow($('#dg0'));
-			rtn_params = {
+			let v_allocNo = ($.jf_curdgrow($('#dg1')) !== null ? $.jf_curdgrow($('#dg1'))['ALLOC_NO'] : null) || 1;
+			/* rtn_params = {
 			ALLOC_ID: v_row.ALLOC_ID, DAY_DIV: v_row.DAY_DIV, WAY_DIV: v_row.WAY_DIV, OPER_SN:$.jf_seqdgdata('/AL/AL0202G1K0', 'post'),
-			DAY_DIV_NM : v_row.DAY_DIV_NM, WAY_DIV_NM: v_row.WAY_DIV_NM, ROUT_ID: v_row.ROUT_ID}
+			DAY_DIV_NM : v_row.DAY_DIV_NM, WAY_DIV_NM: v_row.WAY_DIV_NM, ROUT_ID: v_row.ROUT_ID} */
+			rtn_params = {ALLOC_ID: v_row.ALLOC_ID, ALLOC_NO:v_allocNo
+					}
 		}
 		
 
@@ -114,12 +117,25 @@
 		if(v_timeSplit.length != 2) return false;
 		else{
 			if(typeof(parseInt(v_timeSplit[0])) == 'undefined' || typeof(parseInt(v_timeSplit[1])) == 'undefined') return false;
+			if(parseInt(v_timeSplit[0]) < 0 || 23 < parseInt(v_timeSplit[0])) return false;
+			if(parseInt(v_timeSplit[1]) < 0 || 59 < parseInt(v_timeSplit[1])) return false;
 		}
 		
 		let v_convertValue = $.jf_converttime(a_value); //사용자 수정값
 		//if($.jf_isempty(v_convertValue)) return false;
-		let v_curStTime = $.jf_converttime($.jf_curdgfieldvalue($('#dg1'), 'ROUT_ST_TM')); //현재 선택된 노선시작값, 수정전
-		let v_curEdTime = $.jf_converttime($.jf_curdgfieldvalue($('#dg1'), 'ROUT_ED_TM')); //현재 선택된 노선종료값, 수정전
+		//실시간 편집중인 값 가져오기 위함
+		//let v_editors = $('#dg1').datagrid('getEditors', $.jf_curdgindex($('#dg1')));
+		//let v_stTimeEditor = v_editors.find(editor => editor.field === 'ROUT_ST_TM');
+		let v_stTimeEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ROUT_ST_TM'});
+		let v_curStTime = $.jf_converttime($(v_stTimeEditor.target).textbox('getText'));
+		//let v_edTimeEditor = v_editors.find(editor => editor.field === 'ROUT_ED_TM');
+		let v_edTimeEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ROUT_ED_TM'});
+		let v_curEdTime = $.jf_converttime($(v_edTimeEditor.target).textbox('getText'));
+		
+		//let v_curStTime = $('#dg1').datagrid('getSelected').ROUT_ST_TM;
+		//let v_curEdTime = $('#dg1').datagrid('getSelected').ROUT_ED_TM;
+	    //let v_curStTime = $.jf_converttime($.jf_curdgfieldvalue($('#dg1'), 'ROUT_ST_TM')) || new Date(-8640000000000000); //현재 선택된 노선시작값, 수정전
+	    //let v_curEdTime = $.jf_converttime($.jf_curdgfieldvalue($('#dg1'), 'ROUT_ED_TM')) || new Date(8640000000000000); //현재 선택된 노선종료값, 수정전
 		if(a_param == 'ROUT_ST_TM'){
 			if(v_convertValue >= v_curEdTime) return false;
 		}
@@ -133,22 +149,43 @@
 	//시간 범위 유효성 체크
 	//참고: validate function에서 a_value 파라미터는 사용자가 수정하는 값, $.jf_curdgfieldvalue는 수정되기 전 값이 리턴됨
 	$.uf_timeRangeValid = function(a_value, a_param) {
-		let v_allocNo = $.jf_curdgfieldvalue($('#dg1'), 'ALLOC_NO');
-		if($.jf_isempty(v_allocNo) || $.jf_isempty(a_value)) return false;
+		//실시간 편집중인 값 가져오기 위함
+		//let v_editors = $('#dg1').datagrid('getEditors', $.jf_curdgindex($('#dg1')));
+		let v_allocNoEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ALLOC_NO'});
+		let v_allocNo = $(v_allocNoEditor.target).textbox('getText');
+		//let v_allocNo = $.jf_curdgfieldvalue($('#dg1'), 'ALLOC_NO');
+		//if($.jf_isempty(v_allocNo) || $.jf_isempty(a_value)) return false;
 		let v_convertValue = $.jf_converttime(a_value); //사용자 수정값
-		let v_curStTime = $.jf_converttime($.jf_curdgfieldvalue($('#dg1'), 'ROUT_ST_TM')); //현재 선택된 노선시작값, 수정전
-		let v_curEdTime = $.jf_converttime($.jf_curdgfieldvalue($('#dg1'), 'ROUT_ED_TM')); //현재 선택된 노선종료값, 수정전
 		
+		//let v_stTimeEditor = v_editors.find(editor => editor.field === 'ROUT_ST_TM');
+		let v_stTimeEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ROUT_ST_TM'});
+		let v_curStTime = $.jf_converttime($(v_stTimeEditor.target).textbox('getText'));
+		//let v_edTimeEditor = v_editors.find(editor => editor.field === 'ROUT_ED_TM');
+		let v_edTimeEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ROUT_ED_TM'});
+		let v_curEdTime = $.jf_converttime($(v_edTimeEditor.target).textbox('getText'));		
+		
+		//let v_curStTime = $.jf_converttime($.jf_curdgfieldvalue($('#dg1'), 'ROUT_ST_TM')); //현재 선택된 노선시작값, 수정전
+		//let v_curEdTime = $.jf_converttime($.jf_curdgfieldvalue($('#dg1'), 'ROUT_ED_TM')); //현재 선택된 노선종료값, 수정전
+		
+		// if 'ROUT_ST_TM' is being edited and 'ROUT_ED_TM' is not set yet
+		if (a_param === 'ROUT_ST_TM' && $.jf_isempty(v_curEdTime)) {
+			v_curEdTime = v_convertValue;
+		}
+		// if 'ROUT_ED_TM' is being edited and 'ROUT_ST_TM' is not set yet
+		else if (a_param === 'ROUT_ED_TM' && $.jf_isempty(v_curStTime)) {
+			v_curStTime = v_convertValue;
+		}
+	
 		let v_data = $.jf_getdata($('#dg1'));
 		for(var i=0; i<v_data.length; i++) {
+			if($.jf_curdgindex($('#dg1')) == i) continue;
 			if(v_data[i]['ALLOC_NO'].toString() === v_allocNo.toString()) {
-				if($.jf_curdgindex($('#dg1')) == i) continue;
-				if($.jf_converttime(v_data[i]['ROUT_ST_TM']) <= v_convertValue && v_convertValue <= $.jf_converttime(v_data[i]['ROUT_ED_TM'])) return false;
+				if($.jf_converttime(v_data[i]['ROUT_ST_TM']) < v_convertValue && v_convertValue < $.jf_converttime(v_data[i]['ROUT_ED_TM'])) return false;
 				if(a_param == 'ROUT_ST_TM'){
-					if(v_convertValue <= $.jf_converttime(v_data[i]['ROUT_ST_TM']) && $.jf_converttime(v_data[i]['ROUT_ST_TM']) <= v_curEdTime) return false;
+					if(v_convertValue < $.jf_converttime(v_data[i]['ROUT_ST_TM']) && $.jf_converttime(v_data[i]['ROUT_ST_TM']) < v_curEdTime) return false;
 				}
 				else if(a_param == 'ROUT_ED_TM'){
-					if(v_curStTime <= $.jf_converttime(v_data[i]['ROUT_ED_TM']) && $.jf_converttime(v_data[i]['ROUT_ED_TM']) <= v_convertValue) return false;
+					if(v_curStTime < $.jf_converttime(v_data[i]['ROUT_ED_TM']) && $.jf_converttime(v_data[i]['ROUT_ED_TM']) < v_convertValue) return false;
 				}
 			}
 		}

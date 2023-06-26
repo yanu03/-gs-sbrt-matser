@@ -1228,7 +1228,8 @@ $.jf_mergedg = function (a_obj, a_fields) {
 	for (var i = 1; i < v_rows.length; i++) {
 		if (v_rows[i][a_fields] === v_rows[i - 1][a_fields]) {
 			v_endIndex = i;
-		} else {
+		} 
+		else {
 			a_obj.datagrid('mergeCells', {
 				index: v_startIndex,
 				field: a_fields,
@@ -1236,6 +1237,15 @@ $.jf_mergedg = function (a_obj, a_fields) {
 			});
 			v_startIndex = i;
 			v_endIndex = i;
+		}
+		if(v_endIndex+1 == v_rows.length) {
+			a_obj.datagrid('mergeCells', {
+				index: v_startIndex,
+				field: a_fields,
+				rowspan: v_endIndex - v_startIndex + 1
+			});
+			v_startIndex = i;
+			v_endIndex = i;			
 		}
 	}
 

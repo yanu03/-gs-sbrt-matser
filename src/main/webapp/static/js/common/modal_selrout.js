@@ -180,6 +180,7 @@
 			let v_obj = js_mdstrct[v_idx].datagrid;
 			$('#'+v_obj).datagrid('updateRow',{index:$.jf_curdgindex($('#dg1')), row:v_values})
 			$('#selrout').window('close');  // close a window
+			$.jf_beginedit($('#'+v_obj), $.jf_curdgindex($('#dg1'))); //valid 처리 위함
 		}
 		
 	}

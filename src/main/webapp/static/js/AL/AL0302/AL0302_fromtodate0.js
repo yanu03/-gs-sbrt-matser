@@ -6,8 +6,8 @@
 **/
 $(function(){
 	//from date to date
-	$('#sch_panel1').append('배포시작일 : <input id="sch_fdd" type="text"> ');
-	$('#sch_panel1').append('배포종료일 : <input id="sch_tdd" type="text">&nbsp;&nbsp;&nbsp;&nbsp;');
+	$('#subsch_panel1').append('배포시작일 : <input id="sch_fdd" type="text"> ');
+	$('#subsch_panel1').append('배포종료일 : <input id="sch_tdd" type="text">&nbsp;&nbsp;&nbsp;&nbsp;');
 	
 	$('#sch_fdd').datebox({
 		width: 110,
