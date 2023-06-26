@@ -13,6 +13,7 @@
 	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=100faa0e8b0c72a3da69169f45883b0b"></script>
 	<script type="text/javascript" src="/static/js/common/cell_comm.js"></script>
+	<script type="text/javascript" src="/static/js/common/scrollview_comm.js"></script>
 	
 	<script type="text/javascript">
 		$( document ).ready(function() {
@@ -24,6 +25,19 @@
 	var v_jsonDatas = [];
 	var v_paramDatas = [];
 
+	$.extend($.fn.validatebox.defaults.rules, {
+		//시간 유효성 체크
+	    timeValid: {
+	        validator: function(value, param){return $.uf_timeValid(value, param);},
+	        message: '잘못된 노드 시간입니다.'
+	    },
+		//시간 범위 유효성 체크
+	    timeRangeValid: {
+	        validator: function(value, param){return $.uf_timeRangeValid(value, param);},
+	        message: '노드 시간이 겹칩니다.'
+	    }
+	});		
+	
     $.pf_append = function(){return true;}
     $.pf_delete = function(){return true;}
     $.pf_validatedata = function(a_obj, a_idx, a_type){return true;}
@@ -110,97 +124,6 @@
 		return rtn_params;
 	}
 
-	//백그라운드용 ajax
-	$.uf_bgajax = function() {
-		$.ajax({
-			type: 'post',
-			url: '/al/AL0203G1R0',
-			data: JSON.stringify({dma_search : {ALLOC_ID :  $('#dg0').datagrid('getSelected').ALLOC_ID}}),
-			dataType: 'json',
-			async: false,
-			contentType: 'application/json; charset=utf-8',
-			success: function(data){
-				if(typeof(data['rows']) != "undefined"){
-					dlt_OPER_ALLOC_PL_NODE_INFO = data['rows']
-					$.uf_ajax();
-				}else{
-					let msgtext = data['rsMsg']['message'];
-					top.$.messager.alert('sever massage',msgtext);
-				}
-			},
-			error: function(error){
-				error.apply(this, arguments);
-				rtn_value = false;
-			}
-		});
-	}
-
-	//업데이트 전용 ajax, 그리드 change된 값을 보내지 않고 전용변수를 파라미터로 보냅니다.
-	$.uf_bgudajax = function() {
-		$.ajax({
-			type: 'post',
-			url: '/al/AL0203G1S0',
-			// data: JSON.stringify({dma_search : {ALLOC_ID :  $('#dg0').datagrid('getSelected').ALLOC_ID}}),
-			data: JSON.stringify({'rows' : dlt_BRT_DAY_OPER_ALLOC_PL_NODE_INFO_CHANGED}),
-			dataType: 'json',
-			async: false,
-			contentType: 'application/json; charset=utf-8',
-			success: function(data){
-				$.messager.show({
-					title:'정보',
-					msg:data['rsMsg']['message'],
-					timeout:1500,
-					showType:'slide'
-				});
-			},
-			error: function(error){
-				error.apply(this, arguments);
-				rtn_value = false;
-			}
-		});
-	}
-
-	//선택한 날짜가 평일인지 휴일인지 판단(from to date), 코드값때문에 공통에 안넣었음
-	$.uf_validdayftd = function(a_newValue, a_oldValue){
-		let v_weeks = ['일', '월', '화', '수', '목', '금', '토']; 
-		let v_dayOfWeek = v_weeks[new Date(a_newValue).getDay()];
-			//평일, selectbox의 값을 넣었으나 추후 datagrid의 선택한 row의 요일의 값으로 바꿀수도 있음
-			if($("#sch_lb0").combobox('getValue') == 'DY001'){ 
-				if(v_dayOfWeek === '토' || v_dayOfWeek === '일'){
-					$.tracomalmsg('정보', '평일을 선택해주세요.', null);
-					return false;
-				}
-			}
-			//휴일, selectbox의 값을 넣었으나 추후 datagrid의 선택한 row의 요일의 값으로 바꿀수도 있음
-			else if($("#sch_lb0").combobox('getValue') == 'DY002'){ 
-				if(v_dayOfWeek !== '토' && v_dayOfWeek !== '일'){
-					$.tracomalmsg('정보', '휴일을 선택해주세요.', null);
-					return false;
-				}
-			}
-			return true;		
-			
-	}
-	//선택한 날짜가 평일인지 휴일인지 판단(selectbox), 코드값때문에 공통에 안넣었음
-	$.uf_validdaysb = function(a_newValue, a_oldValue){
-		let v_weeks = ['일', '월', '화', '수', '목', '금', '토'];
-		let v_dayOfWeekFdd = v_weeks[new Date($('#sch_fdd').datebox('getValue')).getDay()];
-		let v_dayOfWeekTdd = v_weeks[new Date($('#sch_tdd').datebox('getValue')).getDay()];
-			if(a_newValue == 'DY001'){ //휴일
-				if(v_dayOfWeekFdd === '토' || v_dayOfWeekFdd === '일' || v_dayOfWeekTdd === '토' || v_dayOfWeekTdd ==='일'){
-					$.tracomalmsg('정보', '휴일을 선택해주세요.', null);
-					return false;
-				}
-			}
-			else if(a_newValue == 'DY002'){ //평일
-				if(v_dayOfWeekFdd !== '토' && v_dayOfWeekFdd !== '일' && v_dayOfWeekTdd !== '토' && v_dayOfWeekTdd !=='일'){
-					$.tracomalmsg('정보', '평일을 선택해주세요.', null);
-					return false;
-				}
-			}
-			return true;		
-	}
-	
 	//배포
 	$.uf_distri = function(){
 		if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
@@ -294,12 +217,18 @@
 			if(parseInt(v_timeSplit[2]) < 0 || 59 < parseInt(v_timeSplit[2])) return false;
 		}
 		
+		//이하 row Update일때
 		let v_convertValue = $.jf_converttime(a_value); //사용자 수정값
 		let v_stTimeEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ARRV_TM'});
 		let v_curStTime = $.jf_converttime($(v_stTimeEditor.target).textbox('getText'));
 		let v_edTimeEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'DPRT_TM'});
 		let v_curEdTime = $.jf_converttime($(v_edTimeEditor.target).textbox('getText'));
-		debugger;
+		 
+		 //이하 팝업 update
+		/* let v_convertValue = $.jf_converttime(a_value); //사용자 수정값
+		let v_curStTime = $('#ARRV_TM').textbox('getText');
+		let v_curEdTime = $('#DPRT_TM').textbox('getText'); */
+		
 		if(a_param == 'ARRV_TM'){
 			if(v_convertValue > v_curEdTime) return false;
 		}
@@ -316,11 +245,15 @@
 		//let v_allocNo = $(v_allocNoEditor.target).textbox('getText');
 		let v_allocNo = $('#dg1').datagrid('getSelected').ALLOC_NO;
 		let v_convertValue = $.jf_converttime(a_value); //사용자 수정값
-		
+		//이하 row Update일때
 		let v_stTimeEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ARRV_TM'});
 		let v_curStTime = $.jf_converttime($(v_stTimeEditor.target).textbox('getText'));
 		let v_edTimeEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'DPRT_TM'});
 		let v_curEdTime = $.jf_converttime($(v_edTimeEditor.target).textbox('getText'));		
+		
+		 //이하 팝업 update
+		/* let v_curStTime = $('#ARRV_TM').textbox('getText');
+		let v_curEdTime = $('#DPRT_TM').textbox('getText'); */	
 		
 		if (a_param === 'ARRV_TM' && $.jf_isempty(v_curEdTime)) {
 			v_curEdTime = v_convertValue;
@@ -329,6 +262,7 @@
 			v_curStTime = v_convertValue;
 		}
 	
+		/* 전체 for문 
 		let v_data = $.jf_getdata($('#dg1'));
 		for(var i=0; i<v_data.length; i++) {
 			if($.jf_curdgindex($('#dg1')) == i) continue;
@@ -341,6 +275,27 @@
 					if(v_curStTime < $.jf_converttime(v_data[i]['DPRT_TM']) && $.jf_converttime(v_data[i]['DPRT_TM']) < v_convertValue) return false;
 				}
 			}
+		} */
+		
+		let v_data = $.jf_getdata($('#dg1'));
+		let v_startIndex = v_data.findIndex(item => item['ALLOC_NO'].toString() === v_allocNo.toString());
+		let v_endIndex = v_data.slice(v_startIndex).findIndex(item => item['ALLOC_NO'].toString() !== v_allocNo.toString()) + v_startIndex;
+
+		if(v_endIndex === -1) {  // 만약 해당 'ALLOC_NO'가 마지막에 위치하고 있으면, endIndex는 v_data의 길이로 설정
+		    v_endIndex = v_data.length;
+		}
+
+		for(var i = v_startIndex; i < v_endIndex; i++) {
+		    if($.jf_curdgindex($('#dg1')) == i) continue;
+		    if(v_data[i]['ALLOC_NO'].toString() === v_allocNo.toString()) {
+		        if($.jf_converttime(v_data[i]['ARRV_TM']) < v_convertValue && v_convertValue < $.jf_converttime(v_data[i]['DPRT_TM'])) return false;
+		        if(a_param == 'ARRV_TM'){
+		            if(v_convertValue < $.jf_converttime(v_data[i]['ARRV_TM']) && $.jf_converttime(v_data[i]['ARRV_TM']) < v_curEdTime) return false;
+		        }
+		        else if(a_param == 'DPRT_TM'){
+		            if(v_curStTime < $.jf_converttime(v_data[i]['DPRT_TM']) && $.jf_converttime(v_data[i]['DPRT_TM']) < v_convertValue) return false;
+		        }
+		    }
 		}
 		return true;
 	}
@@ -425,8 +380,8 @@
 </div>
 
 <div id="updatedg1">
-	<form id="modal_ef0" method="post">
-	</form>
+	<!-- <form id="modal_ef0" method="post">
+	</form> -->
     <script src="/static/js/AL/AL0203/AL0203_modal0.js"></script>
 </div>
 

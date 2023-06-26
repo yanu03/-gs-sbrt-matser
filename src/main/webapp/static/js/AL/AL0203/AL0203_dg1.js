@@ -7,7 +7,7 @@
 $(function(){
 	$('#dg_panel1').append('<table id="dg1" class="easyui-datagrid" style="width:100%;height:100%"></table>');
 	
-	$.extend($.fn.validatebox.defaults.rules, {
+	/*$.extend($.fn.validatebox.defaults.rules, {
 		//시간 유효성 체크
 	    timeValid: {
 	        validator: function(value, param){return $.uf_timeValid(value, param);},
@@ -18,9 +18,11 @@ $(function(){
 	        validator: function(value, param){return $.uf_timeRangeValid(value, param);},
 	        message: '노드 시간이 겹칩니다.'
 	    }
-	});	
+	});	*/
 	
 	$('#dg1').datagrid({
+		//view: scrollview,
+		//pageSize:500,
 		url:'/al/AL0203G1R0',	//json 조회 url
 		method: 'POST',
 		queryParams: JSON.stringify({dma_search : {ALLOC_ID : ""}}),						//json 조회 params
@@ -36,7 +38,9 @@ $(function(){
 				styler: function(value,row,index){return 'text-align:right;vertical-align:top;';}
 			},
 			{field:'ROUT_ID',title:'노선ID',width:100,halign:'center',align:'right',hidden:true},
-			{field:'ROUT_NM',title:'노선명',width:200,halign:'center',align:'left'},
+			{field:'ROUT_NM',title:'노선명',width:200,halign:'center',align:'center',
+				styler: function(value,row,index){return 'text-align:right;vertical-align:top;';}
+			},
 			{field:'NODE_ID',title:'노드ID',width:100,halign:'center',align:'left',hidden:true},
 			{field:'NODE_TYPE',title:'노드종류',width:100,halign:'center',align:'left',hidden:true},
 			{field:'NODE_TYPE_NM',title:'노드종류',width:100,halign:'center',align:'left'},
@@ -51,6 +55,7 @@ $(function(){
 			 //event 정의
 			 onLoadSuccess: function(data){
 				$.jf_mergedg($('#dg1'), 'ALLOC_NO');
+				$.jf_mergedg($('#dg1'), 'ROUT_NM');
 			 	$.jf_setfocus($('#dg1'), -1);
 			 	$.jf_setfooter($('#dg1'));
 			 },
@@ -59,21 +64,15 @@ $(function(){
 			 },
 			 onClickRow: function(index,row){},
 			 onDblClickRow: function(index,row){
-			 	/*if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
+			 	if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
 			 		$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
 			 		$.jf_beginedit($('#dg1'), index);
-			 	}*/
-				//let v_allocNoEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ALLOC_NO'});
-				//let v_allocNo = $(v_allocNoEditor.target).textbox('getText');
-				//let v_stTimeEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ROUT_ST_TM'});
-				//let v_curStTime = $(v_stTimeEditor.target).textbox('getText');
-				//let v_edTimeEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ROUT_ED_TM'});
-				//let v_curEdTime = $(v_edTimeEditor.target).textbox('getText');	
+			 	}
+			
+			/*	이하 팝업 update
 				let v_curRowData = $.jf_curdgrow($('#dg1'));
-				//let v_values = {ALLOC_NO:v_allocNo ,ROUT_ID:null, ROUT_NM:null, WAY_DIV: null, WAY_DIV_NM: null, ROUT_ST_TM:v_curStTime, ROUT_ED_TM:v_curEdTime};
-				//let v_values = {v_curRowData};
-				debugger;
-				$.mf_updatedg1mdopen($('#dg1'), null, v_curRowData, $('#dg1'), 'c');				
+				$.mf_updatedg1mdopen($('#dg1'), null, v_curRowData, $('#dg1'), 'c');
+				*/				
 			 },
 			 onBeforeSelect: function(index,row){
 				let a_rtn = false;
@@ -81,17 +80,26 @@ $(function(){
 					$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
 					a_rtn = true;
 				}
+				
+				//이하 팝업 update
+				/*if($.jf_validatedata(null, $('#modal_ef0'), $.jf_fnddgstrct($('#dg1')), 'f')){
+					a_rtn = true;
+				}*/
 				return a_rtn;
 			 },
 			 onSelect: function(index,row){
-			 	//$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
+			 	$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
+				//$.jf_synctoform($('#dg1'), $('#modal_ef0'), index, row);
 			 },
 			 onBeforeEdit: function(index,row){},
 			 onBeginEdit: function(index,row){},
 			 onEndEdit: function(index,row,changes){
 
 			 },
-			 onAfterEdit: function(index,row,changes){},
+			 onAfterEdit: function(index,row,changes){
+				$.jf_mergedg($('#dg1'), 'ALLOC_NO');
+				$.jf_mergedg($('#dg1'), 'ROUT_NM');
+			},
 			 onCancelEdit:function(index,row){}
 	});
 	/*$('#dg1').datagrid('enableCellEditing').datagrid('gotoCell', {

@@ -41,7 +41,8 @@
 			minHeight:50
 	});
 	
-	$('#updatedg1_layout0').layout('panel','south').append('<a id="updatedg1_btn0" href="#">선택</a><a id="updatedg1_btn1" href="#">닫기</a>');
+	$('#updatedg1_layout0').layout('panel','center').append('<form id="modal_ef0" method="post"><div id="fm_panel0" class="easyui-panel" data-options="fit:true,cache:true"></div></form>');
+	$('#updatedg1_layout0').layout('panel','south').append('<a id="updatedg1_btn0" href="#">확인</a><a id="updatedg1_btn1" href="#">닫기</a>');
 
 	$('#updatedg1_btn0').linkbutton({
 	    height: 24,
@@ -55,8 +56,8 @@
 	});
 	
 	$('#updatedg1_btn0').bind('click', function(){
-		//let v_row = $('#updatedg1_dg0').datagrid('getSelected');
-		//$.mf_updatedg1mdclose(v_row);
+		let v_row = $('#dg1').datagrid('getSelected');
+		$.mf_updatedg1mdclose(v_row);
   });
   
 	$('#updatedg1_btn1').bind('click', function(){
@@ -134,7 +135,7 @@
 		}
 	});
 	
-	$('#NODE_NM').textbox({
+	$('#NODE_TYPE_NM').textbox({
 		width: 200,
 		maxlength: 10,
 		height: 25,
@@ -142,14 +143,14 @@
 		required: true,
 		readonly: true,
 		value: '',
-		label: '노드명: ',
+		label: '노드종류: ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
-	});
+	});	
 	
 	$('#NODE_NM').textbox({
-		width: 200,
+		width: 300,
 		maxlength: 10,
 		height: 25,
 		type: 'text',
@@ -173,7 +174,8 @@
 		label: '도착시간 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
-		}
+		},
+		validType: {timeValid:['ARRV_TM'], timeRangeValid: ['ARRV_TM']}
 	});
 			
 	$('#DPRT_TM').textbox({
@@ -187,7 +189,8 @@
 		label: '출발시간 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
-		}
+		},
+		validType: {timeValid:['DPRT_TM'], timeRangeValid: ['DPRT_TM']}
 	});		
 
 	/*modal page 함수*/	
@@ -203,48 +206,25 @@
 	
 	$.mf_updatedg1mdclose = function(a_row){
 		let v_idx = $.jf_fndmdstrct("updatedg1");
-		let v_values = js_mdstrct[v_idx].values;
+		//let v_values = js_mdstrct[v_idx].values;
 		let v_rtnobj = js_mdstrct[v_idx].rtnobj;
 		let v_type = js_mdstrct[v_idx].type;
 		
-		Object.entries(a_row).forEach(([rowkey, rowvalue]) => {
+		/*Object.entries(a_row).forEach(([rowkey, rowvalue]) => {
 			Object.entries(v_values).forEach(([rtnkey, rtnvalue]) => {
 				if(rowkey == rtnkey) { 
 					v_values[rtnkey] = rowvalue;
 					}
 			});
-		});
-
-		//그리드일때
-		if(v_type == 'g'){
-			let v_obj = js_mdstrct[v_idx].datagrid;
-			if(!$.jf_dupcheck($('#'+v_obj), 'ROUT_ID', v_values.ROUT_ID)) $.jf_append($('#'+v_obj), v_values);
-			else $.tracomalmsg('정보', '데이터가 중복되어 입력할 수 없습니다.', null);
-			$('#updatedg1').window('close');  // close a window
-		}
-
-		//폼일때
-		else if(v_type == 'f'){
-			let v_form = js_mdstrct[v_idx].form;
-			$('#'+v_form).form('load', v_values);
-			$('#updatedg1').window('close');  // close a window
-			if($('#'+v_rtnobj).textbox('textbox') != "undefined")
-				$('#'+v_rtnobj).textbox('textbox').focus();
-			if($('#'+v_rtnobj).searchbox('textbox') != "undefined")
-				$('#'+v_rtnobj).searchbox('textbox').focus();
-			if($('#'+v_rtnobj).combobox('textbox') != "undefined")
-				$('#'+v_rtnobj).combobox('textbox').focus();
-				//combo와 combobox가 같이 이용 될 수도. 추후에 변경필요시 변경
-		}
+		});*/
 		
-		//셀 클릭일때
-		else if(v_type == 'c'){
-			let v_obj = js_mdstrct[v_idx].datagrid;
-			$('#'+v_obj).datagrid('updateRow',{index:$.jf_curdgindex($('#dg1')), row:v_values})
-			$('#updatedg1').window('close');  // close a window
-			$.jf_beginedit($('#'+v_obj), $.jf_curdgindex($('#dg1'))); //valid 처리 위함
+		let v_values = {
+			ARRV_TM : $('#ARRV_TM').textbox('getText'),
+			DPRT_TM : $('#DPRT_TM').textbox('getText')
 		}
-		
+		let v_obj = js_mdstrct[v_idx].datagrid;
+		$('#'+v_obj).datagrid('updateRow',{index:$.jf_curdgindex($('#dg1')), row:v_values})
+		$('#updatedg1').window('close');  // close a window
 	}
 	
 });

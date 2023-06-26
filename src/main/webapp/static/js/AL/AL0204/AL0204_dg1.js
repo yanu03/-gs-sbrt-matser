@@ -7,20 +7,9 @@
 $(function(){
 	$('#dg_panel1').append('<table id="dg1" class="easyui-datagrid" style="width:100%;height:100%"></table>');
 	
-	$.extend($.fn.validatebox.defaults.rules, {
-		//시간 유효성 체크
-	    timeValid: {
-	        validator: function(value, param){return $.uf_timeValid(value, param);},
-	        message: '잘못된 노드 시간입니다.'
-	    },
-		//시간 범위 유효성 체크
-	    timeRangeValid: {
-	        validator: function(value, param){return $.uf_timeRangeValid(value, param);},
-	        message: '노드 시간이 겹칩니다.'
-	    }
-	});	
-	
 	$('#dg1').datagrid({
+		view: scrollview,
+		pageSize:500,		
 		url:'/al/AL0204G1R0',	//json 조회 url
 		method: 'POST',
 		queryParams: JSON.stringify({dma_search : {ALLOC_ID : ""}}),						//json 조회 params
@@ -32,11 +21,13 @@ $(function(){
 		showFooter: true,
 		columns:[[
 			{field:'ALLOC_ID',title:'배차ID',width:100,halign:'center',align:'center',hidden:true},
-			{field:'ALLOC_NO',title:'배차번호',width:100,halign:'center',align:'right',
+			{field:'ALLOC_NO',title:'배차번호',width:100,halign:'center',align:'center',
 				styler: function(value,row,index){return 'text-align:right;vertical-align:top;';}
 			},
 			{field:'ROUT_ID',title:'노선ID',width:100,halign:'center',align:'right',hidden:true},
-			{field:'ROUT_NM',title:'노선명',width:200,halign:'center',align:'left'},
+			{field:'ROUT_NM',title:'노선명',width:200,halign:'center',align:'left',
+				styler: function(value,row,index){return 'text-align:right;vertical-align:top;';}
+			},
 			{field:'NODE_ID',title:'노드ID',width:100,halign:'center',align:'left',hidden:true},
 			{field:'NODE_TYPE',title:'노드종류',width:100,halign:'center',align:'left',hidden:true},
 			{field:'NODE_TYPE_NM',title:'노드종류',width:100,halign:'center',align:'left'},
@@ -51,6 +42,7 @@ $(function(){
 			 //event 정의
 			 onLoadSuccess: function(data){
 				$.jf_mergedg($('#dg1'), 'ALLOC_NO');
+				$.jf_mergedg($('#dg1'), 'ROUT_NM');
 			 	$.jf_setfocus($('#dg1'), -1);
 			 	$.jf_setfooter($('#dg1'));
 			 },
@@ -80,7 +72,10 @@ $(function(){
 			 onEndEdit: function(index,row,changes){
 
 			 },
-			 onAfterEdit: function(index,row,changes){},
+			 onAfterEdit: function(index,row,changes){
+				$.jf_mergedg($('#dg1'), 'ALLOC_NO');
+				$.jf_mergedg($('#dg1'), 'ROUT_NM');
+			},
 			 onCancelEdit:function(index,row){}
 	});
 	/*$('#dg1').datagrid('enableCellEditing').datagrid('gotoCell', {

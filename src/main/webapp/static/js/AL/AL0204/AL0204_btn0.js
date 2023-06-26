@@ -64,8 +64,8 @@ $(function(){
 	$('#btn4').bind('click', function(){
 		 if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g'))
 		 {
-			// $.jf_savedgdata($('#dg1'), '/al/AL0203G1S0', 'post', null)
-			$.uf_bgudajax();
+			$.jf_savedgdata($('#dg1'), '/al/AL0204G1S0', 'post', null)
+			//$.uf_bgudajax();
 
 		 }
 	});

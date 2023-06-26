@@ -71,10 +71,10 @@ $(function(){
 	$('#btn4').bind('click', function(){
 		 if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g'))
 		 {
-			// $.jf_savedgdata($('#dg1'), '/al/AL0203G1S0', 'post', null)
+			$.jf_savedgdata($('#dg1'), '/al/AL0203G1S0', 'post', null)
 			
 			// 동적 변환된 그리드를 저장하기 위해 공통 저장을 사용하지 않음
-			$.uf_bgudajax();
+			//$.uf_bgudajax();
 
 		 }
 	});
