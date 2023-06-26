@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -524,6 +525,30 @@ public class CommonUtil {
 			}
 		}
 		return result;
+	}
+	
+	public static Date stringToDate(String str) {  
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = null;
+		try {
+			date = formatter.parse(str);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return date;
+	}
+	
+	public static Date stringToDate2(String str) {  
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		Date date = null;
+		try {
+			date = formatter.parse(str);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return date;
 	}
 	
 	public static Map<String, Object> deepCopy(Map<String, Object> input) {

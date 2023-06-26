@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import  kr.tracom.mapper.cm.Common.CommonMapper;
 import kr.tracom.mapper.tims.CurInfoMapper;
 import kr.tracom.mapper.tims.HistoryMapper;
-import kr.tracom.mapper.tims.TimsMapper;
 import kr.tracom.service.tims.manager.ThreadManager;
 import kr.tracom.platform.service.kafka.model.KafkaMessage;
 import kr.tracom.ws.WsClient;
@@ -17,10 +16,6 @@ import kr.tracom.ws.WsClient;
 public class EventRequest {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
-
-
-    @Autowired
-    TimsMapper timsMapper;
     
     @Autowired
     HistoryMapper historyMapper;
@@ -50,6 +45,8 @@ public class EventRequest {
 		//sessionId 에 따라
 		EventThread eventThread = threadManager.getEventThread(sessionId);
 		eventThread.addKafkaMessage(kafkaMessage);
+		MorEventThread morEventThread = threadManager.getMorEventThread(sessionId);
+		morEventThread.addKafkaMessage(kafkaMessage);
 		
 	}
 	

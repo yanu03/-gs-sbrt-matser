@@ -84,7 +84,7 @@
             <div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
             </div>
             <!-- dg js -->
-            <script src="/static/SM/js/SM0403/SM0403_dg0.js"></script>
+            <script src="/static/js/SM/SM0403/SM0403_dg0.js"></script>
         </div>
 	</div>
 </div>

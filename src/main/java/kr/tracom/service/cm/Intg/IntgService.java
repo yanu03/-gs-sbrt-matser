@@ -81,7 +81,7 @@ public class IntgService extends ServiceSupport {
 					logger.error("error : {}", e );
 				}
 			} catch (IOException e) {
-				logger.error("IOException");
+				logger.error("IOException : {}", e);
 			}
 		} catch (MalformedURLException e) {
 			logger.error("MalformedURLException");

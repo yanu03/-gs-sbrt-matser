@@ -31,8 +31,16 @@ public interface RoutMapper {
 	public List<Map<String, Object>> selectSttnItem();
 	public List<Map<String, Object>> selectSttnCrsDispList(Map param);
 	public List<Map<String, Object>> selectSttnCrsLink(Map param);
+	public List<Map<String, Object>> selectRoutNodeCmpstn(Map param); //특정 노선의 노드 구성을 가져옴
 	public Map<String, Object> cntNodeOfRout(Map param); //특정노선의 노드 개수
 	public Map<String, Object> cntLinkOfRout(Map param); //특정노선의 링크 개수
 	public int deleteRoutLinkCmpstnSnMore(Map param); //특정 노선의 특정 링크 순번 이상 삭제
 	public int deleteRoutSttnLinkCmpstnSnMore(Map param); //특정 노선의 특정 정류소링크 순번 이상 삭제
+	public int updateLengthRoutNodeCmpstn(Map param);
+	public int updateLinkIdRoutNodeCmpstn(Map param);
+	public Map getSttnLinkIdByNode(Map param);
+	public Map getSttnCrsLinkIdByNode(Map param);
+	public Map getSttnMoCrsLinkIdByNode(Map param);
+	public List selectLinkMst();
+	public int updateBearingLinkMst(Map param);
 }

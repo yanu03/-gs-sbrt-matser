@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import kr.tracom.service.tims.handler.EventThread;
+import kr.tracom.service.tims.handler.MorEventThread;
+
 
 @Component
 public class ThreadManager {
@@ -15,6 +17,8 @@ public class ThreadManager {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private Map<String, Object> eventThreadMap = new HashMap<String, Object>();
+	
+	private Map<String, Object> morEventThreadMap = new HashMap<String, Object>();
 	
 	
 	public EventThread getEventThread(String sessionId) {
@@ -53,6 +57,43 @@ public class ThreadManager {
 		}
 		
 	}
+	
+	public MorEventThread getMorEventThread(String sessionId) {
+		
+		MorEventThread worker = null;
+		
+		//logger.info("getMorEventThread >> sessionId:{}", sessionId);
+		
+		if(morEventThreadMap.containsKey(sessionId)) {			
+			
+			worker = (MorEventThread)morEventThreadMap.get(sessionId);
+			//logger.info("getMorEventThread >> sessionId:{}, worker:{}", sessionId, worker);
+			
+		} else {
+			worker = new MorEventThread(sessionId);
+			worker.setDaemon(true);
+			worker.start();
+			
+			morEventThreadMap.put(sessionId, worker);
+			
+			logger.info("Create MorEventThread >> sessionId:{}, thread count:{}", sessionId, morEventThreadMap.size());
+		}
+		
+		return worker;
+	}
+	
+	public void removeMorEventThread(String sessionId) {
+		
+		if(morEventThreadMap.containsKey(sessionId)) {
+			MorEventThread worker = (MorEventThread)morEventThreadMap.get(sessionId);
+			worker.stop(true);			
+			
+			morEventThreadMap.remove(sessionId);
+			
+			logger.info("Remove MorEventThread >> sessionId:{}, thread count:{}", sessionId, morEventThreadMap.size());
+		}
+		
+	}	
 	
 	
 	
