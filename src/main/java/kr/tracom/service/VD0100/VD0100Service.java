@@ -43,6 +43,21 @@ public class VD0100Service extends ServiceSupport {
 		return vd0100Mapper.VD0100G0K0(); 
 	}
 	
+	public List VD0100G0_exlDownload() throws Exception {
+		String param = (String)request.getAttribute("param");
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(CommonUtil.empty(param)) {
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", "");
+		}
+		else {
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", param);
+		}
+
+		return vd0100Mapper.VD0100G0R0(map);
+	}
+
 	public Map VD0100G0S0() throws Exception {
 		int iCnt = 0;
 		int uCnt = 0;
