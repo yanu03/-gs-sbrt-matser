@@ -1,9 +1,5 @@
 package kr.tracom.service.tims.handler;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -12,22 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import kr.tracom.platform.attribute.AtCode;
-import kr.tracom.platform.attribute.SltAtCode;
 import kr.tracom.platform.attribute.common.AtBrtAction;
 import kr.tracom.platform.attribute.common.AtServiceLogInOut;
-import kr.tracom.platform.attribute.common.AtTimeStamp;
-import kr.tracom.platform.attribute.slt.AtFacilityParamActionResponse;
-import kr.tracom.platform.net.config.TimsConfig;
+
 import kr.tracom.platform.net.protocol.TimsMessage;
-import kr.tracom.platform.net.protocol.TimsMessageBuilder;
 import kr.tracom.platform.net.protocol.attribute.AtMessage;
 import kr.tracom.platform.net.protocol.payload.PlActionRequest;
-import kr.tracom.platform.service.TService;
-import kr.tracom.platform.service.config.KafkaTopics;
 import kr.tracom.service.cm.OperPlan.OperPlanService;
 import kr.tracom.service.tims.kafka.KafkaProducer;
 import kr.tracom.service.tims.manager.ThreadManager;
-import kr.tracom.util.DateUtil;
 import kr.tracom.ws.WsClient;
 
 @Component
@@ -71,14 +60,14 @@ public class ActionRequest {
                 if(inOut == (byte)0) {
                     logger.info("login {}", sessionId);
                     
-                    
                     threadManager.getEventThread(sessionId);
-
+                    threadManager.getMorEventThread(sessionId);
                 }
                 else if(inOut == (byte)1){
                     logger.info("logout");
                     
                     threadManager.removeEventThread(sessionId);
+                    threadManager.removeMorEventThread(sessionId);
                 }
 
                 break;

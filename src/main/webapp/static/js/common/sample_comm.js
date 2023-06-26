@@ -704,8 +704,8 @@ $.tracomcbloader = function(a_obj, param, success, error){
 				alert("세션이 만료되어 로그인 페이지로 돌아갑니다.");
 				top.location.replace("/user/login");
 			}
-			else
-				error.apply(this, arguments);
+			//else
+			//	error.apply(this, arguments);
 		}
 	});
 }
@@ -969,8 +969,8 @@ $.jf_savedgdata = function(a_obj, a_url, a_method, a_action) {
 				alert("세션이 만료되어 로그인 페이지로 돌아갑니다.");
 				top.location.replace("/user/login");
 			}
-			else
-				error.apply(this, arguments);
+			//else
+			//	error.apply(this, arguments);
 		}
 	});
 	
@@ -1459,9 +1459,39 @@ $.jf_bgajax = function(a_url, a_method, a_param, a_type){
 				top.$.messager.alert('sever massage',msgtext);
 				data = {"total":0,"rows":[]};
 			}
-		},
+		}/*,
 		error: function(){
 			error.apply(this, arguments);
-		}
+		}*/
 	});
+}
+
+$.tracompvdgloader = function(a_obj, param, success, error){
+   let opts = a_obj.pivotgrid('options');
+   if (!opts.url) return false;   
+      $.ajax({
+         type: opts.method,
+         url: opts.url,
+         data: opts.queryParams,
+         dataType: 'json',
+         contentType: 'application/json; charset=utf-8',
+         success: function(data){
+            if(typeof(data['rows']) != "undefined"){
+               data = data['rows'];
+            }else{
+               let msgtext = data['rsMsg']['message'];
+               top.$.messager.alert('sever massage',msgtext);
+               data = {"total":0,"rows":[]};
+            }
+            success(data);
+         },
+         error: function(error){
+			if (error.status == 403) {
+				alert("세션이 만료되어 로그인 페이지로 돌아갑니다.");
+				top.location.replace("/user/login");
+			}
+			else
+            	error.apply(this, arguments);
+         }
+      });
 }

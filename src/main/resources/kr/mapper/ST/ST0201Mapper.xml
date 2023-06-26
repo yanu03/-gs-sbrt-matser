@@ -25,16 +25,18 @@
 	
 	<select id="ST0201SHI1" resultType="Map">
 		SELECT
-			ROUT_ID
-			,NODE_ID
-			,NODE_SN
-			,NODE_NM
+			A.ROUT_ID
+			,A.NODE_ID
+			,A.NODE_SN
+			,NM.NODE_NM
 		FROM
-			BMS_ROUT_NODE_CMPSTN 
+			BMS_ROUT_NODE_CMPSTN A
+			LEFT JOIN BMS_NODE_MST NM
+				ON	 A.NODE_ID =  NM.NODE_ID
 		WHERE
-			ROUT_ID = #{ROUT_ID} AND NODE_TYPE = 'NT002'
+			A.ROUT_ID = #{ROUT_ID} AND NM.NODE_TYPE = 'NT002'
 		ORDER BY
-			NODE_SN
+			A.NODE_SN
 	</select>
   
 	<select id="ST0201G1R0" resultType="Map" parameterType="Map">

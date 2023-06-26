@@ -1,5 +1,6 @@
 package kr.tracom.mapper.tims;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -20,19 +21,34 @@ public interface CurInfoMapper {
 	String getBusId(Map<String, Object> paramMap);
     Map<String, Object> getRoutMst(Map<String, Object> paramMap);
     
-    Map<String, Object> selectCurAllocPlInfo(Map<String, Object> paramMap);
-    Map<String, Object> selectCurAllocPlInfoByVhcId(Map<String, Object> paramMap);
-    Map<String, Object> selectCurAllocPlInfoByOperVhcId(Map<String, Object> paramMap);
-    int minAllocNoCurAllocPlInfo(Map<String, Object> params);
-
-	String selectCurNearAllocPlInfo(Map<String, Object> paramMap);
-	String selectCurNearAllocPlInfo2(Map<String, Object> paramMap);
-    int insertCurAllocPlInfo(Map<String, Object> paramMap);
-    int updateOperVhcIdCurAllocPlInfo(Map<String, Object> paramMap);
+	String selectCurNearAllocOperPlByRout(Map<String, Object> paramMap);
     
-    Map<String, Object> selectCurOperAllocPlRouteInfo(Map<String, Object> paramMap);
+    Map<String, Object> getEventCode(Map<String, Object> paramMap);
     
-    String getEventCode(Map<String, Object> paramMap);
-    String selectCurNearAllocPlInfo3(Map<String, Object> params);
+    public List selectIntgNodeList(String routId);
+    
+    Map<String, Object> selectCurVhcOperInfo(Map<String, Object> paramMap);
+    
+    int insertCurVhcOperInfo(Map<String, Object> paramMap);
 
+    String selectSttnLinkId(Map<String, Object> paramMap);
+    
+	//차량정보 가져오기
+	Map<String, Object> selectVhcInfo(Map<String, Object> paramMap);
+	
+	//노선이름 가져오기
+	String selectRoutName(String routId);
+	
+	//노드정보 가져오기
+	Map<String, Object> selectNodeInfo(Map<String, Object> paramMap);	
+
+	//현재노드의 다음노드(교차로 or 정류장) 가져오기
+	Map<String, Object> selectNextSttnCrsInfo(Map<String, Object> paramMap);
+
+	
+	//링크순번으로 노드정보 가져오기
+	Map<String, Object> selectNodeByLinkSn(Map<String, Object> paramMap);
+	
+	String getSttnLinkId(Map<String, Object> paramMap);
+	
 }
