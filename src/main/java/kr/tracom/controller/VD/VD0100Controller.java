@@ -62,7 +62,7 @@ public class VD0100Controller extends ControllerSupport {
 		String[] headerTitle = {"장치 ID", "장치종류", "장치종류명 ", "제조사", "제조사 명", "설치위치", "설치위치 명"
 								, "관리 ID", "장치 IP", "통신유형", "통신유형 명", "비고"};
 		
-		model.addAttribute("title", "차량정보");
+		model.addAttribute("title", "차내장치정보");
 		model.addAttribute("headerTitle", headerTitle);
 		model.addAttribute("getValues", getValues);
 		model.addAttribute("excelList", vd0100Service.VD0100G0_exlDownload());
