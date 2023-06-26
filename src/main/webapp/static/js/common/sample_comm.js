@@ -1415,11 +1415,18 @@ $.jf_gettime = function() {
 /** 
 작성자 : 양현우
 작성일 : 2023-06-20
-기능 : 문자열 시간(예: 07:03) 초 변경
+기능 : 문자열 시간(예: 07:03 또는 07:03:10) 초 변경
 **/
 $.jf_converttime = function(a_str) {
-	let [hours, minutes] = a_str.split(':');
-	return (+hours) * 60 * 60 + (+minutes) * 60;
+//	let [hours, minutes] = a_str.split(':');
+//	return (+hours) * 60 * 60 + (+minutes) * 60;
+	let v_parts = a_str.split(':');
+
+	let v_hours = +v_parts[0];
+	let v_minutes = +v_parts[1];
+	let v_seconds = v_parts[2] ? +v_parts[2] : 0;
+
+	return v_hours * 60 * 60 + v_minutes * 60 + v_seconds;
 }
 
 $.jf_leadingZeros = function(a_number, a_digits){

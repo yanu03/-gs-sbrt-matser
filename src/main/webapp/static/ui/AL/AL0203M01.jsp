@@ -12,6 +12,8 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=100faa0e8b0c72a3da69169f45883b0b"></script>
+	<script type="text/javascript" src="/static/js/common/cell_comm.js"></script>
+	
 	<script type="text/javascript">
 		$( document ).ready(function() {
     });
@@ -64,7 +66,7 @@
 						type: 'post',
 						url: '/al/AL0203P0S0',
 						// data: JSON.stringify({'rows' : v_jsonDatas, 'dma_search' : v_paramDatas}), //INSERT QUERY가 변경됨에 따라 파라미터 변경함(전체 데이터 INSERT에서 INSERT SELECT로 변환)
-						data: JSON.stringify({'rows' : v_jsonDatas, 'dma_search' : v_paramDatas}),
+						data: JSON.stringify({'rows' : $.jf_getdata($('#dg1')), 'dma_search' : v_paramDatas}),
 						dataType: 'json',
 						async: false,
 						contentType: 'application/json; charset=utf-8',
@@ -201,7 +203,6 @@
 	
 	//배포
 	$.uf_distri = function(){
-		debugger;
 		if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
 			if($.jf_changeddg($('#dg1'), "ALL")){
 				$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
@@ -220,11 +221,11 @@
 				if(v_relDts.length != 0){
 					v_newObj = {};
 					let idx = v_jsonDatas.push(v_newObj)-1;
-					v_jsonDatas[idx]['ALLOC_ID'] = $.jf_curdgfieldvalue($('#dg0'), 'ALLOC_ID');
-					v_jsonDatas[idx]['ROUT_ID'] = v_allJson[0]['ROUT_ID'];
-					v_jsonDatas[idx]['WAY_DIV'] = v_allJson[0]['WAY_DIV'];
+					//v_jsonDatas[idx]['ALLOC_ID'] = $.jf_curdgfieldvalue($('#dg0'), 'ALLOC_ID');
+					//v_jsonDatas[idx]['ROUT_ID'] = v_allJson[0]['ROUT_ID'];
+					//v_jsonDatas[idx]['WAY_DIV'] = v_allJson[0]['WAY_DIV'];
 					// v_jsonDatas[idx]['DAY_DIV'] = v_allJson[0]['DAY_DIV'];
-					v_jsonDatas[idx]['DAY_DIV'] = v_dayDiv;
+					//v_jsonDatas[idx]['DAY_DIV'] = v_dayDiv;
 					for(var i=0; i<v_relDts.length; i++) {
 						let v_newObj = {};
 						v_paramDatas.push(v_newObj)-1;
@@ -298,7 +299,7 @@
 		let v_curStTime = $.jf_converttime($(v_stTimeEditor.target).textbox('getText'));
 		let v_edTimeEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'DPRT_TM'});
 		let v_curEdTime = $.jf_converttime($(v_edTimeEditor.target).textbox('getText'));
-		
+		debugger;
 		if(a_param == 'ARRV_TM'){
 			if(v_convertValue > v_curEdTime) return false;
 		}
@@ -423,12 +424,11 @@
 	</div>
 </div>
 
-<div id="1"></div>
-<div id="2"></div>
-<div id="3"></div>
-<div id="4"></div>
-<div id="5"></div>
-<div id="6"></div>
+<div id="updatedg1">
+	<form id="modal_ef0" method="post">
+	</form>
+    <script src="/static/js/AL/AL0203/AL0203_modal0.js"></script>
+</div>
 
 </body>
 </html>

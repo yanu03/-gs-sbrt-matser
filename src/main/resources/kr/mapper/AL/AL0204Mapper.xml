@@ -41,32 +41,46 @@
 	SELECT DISTINCT 
 		DATE_FORMAT(A.OPER_DT, '%Y-%m-%d') OPER_DT 
 		<!-- ,A.DAY_DIV -->
-		,A.WAY_DIV
-		,A.OPER_SN
+		,A.ALLOC_ID
+		,A.SN
 		,A.NODE_ID
+		,C.NODE_NM
+		,C.NODE_TYPE
+		,DD.DL_CD_NM NODE_TYPE_NM
 		,A.NODE_SN
 		,A.ALLOC_NO
+		,A.OPER_SN
+		,A.ROUT_ID
+		,B.ROUT_NM
+		,A.WAY_DIV
 		,A.COR_ID
-		,A.NODE_TYPE
 		,A.ARRV_TM
 		,A.DPRT_TM
-		,DATE_FORMAT(A.UPD_DTM, '%Y-%m-%d') UPD_DTM 
+		,A.UPD_DTM
+		
 		<!-- ,B.ROUT_GRP_NM
 		,B.WAY_ASC_NM
 		,B.WAY_DESC_NM -->
-		,C.ROUT_ID
+		<!-- ,C.ROUT_ID
 		,C.NODE_NM
-		,C.ACCRU_LEN
+		,C.ACCRU_LEN -->
 	FROM
 		BMS_DAY_OPER_ALLOC_PL_NODE_INFO A 
 		<!-- INNER JOIN BMS_ROUT_GRP_MST BA
 		
 		ON	A.ROUT_GRP = B.ROUT_GRP --> 
-		INNER JOIN BMS_ROUT_NODE_CMPSTN C
+		<!-- INNER JOIN BMS_ROUT_NODE_CMPSTN C
 		ON	 A.ROUT_ID =  C.ROUT_ID 
 		AND A.NODE_ID = C.NODE_ID 
 		AND A.NODE_SN = C.NODE_SN
-		AND (C.NODE_TYPE = 'NT001'||C.NODE_TYPE = 'NT002')
+		AND (C.NODE_TYPE = 'NT001'||C.NODE_TYPE = 'NT002') -->
+		LEFT JOIN	BMS_ROUT_MST B
+		ON			A.ROUT_ID = B.ROUT_ID
+		LEFT JOIN	BMS_NODE_MST C
+		ON			A.NODE_ID = C.NODE_ID
+		LEFT JOIN 		BMS_DL_CD_INFO DD
+		ON 				C.NODE_TYPE = DD.DL_CD 
+		AND 			DD.CO_CD = 'NODE_TYPE'
 	<!-- <if test="@kr.tracom.util.CommonUtil@notEmpty(NODE_TYPE)">			 
 			AND C.NODE_TYPE = #{NODE_TYPE}
 	</if> -->
@@ -77,11 +91,12 @@
 		<if test="@kr.tracom.util.CommonUtil@notEmpty(ROUT_ID)">
 			AND A.ROUT_ID = #{ROUT_ID} 	
 		</if>
-		AND (A.NODE_TYPE = 'NT001'||A.NODE_TYPE = 'NT002')
+		<!-- AND (A.NODE_TYPE = 'NT001'||A.NODE_TYPE = 'NT002') -->
 	<if test="@kr.tracom.util.CommonUtil@notEmpty(OPER_SN)">			 
 			AND A.OPER_SN = #{OPER_SN}
 	</if>
-	ORDER BY OPER_SN, NODE_SN
+	<!-- ORDER BY OPER_SN, NODE_SN -->
+	ORDER BY  		ALLOC_ID, ALLOC_NO, OPER_SN, NODE_SN
 </select>
 
 <select id="AL0204G1CNT" resultType="Map" parameterType="Map">
