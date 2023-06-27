@@ -187,4 +187,19 @@ public class AuthorityService extends ServiceSupport {
 		return authorityMapper.selectAuthorityKey();
 	}
 
+	public List selectAuthorityList_exlDownload() throws Exception {
+		String param = (String)request.getAttribute("param");
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(CommonUtil.empty(param)){
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", "");
+		}
+		else{
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", param);
+		}
+
+		return authorityMapper.selectAuthorityList(map);
+	}
+
 }
