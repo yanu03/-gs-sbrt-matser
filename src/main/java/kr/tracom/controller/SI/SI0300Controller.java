@@ -49,4 +49,19 @@ public class SI0300Controller extends ControllerSupport{
 		return result.getResultSave();
 	}	
 	
+	@RequestMapping("/si/SI0300G0_exlDownload")
+    public String  SI0300G0_exlDownload(Model model) throws Exception {
+
+		String[] getValues = {"DRV_ID", "DRV_NM", "COMP_ID", "COMP_NM", "BUS_DIV", "BUS_DIV_NM", "EPLY_DATE1"
+								, "EPLY_YN", "EPLY_YN_NM", "REMARK"};
+		String[] headerTitle = {"운전자 ID", "운전자명", "운수사ID", "운수사명", "버스구분", "버스구분 명", "입사일"
+								,"재직여부", "재직여부 명", "비고"};
+		
+		model.addAttribute("title", "운전자 정보");
+		model.addAttribute("headerTitle", headerTitle);
+		model.addAttribute("getValues", getValues);
+		model.addAttribute("excelList", si0300Service.SI0300G0_exlDownload());
+		return "ExcelView";
+        //return new ModelAndView("ExcelView", "map", result);
+	}
 }
