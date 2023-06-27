@@ -183,4 +183,19 @@ public class SI0401Service extends ServiceSupport {
 		
 		return result;	
 	}
+
+	public List SI0401G0_exlDownload() throws Exception {
+		String param = (String)request.getAttribute("param");
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(CommonUtil.empty(param)){
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", "");
+		}
+		else{
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", param);
+		}
+
+		return si0401Mapper.SI0401G0R0(map);
+	}
 }
