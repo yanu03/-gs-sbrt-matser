@@ -462,5 +462,18 @@ public class CommonService extends ServiceSupport {
 		return result;
 	}
 
-	
+	public List selectCommonCo_exlDownload() throws Exception {
+		String param = (String)request.getAttribute("param");
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(CommonUtil.empty(param)){
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", "");
+		}
+		else{
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", param);
+		}
+
+		return commonMapper.selectCommonCo(map);
+	}
 }
