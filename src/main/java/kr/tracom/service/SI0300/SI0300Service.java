@@ -125,7 +125,20 @@ public class SI0300Service extends ServiceSupport{
 		Map result = saveResult(iCnt, uCnt, dCnt);
 		
 		return result;		
-		
-		
 	}	
+
+	public List SI0300G0_exlDownload() throws Exception {
+		String param = (String)request.getAttribute("param");
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(CommonUtil.empty(param)){
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", "");
+		}
+		else{
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", param);
+		}
+
+		return si0300Mapper.SI0300G0R0(map);
+	}
 }
