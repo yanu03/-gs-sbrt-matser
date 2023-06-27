@@ -69,4 +69,5 @@ public class VD0100Controller extends ControllerSupport {
 		return "ExcelView";
         //return new ModelAndView("ExcelView", "map", result);
 	}
+	
 }
