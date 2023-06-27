@@ -130,4 +130,5 @@ public class MemberController extends ControllerSupport{
 		return "ExcelView";
         //return new ModelAndView("ExcelView", "map", result);
 	}
+	
 }
