@@ -198,4 +198,5 @@ public class SI0401Service extends ServiceSupport {
 
 		return si0401Mapper.SI0401G0R0(map);
 	}
+	
 }
