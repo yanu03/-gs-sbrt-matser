@@ -112,4 +112,22 @@ public class MemberController extends ControllerSupport{
 
 		return result.getResult();
 	}
+
+	/**
+	 * 사용자 목록 엑셀 다운로드.
+	 *
+	 */
+	@RequestMapping("/member/searchMemberBasic_exlDownload")
+    public String  searchMemberBasic_exlDownload(Model model) throws Exception {
+
+		String[] getValues = {"USER_ID", "USER_NM", "AUTH_CD", "AUTH_NM", "USER_PS", "NEW_USER_PS", "REMARK"};
+		String[] headerTitle = {"사용자ID", "사용자명", "권한그룹", "권한그룹 명", "비밀번호", "신규비밀번호", "비고"};
+		
+		model.addAttribute("title", "사용자정보");
+		model.addAttribute("headerTitle", headerTitle);
+		model.addAttribute("getValues", getValues);
+		model.addAttribute("excelList", service.searchMemberBasic_exlDownload());
+		return "ExcelView";
+        //return new ModelAndView("ExcelView", "map", result);
+	}
 }
