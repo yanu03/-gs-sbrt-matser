@@ -233,7 +233,7 @@ public class OperPlanService extends ServiceSupport {
 	 * @param data
 	 * @throws Exception
 	 */
-	private List makeOperAllocPlNodeInfo(String allocId, String routId, String dayDiv, int operSn, boolean bSave
+	private List makeOperAllocPlNodeInfo(String allocId, String routId, String dayDiv, int sn, boolean bSave
 										,int stNodeSn //첫 노드 순번
 										,int edNodeSn //마지막 노드 순번
 										,int offsetTm //도착 예정시간과의 차이(초)
@@ -244,6 +244,8 @@ public class OperPlanService extends ServiceSupport {
 										,String edNodeArrvTm
 										,String edNodeDprtTm
 										,int chgType //변경타입 //0:없음, 1:변경운행, 2:단순 수정
+										,int stopTime //정차 시간
+										
 	) throws Exception {
 
 		
@@ -330,7 +332,7 @@ public class OperPlanService extends ServiceSupport {
 		int oper_sn;
 		String node_id;
 		String course_id;
-		int node_sn;
+		double node_sn;
 		String node_type;
 		String arrv_tm = "00:00:00";
 		String dprt_tm = "00:00:00";
@@ -340,14 +342,16 @@ public class OperPlanService extends ServiceSupport {
 		int prev_diff_sec_temp = 0; //이전 노드에서부터 걸리는 시간(초) //정류소 출도착시각 변경용
 		boolean bSuccess = false; //정류소 출도착시각 변경용
 
-		String link_id;
+		//String link_id;
 		int link_len = 0;
+		int accru_len = 0; //누적 거리
+		int old_accru_len = 0; //이전 누적 거리
 		int prev_diff_sec = 0; //이전 노드에서부터 걸리는 시간(초)
 		int next_diff_sec = 0; //다음 노드까지 걸리는 시간(초)
 		int add_arrv_sec = 0; //다음 노드의 도착시간 연장 시간(초)
 
 		String next_node_id;
-		int next_node_sn = -1;;
+		double next_node_sn = -1;;
 		String next_node_type = "";
 		String next_cross_id = "";
 		int phase_remain_sec = 0;
@@ -358,8 +362,8 @@ public class OperPlanService extends ServiceSupport {
 		String sig_ctr_type;
 
 
-		int route_first_node_sn;
-		int route_last_node_sn;
+		double route_first_node_sn;
+		double route_last_node_sn;
 		String route_st_tm;
 		String route_ed_tm;
 
@@ -400,7 +404,7 @@ public class OperPlanService extends ServiceSupport {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("ROUT_ID", routId);
 		paramMap.put("DAY_DIV", dayDiv);
-		paramMap.put("OPER_SN", operSn);
+		paramMap.put("SN", sn);
 
 
 		//지정된 범위의 노드간 운행계획 //운행계획을 수정하는 경우
@@ -415,9 +419,9 @@ public class OperPlanService extends ServiceSupport {
 		List<Map<String, Object>> nodeList = operPlanMapper.selectNodeList(paramMap);
 
 		for(Map<String, Object> nodeInfo : nodeList) {
-			int temp_node_sn = Integer.valueOf(nodeInfo.get("NODE_SN").toString());
+			double temp_node_sn = CommonUtil.stringToDouble(nodeInfo.get("NODE_SN").toString());
 			for(Map<String, Object> nextNodeInfo : nodeList) {
-				int temp_next_node_sn = Integer.valueOf(nextNodeInfo.get("NODE_SN").toString());
+				double temp_next_node_sn = CommonUtil.stringToDouble(nextNodeInfo.get("NODE_SN").toString());
 				if(temp_next_node_sn > temp_node_sn) {
 					nodeInfo.put("NEXT_NODE_ID",nextNodeInfo.get("NODE_ID"));
 					nodeInfo.put("NEXT_NODE_TYPE",nextNodeInfo.get("NODE_TYPE"));
@@ -430,18 +434,32 @@ public class OperPlanService extends ServiceSupport {
 
 		//운행순번에 따른 기점 출발시각, 종점 도착 시각
 		Map<String, Object> routStEdTmInfo = operPlanMapper.selectRoutStEdTm(paramMap);
-		route_first_node_sn = Integer.valueOf(routStEdTmInfo.get("FIRST_NODE_SN").toString());
-		route_last_node_sn = Integer.valueOf(routStEdTmInfo.get("LAST_NODE_SN").toString());
+		
+
+		route_first_node_sn = CommonUtil.stringToDouble(routStEdTmInfo.get("FIRST_NODE_SN").toString());
+		route_last_node_sn = CommonUtil.stringToDouble(routStEdTmInfo.get("LAST_NODE_SN").toString());
 		route_st_tm = String.valueOf(routStEdTmInfo.get("ROUT_ST_TM")) + ":00";
 		route_ed_tm = String.valueOf(routStEdTmInfo.get("ROUT_ED_TM")) + ":00";;
-
-
+		
+		try {
+				int sttnCnt = CommonUtil.stringToInt(routStEdTmInfo.get("STTN_CNT").toString()); //노선 정류장 수
+				int routAllStopTime = sttnCnt*stopTime; //노선 전체 정차 시간
+				double routLen = CommonUtil.stringToDouble(routStEdTmInfo.get("ROUT_LEN").toString()); //노선길이operPlList = makeOperAllocPlNodeInfo(allocId, routId, dayDiv, sn, bSave, 0, 0, 0, null, null, null, null, null, null, OperPlanCalc.CHG_TYPE_NONE, stopTime);
+				int routOperTime = DateUtil.diffSeconds(route_ed_tm,route_st_tm, "HH:mm:ss"); //노선 운행 시간(초)
+				MAX_SPEED_LIMIT = (int)(routLen/(routOperTime - routAllStopTime)*3.6);	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		//대표노선 가져오기
 		repRoutId = operPlanMapper.selectRepRout(routId);
 
 		//최소 정차시간 가져오기
-		minStopSec = operPlanMapper.selectMinStopTm();
+		if(stopTime==0) {
+			minStopSec = operPlanMapper.selectMinStopTm();
+			min_stop_sec = Integer.valueOf(minStopSec);
+		}
+		else min_stop_sec = stopTime;
 
 		//최대 정차시간 가져오기
 		maxStopSec = operPlanMapper.selectMaxStopTm();
@@ -456,7 +474,6 @@ public class OperPlanService extends ServiceSupport {
 
 		rep_route_id = repRoutId;
 
-		min_stop_sec = Integer.valueOf(minStopSec);
 		max_stop_sec = Integer.valueOf(maxStopSec);
 
 		if(peakTmMap!=null){
@@ -517,12 +534,12 @@ public class OperPlanService extends ServiceSupport {
 			max_speed_per_sec = (max_speed*1000/3600); //m/s 로 변경
 			
 			//운행순번에 따른 기점 출발시각, 종점 도착 시각
-			route_first_node_sn = Integer.valueOf(routStEdTmInfo.get("FIRST_NODE_SN").toString());
-			route_last_node_sn = Integer.valueOf(routStEdTmInfo.get("LAST_NODE_SN").toString());
+			route_first_node_sn = CommonUtil.stringToDouble(routStEdTmInfo.get("FIRST_NODE_SN").toString());
+			route_last_node_sn = CommonUtil.stringToDouble(routStEdTmInfo.get("LAST_NODE_SN").toString());
 			route_st_tm = String.valueOf(routStEdTmInfo.get("ROUT_ST_TM")) + ":00";
 			route_ed_tm = String.valueOf(routStEdTmInfo.get("ROUT_ED_TM")) + ":00";;
 
-
+				
 			//노드별 도착출발시각 계산
 			for(Map<String, Object> nodeInfo : nodeList) {
 
@@ -532,11 +549,13 @@ public class OperPlanService extends ServiceSupport {
 				way_div = String.valueOf(nodeInfo.get("WAY_DIV"));
 				course_id = String.valueOf(nodeInfo.get("COR_ID"));
 				node_id  = String.valueOf(nodeInfo.get("NODE_ID"));
-				node_sn = Integer.valueOf(nodeInfo.get("NODE_SN").toString());
+				node_sn = CommonUtil.stringToDouble(nodeInfo.get("NODE_SN").toString());
 				node_type = String.valueOf(nodeInfo.get("NODE_TYPE"));
 				alloc_no = Integer.valueOf(nodeInfo.get("ALLOC_NO").toString());
-				link_id = String.valueOf(nodeInfo.get("LINK_ID"));
-				link_len = CommonUtil.bigDecimalToInt(nodeInfo.get("LEN"));
+				//link_id = String.valueOf(nodeInfo.get("LINK_ID"));
+				old_accru_len = accru_len;
+				accru_len = CommonUtil.bigDecimalToInt(nodeInfo.get("ACCRU_LEN"));
+				link_len = accru_len - old_accru_len;
 
 				acc_avg_tm = (int)((max_speed_per_sec-0) / acc_avg); //평균 가속 시간
 				dec_avg_tm = (int)((0 - max_speed_per_sec) / dec_avg); //평균 감속 시간
@@ -553,7 +572,7 @@ public class OperPlanService extends ServiceSupport {
 				}
 				else {
 					next_node_id = String.valueOf(nodeInfo.get("NEXT_NODE_ID"));
-					next_node_sn = Integer.valueOf(nodeInfo.get("NEXT_NODE_SN").toString());
+					next_node_sn = CommonUtil.stringToDouble(nodeInfo.get("NEXT_NODE_SN").toString());
 					next_node_type = String.valueOf(nodeInfo.get("NEXT_NODE_TYPE"));
 				}
 				
@@ -708,7 +727,7 @@ public class OperPlanService extends ServiceSupport {
 							paramMap = new HashMap<>();
 							paramMap.put("ROUT_ID", routId);
 							paramMap.put("NODE_SN", node_sn);
-							paramMap.put("OPER_SN", operSn);
+							paramMap.put("SN", sn);
 
 							resultMap = operPlanMapper.selectArrvDprtTm(paramMap);
 
@@ -862,6 +881,8 @@ public class OperPlanService extends ServiceSupport {
 							dprt_tm = arrv_tm; //출발시각=도착시각
 							prev_dprt_tm = dprt_tm;
 						}
+						
+						
 
 					}
 
@@ -1013,7 +1034,7 @@ public class OperPlanService extends ServiceSupport {
 				insertParamMap.put("DAY_DIV", day_div);
 				insertParamMap.put("WAY_DIV", way_div);
 				insertParamMap.put("ALLOC_NO", alloc_no);
-				insertParamMap.put("OPER_SN", operSn);
+				insertParamMap.put("SN", sn);
 				insertParamMap.put("ROUT_ID", route_id);
 				insertParamMap.put("NODE_ID", node_id);
 				insertParamMap.put("NODE_SN", node_sn);
@@ -1199,7 +1220,7 @@ public class OperPlanService extends ServiceSupport {
 				paramMap.put("ALLOC_ID", allocId);
 				paramMap.put("DAY_DIV", dayDiv);
 				paramMap.put("ROUT_ID", routId);
-				paramMap.put("OPER_SN", operSn);
+				paramMap.put("SN", sn);
 				
 				operPlanMapper.deleteOperPl(paramMap);
 	
@@ -1227,12 +1248,12 @@ public class OperPlanService extends ServiceSupport {
 	/**
 	 * 운행계획 생성 
 	 */
-	public List makeOperAllocPlNodeInfo(String allocId, String routId, String dayDiv, int operSn, boolean bSave) {
+	public List makeOperAllocPlNodeInfo(String allocId, String routId, String dayDiv, int sn, boolean bSave, int stopTime) {
 		
 		List operPlList = null;
 		
 		try {
-			operPlList = makeOperAllocPlNodeInfo(allocId, routId, dayDiv, operSn, bSave, 0, 0, 0, null, null, null, null, null, null, OperPlanCalc.CHG_TYPE_NONE);
+			operPlList = makeOperAllocPlNodeInfo(allocId, routId, dayDiv, sn, bSave, 0, 0, 0, null, null, null, null, null, null, OperPlanCalc.CHG_TYPE_NONE, stopTime);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1242,6 +1263,52 @@ public class OperPlanService extends ServiceSupport {
 		
 	}
 	
+	
+	public Map makeOperAllocPlNodeInfo() throws Exception {
+		int iCnt = 0;
+		int uCnt = 0;
+		int dCnt = 0;		
+		
+		Map<String, Object> map = getSimpleDataMap("dma_search");
+		
+		String alloc_Id = (String) map.get("ALLOC_ID");
+		int stopTime = 0;
+		if(CommonUtil.notEmpty(map.get("STOP_TIME"))) {
+			stopTime = Integer.valueOf(map.get("STOP_TIME").toString());
+		}
+		
+		try {
+			
+			Map<String, Object> operPlan = operPlanMapper.selectOperPlanMst(map);
+			
+			List operPlList = operPlanMapper.selectOperPlanRout(map);
+			
+			for (int i = 0; i < operPlList.size(); i++) {
+				Map data = (Map) operPlList.get(i);
+				String routId = (String)data.get("ROUT_ID");
+				String dayDiv = (String)operPlan.get("DAY_DIV");
+				int sn = Integer.valueOf(data.get("SN").toString());
+
+				makeOperAllocPlNodeInfo(alloc_Id,routId, dayDiv, sn, true, stopTime);
+				
+				
+			}		
+		} catch(Exception e) {
+			if (e instanceof DuplicateKeyException)
+			{
+				throw new MessageException(Result.ERR_KEY, "중복된 키값의 데이터가 존재합니다.");
+			}
+			else
+			{
+				throw e;
+			}		
+		}
+
+		
+		Map result = saveResult(iCnt, uCnt, dCnt);
+		
+		return result;	
+	}
 	
 	
 	/**
@@ -1264,7 +1331,7 @@ public class OperPlanService extends ServiceSupport {
 			
 			String dayDiv = operPlanMapper.selectDayDiv(operDt);
 			
-			chgPlList = makeOperAllocPlNodeInfo(allocId, routId, dayDiv, operSn, false, stNodeSn, 0, offsetTm, timeMin, timeMax, null, null, null, null, OperPlanCalc.CHG_TYPE_CHG_OPER);
+			chgPlList = makeOperAllocPlNodeInfo(allocId, routId, dayDiv, operSn, false, stNodeSn, 0, offsetTm, timeMin, timeMax, null, null, null, null, OperPlanCalc.CHG_TYPE_CHG_OPER, 0);
 			
 			if(bSave) {
 				
@@ -1404,7 +1471,7 @@ public class OperPlanService extends ServiceSupport {
 				operPlList = makeOperAllocPlNodeInfo(null, routId, dayDiv, operSn, bSave,
 						stNodeSn, edNodeSn,
 						0, null, null, 
-						stNodeArrvTm, stNodeDprtTm, edNodeArrvTm, edNodeDprtTm, OperPlanCalc.CHG_TYPE_MODIFY);				
+						stNodeArrvTm, stNodeDprtTm, edNodeArrvTm, edNodeDprtTm, OperPlanCalc.CHG_TYPE_MODIFY, 0);				
 			} 
 			
 			
@@ -1449,7 +1516,7 @@ public class OperPlanService extends ServiceSupport {
 				operPlList = makeOperAllocPlNodeInfo(null, routId, dayDiv, operSn, bSave,
 						stNodeSn, edNodeSn,
 						0, null, null, 
-						stNodeArrvTm, stNodeDprtTm, edNodeArrvTm, edNodeDprtTm, OperPlanCalc.CHG_TYPE_MODIFY);
+						stNodeArrvTm, stNodeDprtTm, edNodeArrvTm, edNodeDprtTm, OperPlanCalc.CHG_TYPE_MODIFY, 0);
 				
 			} 		
 						

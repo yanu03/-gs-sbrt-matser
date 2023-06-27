@@ -100,6 +100,30 @@
 					});
 			}
 		}
+		else if(a_type == 'operdtlpl'){
+			$.ajax({
+				type: 'post',
+				url: '/operPlan/makeOperAllocPlNodeInfo',
+				data: JSON.stringify({dma_search : {ALLOC_ID :  $('#dg0').datagrid('getSelected').ALLOC_ID
+													,STOP_TIME :  $('#sch_tb').textbox('getValue')}}),
+				dataType: 'json',
+				async: false,
+				contentType: 'application/json; charset=utf-8',
+				success: function(data){
+					$('#dg1').datagrid('acceptChanges');
+					$.messager.show({
+						title:'정보',
+						msg:'궤적생성 하였습니다.',
+						timeout:1500,
+						showType:'slide'
+					});
+				},
+				error: function(error){
+					error.apply(this, arguments);
+					rtn_value = false;
+				}
+			});
+		}
 		return true;
 	}
 		
@@ -124,6 +148,10 @@
 		return rtn_params;
 	}
 
+	//운행상세계획 생성
+	$.uf_createoperdetailplan = function(){
+		$.tracomcfmsg('확인', '운행상세계획 데이터가 재 생성됩니다. 궤적 생성 하시겠습니까?', 'operdtlpl');
+	}
 	//배포
 	$.uf_distri = function(){
 		if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg0')), 'g')){

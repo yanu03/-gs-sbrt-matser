@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Component;
 
+import kr.tracom.platform.attribute.BrtAtCode;
+
 @Component
 public class WsClient {
 	
@@ -24,7 +26,20 @@ public class WsClient {
 		//logger.info("################# sendMessage : " + message);
 		
 		try {
-			messagingTemplate.convertAndSend("/topic/public", wsMap);
+			
+			short attrId = (short) wsMap.get("ATTR_ID");
+
+			switch (attrId) {
+			case BrtAtCode.BUS_INFO: // 정주기 버스 정보
+				messagingTemplate.convertAndSend("/subscribe/vhc", wsMap);
+			break;
+			case BrtAtCode.BUS_OPER_EVENT:
+				messagingTemplate.convertAndSend("/subscribe/evt", wsMap);
+			break;
+			case BrtAtCode.BUS_ARRIVAL_INFO: 
+			default:
+				messagingTemplate.convertAndSend("/subscribe/public", wsMap);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

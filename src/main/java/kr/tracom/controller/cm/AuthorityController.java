@@ -136,4 +136,19 @@ public class AuthorityController extends ControllerSupport {
 		result.setData("dma_SEQ_BMS_AUTH_MST_0", authorityService.selectAuthorityKey());
 		return result.getResult();
 	}
+
+	@RequestMapping("/authority/selectAuthorityList_exlDownload")
+    public String  selectAuthorityList_exlDownload(Model model) throws Exception {
+
+		String[] getValues = {"AUTH_CD", "AUTH_NM", "USE_YN", "REMARK"};
+		String[] headerTitle = {"권한코드", "권한명", "사용여부", "비고"};
+		
+		model.addAttribute("title", "권한그룹정보");
+		model.addAttribute("headerTitle", headerTitle);
+		model.addAttribute("getValues", getValues);
+		model.addAttribute("excelList", authorityService.selectAuthorityList_exlDownload());
+		return "ExcelView";
+        //return new ModelAndView("ExcelView", "map", result);
+	}
+	
 }

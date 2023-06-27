@@ -499,6 +499,15 @@ public class CommonUtil {
 		return result;
 	}
 	
+	public static int stringToInt(String object) {
+		int result = 0;
+		try {
+			result = (object==null)?0:Integer.parseInt(object);
+		}catch (Exception e) {
+			result = 0;
+		}
+		return result;
+	}
 	
 	public static int bigDecimalToInt(Object object) {
 		int result = 0;

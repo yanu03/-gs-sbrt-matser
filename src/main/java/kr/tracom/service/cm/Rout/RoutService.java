@@ -68,12 +68,12 @@ public class RoutService extends ServiceSupport {
 		return routMapper.selectNodeListByRoutGrps(map);
 	}
 	
-	public List<Map<String, Object>> selectNodeDispListByRouts() throws Exception {
+	/*public List<Map<String, Object>> selectNodeDispListByRouts() throws Exception {
 		Map<String, Object> map = getSimpleDataMap("dma_sub_search");
 		String temp[] = map.get("ROUT_IDS").toString().replace("[","").replace("]","").replace(" ","").split(",");
 		map.put("ROUT_IDS", temp);
 		return routMapper.selectNodeDispListByRouts(map);
-	}
+	}*/
 	
 	public List<Map<String, Object>> selectNodeDispListByRout() throws Exception {
 		Map<String, Object> map = getSimpleDataMap("dma_sub_search");

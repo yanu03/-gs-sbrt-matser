@@ -50,5 +50,6 @@ public interface CurInfoMapper {
 	Map<String, Object> selectNodeByLinkSn(Map<String, Object> paramMap);
 	
 	String getSttnLinkId(Map<String, Object> paramMap);
-	
+
+	int insertOrUpdateSigOperEventInfo(Map<String, Object> paramMap);
 }

@@ -80,5 +80,18 @@ public class SI0503Service extends ServiceSupport{
 		return si0503Mapper.SI0503P0R0(map);
 	}
 		
-	
+	public List SI0503G0_exlDownload() throws Exception {
+		String param = (String)request.getAttribute("param");
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(CommonUtil.empty(param)){
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", "");
+		}
+		else{
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", param);
+		}
+
+		return si0503Mapper.SI0503G0R0(map);
+	}
 }

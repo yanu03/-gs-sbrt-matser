@@ -122,7 +122,7 @@ $(function(){
     });
  
     $('#btn8').bind('click', function(){
-        $.tracomcfmsg('확인', '엑셀 업로드시 차량관리 데이터가 재 갱신됩니다. 엑셀 업로드를 하시겠습니까?', 'excelupload');
+        $.tracomcfmsg('확인', '엑셀 업로드시 차량관리 데이터가 재 생성됩니다. 엑셀 업로드를 하시겠습니까?', 'excelupload');
     });
  
     $("#excelinputfile").on("change", function(e){
