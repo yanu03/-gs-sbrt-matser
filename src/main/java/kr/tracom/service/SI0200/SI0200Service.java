@@ -95,4 +95,19 @@ public class SI0200Service extends ServiceSupport {
 	public List SI0200SHI1() throws Exception {
 		return si0200Mapper.SI0200SHI1();
 	}
+
+	public List SI0200G0_exlDownload() throws Exception {
+		String param = (String)request.getAttribute("param");
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(CommonUtil.empty(param)){
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", "");
+		}
+		else{
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", param);
+		}
+
+		return si0200Mapper.SI0200G0R0(map);
+	}
 }
