@@ -36,7 +36,8 @@
   });
   $('#subbtn1').bind('click', function(){
 	//궤적생성
-	
+
+	$.uf_createoperdetailplan();
   });
   $('#subbtn2').bind('click', function(){
 	//배포

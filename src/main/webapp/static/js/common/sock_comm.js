@@ -1,4 +1,4 @@
-let js_sock = new SockJS("http://localhost:8888/stomp-chat");
+let js_sock = new SockJS('/websocket');
 let js_client = Stomp.over(js_sock);
 function changeDeviceStatus(item) {
     console.log("changeDeviceStatus id", $(item).parent().parent().parent().prop('id'), 'value ', $(item).prop('checked'));

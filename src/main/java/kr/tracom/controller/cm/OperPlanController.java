@@ -61,6 +61,14 @@ public class OperPlanController extends ControllerSupport {
 		return result.getResult();	
 	}
 	
+	@RequestMapping("/operPlan/makeOperAllocPlNodeInfo")
+	public @ResponseBody Map<String, Object> makeOperAllocPlNodeInfo() throws Exception {
+		Map map = operPlanService.makeOperAllocPlNodeInfo();
+		result.setData("rows", map);
+		return result.getResultSave();
+	}
+	
+	
 	/*@RequestMapping("/operPlan/selectOperPlanRout2")
 	public @ResponseBody Map<String, Object> selectOperPlanRout2() throws Exception {
 		result.setData("dlt_BMS_OPER_PL_ROUT_INFO_ASC", operPlanService.selectOperPlanRoutAsc());

@@ -12,7 +12,7 @@ public interface RoutMapper {
 	public int updateRout(Map param);
 	public int updateRoutNodeToAnotherRoute(Map param); //BMS_ROUT_NODE_CMPSTN에서 다른 route id의 정류소 위치 정보 갱신
 	public int updateMainRoutNodeToAnotherRoute(Map param); //BMS_MAIN_ROUT_NODE_INFO에서 다른 route id의 정류소 위치 정보 갱신
-	public int updateStSttnEdSttnRout(Map param);
+	//public int updateStSttnEdSttnRout(Map param);
 	public List<Map<String, Object>> selectRoutList(Map param);
 	public List<Map<String, Object>> selectRoutListWithGps(Map param);
 	public List<Map<String, Object>> selectRoutListByRoutGrp(Map param);
@@ -21,7 +21,7 @@ public interface RoutMapper {
 	public List<Map<String, Object>> selectNodeListByRout(Map param);
 	public List<Map<String, Object>> selectNodeListByRoutGrp(Map param);
 	public List<Map<String, Object>> selectNodeListByRoutGrps(Map param);
-	public List<Map<String, Object>> selectNodeDispListByRouts(Map param);
+	//public List<Map<String, Object>> selectNodeDispListByRouts(Map param);
 	public List<Map<String, Object>> selectNodeDispListByRout(Map param);
 	public List<Map<String, Object>> selectNodeDispListByRoutGrp(Map param);
 	public List<Map<String, Object>> selectNodeDispListByRoutGrps(Map param);	

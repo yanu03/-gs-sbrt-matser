@@ -1,5 +1,6 @@
 package kr.tracom.service.tims.handler;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,6 +43,8 @@ import kr.tracom.ws.WsClient;
 public class MorEventThread extends Thread {
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	private String staticVariableTime;
 
 	private ConcurrentLinkedQueue<KafkaMessage> kafkaQ = new ConcurrentLinkedQueue<>();
 	//private String sessionId;
@@ -77,13 +80,10 @@ public class MorEventThread extends Thread {
 
 	private static Map<String, Object> g_routMap = new HashMap<>();
 
-	private static Map<String, Object> g_operStsMap = new HashMap<>();
 
 	private static Map<String, Object> g_operEventCodeMap = new HashMap<>();
 
 	private static Map<String, Object> g_operVhcSttnInfoMap = new HashMap<>();
-
-	private static Map<String, Object> g_operCorInfoMap = new HashMap<>();
 
 	private static Map<String, Object> g_routNodeMap = new HashMap<>();
 
@@ -102,12 +102,73 @@ public class MorEventThread extends Thread {
 			logger.error("  ", e);
 		}
 	}
+	
+	public void stop(boolean bStop) {
+
+		bRunning = false;
+	}
+
+	@Override
+	public void run() {
+
+		while (bRunning) {
+
+			if (getKafkaSize() > 0)
+				logger.debug("HandleThread Running...kafkaQ.size:{}", getKafkaSize());
+
+			try {
+				KafkaMessage msg = getKafkaMessage();
+
+				if (msg != null) {
+
+					// logger.info("===================== START >> sessionId:{}", sessionId);
+
+					Map<String, Object> map = null;
+
+					String sessionId = msg.getSessionId();
+					TimsMessage timsMessage = msg.getTimsMessage();
+
+					map = handle(timsMessage, sessionId);
+
+					// 웹소켓 전송이 필요한 경우
+					if (map != null) {
+						// logger.info("webSocketClient.sendMessage before");
+						webSocketClient.sendMessage(map);
+						// logger.info("webSocketClient.sendMessage after");
+					}
+
+					// logger.info("===================== END >> sessionId:{}", sessionId);
+				}
+
+				Thread.sleep(1);
+
+			} catch (InterruptedException e) {
+				logger.error("Exception {}", e);
+			}
+		}
+
+	}
+
+	public void addKafkaMessage(KafkaMessage kafkaMessage) {
+		kafkaQ.offer(kafkaMessage);
+	}
+
+	public KafkaMessage getKafkaMessage() {
+		while (kafkaQ.peek() != null) {
+			return kafkaQ.poll();
+		}
+		return null;
+	}
+
+	public int getKafkaSize() {
+		return kafkaQ.size();
+	}
 
 	private void initNodeList() {
 		Map<String, Object> param = new HashMap<String, Object>();
 
-		param.put("TYPE", "REP_ROUT_ID");
-		param.put("CONTENT", "RR00000002");
+		//param.put("TYPE", "ROUT_GRP");
+		//param.put("CONTENT", "RR00000002");
 
 		List<Map<String, Object>> routList = routMapper.selectRoutList(param);
 		if (g_routNodeMap == null) {
@@ -119,6 +180,23 @@ public class MorEventThread extends Thread {
 			nodeList = curInfoMapper.selectIntgNodeList((String) rout.get("ROUT_ID"));
 
 			g_routNodeMap.put((String) rout.get("ROUT_ID"), nodeList);
+		}
+	}
+	
+	//특정 시간에 전역변수 초기화
+	private void initStaticVariableByTime() {
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		if(formatter.format(date).equals(staticVariableTime)) {
+			g_busOperInfoMap.clear();
+			g_busIdMap.clear();
+			g_vhcDrInfoMap.clear();
+			g_vhcInfoMap.clear();
+			g_routMap.clear();
+			g_operEventCodeMap.clear();
+			g_operVhcSttnInfoMap.clear();
+			g_routNodeMap.clear();
+			initNodeList();
 		}
 	}
 
@@ -318,8 +396,8 @@ public class MorEventThread extends Thread {
 			if (nodeList == null)
 				return null;
 			for (Map<String, Object> node : nodeList) {
-				int nodeSn = Integer.parseInt(node.getOrDefault("NODE_SN", 0).toString());
-				int eventLinkSn = Integer.parseInt(eventInfo.getOrDefault("LINK_SN", 0).toString());
+				double nodeSn = CommonUtil.stringToDouble(node.getOrDefault("NODE_SN", 0).toString());
+				double eventLinkSn = CommonUtil.stringToDouble(eventInfo.getOrDefault("LINK_SN", 0).toString());
 				if ((nodeSn >= eventLinkSn) && node.get("NODE_ID").equals(eventInfo.get("NODE_ID"))) {
 					//logger.debug("getCurNodeByLinkSn node={}, eventNodeSn={}, nodeSn={} ", node, eventLinkSn, nodeSn);
 					// logger.debug("getCurNodeByLinkSn nodeSn= " + nodeSn + eventLinkSn);
@@ -341,8 +419,8 @@ public class MorEventThread extends Thread {
 				return null;
 			for (int i = nodeList.size() - 1; i >= 0; i--) {
 				Map<String, Object> node = nodeList.get(i);
-				int nodeSn = Integer.parseInt(node.getOrDefault("NODE_SN", 0).toString());
-				int eventNodeSn = Integer.parseInt(eventInfo.getOrDefault("NODE_SN", 0).toString());
+				double nodeSn = CommonUtil.stringToDouble(node.getOrDefault("NODE_SN", 0).toString());
+				double eventNodeSn = CommonUtil.stringToDouble(eventInfo.getOrDefault("NODE_SN", 0).toString());
 				if ((nodeSn <= eventNodeSn)&& 
 					(node.get("NODE_TYPE").equals(nodeType)||nodeType.contains((String)node.get("NODE_TYPE")))) {
 					//logger.debug("getCurNode node={}, eventNodeSn={}, nodeSn={} ", node, eventNodeSn, nodeSn);
@@ -363,10 +441,11 @@ public class MorEventThread extends Thread {
 		if (nodeList == null)
 			return 0;
 		for (int i = 0; i < nodeList.size(); i++) {
-			int curNodeSn = Integer.parseInt(node.getOrDefault("NODE_SN", 0).toString());
+			double curNodeSn = CommonUtil.stringToDouble(node.getOrDefault("NODE_SN", 0).toString());
+			
 			Map node2 = (Map) nodeList.get(i);
 
-			if (Integer.parseInt(node2.getOrDefault("NODE_SN", 0).toString()) > curNodeSn) {
+			if (CommonUtil.stringToDouble(node2.getOrDefault("NODE_SN", 0).toString()) > curNodeSn) {
 				second += Double.parseDouble(node2.getOrDefault("LEN", 0).toString())
 						/ Double.parseDouble(node2.getOrDefault("AVG", 0).toString()) * 3.6D;
 				if ((nextSttnId != null) && (node2.get("NODE_ID") != null)
@@ -384,8 +463,8 @@ public class MorEventThread extends Thread {
 			List<Map<String, Object>> nodeList = getNodeList(eventInfo);
 
 			for (Map<String, Object> node : nodeList) {
-				int nodeSn = Integer.parseInt(node.getOrDefault("NODE_SN", 0).toString());
-				int eventNodeSn = Integer.parseInt(eventInfo.getOrDefault("NODE_SN", 0).toString());
+				double nodeSn = CommonUtil.stringToDouble(node.getOrDefault("NODE_SN", 0).toString());
+				double eventNodeSn = CommonUtil.stringToDouble(eventInfo.getOrDefault("NODE_SN", 0).toString());
 				if ((nodeSn > eventNodeSn) && node.get("NODE_TYPE").equals(nodeType)) {
 					//logger.debug("getNextNode node={}, eventNodeSn={}, nodeSn={} ", node, eventNodeSn, nodeSn);
 					// logger.debug("getNextNode nodeSn= " + nodeSn + eventNodeSn);
@@ -405,8 +484,8 @@ public class MorEventThread extends Thread {
 
 			for (int i = nodeList.size() - 1; i >= 0; i--) {
 				Map<String, Object> node = nodeList.get(i);
-				int nodeSn = Integer.parseInt(node.getOrDefault("NODE_SN", 0).toString());
-				int eventNodeSn = Integer.parseInt(eventInfo.getOrDefault("NODE_SN", 0).toString());
+				double nodeSn = CommonUtil.stringToDouble(node.getOrDefault("NODE_SN", 0).toString());
+				double eventNodeSn = CommonUtil.stringToDouble(eventInfo.getOrDefault("NODE_SN", 0).toString());
 				if ((nodeSn <= eventNodeSn) && (node.get("NODE_TYPE").equals(Constants.NODE_TYPE_BUSSTOP)
 						|| node.get("NODE_TYPE").equals(Constants.NODE_TYPE_CROSS))) {
 					//logger.debug("getCurSttnCrsNode node={}, eventNodeSn={}, nodeSn={} ", node, eventNodeSn, nodeSn);
@@ -425,8 +504,8 @@ public class MorEventThread extends Thread {
 			List<Map<String, Object>> nodeList = getNodeList(eventInfo);
 
 			for (Map<String, Object> node : nodeList) {
-				int nodeSn = Integer.parseInt(node.getOrDefault("NODE_SN", 0).toString());
-				int eventNodeSn = Integer.parseInt(eventInfo.getOrDefault("NODE_SN", 0).toString());
+				double nodeSn = CommonUtil.stringToDouble(node.getOrDefault("NODE_SN", 0).toString());
+				double eventNodeSn = CommonUtil.stringToDouble(eventInfo.getOrDefault("NODE_SN", 0).toString());
 				if ((nodeSn > eventNodeSn) && (node.get("NODE_TYPE").equals(Constants.NODE_TYPE_BUSSTOP)
 						|| node.get("NODE_TYPE").equals(Constants.NODE_TYPE_CROSS))) {
 					//logger.debug("getNextSttnCrsNode node={}, eventNodeSn={}, nodeSn={} ", node, eventNodeSn, nodeSn);
@@ -440,7 +519,7 @@ public class MorEventThread extends Thread {
 	}
 
 	/*private Map<String, Object> getCorInfo(Map<String, Object> eventInfo) {
-		String repRoutId = (String) eventInfo.get("REP_ROUT_ID");
+		String repRoutId = (String) eventInfo.get("ROUT_GRP");
 		if (CommonUtil.empty(eventInfo.get("ROUT_ID")) || CommonUtil.empty(eventInfo.get("COR_ID")))
 			return null;
 		if ((repRoutId != null) && (repRoutId.isEmpty() == false)) {
@@ -761,67 +840,6 @@ public class MorEventThread extends Thread {
 		// kafkaProducer = (KafkaProducer) BeanUtil.getBean(KafkaProducer.class);
 	}
 
-	public void stop(boolean bStop) {
-
-		bRunning = false;
-	}
-
-	@Override
-	public void run() {
-
-		while (bRunning) {
-
-			if (getKafkaSize() > 0)
-				logger.debug("HandleThread Running...kafkaQ.size:{}", getKafkaSize());
-
-			try {
-				KafkaMessage msg = getKafkaMessage();
-
-				if (msg != null) {
-
-					// logger.info("===================== START >> sessionId:{}", sessionId);
-
-					Map<String, Object> map = null;
-
-					String sessionId = msg.getSessionId();
-					TimsMessage timsMessage = msg.getTimsMessage();
-
-					map = handle(timsMessage, sessionId);
-
-					// 웹소켓 전송이 필요한 경우
-					if (map != null) {
-						// logger.info("webSocketClient.sendMessage before");
-						webSocketClient.sendMessage(map);
-						// logger.info("webSocketClient.sendMessage after");
-					}
-
-					// logger.info("===================== END >> sessionId:{}", sessionId);
-				}
-
-				Thread.sleep(1);
-
-			} catch (InterruptedException e) {
-				logger.error("Exception {}", e);
-			}
-		}
-
-	}
-
-	public void addKafkaMessage(KafkaMessage kafkaMessage) {
-		kafkaQ.offer(kafkaMessage);
-	}
-
-	public KafkaMessage getKafkaMessage() {
-		while (kafkaQ.peek() != null) {
-			return kafkaQ.poll();
-		}
-		return null;
-	}
-
-	public int getKafkaSize() {
-		return kafkaQ.size();
-	}
-
 	// static public Map<String, Object> busInfoMap = new HashMap<>();
 
 	public Map<String, Object> handle(TimsMessage timsMessage, String sessionId) {
@@ -868,7 +886,7 @@ public class MorEventThread extends Thread {
 							busInfoMap.put("ROUT_ID", routMap.get("ROUT_ID"));
 							busInfoMap.put("WAY_DIV", routMap.get("WAY_DIV"));
 							busInfoMap.put("ROUT_NM", routMap.get("ROUT_NM"));
-							busInfoMap.put("REP_ROUT_NM", routMap.get("REP_ROUT_NM"));
+							busInfoMap.put("ROUT_GRP_NM", routMap.get("ROUT_GRP_NM"));
 							busInfoMap.put("ST_STTN_ID", routMap.get("ST_STTN_ID"));
 							busInfoMap.put("ED_STTN_ID", routMap.get("ED_STTN_ID"));
 						}
@@ -1013,7 +1031,7 @@ public class MorEventThread extends Thread {
 							break;
 						Map<String, Object> routMap2 = getRoutMst(busEventMap);
 						if (routMap2 != null) {
-							busEventMap.put("REP_ROUT_ID", routMap2.get("REP_ROUT_ID"));
+							busEventMap.put("ROUT_GRP", routMap2.get("ROUT_GRP"));
 							busEventMap.put("WAY_DIV", routMap2.get("WAY_DIV"));
 							busEventMap.put("ROUT_NM", routMap2.get("ROUT_NM"));
 							busEventMap.put("ST_STTN_ID", routMap2.get("ST_STTN_ID"));
@@ -1033,8 +1051,8 @@ public class MorEventThread extends Thread {
 
 						try {
 							
-							if (CommonUtil.empty(busEventMap.get("REP_ROUT_ID")) == false) {
-								logger.debug("[," + busEventMap.get("REP_ROUT_ID") + 
+							if (CommonUtil.empty(busEventMap.get("ROUT_GRP")) == false) {
+								logger.debug("[," + busEventMap.get("ROUT_GRP") + 
 										"," + busEventMap.get("WAY_DIV") + "] In BusOperEvent alloc no");
 
 								if (eventCode == 0x01 || eventCode == 0x02 // 정류장 출/도착 인 경우
@@ -1300,7 +1318,7 @@ public class MorEventThread extends Thread {
 						//dispatchLog.put("DSPTCH_CONTS", dispatch.getMessage());
 						//dispatchLog.put("GPS_X", curInfo.get("LONGITUDE"));
 						//dispatchLog.put("GPS_Y", curInfo.get("LATITUDE"));
-						//dispatchLog.put("REP_ROUT_NM", curInfo.get("REP_ROUT_NM"));
+						//dispatchLog.put("ROUT_GRP_NM", curInfo.get("ROUT_GRP_NM"));
 						//dispatchLog.put("ROUT_NM", curInfo.get("ROUT_NM"));
 
 						// historyMapper.insertDispatchHistory(dispatchLog);
@@ -1470,6 +1488,7 @@ public class MorEventThread extends Thread {
 			// curInfoMapper.selectNodeByLinkSn(operEventMap); // 통플에서 넘어온 노드순번(실제로는 링크순번)
 			// // 으로 실제 노드순번 구하기
 
+			//event에서 들어오는 NODE_SN은 LINK_SN 임
 			Map<String, Object> realNodeInfo = getCurNodeByLinkSn(operEventMap);
 
 			
