@@ -70,5 +70,4 @@ public class SI0503Controller extends ControllerSupport {
 		return "ExcelView";
         //return new ModelAndView("ExcelView", "map", result);
 	}
-
 }
