@@ -22,7 +22,6 @@ public class CommonController extends ControllerSupport {
 	@Autowired
 	private CommonService commonService;
 
-
 	/**
 	 * selectCommonSearchItem - 공통코드 아이템 리스트를 조회한다.
 	 * 
