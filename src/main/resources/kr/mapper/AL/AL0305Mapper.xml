@@ -42,9 +42,68 @@
 		OPER_DT = #{OPER_DT}
 </update>
 
+<update id="AL0305G0U2" parameterType="Map">
+	UPDATE 			BMS_DAY_ALLOC_PL_INFO
+	SET				ALLOC_NO = #{ALLOC_NO},
+					VHC_ID = #{VHC_ID},
+					DRV_ID = #{DRV_ID},
+					ST_ROUT_ID = #{ST_ROUT_ID},
+					ST_OPER_SN = #{ST_OPER_SN},
+					ED_ROUT_ID = #{ED_ROUT_ID},
+					ED_OPER_SN = #{ED_OPER_SN},
+					UPD_DTM = #{UPD_DTM}
+	WHERE			ALLOC_ID = #{ALLOC_ID}
+	AND				SN = #{SN}
+	
+	AND				OPER_DT = STR_TO_DATE(#{OPER_DT}, '%Y-%m-%d')			
+
+
+</update>
+
 <select id="AL0305G0R0" resultType="Map" parameterType="Map">
+<!-- 일별 배차 관리 테이블 수정 2022-06-27 -->
+	SELECT 
+			DATE_FORMAT(B.OPER_DT,'%Y-%m-%d') OPER_DT
+			,B.ALLOC_ID
+	       ,B.ALLOC_NO
+	       ,B.SN
+	       ,A.ROUT_ST_TM
+	       ,B.VHC_ID
+	       ,B.DRV_ID
+	       ,B.ST_ROUT_ID
+	       ,H.ROUT_NM ST_ROUT_NM
+	       ,B.ST_OPER_SN
+	       ,B.ED_ROUT_ID
+	       ,I.ROUT_NM ED_ROUT_NM
+	       ,B.ED_OPER_SN
+	       ,D.VHC_NO
+	       ,E.DRV_NM
+	FROM 
+		BMS_DAY_ALLOC_PL_INFO B
+		LEFT JOIN BMS_OPER_ALLOC_PL_ROUT_INFO A
+		ON B.ST_ROUT_ID = A.ROUT_ID
+		AND	B.ST_OPER_SN = A.SN
+		AND B.ALLOC_ID = A.ALLOC_ID
+		LEFT JOIN BMS_ROUT_GRP_VHC_CMPSTN C
+		ON B.VHC_ID = C.VHC_ID
+		LEFT JOIN BMS_VHC_MST D
+		ON B.VHC_ID = D.VHC_ID
+		LEFT JOIN BMS_DRV_MST E
+		ON B.DRV_ID = E.DRV_ID
+		LEFT JOIN BMS_ROUT_MST H
+		ON B.ST_ROUT_ID = H.ROUT_ID
+		LEFT JOIN BMS_ROUT_MST I
+		ON B.ED_ROUT_ID = I.ROUT_ID
+		
+	WHERE		B.OPER_DT = #{F_DATE}
+	AND			B.ALLOC_ID = #{ALLOC_ID}
+	ORDER BY
+		B.ALLOC_NO, B.ST_OPER_SN		
+
+
+
 <!-- 일별 배차 관리 쿼리 수정 2022-05-09 -->
-	SELECT B.ALLOC_ID
+	<!-- SELECT B.ALLOC_ID
 	       ,B.ALLOC_NO
 	       ,B.VHC_ID
 	       ,B.SEC_VHC_ID
@@ -84,7 +143,7 @@
 		B.ALLOC_ID = #{ALLOC_ID}
 		AND (B.OPER_DT BETWEEN #{F_DATE} AND #{L_DATE})
 	ORDER BY
-		B.OPER_DT, B.ALLOC_ID, B.ALLOC_NO
+		B.OPER_DT, B.ALLOC_ID, B.ALLOC_NO -->
 
 	<!-- SELECT A.ROUT_GRP
 	       ,A.DAY_DIV

@@ -56,7 +56,7 @@ public class AL0302Service extends ServiceSupport {
 		return al0302Mapper.AL0302P1R0(map);
 	}
 	
-	//저장(수정)
+	//저장
 	public Map AL0302G1S0() throws Exception {
 		int iCnt = 0;
 		int uCnt = 0;
@@ -67,9 +67,16 @@ public class AL0302Service extends ServiceSupport {
 			for (int i = 0; i < param.size(); i++) {
 				Map data = (Map) param.get(i);
 				String rowStatus = (String) data.get("rowStatus");
-				if (rowStatus.equals("U")) {
+				if (rowStatus.equals("C")) {
+					iCnt += al0302Mapper.AL0302G1I2(data);
+				}
+				else if (rowStatus.equals("U")) {
 					uCnt += al0302Mapper.AL0302G1U0(data);
-					uCnt += al0302Mapper.AL0302G1U1(data);
+					//uCnt += al0302Mapper.AL0302G1U1(data);
+				}
+				else if (rowStatus.equals("D")) {
+					uCnt += al0302Mapper.AL0302G1D0(data);
+					//uCnt += al0302Mapper.AL0302G1U1(data);
 				}
 			}			
 		} catch(Exception e) {
@@ -108,11 +115,12 @@ public class AL0302Service extends ServiceSupport {
 					for (int j = 0; j < param.size(); j++) {
 						Map data = (Map) param.get(j);
 						String rowStatus = (String) data.get("rowStatus");
-						if (rowStatus.equals("U") || rowStatus.equals("R")) {
+						//if (rowStatus.equals("U") || rowStatus.equals("R")) {
 							data.put("OPER_DT", mapList.get(i).get("OPER_DT"));
-							uCnt += al0302Mapper.AL0302G1I0(data);
-							uCnt += al0302Mapper.AL0302G1I1(data);
-						}
+							//uCnt += al0302Mapper.AL0302G1I0(data);
+							//uCnt += al0302Mapper.AL0302G1I1(data);
+							iCnt += al0302Mapper.AL0302G1I3(data); //배포
+						//}
 					}			
 				} catch(Exception e) {
 					if (e instanceof DuplicateKeyException)

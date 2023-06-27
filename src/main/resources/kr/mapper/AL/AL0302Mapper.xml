@@ -10,11 +10,12 @@
 		<!-- AGA.ALLOC_GRP,
 		AG.DL_CD_NM AS ALLOC_GRP_NM,
 		RGA.ROUT_GRP,
-		RG.DL_CD_NM AS ROUT_GRP_NM, -->
+		RG.DL_CD_NM AS ROUT_GRP_NM, 
 		A.DAY_DIV,
 		DD.DL_CD_NM DAY_DIV_NM,
 		A.WAY_DIV,
 		WD.DL_CD_NM WAY_DIV_NM,
+		-->
 		A.ST_STTN_ID,
 		A.ED_STTN_ID,
 		A.OPER_CNT,
@@ -75,17 +76,27 @@
 	</select>
 
 <select id="AL0302G1R0" resultType="Map">
-	SELECT A.ALLOC_ID
-	       ,A.DAY_DIV
+	SELECT B.ALLOC_ID
+	       ,B.ALLOC_NO
+	       ,B.SN
+	       <!-- ,A.DAY_DIV
 	       ,DD.DL_CD_NM DAY_DIV_NM
 	       ,A.WAY_DIV
-	       ,WD.DL_CD_NM WAY_DIV_NM
-	       ,A.ALLOC_NO
+	       ,WD.DL_CD_NM WAY_DIV_NM -->
+	       ,A.ROUT_ST_TM
 	       ,B.VHC_ID
-	       ,B.SEC_VHC_ID
+	       ,B.DRV_ID
+	       ,B.ST_ROUT_ID
+	       ,H.ROUT_NM ST_ROUT_NM
+	       ,B.ST_NODE_ID
+	       ,B.ST_OPER_SN
+	       ,B.ED_ROUT_ID
+	       ,I.ROUT_NM ED_ROUT_NM
+	       ,B.ED_NODE_ID
+	       ,B.ED_OPER_SN
 	       ,D.VHC_NO
-	       ,H.VHC_NO AS SEC_VHC_NO
-	       ,E.COMP_NM
+	       ,E.DRV_NM
+	       <!-- ,H.VHC_NO AS SEC_VHC_NO
 	       ,I.COMP_NM AS SEC_COMP_NM
 	       ,F.DRV_ID
 			,F.SEC_DRV_ID
@@ -94,40 +105,41 @@
 			,(SELECT DRV_NM FROM BMS_DRV_MST WHERE DRV_ID = F.SEC_DRV_ID) SEC_DRV_NM
 			,(SELECT DRV_NM FROM BMS_DRV_MST WHERE DRV_ID = F.THR_DRV_ID) THR_DRV_NM
 			,F.SEC_TRAN_TM
-			,F.THR_TRAN_TM
+			,F.THR_TRAN_TM -->
 	FROM 
-		BMS_OPER_ALLOC_PL_ROUT_INFO A
-		LEFT JOIN BMS_ALLOC_PL_VHC_INFO B
-		ON A.ALLOC_ID = B.ALLOC_ID 
-		AND A.ALLOC_NO = B.ALLOC_NO
+		BMS_ALLOC_PL_INFO B
+		LEFT JOIN BMS_OPER_ALLOC_PL_ROUT_INFO A
+		ON B.ST_ROUT_ID = A.ROUT_ID
+		AND	B.ST_OPER_SN = A.SN
+		AND B.ALLOC_ID = A.ALLOC_ID
 		LEFT JOIN BMS_ROUT_GRP_VHC_CMPSTN C
 		ON B.VHC_ID = C.VHC_ID
 		LEFT JOIN BMS_VHC_MST D
 		ON B.VHC_ID = D.VHC_ID
-		LEFT JOIN BMS_VHC_MST H
-		ON B.SEC_VHC_ID = H.VHC_ID
-		LEFT JOIN BMS_TRANSCOMP_MST E
-		ON D.COMP_ID = E.COMP_ID
-		LEFT JOIN BMS_TRANSCOMP_MST I
-		ON H.COMP_ID = I.COMP_ID
-		LEFT JOIN BMS_ALLOC_PL_DRV_INFO F
+		LEFT JOIN BMS_DRV_MST E
+		ON B.DRV_ID = E.DRV_ID
+		LEFT JOIN BMS_ROUT_MST H
+		ON B.ST_ROUT_ID = H.ROUT_ID
+		LEFT JOIN BMS_ROUT_MST I
+		ON B.ED_ROUT_ID = I.ROUT_ID
+		<!-- LEFT JOIN BMS_ALLOC_PL_DRV_INFO F
 		ON A.ALLOC_ID = F.ALLOC_ID AND A.ALLOC_NO = F.ALLOC_NO
 		LEFT JOIN BMS_DL_CD_INFO DD
 		ON A.DAY_DIV= DD.DL_CD AND DD.CO_CD = 'DAY_DIV'
 		LEFT JOIN BMS_DL_CD_INFO WD
-		ON A.WAY_DIV= WD.DL_CD AND WD.CO_CD = 'WAY_DIV'
+		ON A.WAY_DIV= WD.DL_CD AND WD.CO_CD = 'WAY_DIV' -->
 	WHERE
-		A.ALLOC_ID = #{ALLOC_ID}
-	AND 
-		A.DAY_DIV = #{DAY_DIV}
-	GROUP BY
-		A.ALLOC_NO
+		B.ALLOC_ID = #{ALLOC_ID}
+	<!-- AND 
+		A.DAY_DIV = #{DAY_DIV} -->
+	<!-- GROUP BY
+		A.ALLOC_NO -->
 	ORDER BY
-		A.ALLOC_NO
+		B.ALLOC_NO
 </select>
 
-<insert id="AL0302G1U0" parameterType="Map">
-	INSERT INTO BMS_ALLOC_PL_INFO(
+<update id="AL0302G1U0" parameterType="Map">
+	<!-- INSERT INTO BMS_ALLOC_PL_INFO(
 		ALLOC_ID
 		,DAY_DIV
 		,ALLOC_NO
@@ -152,8 +164,32 @@
 		,SEC_VHC_ID = VALUES(SEC_VHC_ID)
 		,SEC_TRAN_TM = VALUES(SEC_TRAN_TM)
 		,UPD_DTM = VALUES(UPD_DTM)
-		,UPD_ID	 = VALUES(UPD_ID)
-</insert>
+		,UPD_ID	 = VALUES(UPD_ID) -->
+		
+	<!-- 0627 수정, INSERT문으로 되어있었음 -->
+	UPDATE 			BMS_ALLOC_PL_INFO
+	SET				ALLOC_NO = #{ALLOC_NO},
+					VHC_ID = #{VHC_ID},
+					DRV_ID = #{DRV_ID},
+					ST_ROUT_ID = #{ST_ROUT_ID},
+					ST_NODE_ID = #{ST_NODE_ID},
+					ST_OPER_SN = #{ST_OPER_SN},
+					ED_ROUT_ID = #{ED_ROUT_ID},
+					ED_NODE_ID = #{ED_NODE_ID},
+					ED_OPER_SN = #{ED_OPER_SN},
+					UPD_DTM = #{UPD_DTM},
+					UPD_ID = #{SSN_USER_ID}
+	WHERE			ALLOC_ID = #{ALLOC_ID}
+	AND				SN = #{SN}				
+		
+</update>
+
+<delete id="AL0302G1D0" parameterType="Map">
+	DELETE 
+	FROM 			BMS_ALLOC_PL_INFO
+	WHERE 			ALLOC_ID = #{ALLOC_ID}
+	AND 			SN = #{SN} 
+</delete>
 
 <insert id="AL0302G1I0" parameterType="Map">
 	INSERT INTO BMS_DAY_ALLOC_PL_INFO(
@@ -207,6 +243,78 @@
 		,THR_DRV_ID = VALUES(THR_DRV_ID)
 		,SEC_TRAN_TM = VALUES(SEC_TRAN_TM)
 		,THR_TRAN_TM = VALUES(THR_TRAN_TM)
+</insert>
+
+<insert id="AL0302G1I2" parameterType="Map">
+	<selectKey resultType="string" keyProperty="SN" order="BEFORE">
+	        SELECT IFNULL(MAX(SN)+1,1) FROM BMS_ALLOC_PL_INFO  WHERE  ALLOC_ID = #{ALLOC_ID}
+	</selectKey>  
+	INSERT INTO		BMS_ALLOC_PL_INFO(
+						ALLOC_ID,
+						ALLOC_NO,
+						SN,
+						VHC_ID,
+						DRV_ID,
+						ST_ROUT_ID,
+						ST_NODE_ID,
+						ST_OPER_SN,
+						ED_ROUT_ID,
+						ED_NODE_ID,
+						ED_OPER_SN,
+						UPD_DTM,
+						UPD_ID
+					)
+	VALUES			(
+						#{ALLOC_ID},
+						#{ALLOC_NO},
+						#{SN},
+						#{VHC_ID},
+						#{DRV_ID},
+						#{ST_ROUT_ID},
+						#{ST_NODE_ID},
+						#{ST_OPER_SN},
+						#{ED_ROUT_ID},
+						#{ED_NODE_ID},
+						#{ED_OPER_SN},
+						#{UPD_DTM},
+						#{SSN_USER_ID}
+	
+					)
+</insert>
+
+<insert id="AL0302G1I3" parameterType="Map">
+	INSERT INTO 	BMS_DAY_ALLOC_PL_INFO(
+						OPER_DT,
+						ALLOC_ID,
+						ALLOC_NO,
+						SN,
+						VHC_ID,
+						DRV_ID,
+						ST_ROUT_ID,
+						ST_OPER_SN,
+						ED_ROUT_ID,
+						ED_OPER_SN,
+						UPD_DTM
+					)
+	VALUES			(
+						#{OPER_DT},
+						#{ALLOC_ID},
+						#{ALLOC_NO},
+						#{SN},
+						#{VHC_ID},
+						#{DRV_ID},
+						#{ST_ROUT_ID},
+						#{ST_OPER_SN},
+						#{ED_ROUT_ID},
+						#{ED_OPER_SN},
+						#{UPD_DTM}	
+					)				
+						ON DUPLICATE KEY UPDATE
+						VHC_ID = VALUES(VHC_ID)
+					,	DRV_ID = VALUES(DRV_ID)
+					,	ST_ROUT_ID = VALUES(ST_ROUT_ID)
+					,	ST_OPER_SN = VALUES(ST_OPER_SN)
+					,	UPD_DTM = VALUES(UPD_DTM)				
 </insert>
 
 <update id="AL0302G2U0" parameterType="Map">
@@ -285,6 +393,27 @@
 		A.ALLOC_NO
 	ORDER BY
 		A.ALLOC_NO
+</select>
+
+<select id="AL0302P0R0" resultType="Map">
+	SELECT 			A.ALLOC_ID
+				,	A.SN		AS ST_OPER_SN
+				,	A.ROUT_ID	AS ST_ROUT_ID
+				,	B.ROUT_NM	AS ST_ROUT_NM
+				,	A.ROUT_ST_TM
+				,	A.ROUT_ED_TM
+				,	B.WAY_DIV
+				,	DD.DL_CD_NM	AS WAY_DIV_NM
+				
+	FROM			BMS_OPER_ALLOC_PL_ROUT_INFO A
+	LEFT JOIN		BMS_ROUT_MST	B
+	ON				A.ROUT_ID = B.ROUT_ID
+	LEFT JOIN		BMS_DL_CD_INFO	DD
+	ON				B.WAY_DIV = DD.DL_CD
+	AND				DD.CO_CD = 'WAY_DIV'
+		
+	WHERE			A.ALLOC_ID = #{ALLOC_ID}
+	AND				A.ALLOC_NO = #{ALLOC_NO}
 </select>
 
 </mapper>

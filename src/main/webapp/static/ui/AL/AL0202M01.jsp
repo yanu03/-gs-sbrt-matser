@@ -51,7 +51,7 @@
 			/* rtn_params = {
 			ALLOC_ID: v_row.ALLOC_ID, DAY_DIV: v_row.DAY_DIV, WAY_DIV: v_row.WAY_DIV, OPER_SN:$.jf_seqdgdata('/AL/AL0202G1K0', 'post'),
 			DAY_DIV_NM : v_row.DAY_DIV_NM, WAY_DIV_NM: v_row.WAY_DIV_NM, ROUT_ID: v_row.ROUT_ID} */
-			rtn_params = {ALLOC_ID: v_row.ALLOC_ID, ALLOC_NO:v_allocNo
+			rtn_params = {ALLOC_ID: v_row.ALLOC_ID, ALLOC_NO:v_allocNo, isNew:true
 					}
 		}
 		

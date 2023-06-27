@@ -6,8 +6,8 @@
 **/
 $(function(){
 	//from date to date
-	$('#sch_panel1').append('<input id="sch_fdd" type="text"> - ');
-	$('#sch_panel1').append('<input id="sch_tdd" type="text">&nbsp;&nbsp;&nbsp;&nbsp;');
+	$('#subsch_panel1').append(' 조회일 : <input id="sch_fdd" type="text"> ');
+	//$('#subsch_panel1').append(' - <input id="sch_tdd" type="text">&nbsp;&nbsp;&nbsp;&nbsp;');
 	
 	$('#sch_fdd').datebox({
 		width: 110,
@@ -15,7 +15,8 @@ $(function(){
 		currentText: '',
 		required: false ,
 		editable: false ,
-		value: $.tracomfromdate('w'),
+		//value: $.tracomfromdate('w'),
+		value: $.tracomtodate('d'),
 		formatter: $.tracomdateformatter,
 		parser: $.tracomdateparser,
 			onSelect: function(date){},
@@ -28,7 +29,7 @@ $(function(){
 			}
 	});
 	
-	$('#sch_tdd').datebox({
+	/*$('#sch_tdd').datebox({
     width: 110,
     height: 24,
     currentText: '',
@@ -45,6 +46,6 @@ $(function(){
 			// $.uf_limitdate();
 			// return true;			
 		}
-	});
+	});*/
 
 });

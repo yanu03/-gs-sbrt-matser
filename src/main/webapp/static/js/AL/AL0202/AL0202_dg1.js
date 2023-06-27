@@ -103,7 +103,15 @@ $(function(){
 				//$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
 			},
 			onBeforeEdit: function(index,row){},
-			onBeginEdit: function(index,row){},
+			onBeginEdit: function(index,row){
+		        if (!row.isNew) {
+		            var ed = $(this).datagrid('getEditor', {
+		                index: index,
+		                field: 'ALLOC_NO'
+		            });
+		            $(ed.target).textbox('readonly', true);  // make the editor readonly
+		        }					
+			},
 			onEndEdit: function(a_index,a_row,a_changes){
 				//a_row.ROUT_NM = $.jf_currowtext($('#dg1'), a_index, 'ROUT_ID');
 				//a_row.WAY_DIV_NM = $.jf_currowtext($('#dg1'), a_index, 'WAY_DIV');

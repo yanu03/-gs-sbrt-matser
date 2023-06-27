@@ -8,8 +8,8 @@ $(function(){
 	$('#dg_panel1').append('<table id="dg1" class="easyui-datagrid" style="width:100%;height:100%"></table>');
 	
 	$('#dg1').datagrid({
-		view: scrollview,
-		pageSize:500,		
+		//view: scrollview,
+		//pageSize:500,		
 		url:'/al/AL0204G1R0',	//json 조회 url
 		method: 'POST',
 		queryParams: JSON.stringify({dma_search : {ALLOC_ID : ""}}),						//json 조회 params

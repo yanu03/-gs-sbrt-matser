@@ -69,26 +69,54 @@
 	$.pf_childparams = function(a_obj, a_row){
 		let rtn_params;
 		let v_f_date = $('#sch_fdd').datebox('getValue');
-		//let v_t_date = $('#sch_tdd').datebox('getValue');
-		if(a_obj.attr('id') == 'dg1') rtn_params = {ALLOC_ID : a_row.ALLOC_ID, F_DATE :v_f_date}
+		let v_t_date = $('#sch_tdd').datebox('getValue');
+		if(a_obj.attr('id') == 'dg1') rtn_params = {ALLOC_ID : a_row.ALLOC_ID, F_DATE :v_f_date, L_DATE : v_t_date}
 		return rtn_params;
 	}
-	
-	$.uf_timeRangeValid = function(a_value) {
-		let v_convertValue = $.jf_converttime(a_value); //사용자 수정값
-		
-		let v_data = $.jf_getdata($('#dg1'));
-		let sortedData = [...v_data].sort((a, b) => a.ROUT_ST_TM.localeCompare(b.ROUT_ST_TM));
-		for(var i=0; i<sortedData.length-1; i++) {
-			//if($.jf_curdgindex($('#dg1')) == i) continue;
-			if($.jf_curdgfieldvalue($('#dg1'),'SN') == sortedData[i]['SN']) continue;
-			//if(v_data[i]['ALLOC_NO'].toString() === v_allocNo.toString()) {
-				if($.jf_converttime(sortedData[i].ROUT_ST_TM) <= v_convertValue && v_convertValue < $.jf_converttime(sortedData[i+1].ROUT_ST_TM)) return false;
-			//}
-		}
-		return true;
-	}	
 
+	//배포
+	$.uf_distri = function(){
+		if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
+			if($.jf_changeddg($('#dg1'), "ALL")){
+				$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
+			}
+
+			else{
+				let v_allJson = $('#dg1').datagrid('getData');
+				if(v_allJson.rows.length > 0 ){
+					let v_weeks = ['일', '월', '화', '수', '목', '금', '토'];
+					let v_startDate = new Date($('#sch_fdd').datebox('getValue'));
+					let v_endDate = new Date($('#sch_tdd').datebox('getValue'));
+					let v_newObj = {};
+					let v_relDts = [];
+					v_jsonDatas = [];
+					while(v_startDate <= v_endDate){
+						let v_dayOfWeek = v_weeks[v_startDate.getDay()];
+						v_relDts.push(v_startDate.toISOString().split("T")[0]);
+						v_startDate.setDate(v_startDate.getDate() + 1);
+					}
+					if(v_relDts.length != 0){
+						for(var i=0; i<v_relDts.length; i++) {
+							for(var j=0; j<v_allJson.rows.length; j++) {
+								let v_newObj = {};
+								let idx = v_jsonDatas.push(v_newObj)-1;
+								v_jsonDatas[idx]['OPER_DT'] = v_relDts[i];
+								v_jsonDatas[idx]['ALLOC_ID'] = v_allJson.rows[j]['ALLOC_ID'];
+								v_jsonDatas[idx]['ALLOC_NO'] = v_allJson.rows[j]['ALLOC_NO'];
+								v_jsonDatas[idx]['WAY_DIV'] = v_allJson.rows[j]['WAY_DIV'];
+								v_jsonDatas[idx]['SEC_VHC_ID'] = v_allJson.rows[j]['SEC_VHC_ID'];
+								v_jsonDatas[idx]['SEC_TRAN_TM'] = v_allJson.rows[j]['SEC_TRAN_TM'];
+							}
+						}
+
+						let v_alertStartDate = $('#sch_fdd').datebox('getValue');
+						let v_alertEndDate = $('#sch_tdd').datebox('getValue');
+						$.tracomcfmsg('확인', '해당 차량과 운전자를 배포 하시겠습니까? ('+ v_alertStartDate + '~' + v_alertEndDate+')', 'distri');
+					}
+				}
+			}
+		}
+	}
 	</script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">
@@ -119,36 +147,21 @@
 						<div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 						</div>			
 						<!--datagrid0 -->
-						<!-- <script src="/static/js/AL/AL0305/AL0305_dg0.js"></script> -->
-						<script src="/static/js/AL/AL0203/AL0203_dg0.js"></script>
+						<script src="/static/js/AL/AL0305/AL0305_dg0.js"></script>
 					</div>
 				</div>
 				<div data-options="region:'center', border:false">
 					<div class="easyui-layout" data-options="fit:true">
 						<div data-options="region:'north', border:true, maxHeight:30, minHeight:30">
-							<div class="easyui-layout" data-options="fit:true">
-								<div data-options="region:'west', border:false, minWidth:300, maxWidth:300">
-									<div id="subsch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
-									</div>
-									<script src="/static/js/AL/AL0202/AL0202_subsch_searchbox0.js"></script>
-								</div>
-								<div data-options="region:'center', border:false">
-									<div id="subsch_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
-									</div>
-									<script src="/static/js/AL/AL0305/AL0305_fromtodate0.js"></script>
-								</div>
-								<div data-options="region:'east', border:false, minWidth:300, maxWidth:300">
-									<div id="subbtn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
-									</div>
-									<script src="/static/js/AL/AL0305/AL0305_subbtn0.js"></script>
-								</div>
+							<div id="sch_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 							</div>
-							
+							<script src="/static/js/AL/AL0305/AL0305_fromtodate0.js"></script>
 						</div>
 						<div data-options="region:'center', border:true">
 							<div id="dg_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 							</div>	
 							<!--datagrid1 -->
+							<!-- <script src="/static/js/AL0203_dg1_hidden.js"></script> -->
 							<script src="/static/js/AL/AL0305/AL0305_dg1.js"></script>
 						</div>
 					</div>
@@ -158,15 +171,12 @@
 	</div>
 </div>
 
-<div id="updatedg1">
-    <script src="/static/js/AL/AL0302/AL0302_modal0.js"></script>
-</div>
-<div id="updatedg2">
-    <script src="/static/js/AL/AL0302/AL0302_modal1.js"></script>
-</div>
-<div id="updatedg3">
-    <script src="/static/js/AL/AL0302/AL0302_modal2.js"></script>
-</div>
+<div id="1"></div>
+<div id="2"></div>
+<div id="3"></div>
+<div id="4"></div>
+<div id="5"></div>
+<div id="6"></div>
 
 </body>
 </html>

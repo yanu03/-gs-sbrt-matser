@@ -183,8 +183,9 @@ public class AL0305Service extends ServiceSupport {
 				Map data = (Map) param.get(i);
 				String rowStatus = (String) data.get("rowStatus");
 				if (rowStatus.equals("U")) {
-					uCnt += al0305Mapper.AL0305G0U0(data);
-					uCnt += al0305Mapper.AL0305G0U1(data);
+					//uCnt += al0305Mapper.AL0305G0U0(data);
+					//uCnt += al0305Mapper.AL0305G0U1(data);
+					uCnt += al0305Mapper.AL0305G0U2(data);
 					
 					/*if(data.get("OPER_DT").equals(CommonUtil.getOperDt())) {
 						sendList.add(data);

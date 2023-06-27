@@ -11,7 +11,7 @@ $(function(){
 	if(authority.SAV_AH=="Y"){
 		$('#btn_panel0').append('<a id="btn3" href="#">취소</a>');
 		$('#btn_panel0').append('<a id="btn4" href="#">저장</a>');
-		$('#btn_panel0').append('<a id="btn6" href="#">배포</a>');
+		//$('#btn_panel0').append('<a id="btn6" href="#">배포</a>');
 		$('#btn_panel0').append('<a id="btn5" href="#">닫기</a>');
 	}
 	if(authority.EXL_AH=="Y"){
@@ -36,10 +36,10 @@ $(function(){
 	    height: 24,
 	    iconCls: 'icon-clear'
 	});
-	$('#btn6').linkbutton({
+	/*$('#btn6').linkbutton({
 	    height: 24,
 	    iconCls: ''
-	});
+	});*/
 	$('#btn7').linkbutton({
 		height: 24,
 		iconCls: 'icon-excel'
@@ -76,9 +76,9 @@ $(function(){
 			$.jf_close();
 		}
 	});
-	$('#btn6').bind('click', function(){
+	/*$('#btn6').bind('click', function(){
 		$.uf_distri();
-	});
+	});*/
   $('#btn7').bind('click', function(){
 		$.jf_exceldownload($('#dg0'), '/al/AL0302G0_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
 	});

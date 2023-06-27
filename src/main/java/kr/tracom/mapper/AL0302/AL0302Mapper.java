@@ -22,7 +22,13 @@ public interface AL0302Mapper {
 	
 	public int AL0302G1I1(Map param);
 	
+	public int AL0302G1I2(Map param);
+	
+	public int AL0302G1I3(Map param);
+	
 	public int AL0302G1U0(Map param);
+	
+	public int AL0302G1D0(Map param);
 	
 	public int AL0302G1U1(Map param);
 	
