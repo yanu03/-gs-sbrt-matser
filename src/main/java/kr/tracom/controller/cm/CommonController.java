@@ -285,4 +285,18 @@ public class CommonController extends ControllerSupport {
 
 		return result.getResult();
 	}
+
+	@RequestMapping("/common/selectCommonCo_exlDownload")
+    public String selectCommonCo_exlDownload(Model model) throws Exception {
+		
+		String[] getValues = {"CO_CD", "CO_CD_NM", "SORT", "USE_YN", "REMARK"};
+		String[] headerTitle = {"공통코드", "공통코드명 ", "순서", "사용여부", "비고"};
+		
+		model.addAttribute("title", "공통코드정보");
+		model.addAttribute("headerTitle", headerTitle);
+		model.addAttribute("getValues", getValues);
+		model.addAttribute("excelList", commonService.selectCommonCo_exlDownload());
+		return "ExcelView";
+        //return new ModelAndView("ExcelView", "map", result);
+	}
 }
