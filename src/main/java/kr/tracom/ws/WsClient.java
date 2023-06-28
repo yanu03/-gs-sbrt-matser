@@ -30,13 +30,20 @@ public class WsClient {
 			short attrId = (short) wsMap.get("ATTR_ID");
 
 			switch (attrId) {
-			case BrtAtCode.BUS_INFO: // Á¤ÁÖ±â ¹ö½º Á¤º¸
+			case BrtAtCode.BUS_INFO: // ì •ì£¼ê¸° ë²„ìŠ¤ ì •ë³´
 				messagingTemplate.convertAndSend("/subscribe/vhc", wsMap);
 			break;
 			case BrtAtCode.BUS_OPER_EVENT:
 				messagingTemplate.convertAndSend("/subscribe/evt", wsMap);
 			break;
-			case BrtAtCode.BUS_ARRIVAL_INFO: 
+			
+			case BrtAtCode.DISPATCH:
+				messagingTemplate.convertAndSend("/subscribe/dispatch", wsMap);
+			break;
+
+			case BrtAtCode.BUS_ARRIVAL_INFO:
+				messagingTemplate.convertAndSend("/subscribe/arrival", wsMap);
+			break;
 			default:
 				messagingTemplate.convertAndSend("/subscribe/public", wsMap);
 			}

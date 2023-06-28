@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import kr.tracom.mapper.cm.Member.MemberMapper;
 import kr.tracom.support.ServiceSupport;
+import kr.tracom.util.CommonUtil;
 import kr.tracom.util.Sha256;
 
 
@@ -215,6 +216,18 @@ public class MemberService extends ServiceSupport{
 		Map param = getSimpleDataMap("param");
 		return memberMapper.selectZipCodeList(param);
 	}
-
-
+	
+	public List<Map> searchMemberBasic_exlDownload() throws Exception {
+		String param = (String)request.getAttribute("param");
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(CommonUtil.empty(param)){
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", "");
+		}
+		else{
+			map.put("TYPE", "ALL");
+			map.put("CONTENT", param);
+		}
+		return memberMapper.selectMemberBasic(map);
+	}
 }

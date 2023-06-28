@@ -1,20 +1,21 @@
-package kr.tracom.service.tims.handler;
+package kr.tracom.service.tims.eventHandler;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
-import kr.tracom.beans.BeanUtil;
 import kr.tracom.mapper.cm.Rout.RoutMapper;
 import kr.tracom.mapper.tims.CurInfoMapper;
 import kr.tracom.platform.attribute.BrtAtCode;
@@ -32,37 +33,29 @@ import kr.tracom.platform.net.protocol.attribute.AtMessage;
 import kr.tracom.platform.net.protocol.payload.PlCode;
 import kr.tracom.platform.net.protocol.payload.PlEventRequest;
 import kr.tracom.platform.net.protocol.payload.PlGetResponse;
-import kr.tracom.platform.service.kafka.model.KafkaMessage;
-
+import kr.tracom.service.tims.handler.OperDtUtil;
 import kr.tracom.util.CommonUtil;
 import kr.tracom.util.Constants;
 import kr.tracom.util.DataInterface;
 import kr.tracom.util.domain.LocationVO;
 import kr.tracom.ws.WsClient;
 
-public class MorEventThread extends Thread {
+@Component
+@EnableScheduling
+public class MorEventHandler{
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	private String staticVariableTime;
 
-	private ConcurrentLinkedQueue<KafkaMessage> kafkaQ = new ConcurrentLinkedQueue<>();
-	//private String sessionId;
-
-	private boolean bRunning = true;
-
-	// @Autowired
-	// HistoryMapper historyMapper;
-
-	// @Autowired
+	@Autowired
 	CurInfoMapper curInfoMapper;
 
+	@Autowired
 	RoutMapper routMapper;
 
 	// @Autowired
 	// CommonMapper commonMapper;
 
-	// @Autowired
+	@Autowired
 	WsClient webSocketClient;
 
 	// @Autowired
@@ -102,67 +95,7 @@ public class MorEventThread extends Thread {
 			logger.error("  ", e);
 		}
 	}
-	
-	public void stop(boolean bStop) {
 
-		bRunning = false;
-	}
-
-	@Override
-	public void run() {
-
-		while (bRunning) {
-
-			if (getKafkaSize() > 0)
-				logger.debug("HandleThread Running...kafkaQ.size:{}", getKafkaSize());
-
-			try {
-				KafkaMessage msg = getKafkaMessage();
-
-				if (msg != null) {
-
-					// logger.info("===================== START >> sessionId:{}", sessionId);
-
-					Map<String, Object> map = null;
-
-					String sessionId = msg.getSessionId();
-					TimsMessage timsMessage = msg.getTimsMessage();
-
-					map = handle(timsMessage, sessionId);
-
-					// 웹소켓 전송이 필요한 경우
-					if (map != null) {
-						// logger.info("webSocketClient.sendMessage before");
-						webSocketClient.sendMessage(map);
-						// logger.info("webSocketClient.sendMessage after");
-					}
-
-					// logger.info("===================== END >> sessionId:{}", sessionId);
-				}
-
-				Thread.sleep(1);
-
-			} catch (InterruptedException e) {
-				logger.error("Exception {}", e);
-			}
-		}
-
-	}
-
-	public void addKafkaMessage(KafkaMessage kafkaMessage) {
-		kafkaQ.offer(kafkaMessage);
-	}
-
-	public KafkaMessage getKafkaMessage() {
-		while (kafkaQ.peek() != null) {
-			return kafkaQ.poll();
-		}
-		return null;
-	}
-
-	public int getKafkaSize() {
-		return kafkaQ.size();
-	}
 
 	private void initNodeList() {
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -184,20 +117,17 @@ public class MorEventThread extends Thread {
 	}
 	
 	//특정 시간에 전역변수 초기화
-	private void initStaticVariableByTime() {
-		Date date = new Date();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-		if(formatter.format(date).equals(staticVariableTime)) {
-			g_busOperInfoMap.clear();
-			g_busIdMap.clear();
-			g_vhcDrInfoMap.clear();
-			g_vhcInfoMap.clear();
-			g_routMap.clear();
-			g_operEventCodeMap.clear();
-			g_operVhcSttnInfoMap.clear();
-			g_routNodeMap.clear();
-			initNodeList();
-		}
+	@Scheduled(cron = "${system.cron.init}")
+	private void initData() {
+		g_busOperInfoMap.clear();
+		g_busIdMap.clear();
+		g_vhcDrInfoMap.clear();
+		g_vhcInfoMap.clear();
+		g_routMap.clear();
+		g_operEventCodeMap.clear();
+		g_operVhcSttnInfoMap.clear();
+		g_routNodeMap.clear();
+		initNodeList();
 	}
 
 	private List<Map<String, Object>> getNodeList(Map<String, Object> eventInfo) {
@@ -829,20 +759,9 @@ public class MorEventThread extends Thread {
 			return (Map<String, Object>) g_busOperInfoMap.get(impId);
 	}
 
-	public MorEventThread(String sessionId) {
-		//this.sessionId = sessionId;
-
-		// historyMapper = (HistoryMapper) BeanUtil.getBean(HistoryMapper.class);
-		curInfoMapper = (CurInfoMapper) BeanUtil.getBean(CurInfoMapper.class);
-		// commonMapper = (CommonMapper) BeanUtil.getBean(CommonMapper.class);
-		webSocketClient = (WsClient) BeanUtil.getBean(WsClient.class);
-		routMapper = (RoutMapper) BeanUtil.getBean(RoutMapper.class);
-		// kafkaProducer = (KafkaProducer) BeanUtil.getBean(KafkaProducer.class);
-	}
-
 	// static public Map<String, Object> busInfoMap = new HashMap<>();
 
-	public Map<String, Object> handle(TimsMessage timsMessage, String sessionId) {
+	public void handle(TimsMessage timsMessage, String sessionId) {
 
 		// 웹소켓 전송이 필요한 경우 데이터 세팅
 		Map<String, Object> wsDataMap = null;
@@ -920,7 +839,7 @@ public class MorEventThread extends Thread {
 						// Map<String, Object> dataMap =busInfo.toMap();
 
 						if (setOperEventData(busInfoMap) == -1)
-							return null;
+							return ;
 
 						wsDataMap = new HashMap<>();
 						wsDataMap.put("ATTR_ID", attrId);
@@ -1084,7 +1003,7 @@ public class MorEventThread extends Thread {
 									}
 								}
 								if (setOperEventData(busEventMap) == -1)
-									return null;
+									return;
 								checkChangeBusOperInfo(busEventMap);
 							}
 							
@@ -1219,8 +1138,9 @@ public class MorEventThread extends Thread {
 							wsDataMap.put("CUR_NODE_SN", busEventMap.get("CUR_NODE_SN"));
 						}
 
-						wsDataMap.put("EVT_CODE", eventCd);
-						wsDataMap.put("EVT_TYPE", eventCdName);
+						//wsDataMap.put("EVT_CODE", eventCd);
+						wsDataMap.put("EVT_TYPE", eventCd);
+						wsDataMap.put("EVT_TYPE_NM", eventCdName);
 						wsDataMap.put("CUR_SPD", busEventMap.get("SPEED"));
 						wsDataMap.put("EVT_DATA", busEventMap.get("EVENT_DATA"));
 						wsDataMap.put("NODE_SN", busEventMap.get("NODE_SN"));
@@ -1264,7 +1184,7 @@ public class MorEventThread extends Thread {
 					try {
 						String udpDtm = dispatch.getUpdateTm().toString();
 						int msgType = (int) dispatch.getMessageType();
-						if(msgType>3)return null;
+						if(msgType>3)return ;
 						int msgLv = (int) dispatch.getMessageLevel();
 
 						// 차량정보 가져오기
@@ -1468,8 +1388,12 @@ public class MorEventThread extends Thread {
 				logger.error("Exception {}", e);
 			}
 		}
-
-		return wsDataMap;
+		// 웹소켓 전송이 필요한 경우
+		if (wsDataMap != null) {
+			// logger.info("webSocketClient.sendMessage before");
+			webSocketClient.sendMessage(wsDataMap);
+			// logger.info("webSocketClient.sendMessage after");
+		}
 	}
 
 	private int setOperEventData(Map<String, Object> operEventMap) {

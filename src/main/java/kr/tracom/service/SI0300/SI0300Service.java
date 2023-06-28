@@ -1,5 +1,6 @@
 package  kr.tracom.service.SI0300;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import kr.tracom.handler.FTPHandler;
 import kr.tracom.mapper.SI0300.SI0300Mapper;
 import kr.tracom.support.ServiceSupport;
 import kr.tracom.support.exception.MessageException;
+import kr.tracom.util.CommonUtil;
 import kr.tracom.util.Result;
 
 @Service

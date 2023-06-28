@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import kr.tracom.mapper.SM0700.SM0700Mapper;
 import kr.tracom.support.ServiceSupport;
+import kr.tracom.util.CommonUtil;
 
 @Service
 public class SM0700Service extends ServiceSupport{

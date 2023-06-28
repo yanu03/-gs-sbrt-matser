@@ -16,9 +16,15 @@ public interface OperPlanMapper {
 	//대표노선의 운행계획 리스트
 	public List<Map<String, Object>> selectPlList(Map<String, Object> params);
 	
+    //노선의 주요경유지
+	public List<Map<String, Object>> selectMainNodeList(Map<String, Object> params);
+	
     //노선의 노드목록
 	public List<Map<String, Object>> selectNodeList(Map<String, Object> params);
-
+	
+    //주요경유지 기준 운행순번에 따른 기점 출발시각, 종점 도착 시각
+	public Map<String, Object> selectRoutStEdTmByMainNode(Map<String, Object> params);
+	
     //운행순번에 따른 기점 출발시각, 종점 도착 시각
 	public Map<String, Object> selectRoutStEdTm(Map<String, Object> params);
 

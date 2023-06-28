@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import  kr.tracom.mapper.cm.Common.CommonMapper;
 import kr.tracom.mapper.tims.CurInfoMapper;
 import kr.tracom.mapper.tims.HistoryMapper;
+import kr.tracom.service.tims.eventHandler.EventThread;
+import kr.tracom.service.tims.eventHandler.MorEventThread;
 import kr.tracom.service.tims.manager.ThreadManager;
 import kr.tracom.platform.service.kafka.model.KafkaMessage;
 import kr.tracom.ws.WsClient;

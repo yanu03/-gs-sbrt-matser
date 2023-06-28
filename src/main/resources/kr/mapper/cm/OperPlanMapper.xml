@@ -81,7 +81,61 @@ ON DUPLICATE KEY UPDATE
         CALL `PROC_MAKE_OPER_ALLOC_PL_NODE_INFO`(#{COR_ID}, #{ROUT_ID}, #{DAY_DIV}, #{OPER_SN}, 1);
     </insert>
 
-
+<!-- 주요경유지 -->
+ <select id="selectMainNodeList" resultType="hashmap">
+         SELECT
+        	A.ALLOC_ID
+            , R.ROUT_GRP
+            , RG.DL_CD_NM AS ROUT_GRP_NM
+            , A.ROUT_ID
+            , AOM.DAY_DIV
+            , DD.DL_CD_NM DAY_DIV_NM
+            , A.COR_ID
+            , B.WAY_DIV
+            , WD.DL_CD_NM WAY_DIV_NM
+            , B.NODE_ID
+            , B.NODE_SN
+            , NM.NODE_TYPE
+            , NT.DL_CD_NM AS NODE_TYPE_NM
+            , A.ALLOC_NO
+            , B.LINK_ID
+            , B.ACCRU_LEN
+            , F.STOP_TM_PEAK
+            , F.STOP_TM_NONE_PEAK
+            , SUBSTRING_INDEX(B.PHASE_NO, ',', 1) AS ENT_PHASE_NO_1
+            , SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(B.PHASE_NO, ',,'), ',', 2), ',', -1) AS ENT_PHASE_NO_2
+            , SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(B.PHASE_NO, ',,'), ',', 3), ',', -1) AS ENT_PHASE_NO_3
+        	, H.SIG_CTR_TYPE
+        FROM BMS_ALLOC_OPER_MST AOM
+        	INNER JOIN BMS_OPER_ALLOC_PL_ROUT_INFO A ON AOM.ALLOC_ID = A.ALLOC_ID
+        	INNER JOIN BMS_ROUT_MST R ON A.ROUT_ID = R.ROUT_ID AND R.DEL_YN !='Y'
+        	LEFT JOIN BMS_MAIN_ROUT_NODE_INFO MRN ON A.ROUT_ID = MRN.ROUT_ID 
+            INNER JOIN BMS_ROUT_NODE_CMPSTN B ON MRN.ROUT_ID = B.ROUT_ID AND MRN.NODE_ID = B.NODE_ID AND MRN.NODE_SN = B.NODE_SN 
+            LEFT JOIN BMS_DL_CD_INFO RG ON R.ROUT_GRP = RG.DL_CD AND RG.CO_CD = 'ROUT_GRP'
+			LEFT JOIN BMS_NODE_MST NM ON B.NODE_ID =  NM.NODE_ID
+			LEFT JOIN BMS_DL_CD_INFO DD ON AOM.DAY_DIV= DD.DL_CD AND DD.CO_CD = 'DAY_DIV'
+			LEFT JOIN BMS_DL_CD_INFO WD ON B.WAY_DIV= WD.DL_CD AND WD.CO_CD = 'WAY_DIV'
+			LEFT JOIN BMS_DL_CD_INFO NT ON NM.NODE_TYPE= NT.DL_CD AND NT.CO_CD = 'NODE_TYPE'
+        	LEFT JOIN BMS_STTN_MST F ON B.STTN_ID = F.STTN_ID
+        	LEFT JOIN BMS_CRS_MST H ON B.CRS_ID = H.CRS_ID
+        WHERE B.LINK_NODE_YN = 'Y'  <!-- 정류소, 교차로 -->
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(ALLOC_ID)">
+        	AND A.ALLOC_ID
+        </if>
+       	AND A.ROUT_ID = #{ROUT_ID}
+        AND A.SN = #{SN}
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(DAY_DIV)">
+	        AND AOM.DAY_DIV = #{DAY_DIV}
+        </if>
+        <if test="@kr.tracom.util.CommonUtil@notEmpty(ST_NODE_SN)">
+            AND B.NODE_SN <![CDATA[ >= ]]> #{ST_NODE_SN}
+        </if>
+        <if test="@kr.tracom.util.CommonUtil@notEmpty(ED_NODE_SN)">
+            AND B.NODE_SN <![CDATA[ <= ]]> #{ED_NODE_SN}
+        </if>        
+        ORDER BY B.ROUT_ID, B.NODE_SN ASC;
+    </select>
+    
     <!--노드정보-->
     <select id="selectNodeList" resultType="hashmap">
          SELECT
@@ -110,8 +164,6 @@ ON DUPLICATE KEY UPDATE
         FROM BMS_ALLOC_OPER_MST AOM
         	INNER JOIN BMS_OPER_ALLOC_PL_ROUT_INFO A ON AOM.ALLOC_ID = A.ALLOC_ID
         	INNER JOIN BMS_ROUT_MST R ON A.ROUT_ID = R.ROUT_ID AND R.DEL_YN !='Y'
-        	<!-- 주요 경유지 사용시 --> <!-- LEFT JOIN BMS_MAIN_ROUT_NODE_INFO MRN ON A.ROUT_ID = MRN.ROUT_ID 
-            INNER JOIN BMS_ROUT_NODE_CMPSTN B ON MRN.ROUT_ID = B.ROUT_ID AND MRN.NODE_ID = B.NODE_ID AND MRN.NODE_SN = B.NODE_SN -->
             LEFT JOIN BMS_ROUT_NODE_CMPSTN B ON A.ROUT_ID = B.ROUT_ID 
             LEFT JOIN BMS_DL_CD_INFO RG ON R.ROUT_GRP = RG.DL_CD AND RG.CO_CD = 'ROUT_GRP'
 			LEFT JOIN BMS_NODE_MST NM ON B.NODE_ID =  NM.NODE_ID
@@ -138,6 +190,31 @@ ON DUPLICATE KEY UPDATE
         ORDER BY B.ROUT_ID, B.NODE_SN ASC;
     </select>
 
+	<!--주요경유지 기준 운행순번에 따른 기점 출발시각, 종점 도착 시각-->
+    <select id="selectRoutStEdTmByMainNode" resultType="hashmap">
+        SELECT
+            MIN(B.NODE_SN) AS FIRST_NODE_SN
+            , MAX(B.NODE_SN) AS LAST_NODE_SN
+            , R.ROUT_LEN
+            ,COUNT(CASE WHEN NM.NODE_TYPE = "NT002" THEN NODE_TYPE END) AS STTN_CNT
+            , ROUT_ST_TM
+            , ROUT_ED_TM
+        FROM BMS_ALLOC_OPER_MST AOM 
+        	INNER JOIN BMS_OPER_ALLOC_PL_ROUT_INFO A ON AOM.ALLOC_ID = A.ALLOC_ID
+        	INNER JOIN BMS_ROUT_MST R ON A.ROUT_ID = R.ROUT_ID AND R.DEL_YN !='Y'
+            LEFT JOIN BMS_MAIN_ROUT_NODE_INFO MRN ON A.ROUT_ID = MRN.ROUT_ID 
+            INNER JOIN BMS_ROUT_NODE_CMPSTN B ON MRN.ROUT_ID = B.ROUT_ID AND MRN.NODE_ID = B.NODE_ID AND MRN.NODE_SN = B.NODE_SN
+            LEFT JOIN BMS_NODE_MST NM ON B.NODE_ID =  NM.NODE_ID
+        WHERE B.LINK_NODE_YN = 'Y' AND NM.NODE_TYPE IN ("NT001","NT002")
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(ALLOC_ID)">
+        	AND A.ALLOC_ID
+        </if>
+        AND A.ROUT_ID = #{ROUT_ID} AND A.SN = #{SN}
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(DAY_DIV)">
+	        AND AOM.DAY_DIV = #{DAY_DIV}
+        </if>
+    </select>
+    
     <!--운행순번에 따른 기점 출발시각, 종점 도착 시각-->
     <select id="selectRoutStEdTm" resultType="hashmap">
         SELECT
@@ -150,8 +227,6 @@ ON DUPLICATE KEY UPDATE
         FROM BMS_ALLOC_OPER_MST AOM 
         	INNER JOIN BMS_OPER_ALLOC_PL_ROUT_INFO A ON AOM.ALLOC_ID = A.ALLOC_ID
         	INNER JOIN BMS_ROUT_MST R ON A.ROUT_ID = R.ROUT_ID AND R.DEL_YN !='Y'
-            <!-- 주요 경유지 사용시 --> <!--  LEFT JOIN BMS_MAIN_ROUT_NODE_INFO MRN ON A.ROUT_ID = MRN.ROUT_ID 
-            INNER JOIN BMS_ROUT_NODE_CMPSTN B ON MRN.ROUT_ID = B.ROUT_ID AND MRN.NODE_ID = B.NODE_ID AND MRN.NODE_SN = B.NODE_SN -->
             LEFT JOIN BMS_ROUT_NODE_CMPSTN B ON A.ROUT_ID = B.ROUT_ID
             LEFT JOIN BMS_NODE_MST NM ON B.NODE_ID =  NM.NODE_ID
         WHERE B.LINK_NODE_YN = 'Y' AND NM.NODE_TYPE IN ("NT001","NT002")
@@ -449,40 +524,28 @@ ON DUPLICATE KEY UPDATE
     	DELETE
             FROM BMS_CUR_CHG_OPER_DTL_INFO
         WHERE OPER_DT = #{OPER_DT}
-            AND ROUT_GRP = #{ROUT_GRP}
+            AND ALLOC_ID = #{ALLOC_ID}
             AND ROUT_ID = #{ROUT_ID}
             AND ALLOC_NO = #{ALLOC_NO}
             AND OPER_SN = #{OPER_SN};
     
     
-        INSERT INTO BMS_CUR_CHG_OPER_DTL_INFO
-        (
-            OPER_DT
-            ,ROUT_GRP
-            ,ROUT_ID
-            ,COR_ID
-            ,ALLOC_NO
-            ,OPER_SN
-            ,NODE_ID
-            ,NODE_SN
-            ,NODE_TYPE
-            ,DPRT_TM
-            ,ARRV_TM
-            ,OCR_DTM
-            ,UPD_DTM
-        )
+        INSERT INTO BMS_CUR_CHG_OPER_DTL_INFO( OPER_DT,ALLOC_ID,ROUT_ID
+        	,ALLOC_NO,OPER_SN,NODE_ID,NODE_SN,WAY_DIV
+        	,COR_ID,DPRT_TM,ARRV_TM,OCR_DTM,UPD_DTM )
         VALUES
         <foreach collection="ITEM_LIST" item="item" separator=",">
             (
             #{OPER_DT}
-            ,#{item.ROUT_GRP}
+            ,#{item.ALLOC_ID}
             ,#{item.ROUT_ID}
-            ,#{item.COR_ID}
             ,#{item.ALLOC_NO}
             ,#{item.OPER_SN}
             ,#{item.NODE_ID}
             ,#{item.NODE_SN}
-            ,#{item.NODE_TYPE}
+            ,#{item.SN}
+            ,#{item.WAY_DIV}
+            ,#{item.COR_ID}
             ,#{item.DPRT_TM}
             ,#{item.ARRV_TM}
             ,#{OCR_DTM}

@@ -1,4 +1,4 @@
-package kr.tracom.service.tims.handler;
+package kr.tracom.service.tims.eventHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,8 +12,11 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import kr.tracom.beans.BeanUtil;
@@ -43,32 +46,28 @@ import kr.tracom.util.CommonUtil;
 import kr.tracom.util.Constants;
 import kr.tracom.ws.WsClient;
 
-public class EventThread extends Thread {
+@Component
+@EnableScheduling
+public class EventHandler{
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	private String staticVariableTime;
-
-	private ConcurrentLinkedQueue<KafkaMessage> kafkaQ = new ConcurrentLinkedQueue<>();
-	//private String sessionId;
-
-	private boolean bRunning = true;
-
+	@Autowired
 	RoutMapper routMapper;
 	
-	// @Autowired
+	@Autowired
 	HistoryMapper historyMapper;
 
-	// @Autowired
+	@Autowired
 	CurInfoMapper curInfoMapper;
 
-	// @Autowired
+	@Autowired
 	CommonMapper commonMapper;
 
-	// @Autowired
+	@Autowired
 	WsClient webSocketClient;
 	
-	// @Autowired
+	@Autowired
 	KafkaProducer kafkaProducer;
 
 	private static Map<String, Object> g_busOperInfoMap = new HashMap<>();
@@ -81,7 +80,6 @@ public class EventThread extends Thread {
 
 	private static Map<String, Object> g_routMap = new HashMap<>();
 	
-	//private static Map<String, Object> g_operStsMap  = new HashMap<>();
 	
 	private static Map<String, Object> g_operEventCodeMap = new HashMap<>();
 	
@@ -106,79 +104,24 @@ public class EventThread extends Thread {
 			logger.error("  ", e);
 		}
 	}
-	
-	public EventThread(String sessionId) {
-		//this.sessionId = sessionId;
 
-		routMapper = (RoutMapper) BeanUtil.getBean(RoutMapper.class);
-		
-		historyMapper = (HistoryMapper) BeanUtil.getBean(HistoryMapper.class);
-		curInfoMapper = (CurInfoMapper) BeanUtil.getBean(CurInfoMapper.class);
-		commonMapper = (CommonMapper) BeanUtil.getBean(CommonMapper.class);
-		webSocketClient = (WsClient) BeanUtil.getBean(WsClient.class);
-		kafkaProducer = (KafkaProducer) BeanUtil.getBean(KafkaProducer.class);
-		staticVariableTime = BeanUtil.getProperty("server.static.variable.init.time");
-	}
-	
-	public void stop(boolean bStop) {
-		bRunning = false;
-	}
-
-	@Override
-	public void run() {
-
-		while (bRunning) {
-
-			if(getKafkaSize()>0)
-			logger.debug("HandleThread Running...kafkaQ.size:{}", getKafkaSize());
-
-			try {
-				KafkaMessage msg = getKafkaMessage();
-
-				if (msg != null) {
-
-					 //logger.info("===================== START >> sessionId:{}", sessionId);
-
-					Map<String, Object> map = null;
-
-					String sessionId = msg.getSessionId();
-					TimsMessage timsMessage = msg.getTimsMessage();
-
-					handle(timsMessage, sessionId);
-
-					 //logger.info("===================== END >> sessionId:{}", sessionId);
-					initStaticVariableByTime();
-				}
-
-				Thread.sleep(1);
-
-			} catch (InterruptedException e) {
-				logger.error("Exception {}", e);
-			}
-		}
-
-	}
 	
 	//특정 시간에 전역변수 초기화
-	private void initStaticVariableByTime() {
-		Date date = new Date();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-		if(formatter.format(date).equals(staticVariableTime)) {
-			g_busOperInfoMap.clear();
-			g_busOperEventMap.clear();
-			g_busIdMap.clear();
-			g_vhcInfoMap.clear();
-			g_routMap.clear();
-			g_operEventCodeMap.clear();
-			g_vhcOperInfo.clear();
-			g_operVhcSttnInfoMap.clear();
-			g_routNodeMap.clear();
-		}
+	@Scheduled(cron = "${system.cron.init}")
+	private void initData() {
+		g_busOperInfoMap.clear();
+		g_busOperEventMap.clear();
+		g_busIdMap.clear();
+		g_vhcInfoMap.clear();
+		g_routMap.clear();
+		g_operEventCodeMap.clear();
+		g_vhcOperInfo.clear();
+		g_operVhcSttnInfoMap.clear();
+		g_routNodeMap.clear();
+		initNodeList();
 	}
 	private void initNodeList() {
 		Map<String, Object> param = new HashMap<String, Object>();
-
-
 
 		List<Map<String, Object>> routList = routMapper.selectRoutList(param);
 		if (g_routNodeMap == null) {
@@ -636,23 +579,6 @@ public class EventThread extends Thread {
 		}
 		return vhcOperInfo;
 	}
-
-	public void addKafkaMessage(KafkaMessage kafkaMessage) {
-		kafkaQ.offer(kafkaMessage);
-	}
-
-	public KafkaMessage getKafkaMessage() {
-		while (kafkaQ.peek() != null) {
-			return kafkaQ.poll();
-		}
-		 return null;
-	}
-
-	public int getKafkaSize() {
-		return kafkaQ.size();
-	}
-
-	//static public Map<String, Object> busInfoMap = new HashMap<>();
     
 	public void handle(TimsMessage timsMessage, String sessionId) {
 		// Map<String, Object> wsDataMap = null;
@@ -717,6 +643,7 @@ public class EventThread extends Thread {
 								busInfoMap.put("ALLOC_ID", curAllocPlInfo.get("ALLOC_ID"));
 								busInfoMap.put("ALLOC_NO", curAllocPlInfo.get("ALLOC_NO"));
 								busInfoMap.put("OPER_SN", curAllocPlInfo.get("OPER_SN"));
+								busInfoMap.put("ORG_OPER_SN", curAllocPlInfo.get("ORG_OPER_SN"));
 							}
 						
 							busInfoMap.put("EVENT_CD", null);
@@ -828,10 +755,11 @@ public class EventThread extends Thread {
 							if (eventCode == (byte) 0x03 || eventCode == (byte) 0x04) {
 								String curNearStr = curInfoMapper.selectCurNearAllocOperPlByRout(busEventMap);
 								String curNearArr[] = curNearStr.split(",");
-								if(curNearArr.length==3) {
+								if(curNearArr.length==4) {
 									busEventMap.put("ALLOC_ID", curNearArr[0]);
 									busEventMap.put("ALLOC_NO", curNearArr[1]);
 									busEventMap.put("OPER_SN", curNearArr[2]);
+									busEventMap.put("ORG_OPER_SN", curNearArr[3]);
 									setVhcOperInfo(busEventMap);
 								}
 							}
@@ -840,10 +768,11 @@ public class EventThread extends Thread {
 								if(curAllocPlInfo==null) { //운행 정보를 못찾을 경우 10회가
 									String curNearStr = curInfoMapper.selectCurNearAllocOperPlByRout(busEventMap);
 									String curNearArr[] = curNearStr.split(",");
-									if(curNearArr.length==3) {
+									if(curNearArr.length==4) {
 										busEventMap.put("ALLOC_ID", curNearArr[0]);
 										busEventMap.put("ALLOC_NO", curNearArr[1]);
 										busEventMap.put("OPER_SN", curNearArr[2]);
+										busEventMap.put("ORG_OPER_SN", curNearArr[3]);
 										setVhcOperInfo(busEventMap);
 									}
 								}
@@ -851,6 +780,7 @@ public class EventThread extends Thread {
 									busEventMap.put("ALLOC_ID", curAllocPlInfo.get("ALLOC_ID"));
 									busEventMap.put("ALLOC_NO", curAllocPlInfo.get("ALLOC_NO"));
 									busEventMap.put("OPER_SN", curAllocPlInfo.get("OPER_SN"));
+									busEventMap.put("ORG_OPER_SN", curAllocPlInfo.get("ORG_OPER_SN"));
 								}
 							}
 	

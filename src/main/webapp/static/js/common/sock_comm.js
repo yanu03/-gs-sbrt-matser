@@ -72,6 +72,17 @@ $(function () {
             }
             $.jf_sockevt(v_item);
         });
+
+
+		js_client.subscribe('/subscribe/arrival', function (chat) {
+
+            var v_item = JSON.parse(chat.body);
+            if(typeof($.pf_arrival) != "undefined"){
+                if(!$.pf_arrival(v_item)) return false;
+            }
+            $.jf_arrival(v_item);
+        });
+
         js_client.subscribe('/subscribe/traffic', function (chat) {
             var item = JSON.parse(chat.body);
             // console.log(content);

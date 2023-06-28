@@ -12,6 +12,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -34,12 +35,14 @@ public class OperPlanService extends ServiceSupport {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	
 	@Autowired
 	private OperPlanMapper operPlanMapper;
 	
 	@Autowired
 	private CommonMapper commonMapper;
+	
+	@Value("${system.useMainNode}")
+	private boolean useMainNode;
 	
 	public void insertSimpleOperPlan(Map data) throws Exception {
 		String wayYn = CommonUtil.notEmpty(data.get("WAY_YN"))?(String)data.get("WAY_YN"):"";
@@ -233,7 +236,7 @@ public class OperPlanService extends ServiceSupport {
 	 * @param data
 	 * @throws Exception
 	 */
-	private List makeOperAllocPlNodeInfo(String allocId, String routId, String dayDiv, int sn, boolean bSave
+	private List makeOperAllocPlNodeInfo(String allocId, String routId, String dayDiv, int sn, int operSn, boolean bSave
 										,int stNodeSn //첫 노드 순번
 										,int edNodeSn //마지막 노드 순번
 										,int offsetTm //도착 예정시간과의 차이(초)
@@ -329,7 +332,7 @@ public class OperPlanService extends ServiceSupport {
 		String day_div;
 		String way_div;
 		int alloc_no;
-		int oper_sn;
+		//int oper_sn;
 		String node_id;
 		String course_id;
 		double node_sn;
@@ -416,7 +419,13 @@ public class OperPlanService extends ServiceSupport {
 			paramMap.put("ED_NODE_SN", edNodeSn);
 		}
 
-		List<Map<String, Object>> nodeList = operPlanMapper.selectNodeList(paramMap);
+		List<Map<String, Object>> nodeList = null; 
+		if(useMainNode==true) { //주요경유지 사용시
+			nodeList = operPlanMapper.selectMainNodeList(paramMap);
+		}
+		else {
+			nodeList = operPlanMapper.selectNodeList(paramMap);
+		}
 
 		for(Map<String, Object> nodeInfo : nodeList) {
 			double temp_node_sn = CommonUtil.stringToDouble(nodeInfo.get("NODE_SN").toString());
@@ -433,9 +442,14 @@ public class OperPlanService extends ServiceSupport {
 		}
 
 		//운행순번에 따른 기점 출발시각, 종점 도착 시각
-		Map<String, Object> routStEdTmInfo = operPlanMapper.selectRoutStEdTm(paramMap);
+		Map<String, Object> routStEdTmInfo = null; 
+		if(useMainNode==true) {
+			routStEdTmInfo = operPlanMapper.selectRoutStEdTmByMainNode(paramMap);
+		}
+		else {
+			routStEdTmInfo = operPlanMapper.selectRoutStEdTm(paramMap);
+		}
 		
-
 		route_first_node_sn = CommonUtil.stringToDouble(routStEdTmInfo.get("FIRST_NODE_SN").toString());
 		route_last_node_sn = CommonUtil.stringToDouble(routStEdTmInfo.get("LAST_NODE_SN").toString());
 		route_st_tm = String.valueOf(routStEdTmInfo.get("ROUT_ST_TM")) + ":00";
@@ -1035,6 +1049,7 @@ public class OperPlanService extends ServiceSupport {
 				insertParamMap.put("WAY_DIV", way_div);
 				insertParamMap.put("ALLOC_NO", alloc_no);
 				insertParamMap.put("SN", sn);
+				insertParamMap.put("OPER_SN", operSn);
 				insertParamMap.put("ROUT_ID", route_id);
 				insertParamMap.put("NODE_ID", node_id);
 				insertParamMap.put("NODE_SN", node_sn);
@@ -1253,7 +1268,7 @@ public class OperPlanService extends ServiceSupport {
 		List operPlList = null;
 		
 		try {
-			operPlList = makeOperAllocPlNodeInfo(allocId, routId, dayDiv, sn, bSave, 0, 0, 0, null, null, null, null, null, null, OperPlanCalc.CHG_TYPE_NONE, stopTime);
+			operPlList = makeOperAllocPlNodeInfo(allocId, routId, dayDiv, sn, 0, bSave, 0, 0, 0, null, null, null, null, null, null, OperPlanCalc.CHG_TYPE_NONE, stopTime);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1315,7 +1330,7 @@ public class OperPlanService extends ServiceSupport {
 	 * 변경운행계획 생성
 	 */
 	public List makeChgOperAllocPlNodeInfo(String allocId, String vhcId, String routId, String operDt, int operSn
-			,String stNodeId
+			, int orgOperSn,String stNodeId
 			,int stNodeSn //변경운행 //변경운행 시작 노드
 			,int offsetTm //변경운행 //도착 예정시간과의 차이(초))
 			,String timeMin //변경운행이 발생하지 않는 최소도착시각
@@ -1331,7 +1346,7 @@ public class OperPlanService extends ServiceSupport {
 			
 			String dayDiv = operPlanMapper.selectDayDiv(operDt);
 			
-			chgPlList = makeOperAllocPlNodeInfo(allocId, routId, dayDiv, operSn, false, stNodeSn, 0, offsetTm, timeMin, timeMax, null, null, null, null, OperPlanCalc.CHG_TYPE_CHG_OPER, 0);
+			chgPlList = makeOperAllocPlNodeInfo(allocId, routId, dayDiv, orgOperSn, operSn, false, stNodeSn, 0, offsetTm, timeMin, timeMax, null, null, null, null, OperPlanCalc.CHG_TYPE_CHG_OPER, 0);
 			
 			if(bSave) {
 				
@@ -1342,16 +1357,18 @@ public class OperPlanService extends ServiceSupport {
 		            Map<String, Object> insertMap = new HashMap<>();
 		            
 		            insertMap.put("VHC_ID", vhcId);
+		            insertMap.put("ALLOC_ID", allocId);
 		            insertMap.put("OCR_NODE_ID", stNodeId);
 		            insertMap.put("OPER_DT", operDt);
 		            insertMap.put("ROUT_GRP", chgInfo.get("ROUT_GRP"));
 		            insertMap.put("ROUT_ID", routId);
 		            insertMap.put("ALLOC_NO", chgInfo.get("ALLOC_NO"));
 		            insertMap.put("OPER_SN", operSn);
+		            insertMap.put("SN", orgOperSn);
 		            insertMap.put("OCR_DTM", Instant.now(Clock.systemUTC()));
 		            insertMap.put("VHC_ID", vhcId);
 		            insertMap.put(Constants.UPD_DTM, Instant.now(Clock.systemUTC()));
-		            operPlanMapper.insertChgOperInfo(insertMap);
+		            //operPlanMapper.insertChgOperInfo(insertMap);
 		            
 	
 		            //리스트 한 번에 insert
@@ -1468,7 +1485,7 @@ public class OperPlanService extends ServiceSupport {
 				}
 				
 				
-				operPlList = makeOperAllocPlNodeInfo(null, routId, dayDiv, operSn, bSave,
+				operPlList = makeOperAllocPlNodeInfo(null, routId, dayDiv, operSn, 0, bSave,
 						stNodeSn, edNodeSn,
 						0, null, null, 
 						stNodeArrvTm, stNodeDprtTm, edNodeArrvTm, edNodeDprtTm, OperPlanCalc.CHG_TYPE_MODIFY, 0);				
@@ -1513,7 +1530,7 @@ public class OperPlanService extends ServiceSupport {
 					return null;
 				}
 				
-				operPlList = makeOperAllocPlNodeInfo(null, routId, dayDiv, operSn, bSave,
+				operPlList = makeOperAllocPlNodeInfo(null, routId, dayDiv, operSn, 0, bSave,
 						stNodeSn, edNodeSn,
 						0, null, null, 
 						stNodeArrvTm, stNodeDprtTm, edNodeArrvTm, edNodeDprtTm, OperPlanCalc.CHG_TYPE_MODIFY, 0);
