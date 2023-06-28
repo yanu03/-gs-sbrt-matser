@@ -148,7 +148,7 @@
 			VHC_ID : a_data.VHC_ID,
 			VHC_NO : a_data.VHC_NO,
 			OCR_DTM : $.jf_gettime(),
-			EVT_TYPE : a_data.EVT_TYPE,
+			EVT_TYPE_NM : a_data.EVT_TYPE_NM,
 			EVT_DATA : v_eventMessage
 		}
 		$.jf_insert($('#dg1'), v_params, 0);
