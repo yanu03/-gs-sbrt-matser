@@ -62,13 +62,34 @@
 
 	//소켓 통신용 pf
 	$.pf_sockdispatch = function(a_data) {
+		let dsptchMessage = "";
+		if(a_data['MESSAGE'].split('｜').length>0) dsptchMessage = dsptchConts.split('｜')[0];
+		else dsptchMessage = a_data['MESSAGE'];
+		
+		//디스패치가 일반메시지가 아닐경우
+		if(parseInt(dsptchMessage) != "undefined" && a_data.DSPTCH_DIV != "DP001"){
+			if(Math.abs(parseInt(dsptchMessage) >= 60)) {
+				 min = Math.abs(parseInt(dsptchMessage/60)) + "분 ";
+			}
+			 sec = Math.abs(parseInt(dsptchMessage%60)) + "초 ";
+			 
+			//운행중 디스패치일 경우 
+			 if(dsptchDiv == "DP002") {
+					if(dsptchKind == "DK001") contsResult = mapOption.DISPATCH_MSG_NORMAL;
+					else if(dsptchKind == "DK002") contsResult = min + sec + "느림";
+					else if(dsptchKind == "DK003") contsResult = min + sec + "빠름";
+				}
+			//정차중 디스패치일 경우
+			 else if(dsptchDiv == "DP003") contsResult = "정류장 정차 : " + min + sec;
+		}
+		
 		let v_params = {
 			//직접 통신하여 현재 변수명이 다름. kafka 연결후 수정해야함.
 			SEND_DATE : $.jf_gettime(),
 			ROUT_NM : a_data.ROUT_NM,
-			// VHC_NO : a_data.VHC_NO,
-			VHC_NO : a_data.BUS_NO,
-			DSPTCH_DIV : a_data.DSPTCH_DIV,
+			VHC_NO : a_data.VHC_NO,
+			//VHC_NO : a_data.BUS_NO,
+			DSPTCH_DIV_NM : a_data.DSPTCH_DIV_NM,
 			// DSPTCH_CONTS : a_data.DSPTCH_CONTS,
 			DSPTCH_CONTS : a_data.DISPATCH,
 		};
