@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import kr.tracom.platform.net.protocol.TimsMessage;
 import kr.tracom.platform.net.protocol.TimsPayload;
 import kr.tracom.platform.net.protocol.payload.PlCode;
+import kr.tracom.platform.service.config.KafkaTopics;
 import kr.tracom.platform.service.kafka.model.KafkaMessage;
 import kr.tracom.service.tims.handler.ActionRequest;
 import kr.tracom.service.tims.handler.ActionResponse;
@@ -145,7 +146,7 @@ public class KafkaConsumer {
     
     
     
-    /*@KafkaListener(topics = {KafkaTopics.T_COMMUNICATION})*/
+    @KafkaListener(topics = {KafkaTopics.T_COMMUNICATION})
     public void processCommuicationMsg(ConsumerRecord<String, KafkaMessage> record) throws Exception {
     
     	/* Communication 으로 가는것도 필요에 따라 처리해야함 */

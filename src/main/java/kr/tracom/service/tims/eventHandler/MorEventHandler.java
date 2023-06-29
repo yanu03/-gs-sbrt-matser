@@ -1176,7 +1176,9 @@ public class MorEventHandler{
 					String vhcId = "";
 					String vhcNo = "";
 					String dpDiv = "";
+					String dpDivNM = "";
 					String dpLv = "";
+					String dpLvNM = "";
 					String drvId = "";
 
 					logger.debug("디스패치 수신. {}", dispatch);
@@ -1222,10 +1224,12 @@ public class MorEventHandler{
 						Map<String, Object> divMap = getCommonCode("DISPATCH_DIV", "TXT_VAL1", msgType + "");
 						if (divMap != null) {
 							dpDiv = (String) divMap.get("DL_CD");
+							dpDivNM = (String) divMap.get("DL_CD_NM");
 						}
 						Map<String, Object> kindMap = getCommonCode("DISPATCH_KIND", "TXT_VAL1", msgLv + "");
 						if (kindMap != null) {
 							dpLv = (String) kindMap.get("DL_CD");
+							dpLvNM = (String) kindMap.get("DL_CD_NM");
 						}
 
 						HashMap<String, Object> dispatchLog = new HashMap<String, Object>(curInfo);
@@ -1255,8 +1259,10 @@ public class MorEventHandler{
 							wsDataMap.put("ROUT_ID", routId);
 							wsDataMap.put("ROUT_NM", routNm);
 							wsDataMap.put("DSPTCH_DIV", dpDiv);
+							wsDataMap.put("DSPTCH_DIV_NM", dpDivNM);
 
 							wsDataMap.put("DSPTCH_KIND", dpLv);
+							wsDataMap.put("DSPTCH_KIND_NM", dpLvNM);
 							wsDataMap.put("GPS_X", curInfo.get("GPS_X"));
 							wsDataMap.put("GPS_Y", curInfo.get("GPS_Y"));
 							wsDataMap.put("MESSAGE", dispatch.getMessage());

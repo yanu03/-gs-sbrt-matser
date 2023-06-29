@@ -67,7 +67,7 @@
 			SEND_DATE : $.jf_gettime(),
 			ROUT_NM : a_data.ROUT_NM,
 			// VHC_NO : a_data.VHC_NO,
-			VHC_NO : a_data.BUS_NO,
+			VHC_NO : a_data.VHC_NO,
 			DSPTCH_DIV : a_data.DSPTCH_DIV,
 			// DSPTCH_CONTS : a_data.DSPTCH_CONTS,
 			DSPTCH_CONTS : a_data.DISPATCH,
