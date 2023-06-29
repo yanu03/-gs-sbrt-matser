@@ -18,7 +18,7 @@ $(function(){
 	border: false,
 	loadMsg: '데이터 로딩중입니다',
 	emptyMsg: '데이터가 없습니다',
-	rownumbers: true,
+	rownumbers: false,
 	showFooter: true,
 	columns:[[
 			{field:'OPER_DT',title:'운행일',width:100,halign:'center',align:'center',hidden:true},
@@ -88,15 +88,17 @@ $(function(){
 		        });
 		
 		        $(stroutnmEditor.target).textbox('textbox').bind('click', function(e) {
-					let v_allocNoEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ALLOC_NO'});
-					let v_allocNo = $(v_allocNoEditor.target).textbox('getText');
-					if(v_allocNo == ""){
-						$.tracomalmsg('정보', '배차번호를 먼저 입력해야 합니다.', null);
+					let v_vhcId = $.jf_curdgfieldvalue($('#dg1'), 'VHC_ID');
+					let v_drvId = $.jf_curdgfieldvalue($('#dg1'), 'DRV_ID');
+					if(!$.jf_isempty(v_vhcId) || !$.jf_isempty(v_drvId)) {
+						$.tracomcfmsg('확인', '차량, 운전자가 초기화 됩니다. 계속 진행 하시겠습니까?', 'routchange');
 						return false;
-					}
-					
+					}			
+			
+					let v_allocNo = $.jf_curdgfieldvalue($('#dg1'), 'ALLOC_NO');
 					let v_allocId = $.jf_curdgfieldvalue($('#dg0'), 'ALLOC_ID');
-					let v_values = {ALLOC_ID:v_allocId, ALLOC_NO:v_allocNo , ST_ROUT_ID: null, ST_ROUT_NM : null, ST_OPER_SN : null, ROUT_ST_TM : null};
+					let v_values = {ALLOC_ID:v_allocId, ALLOC_NO:v_allocNo , ST_ROUT_ID: null, ST_ROUT_NM : null, ST_OPER_SN : null, ROUT_ST_TM : null
+									,ROUT_GRP:null, WAY_DIV:null};
 					$.mf_updatedg1mdopen($('#dg1'), null, v_values, $('#dg1'), 'c');
 		        });
 				

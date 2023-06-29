@@ -1,10 +1,11 @@
 ﻿$(function(){
+	var jv_cbclick = true;
 	
 	$('#updatedg1').append('<div id="updatedg1_layout0"></div>');
 	
 	$('#updatedg1').window({
 	    title:'시작노선검색',
-	    width:700,
+	    width:900,
 	    height:400,
 	    collapsible:false,
 	    minimizable:false,
@@ -48,16 +49,50 @@
 			minHeight:50
 	});
 	
+	$('#updatedg1_layout0').layout('panel','north').append('<input id="updatedg1_cb0" class="tracom-combobox"></input>');
 	$('#updatedg1_layout0').layout('panel','north').append('<input id="updatedg1_sb0"></input>');
 	
 	$('#updatedg1_sb0').searchbox({
 		width:200,
 		height:22,
-		prompt:'노선명',
+		prompt:'노선ID 또는 노선명',
 	    searcher:function(value, name){
-				let v_params = {TYPE:'ROUT_NM',CONTENT:value};
-				$.jf_retrieve($('#updatedg1_dg0'), v_params);
+			let v_idx = $.jf_fndmdstrct("updatedg1");
+			let v_values = js_mdstrct[v_idx].values;
+			let v_params = {CONTENT:value,ALLOC_ID:v_values.ALLOC_ID ,ALLOC_NO:v_values.ALLOC_NO};
+			$.jf_retrieve($('#updatedg1_dg0'), v_params);
 	    }
+	});
+	
+	$('#updatedg1_cb0').combobox({
+		width: 200,
+		height: 24,
+		editable: false,
+		url: '/al/AL0302SHI0',
+		method: 'post',
+		//queryParams: JSON.stringify({"dma_search" : {"ALLOC_ID" : $.jf_curdgfieldvalue($('#dg0'), 'ALLOC_ID')}}),
+		valueField: 'ALLOC_NO',
+		textField: 'ALLOC_NO_NM',
+		label: '배차번호 : ',
+		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)},
+		onBeforeLoad: function(param){
+			if(Object.keys(param).length < 1) return false;
+		},
+		loadFilter: function(data) {
+			var allItem = {};
+			allItem['ALLOC_NO'] = ''; // 사용할 수 있는 고유한 값
+			allItem['ALLOC_NO_NM'] = '전체'; // 표시되는 텍스트
+
+			// 새 항목을 데이터 배열의 처음에 추가
+			data.unshift(allItem);
+			return data;
+		},
+		onChange: function(newValue, oldValue) {
+			if(jv_cbclick) {
+				let v_params = {ALLOC_ID:$.jf_curdgfieldvalue($('#dg0'), 'ALLOC_ID'), ALLOC_NO:newValue};	//data params
+				$.jf_retrieve($('#updatedg1_dg0'), v_params);
+			}
+		}
 	});
 		
 	$('#updatedg1_layout0').layout('panel','south').append('<a id="updatedg1_btn0" href="#">선택</a><a id="updatedg1_btn1" href="#">닫기</a>');
@@ -95,10 +130,13 @@
 		rownumbers: true,
 		showFooter: true,
     columns:[[
+		{field:'ALLOC_NO',title:'배차번호',width:100,halign:'center',align:'center',hidden:false},
         {field:'ALLOC_ID',title:'배차ID',width:100,halign:'center',align:'center', hidden:true},
         {field:'ST_ROUT_ID',title:'노선ID',width:100,halign:'center',align:'center'},
         {field:'ST_ROUT_NM',title:'노선명',width:200,halign:'center',align:'left'},
-		{field:'WAY_DIV',title:'상하행',width:100,align:'center',halign:'center',hidden:'true'},
+		{field:'ROUT_GRP',title:'노선그룹',width:100,align:'center',halign:'center',hidden:true},
+		{field:'ROUT_GRP_NM',title:'노선그룹',width:100,align:'center',halign:'center'},
+		{field:'WAY_DIV',title:'상하행',width:100,align:'center',halign:'center',hidden:true},
 		{field:'WAY_DIV_NM',title:'상하행',width:100,align:'center',halign:'center'},
         {field:'ST_OPER_SN',title:'노선순번',width:50,halign:'center',align:'right',hidden:true},
         {field:'ROUT_ST_TM',title:'출발시간',width:120,halign:'center',align:'center'},
@@ -133,11 +171,23 @@
 
 	/*modal page 함수*/	
 	$.mf_updatedg1mdopen = function(a_obj, a_form, a_values, a_rtnobj, a_type){
+		
 		let v_win = $('#updatedg1');
 		$.jf_modmdstrct(v_win, a_obj, a_form, a_values, a_rtnobj, a_type);
 		//let v_params = {CONTENT:a_values.COMP_NM};	//data params
+		
+		v_queryParams = JSON.stringify({dma_search : {"ALLOC_ID" : $.jf_curdgfieldvalue($('#dg0'), 'ALLOC_ID')}});
+		$('#updatedg1_cb0').combobox({queryParams: v_queryParams});
 		let v_params = {ALLOC_ID:a_values.ALLOC_ID, ALLOC_NO:a_values.ALLOC_NO};	//data params
 		$('#updatedg1_sb0').searchbox('setValue', a_values.ROUT_NM);
+		if(!$.jf_curdgfieldvalue($('#dg1'), 'isNew') && !$.jf_isempty(a_values.ALLOC_NO) ){
+			jv_cbclick = false;
+			$('#updatedg1_cb0').combobox('setValue', a_values.ALLOC_NO);
+			jv_cbclick = true;
+			$('#updatedg1_cb0').combobox('disable')
+		} else{
+			$('#updatedg1_cb0').combobox('enable')
+		}
 		$.jf_retrieve($('#updatedg1_dg0'), v_params)
 		v_win.window('open');  // open a window
 	}
@@ -157,12 +207,10 @@
 			});
 		});
 		
-		//시간 겹칠때 같은 노선 OR 같은 차량, 같은 운전자면 return false
-		if(!$.uf_timeRangeValid(v_values.ROUT_ST_TM)) {
-			if($.jf_dupcheck($('#dg1'), 'ST_ROUT_ID', v_values.ST_ROUT_ID)){
-				$.tracomalmsg('정보', '시간이 겹치는 노선입니다.', null);
-				return false;
-			}
+		//시간 겹칠때 같은 노선이면 return false
+		if(!$.uf_routTimeRangeValid(v_values)) {
+			$.tracomalmsg('정보', '시간이 겹치는 노선입니다.', null);
+			return false;
 		}		
 				
 		let v_obj = js_mdstrct[v_idx].datagrid;

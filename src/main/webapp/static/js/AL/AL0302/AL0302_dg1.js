@@ -20,7 +20,8 @@ $(function(){
 		multiSort: true,
 		remoteSort: false,
 		columns:[[
-			{field:'ALLOC_NO',title:'배차번호',width:100,halign:'center',align:'center',editor:{type:'numberbox',options:{required:true,min:0,max:100}}},
+			//{field:'ALLOC_NO',title:'배차번호',width:100,halign:'center',align:'center',editor:{type:'numberbox',options:{required:true,min:0,max:100}}},
+			{field:'ALLOC_NO',title:'배차번호',width:100,halign:'center',align:'center'},
 			{field:'SN',title:'순번',width:100,halign:'center',align:'center',hidden:true},
 			{field:'ROUT_ST_TM',title:'출발시간',width:120,halign:'center',align:'center'},
 			{field:'ST_ROUT_ID',title:'시작노선ID',width:100,halign:'center',align:'center',hidden:true},
@@ -28,7 +29,9 @@ $(function(){
 			{field:'VHC_ID',title:'차량ID',width:100,halign:'center',align:'center',hidden:true},
 			{field:'VHC_NO',title:'차량번호',width:200,halign:'center',align:'left',editor:{type:'textbox',options:{required:true}}},
 			{field:'DRV_ID',title:'운전자ID',width:100,halign:'center',align:'center',hidden:true},
-			{field:'DRV_NM',title:'운전자명',width:150,halign:'center',align:'left',editor:{type:'textbox',options:{required:true}}},
+			{field:'DRV_NM',title:'운전자명',width:150,halign:'center',align:'center',editor:{type:'textbox',options:{required:true}}},
+			{field:'ROUT_GRP',title:'노선그룹',width:100,halign:'center',align:'center',hidden:true},
+			{field:'WAY_DIV',title:'상하행',width:100,halign:'center',align:'center',hidden:true},
 			{field:'blank',title:'',width:730,halign:'center',align:'left'},
 			{field:'ST_NODE_ID',title:'시작노드ID',width:100,halign:'center',align:'left',hidden:true},
 			{field:'ST_OPER_SN',title:'시작운행순번',width:100,halign:'center',align:'left',hidden:true},
@@ -70,13 +73,13 @@ $(function(){
 			},
 			onBeforeEdit: function(index,row){},
 			onBeginEdit: function(index,row){
-		        if (!row.isNew) {
+		       /* if (!row.isNew) {
 		            var ed = $(this).datagrid('getEditor', {
 		                index: index,
 		                field: 'ALLOC_NO'
 		            });
 		            $(ed.target).textbox('readonly', true);  // make the editor readonly
-		        }				
+		        }	*/			
 				
 				//cell edit onclick 이벤트
 		        let stroutnmEditor = $(this).datagrid('getEditor', {
@@ -95,19 +98,35 @@ $(function(){
 		        });
 		
 		        $(stroutnmEditor.target).textbox('textbox').bind('click', function(e) {
-					let v_allocNoEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ALLOC_NO'});
-					let v_allocNo = $(v_allocNoEditor.target).textbox('getText');
-					if(v_allocNo == ""){
-						$.tracomalmsg('정보', '배차번호를 먼저 입력해야 합니다.', null);
+					//let v_allocNoEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ALLOC_NO'});
+					//let v_allocNo = $(v_allocNoEditor.target).textbox('getText');
+					let v_vhcId = $.jf_curdgfieldvalue($('#dg1'), 'VHC_ID');
+					let v_drvId = $.jf_curdgfieldvalue($('#dg1'), 'DRV_ID');
+					if(!$.jf_isempty(v_vhcId) || !$.jf_isempty(v_drvId)) {
+						$.tracomcfmsg('확인', '차량, 운전자가 초기화 됩니다. 계속 진행 하시겠습니까?', 'routchange');
 						return false;
 					}
 					
+					let v_allocNo = $.jf_curdgfieldvalue($('#dg1'), 'ALLOC_NO');
+					/*if(v_allocNo == ""){
+						$.tracomalmsg('정보', '배차번호를 먼저 입력해야 합니다.', null);
+						return false;
+					}*/
+					if($.jf_curdgfieldvalue($('#dg1'), 'isNew')){
+						v_allocNo = null;
+					}
+					
 					let v_allocId = $.jf_curdgfieldvalue($('#dg0'), 'ALLOC_ID');
-					let v_values = {ALLOC_ID:v_allocId, ALLOC_NO:v_allocNo , ST_ROUT_ID: null, ST_ROUT_NM : null, ST_OPER_SN : null, ROUT_ST_TM : null};
+					let v_values = {ALLOC_ID:v_allocId, ALLOC_NO:v_allocNo , ST_ROUT_ID: null, ST_ROUT_NM : null, ST_OPER_SN : null, ROUT_ST_TM : null
+									,ROUT_GRP:null, WAY_DIV:null};
 					$.mf_updatedg1mdopen($('#dg1'), null, v_values, $('#dg1'), 'c');
 		        });
 				
 		        $(vhcnoEditor.target).textbox('textbox').bind('click', function(e) {
+					if($.jf_isempty($.jf_curdgfieldvalue($('#dg1'),'ST_ROUT_ID'))) {
+						$.tracomalmsg('정보', '운행노선을 먼저 설정해야 합니다.', null);
+						return false;
+					}			
 					let v_vhcNoEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'VHC_NO'});
 					let v_vhcNo = $(v_vhcNoEditor.target).textbox('getText');
 					
@@ -117,6 +136,10 @@ $(function(){
 		        });
 				
 		        $(drvnmEditor.target).textbox('textbox').bind('click', function(e) {
+					if($.jf_isempty($.jf_curdgfieldvalue($('#dg1'),'ST_ROUT_ID'))) {
+						$.tracomalmsg('정보', '운행노선을 먼저 설정해야 합니다.', null);
+						return false;
+					}
 					let v_drvNmEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'DRV_NM'});
 					let v_drvNm = $(v_drvNmEditor.target).textbox('getText');
 					

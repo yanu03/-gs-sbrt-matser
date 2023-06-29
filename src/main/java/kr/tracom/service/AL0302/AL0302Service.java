@@ -35,6 +35,11 @@ public class AL0302Service extends ServiceSupport {
 		return al0302Mapper.AL0302G0R0(map);
 	}
 	
+	public List AL0302SHI0() throws Exception{
+		Map param = getSimpleDataMap("dma_search");		
+		return al0302Mapper.AL0302SHI0(param);
+	}
+	
 	public List AL0302SHI1() throws Exception{
 		Map param = getSimpleDataMap("dma_search");		
 		return al0302Mapper.AL0302SHI1(param);

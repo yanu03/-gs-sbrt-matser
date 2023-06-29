@@ -79,8 +79,12 @@ const mapOption = {
 	POLYGON_MOUSE_OVER_COLOR : "#EFFFED", //마우스 오버시 내부 HEX color값
 	POLYGON_MOUSE_OVER_OPACITY : 0.8, //마우스 오버시 내부 불투명도
 	POLYGON_MOUSE_OUT_COLOR : "#A2FF99", //마우스 오버시 내부 HEX color값
-	POLYGON_MOUSE_OUT_OPACITY : 0.7 //마우스 오버시 내부 HEX color값
-	//================================색깔, 크기 관련 end===============================================		
+	POLYGON_MOUSE_OUT_OPACITY : 0.7, //마우스 오버시 내부 HEX color값
+	//================================색깔, 크기 관련 end===============================================
+	//================================디스패치 관련 start===============================================
+	DISPATCH_MSG_NORMAL : "정상 운행중입니다."
+	//================================디스패치 관련 end=================================================
+			
 }
 
 var js_map;
@@ -342,8 +346,8 @@ $.jf_adddsptchoverlay = function(a_data) {
 	v_dsptchMsg += '<div class="dsptchMessagePopup clickoverlay" id="busInfoPopup" style="position: absolute;"><div class="map_layer bustraffic" style="left: 0px;top: 10px;z-index:10000000;">'
 	v_dsptchMsg += '<a href="javascript:void(0)" id="busInfo-closer" class="close"><span class="blind">닫기</span></a>'
 	v_dsptchMsg += '<div id="popup-content">'
-	// v_dsptchMsg += '<div class="tit"><span style="margin-right: 40px; word-wrap:break-word; white-space: normal;"><strong>'+a_data.VHC_NO+'</strong></span></div>' 
-	v_dsptchMsg += '<div class="tit"><span style="margin-right: 40px; word-wrap:break-word; white-space: normal;"><strong>'+a_data.BUS_NO+'</strong></span></div>' 
+	v_dsptchMsg += '<div class="tit"><span style="margin-right: 40px; word-wrap:break-word; white-space: normal;"><strong>'+a_data.VHC_NO+'</strong></span></div>' 
+	//v_dsptchMsg += '<div class="tit"><span style="margin-right: 40px; word-wrap:break-word; white-space: normal;"><strong>'+a_data.BUS_NO+'</strong></span></div>' 
 	v_dsptchMsg += '<div class="content">' 
 	v_dsptchMsg += '<div class="trafficInfor">' 
 	v_dsptchMsg += '<table class="tby03">' 
@@ -366,13 +370,13 @@ $.jf_adddsptchoverlay = function(a_data) {
 	v_dsptchMsg += '</div> </div>'
 	v_dsptchMsg += '</div></div>'				
 
-	// if(!$.jf_isempty(a_data['VHC_ID'])) marker = $.jf_fndmkstrct(a_data.VHC_ID);
-	if(!$.jf_isempty(a_data['IMP_ID'])) marker = $.jf_fndmkstrct(a_data.IMP_ID);
+	if(!$.jf_isempty(a_data['VHC_ID'])) marker = $.jf_fndmkstrct(a_data.VHC_ID);
+	//if(!$.jf_isempty(a_data['IMP_ID'])) marker = $.jf_fndmkstrct(a_data.IMP_ID);
 	overlay = new kakao.maps.CustomOverlay({
 		content : v_dsptchMsg,
 		//position : marker.getPosition(),
-		//position : new kakao.maps.LatLng(a_data.GPS_Y, a_data.GPS_X),
-		position : new kakao.maps.LatLng(36.46913, 127.27398), //미완성, 현재 테스트중 GPS값 들어오지 않음, kafka붙이면 실제 데이터로 변경해야함
+		position : new kakao.maps.LatLng(a_data.GPS_Y, a_data.GPS_X),
+		//position : new kakao.maps.LatLng(36.46913, 127.27398), //미완성, 현재 테스트중 GPS값 들어오지 않음, kafka붙이면 실제 데이터로 변경해야함
 		zIndex : zIndex,
 	})		
 	overlay.id = a_data.VHC_ID+'_dsptch';

@@ -149,14 +149,23 @@
 					}
 			});
 		});
-		debugger;
-		//시간 겹칠때 같은 노선 OR 같은 차량, 같은 운전자면 return false
+		/*//시간 겹칠때 같은 노선 OR 같은 차량, 같은 운전자면 return false
 		if(!$.uf_timeRangeValid($.jf_curdgfieldvalue($('#dg1'), 'ROUT_ST_TM'))) {
 			if($.jf_dupcheck($('#dg1'), 'VHC_ID', v_values.VHC_ID)){
 				$.tracomalmsg('정보', '시간이 겹치는 차량입니다.', null);
 				return false;
 			}
-		}		
+		}*/
+		
+		if(!$.uf_dupValid($('#updatedg2_dg0'), 'VHC_ID')){
+			$.tracomalmsg('정보', '현재 입력된 차량입니다.', null);
+			return false;
+		}
+		
+		if(!$.uf_fieldTimeRangeValid($.jf_curdgfieldvalue($('#dg1'), 'ROUT_ST_TM'), $('#updatedg2_dg0'), 'VHC_ID')) {
+			$.tracomalmsg('정보', '시간이 겹치는 차량입니다.', null);
+			return false;
+		}				
 		
 		let v_obj = js_mdstrct[v_idx].datagrid;
 		$('#'+v_obj).datagrid('updateRow',{index:$.jf_curdgindex($('#dg1')), row:v_values})

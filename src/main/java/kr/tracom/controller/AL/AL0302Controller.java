@@ -44,6 +44,12 @@ public class AL0302Controller extends ControllerSupport {
 		return result.getResultSave();
 	}
 	
+	@RequestMapping("/al/AL0302SHI0")
+	public @ResponseBody Map<String, Object> AL0302SHI0() throws Exception {
+		result.setData("rows", al0302Service.AL0302SHI0());
+		return result.getResult();
+	}
+	
 	@RequestMapping("/al/AL0302SHI1")
 	public @ResponseBody Map<String, Object> AL0302SHI1() throws Exception {
 		result.setData("rows", al0302Service.AL0302SHI1());

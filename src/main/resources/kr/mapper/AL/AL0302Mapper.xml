@@ -65,6 +65,14 @@
 		ORDER BY A.ALLOC_ID, A.DAY_DIV
 </select>
 
+<select id="AL0302SHI0" resultType="Map">
+		SELECT 			ALLOC_NO
+					,	ALLOC_NO ALLOC_NO_NM <!-- combobox에 '전체'쓰기 위함 -->
+		FROM 			BMS_OPER_ALLOC_PL_ROUT_INFO
+		WHERE			ALLOC_ID = #{ALLOC_ID}
+		GROUP BY 		ALLOC_NO
+</select>
+
 <select id="AL0302SHI1" resultType="Map">
 		SELECT			DAY_DIV
 		FROM			BMS_OPER_PL_MST
@@ -73,7 +81,7 @@
 				ALLOC_ID = #{CONTENT1}	
 			</if>
 		</where>
-	</select>
+</select>
 
 <select id="AL0302G1R0" resultType="Map">
 	SELECT B.ALLOC_ID
@@ -88,6 +96,8 @@
 	       ,B.DRV_ID
 	       ,B.ST_ROUT_ID
 	       ,H.ROUT_NM ST_ROUT_NM
+	       ,H.ROUT_GRP
+	       ,H.WAY_DIV
 	       ,B.ST_NODE_ID
 	       ,B.ST_OPER_SN
 	       ,B.ED_ROUT_ID
@@ -135,7 +145,7 @@
 	<!-- GROUP BY
 		A.ALLOC_NO -->
 	ORDER BY
-		B.ALLOC_NO
+		B.ALLOC_NO, STR_TO_DATE(A.ROUT_ST_TM, '%H:%i')
 </select>
 
 <update id="AL0302G1U0" parameterType="Map">
@@ -397,23 +407,34 @@
 
 <select id="AL0302P0R0" resultType="Map">
 	SELECT 			A.ALLOC_ID
+				,	A.ALLOC_NO
 				,	A.SN		AS ST_OPER_SN
 				,	A.ROUT_ID	AS ST_ROUT_ID
 				,	B.ROUT_NM	AS ST_ROUT_NM
 				,	A.ROUT_ST_TM
 				,	A.ROUT_ED_TM
+				,	B.ROUT_GRP
+				,	RG.DL_CD_NM AS ROUT_GRP_NM
 				,	B.WAY_DIV
-				,	DD.DL_CD_NM	AS WAY_DIV_NM
+				,	WD.DL_CD_NM	AS WAY_DIV_NM
 				
 	FROM			BMS_OPER_ALLOC_PL_ROUT_INFO A
 	LEFT JOIN		BMS_ROUT_MST	B
 	ON				A.ROUT_ID = B.ROUT_ID
-	LEFT JOIN		BMS_DL_CD_INFO	DD
-	ON				B.WAY_DIV = DD.DL_CD
-	AND				DD.CO_CD = 'WAY_DIV'
+	LEFT JOIN		BMS_DL_CD_INFO	WD
+	ON				B.WAY_DIV = WD.DL_CD
+	AND				WD.CO_CD = 'WAY_DIV'
+	LEFT JOIN		BMS_DL_CD_INFO  RG
+	ON				B.ROUT_GRP = RG.DL_CD
+	AND				RG.CO_CD = 'ROUT_GRP'
 		
 	WHERE			A.ALLOC_ID = #{ALLOC_ID}
-	AND				A.ALLOC_NO = #{ALLOC_NO}
+	<if test= "ALLOC_NO != null and ALLOC_NO != ''">
+		AND			A.ALLOC_NO = #{ALLOC_NO}
+	</if>
+	<if test= "CONTENT != null and CONTENT != ''">
+		AND			B.ROUT_NM LIKE CONCAT('%',#{CONTENT},'%') || A.ROUT_ID LIKE CONCAT('%',#{CONTENT},'%')
+	</if>
 </select>
 
 </mapper>

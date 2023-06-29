@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.tracom.mapper.SM0700.SM0700Mapper;
+import kr.tracom.platform.common.util.CommonUtil;
 import kr.tracom.support.ServiceSupport;
 
 @Service

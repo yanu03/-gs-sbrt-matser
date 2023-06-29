@@ -151,6 +151,16 @@
 			});
 		});
 		
+		if(!$.uf_dupValid($('#updatedg3_dg0'), 'DRV_ID')){
+			$.tracomalmsg('정보', '현재 입력된 운전자입니다.', null);
+			return false;
+		}
+		
+		if(!$.uf_fieldTimeRangeValid($.jf_curdgfieldvalue($('#dg1'), 'ROUT_ST_TM'), $('#updatedg3_dg0'), 'DRV_ID')) {
+			$.tracomalmsg('정보', '시간이 겹치는 운전자입니다.', null);
+			return false;
+		}		
+		
 		let v_obj = js_mdstrct[v_idx].datagrid;
 		$('#'+v_obj).datagrid('updateRow',{index:$.jf_curdgindex($('#dg1')), row:v_values})
 		$('#updatedg3').window('close');  // close a window

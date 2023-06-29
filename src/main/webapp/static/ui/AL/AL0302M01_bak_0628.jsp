@@ -17,7 +17,6 @@
 
 	let v_jsonDatas = [];
 	let v_paramDatas = [];
-	let js_bgData = null;
 
     $.pf_append = function(){return true;}
     $.pf_delete = function(){return true;}
@@ -43,9 +42,8 @@
 		let rtn_params;
 		if(a_obj.attr('id') == "dg1") {
 			let v_row = $.jf_curdgrow($('#dg0'));
-			//let v_allocNo = ($.jf_curdgrow($('#dg1')) !== null ? $.jf_curdgrow($('#dg1'))['ALLOC_NO'] : null) || 1;
-			//rtn_params = {ALLOC_ID : v_row.ALLOC_ID, ALLOC_NO:v_allocNo, isNew:true}	
-			rtn_params = {ALLOC_ID : v_row.ALLOC_ID, isNew:true}	
+			let v_allocNo = ($.jf_curdgrow($('#dg1')) !== null ? $.jf_curdgrow($('#dg1'))['ALLOC_NO'] : null) || 1;
+			rtn_params = {ALLOC_ID : v_row.ALLOC_ID, ALLOC_NO:v_allocNo, isNew:true}	
 		}
     	return rtn_params;
     }
@@ -90,20 +88,6 @@
 				
 			}
 		}
-		if(a_type == 'routchange') {
-			let v_allocNo = $.jf_curdgfieldvalue($('#dg1'), 'ALLOC_NO');
-			if($.jf_curdgfieldvalue($('#dg1'), 'isNew')){
-				v_allocNo = null;
-			}
-			
-			let v_index = $.jf_curdgindex($('#dg1'));
-			let v_params = {VHC_ID:null, VHC_NO:null, DRV_ID:null, DRV_NM:null}
-			$('#dg1').datagrid('updateRow',{index:v_index, row:v_params});
-			let v_allocId = $.jf_curdgfieldvalue($('#dg0'), 'ALLOC_ID');
-			let v_values = {ALLOC_ID:v_allocId, ALLOC_NO:v_allocNo , ST_ROUT_ID: null, ST_ROUT_NM : null, ST_OPER_SN : null, ROUT_ST_TM : null
-							,ROUT_GRP:null, WAY_DIV:null};
-			$.mf_updatedg1mdopen($('#dg1'), null, v_values, $('#dg1'), 'c');
-		}
 
 		return true;
 	}
@@ -114,9 +98,6 @@
 		}
 		if(a_type == 'distri'){
 			$.jf_resetdg($('#dg0'), 'all');
-		}
-		if(a_type == 'routchange'){
-			
 		}
 		return true;
 	}
@@ -171,6 +152,7 @@
 							} */
 						}
 						//let test = $.jf_getdata($('#dg1'));
+						//debugger;
 						
 						let v_alertStartDate = $('#sch_fdd').datebox('getValue');
 						let v_alertEndDate = $('#sch_tdd').datebox('getValue');
@@ -197,62 +179,34 @@
 		return true;
 	} */
 	
-	$.uf_dupValid = function(a_modalobj, a_field) {
-		let v_field = $.jf_curdgfieldvalue($('#dg1'), a_field);
-		//let v_fieldEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:a_field});
-		//let v_editField = $(v_fieldEditor.target).textbox('getText');
-		//선택한 row의 값
-	    let v_modalField = $.jf_curdgfieldvalue(a_modalobj, a_field);
-		if(v_modalField == v_field) return false;
-		return true;
-	}
-	
 	//차량, 운전자 시간 유효성 검사
 	$.uf_fieldTimeRangeValid = function(a_value, a_modalobj, a_field) {
 	    let v_convertValue = $.jf_converttime(a_value) //사용자 수정값
+	    
 	    //선택한 row의 값
+	    let	v_routGrp = $.jf_curdgfieldvalue($('#dg1'),'ROUT_GRP');
+	    let v_wayDiv = $.jf_curdgfieldvalue($('#dg1'),'WAY_DIV');
 	    let v_field = $.jf_curdgfieldvalue(a_modalobj, a_field);
-	    let v_allocNo = $.jf_curdgfieldvalue($('#dg1'), 'ALLOC_NO');
-	    let v_routeInfos = js_bgData.filter(data => data.ALLOC_NO == v_allocNo);
-	    //let v_startTime = $.jf_converttime(v_routeInfos[0].ROUT_ST_TM);
-	    //let v_endTime = $.jf_converttime(v_routeInfos[v_routeInfos.length-1].ROUT_ST_TM);
-	    
+
 	    let v_data = $.jf_getdata($('#dg1'));
-	    //동일 필드값 차량 배차 데이터
-	    //let v_targetDatas = v_data.filter(data => data[a_field] == v_field);
-	    let v_targetDatas = [];
+	    let v_compareDatas = [];
+
+	    //선택 인덱스 추적변수
 	    let v_selectedIndex = -1;
+	  	//같은 노선그룹, 상하행, 필드값이 같은 데이터만 비교
 	    for(var i=0; i<v_data.length; i++) {
-	        if(v_data[i][a_field] == v_field) {
-	            if($.jf_curdgindex($('#dg1')) == i) v_selectedIndex = v_targetDatas.length;
-	            v_targetDatas.push(v_data[i]);
+	        if(v_data[i]['ROUT_GRP'] == v_routGrp && v_data[i]['WAY_DIV'] == v_wayDiv && v_data[i][a_field] == v_field) {
+	            if($.jf_curdgindex($('#dg1')) == i) v_selectedIndex = v_compareDatas.length;
+	            v_compareDatas.push(v_data[i]);
 	        }
-	    }	    
-	    v_targetDatas.sort((a,b) => a.ROUT_ST_TM.localeCompare(b.ROUT_ST_TM));
-	    
-	    //가상의 도착 시간을 만듦
-	  	for (var i=0; i<v_targetDatas.length; i++){
-	  		if(v_selectedIndex == i) continue;
-	  		let v_targetAllocNo = v_targetDatas[i]['ALLOC_NO'];
-	  		//동일한 필드값 데이터중 전체 노선 데이터
-	  		let v_targetRouteInfo = js_bgData.filter(data => data.ALLOC_NO == v_targetAllocNo);
-	  		
-	  		// 다음 배차 시작시간
-	  	    let v_nextStartTime = i < v_targetDatas.length - 1 ? $.jf_converttime(v_targetDatas[i+1].ROUT_ST_TM) : null;
-			if(v_nextStartTime == null) return true;
-	  	    
-	  	    // 다음 배차의 시작 시간보다 작은 가장 큰 도착 시간을 찾습니다.
-	  	    let v_endTimes = v_targetRouteInfo.filter(data => $.jf_converttime(data.ROUT_ED_TM) < v_nextStartTime);
-	  	    //let v_maxStartTime = Math.max.apply(Math, v_endTimes.map(data => $.jf_converttime(data.ROUT_ED_TM)));
-	  	    
-	  	    //내림차 정렬후 맨 첫 도착시간
-	  	    let v_maxStartTime = v_endTimes.sort((a, b) => b.ROUT_ED_TM.localeCompare(a.ROUT_ED_TM))[0].ROUT_ED_TM;
-	  	    v_targetDatas[i]['ROUT_ED_TM'] = v_maxStartTime;
-	  	  
-	  	    if(typeof($.jf_converttime(v_targetDatas[i]['ROUT_ED_TM'])) == 'number'){
-		  	  if($.jf_converttime(v_targetDatas[i].ROUT_ST_TM) <= v_convertValue && v_convertValue < $.jf_converttime(v_targetDatas[i].ROUT_ED_TM)) return false;
-	  	    }
-	  	}
+	    }
+	    //시작시간 순으로 정렬
+	    v_compareDatas.sort((a,b) => a.ROUT_ST_TM.localeCompare(b.ROUT_ST_TM));
+
+	    for(var i=0; i<v_compareDatas.length-1; i++) {
+	        if(v_selectedIndex == i) continue;
+	        if($.jf_converttime(v_compareDatas[i].ROUT_ST_TM) <= v_convertValue && v_convertValue < $.jf_converttime(v_compareDatas[i+1].ROUT_ST_TM)) return false;
+	    }
 	    return true;
 	}	
 	
@@ -262,27 +216,22 @@
 	    //팝업에서 선택한 값
 	    let	v_routGrp = a_value.ROUT_GRP;
 	    let v_wayDiv = a_value.WAY_DIV;
-	    //let v_allocNoEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ALLOC_NO'});
-		//let v_allocNo = $(v_allocNoEditor.target).textbox('getText');
-		//let v_allocNo = $.jf_curdgfieldvalue($('#dg1'), 'ALLOC_NO');
-		let v_allocNo = a_value.ALLOC_NO;
+	    let v_allocNoEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ALLOC_NO'});
+		let v_allocNo = $(v_allocNoEditor.target).textbox('getText');
 
 	    let v_data = $.jf_getdata($('#dg1'));
 	    let v_compareDatas = [];
 
 	    //선택 인덱스 추적변수
 	    let v_selectedIndex = -1;
-	  	//같은 배차번호만 비교
+	  	//같은 노선그룹, 상하행이 같은 데이터만 비교
 	    for(var i=0; i<v_data.length; i++) {
-	        //if(v_data[i]['ALLOC_NO'] == v_allocNo && v_data[i]['ROUT_GRP'] == v_routGrp && v_data[i]['WAY_DIV'] == v_wayDiv) {
-	        if(v_data[i]['ALLOC_NO'] == v_allocNo) {
+	        if(v_data[i]['ALLOC_NO'] == v_allocNo && v_data[i]['ROUT_GRP'] == v_routGrp && v_data[i]['WAY_DIV'] == v_wayDiv) {
 	            //if($.jf_curdgindex($('#dg1')) == i) v_selectedIndex = v_compareDatas.length;
 	            if($.jf_curdgindex($('#dg1')) == i) continue;
 	            v_compareDatas.push(v_data[i]);
 	        }
 	    }
-	  	if(v_compareDatas.length < 2) return true;
-	  	
 	    //시작시간 순으로 정렬
 	    v_compareDatas.sort((a,b) => a.ROUT_ST_TM.localeCompare(b.ROUT_ST_TM));
 
@@ -291,30 +240,6 @@
 	        if($.jf_converttime(v_compareDatas[i].ROUT_ST_TM) <= v_convertValue && v_convertValue < $.jf_converttime(v_compareDatas[i+1].ROUT_ST_TM)) return false;
 	    }
 	    return true;
-	}	
-	
-	//백그라운드용 ajax
-	$.uf_bgajax = function() {
-		$.ajax({
-			type: 'post',
-			url: '/al/AL0302P0R0',
-			data: JSON.stringify({dma_search : {ALLOC_ID :  $('#dg0').datagrid('getSelected').ALLOC_ID}}),
-			dataType: 'json',
-			async: false,
-			contentType: 'application/json; charset=utf-8',
-			success: function(data){
-				if(typeof(data['rows']) != "undefined"){
-					js_bgData = data['rows'];
-				}else{
-					let msgtext = data['rsMsg']['message'];
-					top.$.messager.alert('sever massage',msgtext);
-				}
-			},
-			error: function(error){
-				error.apply(this, arguments);
-				rtn_value = false;
-			}
-		});
 	}	
 
 	</script>
@@ -347,8 +272,7 @@
 						<div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 						</div>			
 						<!--datagrid0 -->
-						<!-- <script src="/static/js/AL/AL0203/AL0203_dg0.js"></script> -->
-						<script src="/static/js/AL/AL0302/AL0302_dg0.js"></script>
+						<script src="/static/js/AL/AL0203/AL0203_dg0.js"></script>
 					</div>
 				</div>
 				<div data-options="region:'center', border:false">
