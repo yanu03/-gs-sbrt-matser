@@ -13,6 +13,13 @@ import org.w3c.dom.NodeList;
 
 import kr.tracom.mapper.cm.Intg.IntgMapper;
 import kr.tracom.mapper.cm.Vhc.VhcMapper;
+import kr.tracom.platform.attribute.common.AtBrtAction;
+import kr.tracom.platform.net.config.TimsConfig;
+import kr.tracom.platform.net.protocol.TimsMessage;
+import kr.tracom.platform.net.protocol.TimsMessageBuilder;
+import kr.tracom.platform.service.TService;
+import kr.tracom.platform.service.config.KafkaTopics;
+import kr.tracom.service.tims.kafka.KafkaProducer;
 import kr.tracom.support.ServiceSupport;
 import kr.tracom.util.Constants;
 import kr.tracom.util.DataInterface;
@@ -26,6 +33,9 @@ public class VhcService extends ServiceSupport {
 	
 	@Autowired
 	private IntgMapper intgMapper;
+	
+	@Autowired
+	KafkaProducer kafkaProducer;
 
 	public List<Map<String, Object>> selectVhcList() throws Exception {
 		Map<String, Object> map = getSimpleDataMap("dma_search");
@@ -142,4 +152,27 @@ public class VhcService extends ServiceSupport {
 		
 		return staList;
 	}
+	
+	public List<Map> selectBit() throws Exception{
+		
+		Map param = getSimpleDataMap("dma_search");
+		
+		String sttnId = String.valueOf(param.get("NODE_ID"));
+		
+		//정류장정보 요청 데이터 생성
+		AtBrtAction brtRequest = new AtBrtAction();
+
+		brtRequest.setActionCode((byte)AtBrtAction.bitInfoRequest);
+		brtRequest.setData(sttnId);
+
+        
+        TimsConfig timsConfig = TService.getInstance().getTimsConfig();
+        TimsMessageBuilder builder = new TimsMessageBuilder(timsConfig);
+        TimsMessage timsMessage = builder.actionRequest(brtRequest);
+        
+        //정류장정보 요청 전송
+        kafkaProducer.sendKafka(KafkaTopics.T_BRT, timsMessage, sttnId);	
+		
+		return null;
+	}	
 }

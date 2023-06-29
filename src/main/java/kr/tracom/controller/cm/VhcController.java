@@ -52,4 +52,11 @@ public class VhcController extends ControllerSupport {
 		result.setData("dlt_vhcBit", vhcService.selectVhcBit());
 		return result.getResult();
 	}
+	
+	@RequestMapping("/vhc/selectBit")
+	public @ResponseBody Map<String, Object> selectB0Bit() throws Exception {		
+		
+		result.setData("", vhcService.selectBit());
+		return result.getResult();
+	}	
 }

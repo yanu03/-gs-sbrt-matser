@@ -18,9 +18,28 @@
 	<!-- sockjs.min.js - stomp.min.js - sock_comm.js 순서 유지 -->
 	<script src="/static/js/common/sock_comm.js"></script> 
 	<script type="text/javascript">
-		$( document ).ready(function() {
-			
-			
+	$( document ).ready(function() {
+		sigTime = setInterval(function() {
+		    var nodeId = $('#dg0').datagrid('getSelected').NODE_ID
+		    
+		    if(typeof(nodeId) == "undefined" || nodeId == null || nodeId == "") {
+		    	return
+		    }
+			$.ajax({
+				type: 'post',
+				url: '/vhc/selectBit',
+				data: JSON.stringify({dma_search : {NODE_ID :  nodeId}}),
+				dataType: 'json',
+				async: false,
+				contentType: 'application/json; charset=utf-8',
+				success: function(data){
+					
+				},
+				error: function(error){
+
+				}
+			});
+		}, 2000);
     });
 
     $.pf_append = function(){return true;}

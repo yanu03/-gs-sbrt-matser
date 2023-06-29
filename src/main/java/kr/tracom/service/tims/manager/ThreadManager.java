@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import kr.tracom.service.tims.handler.EventThread;
-import kr.tracom.service.tims.handler.MorEventThread;
+import kr.tracom.service.tims.eventHandler.EventThread;
+import kr.tracom.service.tims.eventHandler.MorEventThread;
 
 
 @Component

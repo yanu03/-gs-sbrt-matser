@@ -69,6 +69,24 @@ public class MainController extends ControllerSupport{
 		return "jsp/cm/main/main";	
 	}
 	
+	@RequestMapping(value = "/main/dashboard")
+	public String dashboard(HttpServletRequest request, ModelMap mode) throws Exception
+	{		
+		HttpSession session = request.getSession(true);
+		user.setUserInfo(session);
+		
+		return "jsp/cm/main/dashboard";	
+	}
+
+	@RequestMapping(value = "/main/dashboard2")
+	public String dashboard2(HttpServletRequest request, ModelMap mode) throws Exception
+	{		
+		HttpSession session = request.getSession(true);
+		user.setUserInfo(session);
+		
+		return "jsp/cm/main/dashboard2";	
+	}
+	
 	@RequestMapping("/main/allMenuInfo") //임시로 메뉴 가져오기
 	public @ResponseBody Map<String, Object> getAllMenuInfo(HttpServletRequest request) {
 		Result result = new Result();

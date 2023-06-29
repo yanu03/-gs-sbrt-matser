@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import kr.tracom.mapper.cm.Common.CommonMapper;
+import kr.tracom.mapper.tims.CurInfoMapper;
 import kr.tracom.ws.WsClient;
 
 @Service
@@ -19,7 +19,7 @@ public class Scheduler {
 	WsClient webSocketClient;
 	
 	@Autowired
-	CommonMapper commonMapper;
+    CurInfoMapper curInfoMapper;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -29,7 +29,7 @@ public class Scheduler {
 	
 	private Map<String, Object> getCommonCode( String coCd,String ValType, String value) {
 		//String eventCd = paramMap.get("EVENT_CD")+"";
-		logger.debug("getCommonCode() coCd="+coCd +", eventCd="+value);
+		//logger.debug("getEventCode() coCd="+coCd +", eventCd="+value);
 		Map<String, Object> param = new HashMap<>();
 		String key = coCd+value;
 		param.put("CO_CD", coCd);
@@ -39,7 +39,7 @@ public class Scheduler {
 		Map<String, Object> eventCodeMap = null;
 		if(g_operCodeMap==null) {
 			g_operCodeMap = new HashMap<>();
-			eventCodeMap = commonMapper.getCommonCode(param);
+			eventCodeMap = curInfoMapper.getEventCode(param);
 			if(eventCodeMap!=null) {
 				g_operCodeMap.put(key, eventCodeMap);
 				return eventCodeMap;
@@ -51,7 +51,7 @@ public class Scheduler {
 			return eventCodeMap;
 		}
 		else {
-			eventCodeMap = commonMapper.getCommonCode(param);
+			eventCodeMap = curInfoMapper.getEventCode(param);
 			g_operCodeMap.put(key, eventCodeMap);
 			return eventCodeMap;
 		}

@@ -13,7 +13,8 @@
 			,DSPTCH_DIV
 			,ROUT_ID				
 			,ALLOC_NO
-			,OPER_SN		
+			,OPER_SN
+			,ORG_OPER_SN
 			,COR_ID
 			,ROUT_GRP
 			,ROUT_GRP_NM
@@ -35,6 +36,7 @@
 			,#{ROUT_ID}											
 			,#{ALLOC_NO}
 			,#{OPER_SN}
+			,#{ORG_OPER_SN}
 			,#{COR_ID}
 			,#{ROUT_GRP}			
 			,#{ROUT_GRP_NM}
@@ -64,6 +66,7 @@
 			,ROUT_ID
 			,ALLOC_NO
 			,OPER_SN
+			,ORG_OPER_SN
 			,GPS_X_RAW
 			,GPS_Y_RAW
 			,DRV_ANGLE
@@ -92,6 +95,7 @@
 			,#{ROUT_ID}
 			,#{ALLOC_NO}  <!--alloc no 찾기 -->
 			,#{OPER_SN} <!--oper sn 찾기 -->	
+			,#{ORG_OPER_SN}
 			,#{LONGITUDE_RAW}
 			,#{LATITUDE_RAW}
 			,#{HEADING}
@@ -122,6 +126,7 @@
 			,ROUT_ID
 			,ALLOC_NO
 			,OPER_SN
+			,ORG_OPER_SN
 			,COR_ID
 			,VHC_NO			
 			,DRV_ID
@@ -140,14 +145,8 @@
 			,#{ROUT_GRP}
 			,#{ROUT_ID}			
 			,#{ALLOC_NO}
-		<choose>
-			<when test="@kr.tracom.util.CommonUtil@notEmpty(OPER_SN)">
-				,#{OPER_SN}
-			</when>
-			<otherwise>
-				,(SELECT FN_GET_OPER_SN(#{ROUT_ID}, #{NODE_ID}, VHC_ID, #{UPD_DTM}))
-			</otherwise>
-		</choose>
+			,#{OPER_SN}
+			,#{ORG_OPER_SN}
 			,#{COURSE_ID}
 			,#{BUS_NO}
 			,#{DRV_ID}

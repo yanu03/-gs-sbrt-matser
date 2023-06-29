@@ -12,7 +12,8 @@
 			,ROUT_GRP
 			,ROUT_ID				
 			,ALLOC_NO
-			,OPER_SN							
+			,OPER_SN
+			,ORG_OPER_SN			
 			,NODE_ID
 			,COR_ID
 			,VHC_NO
@@ -43,14 +44,8 @@
 			,#{ROUT_ID}											
 			<!-- ,(SELECT FN_GET_CUR_ALLOC_NO(#{ROUT_ID}, VHC_ID, #{OPER_DT})) -->  <!--alloc no 찾기 -->
 			,#{ALLOC_NO}
-			<choose>
-				<when test="@kr.tracom.util.CommonUtil@notEmpty(OPER_SN)">
-					,#{OPER_SN}
-				</when>
-				<otherwise>
-					,(SELECT FN_GET_OPER_SN3(#{ROUT_ID}, #{NODE_ID}, #{VHC_ID}, #{UPD_DTM}, #{ALLOC_NO}))
-				</otherwise>
-			</choose>
+			,#{OPER_SN}
+			,#{ORG_OPER_SN}							
 			,#{NODE_ID}
 			,#{COR_ID}
 			,#{BUS_NO}
@@ -127,7 +122,7 @@
 
 	
 	<select id="selectCurNearAllocOperPlByRout" resultType="String" parameterType="Map">
-		SELECT FN_GET_CUR_NEAR_ALLOC_OPER_PL_BY_ROUT(#{UPD_DTM},#{ROUT_ID},#{NODE_ID})
+		SELECT FN_GET_CUR_NEAR_ALLOC_OPER_PL_BY_ROUT(#{UPD_DTM},#{ROUT_ID},#{EVENT_DATA})
 	</select>
 	
 	<!-- 차량의 현재운행정보 가져오기  -->
@@ -188,6 +183,7 @@
 			,ROUT_ID
 			,ALLOC_NO
 			,OPER_SN
+			,ORG_OPER_SN
 			,COR_ID
 			,OCR_DTM
 			,VHC_NO			
@@ -212,14 +208,8 @@
 			<!-- ,(SELECT FN_GET_CUR_ALLOC_NO(#{ROUT_ID}, VHC_ID, #{OPER_DT})) -->  <!--alloc no 찾기 -->
 			,#{ALLOC_NO}
 			<!-- ,(SELECT FN_GET_OPER_SN3(#{ROUT_ID}, #{NODE_ID}, #{VHC_ID}, #{UPD_DTM}, #{ALLOC_NO})) --> <!--oper sn 찾기 -->
-			<choose>
-				<when test="@kr.tracom.util.CommonUtil@notEmpty(OPER_SN)">
-					,#{OPER_SN}
-				</when>
-				<otherwise>
-					,(SELECT FN_GET_OPER_SN3(#{ROUT_ID}, #{NODE_ID}, #{VHC_ID}, #{UPD_DTM}, #{ALLOC_NO}))
-				</otherwise>
-			</choose>
+			,#{OPER_SN}
+			,#{ORG_OPER_SN}
 			,#{COR_ID}
 			,#{UPD_DTM}
 			,#{BUS_NO}
@@ -267,17 +257,19 @@
 	</select>
 	
 	<select id="selectCurVhcOperInfo" resultType="Map" parameterType="Map">	
-		SELECT A.VHC_ID, A.ALLOC_ID, A.ALLOC_NO, A.OPER_SN, A.DRV_ID, A.ROUT_ID, A.UPD_DTM
+		SELECT A.VHC_ID, A.ALLOC_ID, A.ALLOC_NO, A.OPER_SN, A.ORG_OPER_SN,
+		A.DRV_ID, A.ROUT_ID, A.UPD_DTM
   		FROM BMS_CUR_VHC_OPER_INFO A WHERE VHC_ID = #{VHC_ID}
 	</select>
 	
 	<insert id="insertCurVhcOperInfo" parameterType="HashMap">
-		INSERT INTO BMS_CUR_VHC_OPER_INFO( VHC_ID,ALLOC_ID,ALLOC_NO,OPER_SN,DRV_ID,ROUT_ID,UPD_DTM )
+		INSERT INTO BMS_CUR_VHC_OPER_INFO( VHC_ID,ALLOC_ID,ALLOC_NO,OPER_SN,ORG_OPER_SN,DRV_ID,ROUT_ID,UPD_DTM )
 		VALUES (
 			#{VHC_ID}
 			, #{ALLOC_ID}
 			, #{ALLOC_NO}
 			, #{OPER_SN}
+			, #{ORG_OPER_SN}
 			, #{DRV_ID}
 			, #{ROUT_ID}
 			, NOW()
@@ -286,6 +278,7 @@
 		   ALLOC_ID = VALUES(ALLOC_ID)
 		   , ALLOC_NO = VALUES(ALLOC_NO)
 		   , OPER_SN = VALUES(OPER_SN)
+		   , ORG_OPER_SN = VALUES(ORG_OPER_SN)
 		   , DRV_ID = VALUES(DRV_ID)
 		   , ROUT_ID = VALUES(ROUT_ID)
 		   , UPD_DTM = VALUES(UPD_DTM)

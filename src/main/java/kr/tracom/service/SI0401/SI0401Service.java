@@ -14,6 +14,7 @@ import kr.tracom.platform.common.util.CommonUtil;
 import  kr.tracom.service.cm.OperPlan.OperPlanService;
 import kr.tracom.support.ServiceSupport;
 import kr.tracom.support.exception.MessageException;
+import kr.tracom.util.CommonUtil;
 import kr.tracom.util.Result;
 
 @Service
