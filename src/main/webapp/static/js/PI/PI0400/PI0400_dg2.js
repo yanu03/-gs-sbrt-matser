@@ -6,11 +6,12 @@
 $(function(){
 	//single main grid
 	$('#dg_panel0').append('<table id="dg2" class="easyui-datagrid" style="width:100%;height:100%"></table>');
-
     $('#dg2').datagrid({
+	view: scrollview,
+	pageSize:500,
     url:'/pi/PI0400G2R0',	//json 조회 url
     method: 'POST', // url 던져서 쿼리 가져올때는 POST
-    queryParams: JSON.stringify({dma_search : {TYPE: "ALL", CONTENT : "", USE_YN : ""}}),	//json 조회 params
+     queryParams: JSON.stringify({dma_search : {}}),	//json 조회 params
     singleSelect: true,
     border: false,
     loadMsg: '데이터 로딩중입니다',

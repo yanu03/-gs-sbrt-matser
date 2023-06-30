@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
+	<script type="text/javascript" src="/static/js/common/scrollview_comm.js"></script>
 	<script type="text/javascript">
 
     var uv_dg0Load = false;
