@@ -92,7 +92,6 @@
 								timeout:1500,
 								showType:'slide'
 							});
-							$.jf_childretrieve($('#dg1'), $.pf_childparams($('#dg1'), $.jf_curdgrow($('#dg0'))));
 						},
 						error: function(error){
 							error.apply(this, arguments);
@@ -118,7 +117,7 @@
 						timeout:1500,
 						showType:'slide'
 					});
-					
+					$.jf_childretrieve($('#dg1'), $.pf_childparams($('#dg1'), $.jf_curdgrow($('#dg0'))));
 				},
 				error: function(error){
 					error.apply(this, arguments);

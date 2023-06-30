@@ -88,6 +88,9 @@
 			$.jf_resetdg($('#dg1'));
 			$.jf_setfocus($('#dg0'), a_type);
 		}
+		if(a_type == 'subsave1'){
+			$.jf_resetdg($('#dg1'), 'all');
+		}
 		return true;
 	}
 
