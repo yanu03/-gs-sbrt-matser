@@ -53,7 +53,7 @@ $(function(){
     onDblClickRow: function(a_index,row){},
     onBeforeSelect: function(index,row){},
     onSelect: function(a_index,a_row){
-      $.uf_movemap(a_index, a_row);
+      // $.uf_movemap(a_index, a_row);
     },
     onBeforeEdit: function(a_index,a_row){},
     onBeginEdit: function(a_index,a_row){},

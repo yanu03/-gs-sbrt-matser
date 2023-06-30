@@ -51,7 +51,7 @@ $(function(){
             else if(col.title == 'AVRG_SPD') col.title = '평균속도';
         },
         valueStyler: function(value,row,index){
-            console.log(row);
+            // console.log(row);
         },
         onBeforeLoad: function(a_row, a_param){
         },

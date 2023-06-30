@@ -41,7 +41,7 @@
     	//데이터 조회시 파라미터를 정함.
         let rtn_param = {};
         let v_searchVal = $('#sch_sb0').searchbox('getValue');
-        if(a_obj.attr('id') == 'dg0') rtn_param = {TYPE : "ALL", CONTENT: ""}; 
+        if(a_obj.attr('id') == 'dg0') rtn_param = {TYPE : "ALL", CONTENT: v_searchVal}; 
         
         return rtn_param;
     };

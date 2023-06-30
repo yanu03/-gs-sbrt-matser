@@ -52,7 +52,7 @@ $(function(){
         }
       },
       yAxis: {
-        max : 100
+        max : 150
       },
       series: [
       {

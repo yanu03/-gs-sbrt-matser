@@ -22,7 +22,7 @@ $(function(){
 			let v_todate = $('#sch_tdd').datebox('getValue');
 			if(v_todate.length < 1) return false;
 			if(a_newValue > v_todate) $('#sch_fdd').datebox('setValue', v_todate);
-			$.uf_limitdate();
+			// $.uf_limitdate();
 			return true;
 		}
 	});
@@ -41,7 +41,7 @@ $(function(){
 			let v_fromdate = $('#sch_fdd').datebox('getValue');
 			if(v_fromdate.length < 1) return false;
 			if(a_newValue < v_fromdate) $('#sch_tdd').datebox('setValue', v_fromdate);
-			$.uf_limitdate();
+			// $.uf_limitdate();
 			return true;
 		}
 	});

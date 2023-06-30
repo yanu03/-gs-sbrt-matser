@@ -36,7 +36,7 @@ public class AL0104Controller extends ControllerSupport{
 		return result.getResult();
 	}
 	
-	@RequestMapping("/pi/AL0104G2S0")
+	@RequestMapping("/al/AL0104G2S0")
 	public @ResponseBody Map<String, Object> AL0104G2S0() throws Exception {
 		Map map = al0104service.AL0104G2S0();
 		result.setData("dma_result", map);

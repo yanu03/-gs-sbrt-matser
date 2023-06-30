@@ -9,15 +9,15 @@ $(function(){
 
 	//searcher에 정의되는 함수는 사전에 정의 되어 있어야합니다.
 	$.jf_schbox = function(a_value, a_name){
-		let a_fields = ['REP_ROUT_NM', 'VHC_NO', 'EVT_TYPE'];
+		let a_fields = ['REP_ROUT_NM', 'VHC_NO','ROUT_NM', 'EVT_TYPE'];
 		$.jf_findtext($('#dg0'), a_fields, a_value);
 		$(this).textbox('textbox').focus();
 	}
 
 	$('#sch_sb0').searchbox({
-		width: 260,
+		width: 300,
 		height: 24,
-		prompt: '대표노선명, 차량번호, 이벤트 유형',
+		prompt: '노선그룹명, 차량번호, 노선명, 이벤트 유형',
 		searcher: $.jf_schbox
 	});
 	

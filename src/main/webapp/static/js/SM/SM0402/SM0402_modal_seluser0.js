@@ -130,6 +130,7 @@ $(function(){
 
 	/*modal page 함수*/	
 	$.mf_selusermdopen = function(a_obj, a_form, a_values, a_rtnobj, a_type){
+		// console.log(a_type)
 		let v_win = $('#seluser');
 		$.jf_modmdstrct(v_win, a_obj, a_form, a_values, a_rtnobj, a_type);
     // console.log(a_values);

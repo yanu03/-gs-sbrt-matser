@@ -16,6 +16,8 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
+    <script src="/static/js/common/map_comm.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=100faa0e8b0c72a3da69169f45883b0b"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {
     
@@ -81,13 +83,6 @@
 
         return true;
     }; */
-    // 기능 : 선택된 row의 좌표값에 따라 map의 위치를 바꿔주는 함수
-    $.uf_movemap = function(a_index, a_row){
-        let v_gpsX = a_row.GPS_X;
-        let v_gpsY = a_row.GPS_Y;
-
-        return true;
-    };
 	</script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">
@@ -125,10 +120,10 @@
             <div data-options="region:'east', border:true, maxWidth:600, minWidth:600">
                 <!-- map panel -->
                 <div id="map_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
-                    <span>map section</span>
+                    <!-- <span>map section</span> -->
                 </div>
                 <!-- map js -->
-                <!-- <script src="/static/js/VH/VH0100/VH0100_map0.js"></script> -->
+                <script src="/static/js/VH/VH0100/VH0100_map0.js"></script>
             </div>
         </div>
     </div>

@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
+    <script type="text/javascript" src="/static/jquery/jquery.fileDownload-1.4.5.js"></script> 
 	<script type="text/javascript">
     $( document ).ready(function() {});
     $.pf_append = function(){return true;};
@@ -48,7 +49,6 @@
                 $.jf_retrieve($('#dg0'));
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
-        
         }
         return true;
     };

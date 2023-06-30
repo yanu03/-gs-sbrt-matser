@@ -122,7 +122,7 @@ public class SI0404Service extends ServiceSupport {
 				routMap.put("ROUT_STRT_LEN", CommonUtil.pointRound(routStrtLen,3));
 				routMap.put("STTN_CNT", sttnCnt);
 				routMapper.updateRout(routMap);
-				//routMapper.updateStSttnEdSttnRout(param.get(0));
+				routMapper.updateStSttnEdSttnRout(param.get(0));
 			}
 		} catch(Exception e) {
 			if (e instanceof DuplicateKeyException)

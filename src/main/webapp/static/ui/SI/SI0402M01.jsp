@@ -7,11 +7,12 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/material/easyui.css">
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/demo/demo.css">
-	 <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
+	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
 	<script src="/static/js/common/map_comm.js"></script>
+	<script type="text/javascript" src="/static/jquery/jquery.fileDownload-1.4.5.js"></script> 
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=100faa0e8b0c72a3da69169f45883b0b"></script>
 	<script type="text/javascript">
 		$( document ).ready(function() {
@@ -109,7 +110,6 @@
 				NODE_ID : $.jf_seqdgdata('/si/SI0402G1K0', 'post')
 				,OLD_NODE_ID : ""
 				,OLD_NODE_SN : ""
-				,LINK_ID : ""
 				,WAY_DIV : $.jf_curdgfieldvalue($('#dg0'), 'WAY_DIV')
 			}
 			$('#dg1').datagrid('updateRow',{index:$.jf_curdgindex($('#dg1')),row:v_row});

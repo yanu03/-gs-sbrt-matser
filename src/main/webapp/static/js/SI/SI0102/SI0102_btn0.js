@@ -10,8 +10,10 @@
 2차 수정일 : 2023.05.08
 */
 $(function(){
+    
 	var authority = $.jf_getcurauthority();
 	//권한에 따라서 btn0-4까지 만들어 준다
+    
     if(authority.SCH_AH=="Y"){
 	    $('#btn_panel0').append('<a id="btn0" href="#">조회</a>&nbsp;');
     }

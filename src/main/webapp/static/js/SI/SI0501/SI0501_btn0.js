@@ -63,7 +63,7 @@ $(function(){
 	//btn 기능 binding
 	$('#btn0').bind('click', function(){
 		if($.jf_changeddg($('#dg0'), 'all')) {
-			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
+			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'search');
 		}else{
 			$.jf_retrieve($('#dg0'));	
 		}		

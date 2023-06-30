@@ -63,7 +63,9 @@ $(function(){
     onDblClickRow: function(a_index,row){},
     onBeforeSelect: function(index,row){},
     onSelect: function(a_index,a_row){
-      $.uf_movemap(a_index, a_row);
+      $.jf_movemap(a_row.GPS_X, a_row.GPS_Y);
+      $.jf_deletemarker();
+      $.jf_addmarker(a_row.GPS_X, a_row.GPS_Y);
     },
     onBeforeEdit: function(a_index,a_row){},
     onBeginEdit: function(a_index,a_row){},

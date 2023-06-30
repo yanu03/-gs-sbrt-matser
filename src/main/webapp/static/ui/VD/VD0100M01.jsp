@@ -20,6 +20,7 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
     <script src="/static/js/common/vhcdvc_comm.js"></script>
+    <script type="text/javascript" src="/static/jquery/jquery.fileDownload-1.4.5.js"></script> 
 	<script type="text/javascript">
     $( document ).ready(function() {
     
@@ -136,7 +137,7 @@
                 case "DK005":
                     v_imgSrc = KEYPAD_NORMAL_IMG; break;
                 //행선지 정면
-                case "DK006":
+                case "DK006": 
                 case "DK007":
                 //행선지 측면   
                 case "DK008":
@@ -181,7 +182,23 @@
         return true;
     };
 
-    
+    // 관리 ID 한글 입력 방지 
+    $.uf_chkmngid = function(a_value, a_obj){
+        // debugger;
+        let v_value;
+        let v_reg = /[ㄱ-ㅎ|가-힣|ㅏ-ㅣ]/g;
+        // value가 없으면 바로 리턴을 시켜준다.
+        if(a_value.length < 1) return true;
+        else{
+            // value가 있을 경우 특수 문자 및 문자(한글, 영어)를 검사한다
+            if(a_value.search(v_reg) > -1){
+                // 있으면 textbox reset
+                a_obj.textbox('reset');
+            }
+        }
+            
+        return true;
+    };
 
 	</script>
 </head>

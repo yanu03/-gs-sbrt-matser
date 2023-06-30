@@ -77,7 +77,7 @@ $(function(){
     type:'text',
     required: true,
     maxlength: 10,
-    readonly: true,
+    readonly: false,
     value:'',
     label: '사용자ID',
     labelWidth: 130,

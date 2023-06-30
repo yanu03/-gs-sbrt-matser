@@ -64,6 +64,7 @@ $(function(){
 	//btn 기능 binding
     $('#btn1').bind('click', function(){
 		//조회 endedit 태우는 방법을 찾아라!
+      $.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
       if($.jf_changeddg($('#dg0'), 'all')) $.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
       else $.jf_retrieve($('#dg0'));	
     });

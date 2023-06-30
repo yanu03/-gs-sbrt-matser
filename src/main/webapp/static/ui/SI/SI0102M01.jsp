@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {});
     $.pf_append = function(){return true;};
@@ -27,7 +28,7 @@
     $.pf_retrieve = function(a_obj) {return true;};
     $.pf_modalselect = function(a_obj){return true;}
 
-    $.pf_ajaxafterproc = function(){
+    $.pf_ajaxafterproc = function(a_type){
         if(a_type == 'search') $.jf_retrieve($('#dg0'));
         return true;
     }
@@ -132,7 +133,7 @@
         if(a_value.search(v_reg) < 0){
             console.log(1);
         }
-    }
+    };
 	</script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">
@@ -177,6 +178,9 @@
             </div>
         </div>
 	</div>	
+</div>
+<div id="findaddr">
+    <script src="/static/js/SI/SI0102/SI0102_findaddr0.js"></script>
 </div>
 </body>
 </html>

@@ -95,7 +95,7 @@ $(function(){
         else $.jf_close();
     });
     $('#btn7').bind('click', function(){
-      $.jf_exceldownload($('#dg0'), '/sm/SM0401G0_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
+      $.jf_exceldownload($('#dg0'), '/member/searchMemberBasic_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
     });
 
     $('#btn8').bind('click', function(){

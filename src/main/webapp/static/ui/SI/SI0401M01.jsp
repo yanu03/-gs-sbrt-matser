@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
+	<script type="text/javascript" src="/static/jquery/jquery.fileDownload-1.4.5.js"></script> 
 	<script type="text/javascript">
 		$( document ).ready(function() {
 			
@@ -18,7 +19,7 @@
     });
    
     $.pf_append = function(){return true;}
-	$.pf_delete = function(){return true;}
+		$.pf_delete = function(){return true;}
     $.pf_deleteafter = function(a_obj){
 		if($.jf_datalength($('#dg0')) == 0) $.jf_protectform($('#dg0'), $('#ef0'), true, 0);
     	return true;
@@ -63,6 +64,15 @@
 			else
 				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);				
 		}
+		if(a_type == 'search'){
+			if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f')){
+				$.jf_savedgdata($('#dg0'), '/si/SI0401G0S0', 'post', null);
+				$.jf_savedgdata($('#dg0'), '/si/SI0401G1S0', 'post', null);
+				$.jf_retrieve($('#dg0'));
+			}
+			else
+				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
+		}
 		return true;
 	}
 		
@@ -74,12 +84,16 @@
 		if(a_type == 'save'){
 			$.jf_resetdg($('#dg0'), 'all');
 		}
+		if(a_type == 'search'){
+			$.jf_resetdg($('#dg0'), 'all');
+			$.jf_retrieve($('#dg0'));
+		}
 		return true;
 	}
 
-    $.pf_ajaxafterproc = function(a_type){
-        if(a_type == 'search') $.jf_retrieve($('#dg0'));
-        return true;
+	$.pf_ajaxafterproc = function(a_type){
+			if(a_type == 'search') $.jf_retrieve($('#dg0'));
+			return true;
    };		
 
 	$.pf_childparams = function(a_obj, a_row){

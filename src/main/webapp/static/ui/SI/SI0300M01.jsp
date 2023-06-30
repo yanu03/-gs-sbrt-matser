@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
+    <script type="text/javascript" src="/static/jquery/jquery.fileDownload-1.4.5.js"></script> 
 	<script type="text/javascript">
     $( document ).ready(function() {});
     $.pf_append = function(){return true;};
@@ -59,8 +60,8 @@
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);  
         }
         else if(a_type == 'search'){
-            if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
-                if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), '/common/updateCommonCo', 'post', 'search');
+            if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
+                if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), '/si/SI0300G0S0', 'post', 'search');
                 $.jf_retrieve($('#dg0'));
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
@@ -83,7 +84,6 @@
     // 기능 : 재직, 휴직, 퇴사 중 퇴사를 골랐을 때 퇴직일을 선택할 수 있는 datebox활성화 한다
     $.uf_chkeply = function(){
         let v_eplyvalue = $('#EPLY_YN').combobox('getValue');
-        debugger;
         if(v_eplyvalue != "EY002"){
             $('#RETIRE_DT').datebox('disable');
         }else if(v_eplyvalue == "EY002"){
@@ -172,6 +172,35 @@
 			}
 		});
 	} */
+	
+	$.uf_filesave = function(){
+        debugger;
+        event.preventDefault();
+        var form = $("#filefrm")[0];
+        $('#path').val("SI0300"); //저장시 파일 경로
+        $('#attach_id').val($('#ATTACH_ID').textbox('getValue'));
+        
+        var formData = new FormData(form); 			
+        
+        $.ajax({
+            type: 'POST',
+            enctype: 'multipart/form-data',
+            url: '/cm/fileUploadAction',
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function (data) {
+                $('#ATTACH_ID').textbox('setValue',data.rows[0].atchFileId);
+                //$('#filebtn').prop('disabled', false);
+            },
+            error: function (e) {
+                //$('#result').text(e.responseText);
+                console.log('ERROR : ', e);
+                //$('#filebtn').prop('disabled', false);
+            }
+        });
+	}
 	</script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">

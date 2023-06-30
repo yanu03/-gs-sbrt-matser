@@ -1,10 +1,11 @@
+
 /*
 프로그램명 : 뉴스 관리 btn
 작성자 : 박원용
 작성일 : 2023.04.25
 */
 $(function(){
-	
+	var authority = $.jf_getcurauthority();
 	//권한에 따라서 btn0-4까지 만들어 준다
 	if(authority.SCH_AH=="Y"){
 		$('#btn_panel0').append('<a id="btn0" href="#">조회</a>&nbsp;');

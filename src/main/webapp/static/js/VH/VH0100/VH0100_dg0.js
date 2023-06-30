@@ -17,10 +17,11 @@ $(function(){
     border: false,
     loadMsg: '데이터 로딩중입니다',
     emptyMsg: '데이터가 없습니다',
-    rownumbers: true,
+    rownumbers: false,
     showFooter: true,
     remoteSort: false,
     multiSort: true,
+    scrollTo: 50,
     columns:[[
         {field:'ROUT_NM',title:'노선명',width:200,align:'center',halign:'center',sortable:true},
         {field:'VHC_NO',title:'차량번호',width:200,align:'center',halign:'center',sortable:true},
@@ -55,7 +56,9 @@ $(function(){
     onDblClickRow: function(a_index,row){},
     onBeforeSelect: function(index,row){},
     onSelect: function(a_index,a_row){
-      $.uf_movemap(a_index, a_row);
+      $.jf_movemap(a_row.GPS_X, a_row.GPS_Y);
+      $.jf_deletemarker();
+      $.jf_addmarker(a_row.GPS_X, a_row.GPS_Y);
     },
     onBeforeEdit: function(a_index,a_row){},
     onBeginEdit: function(a_index,a_row){},

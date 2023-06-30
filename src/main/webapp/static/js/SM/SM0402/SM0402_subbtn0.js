@@ -37,11 +37,11 @@ $(function(){
         height: 24,
         iconCls: 'icon-save'
 	});
-    $('#btn7').linkbutton({
+    $('#sub_btn7').linkbutton({
         height: 24,
         iconCls: 'icon-excel'
 	});
-	$('#btn8').linkbutton({
+	$('#sub_btn8').linkbutton({
         height: 24,
         iconCls: 'icon-excel'
 	});
@@ -52,7 +52,7 @@ $(function(){
                 // let v_values = {USER_ID:$('#USER_ID').textbox('getValue'), USER_NM:$('USER_NM').textbox('getValue')};
                 let v_values = {USER_ID:null, USER_NM:null, AUTH_CD: null};
                 // $.mf_selusermdopen($('#dg1'), null,null,null,'g');
-                $.mf_selusermdopen($('#dg1'), $('#ef0'), v_values, null, 'g');
+                $.mf_selusermdopen($('#dg1'), $('#ef0'), v_values, $('#USER_NM'), 'g');
             }else{
                 $.tracomalmsg('정보', '저장되지 않는 데이터가 있어 추가할 수 없습니다.', null);
             }
@@ -68,7 +68,7 @@ $(function(){
         if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')) $.jf_savedgdata($('#dg1'), '/authority/saveAuthorityMember', 'post', null);
     }); 
     $('#sub_btn7').bind('click', function(){
-        $.jf_exceldownload($('#dg0'), '/sm/SM0402G0_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
+        $.jf_exceldownload($('#dg1'), '/member/searchMemberBasic_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
     });
  
     $('#sub_btn8').bind('click', function(){

@@ -42,7 +42,7 @@ $(function(){
   $.cf_chart1 = function(a_data){
     Highcharts.chart('chart1', {
       title: {
-        text: +'노선별 평균속도'
+        text: '노선별 평균속도'
       },
       xAxis: {
         categories: $.uf_chart1data(a_data, 'ROUT_NM'),
@@ -65,7 +65,7 @@ $(function(){
         point: {
           events:{
             click: function(){
-              console.log(data[0]);
+              // console.log(data[0]);
             }
           }
         }

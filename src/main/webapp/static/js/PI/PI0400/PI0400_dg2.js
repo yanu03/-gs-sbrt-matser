@@ -15,7 +15,7 @@ $(function(){
     border: false,
     loadMsg: '데이터 로딩중입니다',
     emptyMsg: '데이터가 없습니다',
-    rownumbers: true,
+    rownumbers: false,
     showFooter: true,
     remoteSort: false,
     multiSort: true,

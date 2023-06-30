@@ -13,6 +13,7 @@
 	<script src="/static/js/common/sample_comm.js"></script>
 	<script src="/static/js/common/map_comm.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=100faa0e8b0c72a3da69169f45883b0b"></script>
+	<script type="text/javascript" src="/static/jquery/jquery.fileDownload-1.4.5.js"></script> 
 	<script type="text/javascript">
 		$( document ).ready(function() { });
     $.pf_append = function(){return true;}
@@ -43,6 +44,14 @@
 		if(a_type == 'save'){
 			if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
 				$.jf_savedgdata($('#ef0'), '/si/SI0501G0S0', 'post', null)
+			}
+			else
+				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
+		}
+		if(a_type == 'search'){
+			if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
+				$.jf_savedgdata($('#ef0'), '/si/SI0501G0S0', 'post', null)
+				$.jf_retrieve($('#dg0'));
 			}
 			else
 				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);

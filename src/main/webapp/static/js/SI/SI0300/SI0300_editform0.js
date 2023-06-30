@@ -38,7 +38,11 @@ $(function(){
                     case "ATTACH_ID":
                         a_vals = $.jf_singledatatojson(target.id, $(target).textbox('getValue'));
                         break;
+                    case "file_1":
+
+                        break;
                     default:
+                        // console.log(target.id)
                             if(!$(target).textbox('isValid')){$(target).textbox('clear'); break;}
                             a_vals = $.jf_singledatatojson(target.id, $(target).textbox('getValue'));
                         break;
@@ -101,7 +105,7 @@ $(function(){
         //validType:'length[0,30]',
         readonly: false,
         value:'',
-        label:'운전자 명',
+        label:'운전자명',
         labelWidth: 80,
 		labelPosition: 'before',
 		labelAlign: 'left',
@@ -118,15 +122,15 @@ $(function(){
         }
     });
     $('#COMP_NM').textbox({
-        width: 220,
+        width: 250,
         height: 25,
         type:'text',
         required: true,
         maxlength: 30,
         readonly: true,
         value:'',
-        label:'운수사',
-        labelWidth: 60,
+        label:'운수사명',
+        labelWidth: 70,
 		labelPosition: 'before',
 		labelAlign: 'left',
         onChange: function(newValue,oldValue){
@@ -274,38 +278,40 @@ $(function(){
 		labelPosition: 'before',
 		labelAlign: 'left',
     });*/
-	$('#ATTACH_ID').textbox({
-		required: false,
+    $('#ATTACH_ID').textbox({
+        required: false,
         maxlength: 10,
         readonly: false,		
         onChange: function(newValue,oldValue){
-			debugger;
-			var imgUrl = "";
-			if(newValue==""||newValue==null){
-				imgUrl = "/static/img/common/noimg.jpg";
-			}
-			else{
-				var attachSn = 0; 
-				imgUrl = "/cmm/fms/getImage.do?atchFileId="+newValue+"&fileSn="+attachSn;
-			}
-			$("#picture").attr("src", imgUrl);
+            // debugger;
+            var imgUrl = "";
+            if(newValue==""||newValue==null){
+                imgUrl = "/static/img/common/noimg.jpg";
+            }
+            else{
+                var attachSn = 0; 
+                imgUrl = "/cmm/fms/getImage.do?atchFileId="+newValue+"&fileSn="+attachSn;
+            }
+            $("#picture").attr("src", imgUrl);
             if(!jv_rowclick) return false;
             $.uf_chkphoto(newValue);
+            $.uf_filesave();
         }
     });
 	
     $('#filebtn').linkbutton({
         height: 24,
         iconCls: 'icon-save'
-	});
+    });
+		
     $('#filebtn').bind('click', function(){
- 	  event.preventDefault();
-	  var form = $("#filefrm")[0];
-	   $('#path').val("SI0300"); //저장시 파일 경로
-		 $('#attach_id').val($('#ATTACH_ID').textbox('getValue'));
-	
-	  var formData = new FormData(form); 			
-	
+    event.preventDefault();
+    var form = $("#filefrm")[0];
+    $('#path').val("SI0300"); //저장시 파일 경로
+    $('#attach_id').val($('#ATTACH_ID').textbox('getValue'));
+    
+    var formData = new FormData(form); 			
+    
         $.ajax({
             type: 'POST',
             enctype: 'multipart/form-data',
@@ -316,9 +322,9 @@ $(function(){
             cache: false,
             success: function (data) {
 
-						$('#ATTACH_ID').textbox('setValue',data.rows[0].atchFileId);
-  				
-  				
+                        $('#ATTACH_ID').textbox('setValue',data.rows[0].atchFileId);
+                
+                
                 $('#filebtn').prop('disabled', false);
             },
             error: function (e) {

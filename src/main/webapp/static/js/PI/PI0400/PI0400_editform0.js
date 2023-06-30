@@ -54,7 +54,6 @@ $(function(){
     height: 0,
     type:'hidden',
     onChange: function(newValue,oldValue){
-      console.log('change');
       if(!jv_rowclick) return false;
     }
   });

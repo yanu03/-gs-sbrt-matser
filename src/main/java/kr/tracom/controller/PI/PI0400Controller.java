@@ -20,25 +20,25 @@ public class PI0400Controller extends ControllerSupport{
 
 	@RequestMapping("/pi/PI0400G0R0")
 	public @ResponseBody Map<String, Object> PI0400G0R0() throws Exception {
-		result.setData("dlt_SM_WEAT_INFO", PI0400Service.PI0400G0R0());
+		result.setData("rows", PI0400Service.PI0400G0R0());
 		return result.getResult();
 	}
 
 	@RequestMapping("/pi/PI0400G1R0")
 	public @ResponseBody Map<String, Object> PI0400G1R0() throws Exception {
-		result.setData("dlt_SM_ATMO_INFO", PI0400Service.PI0400G1R0());
+		result.setData("rows", PI0400Service.PI0400G1R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/pi/PI0400G2R0")
 	public @ResponseBody Map<String, Object> PI0400G2R0() throws Exception {
-		result.setData("dlt_BMS_LIVING_LOG", PI0400Service.PI0400G2R0());
+		result.setData("rows", PI0400Service.PI0400G2R0());
 		return result.getResult();
 	}	
 	
 	@RequestMapping("/pi/selectIntgInfo")
 	public @ResponseBody Map<String, Object> selectIntgInfo() throws Exception {
-		result.setData("dlt_SM_INTG_MST", PI0400Service.selectIntgInfo());
+		result.setData("rows", PI0400Service.selectIntgInfo());
 		return result.getResult();
 	}
 }

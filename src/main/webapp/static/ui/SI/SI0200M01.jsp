@@ -65,15 +65,15 @@
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);  
         }
         else if(a_type == 'search'){
-            if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
+            if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
                 if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), '/si/SI0200G0S0', 'post', 'search');
                 $.jf_retrieve($('#dg0'));
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
         else if(a_type == 'excelupload'){
-  		  $("#excelupload_p0").window('open');
-		  $("#excelinputfile").val('');
+  		  	$("#excelupload_p0").window('open');
+		  		$("#excelinputfile").val('');
         }
 
         return true;
@@ -114,9 +114,9 @@
                     <div id="excelupload_p0" class="easyui-window" title="엑셀 업로드" data-options="modal:true,closed:true,iconCls:'icon-save'"
                     	style="width:500px;height:200px;padding:10px;">
                     	<form id="excelfrm" name="excelfrm" method="post" enctype="multipart/form-data">
-				<input id="excelinputfile" name="excelinputfile" type="file"/>
-			</form>
-		    </div>; 
+												<input id="excelinputfile" name="excelinputfile" type="file"/>
+											</form>
+								    </div>
                 </div>
             </div>
         </div>

@@ -15,6 +15,7 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
+    <script type="text/javascript" src="/static/jquery/jquery.fileDownload-1.4.5.js"></script> 
 	<script type="text/javascript">
     $( document ).ready(function() { });
     $.pf_append = function(){return true;};
@@ -47,6 +48,7 @@
         if(a_obj.attr('id') == 'dg0') rtn_params = {USE_YN : "Y", SORT : v_sort};
         if(a_obj.attr('id') == 'dg1') {
             let v_childkey = $.jf_curdgrow($('#dg0'));
+            console.log(v_childkey)
             rtn_params = {USE_YN : "Y", SORT : v_sort, CO_CD : v_childkey.CO_CD};
         }
         return rtn_params;
@@ -86,6 +88,17 @@
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
+        else if(a_type == 'cancel'){
+            if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') && $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
+                if($.jf_changeddg($('#dg0'), null)){
+                    $.uf_acceptcfmsg($('#dg0'), 'CO_CD');
+                }
+                if($.jf_changeddg($('#dg1'), null)) {
+                    $.uf_acceptcfmsg($('#dg1'), 'DL_CD');
+                }
+            }
+            else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
+        }
         return true;
     };
     $.pf_rejectcfmsg = function(a_type){
@@ -101,6 +114,9 @@
             $.jf_setfocus($('#dg0'), a_type);
         }
         if(a_type == 'close') $.jf_close();
+        if(a_type == 'cancel'){
+            if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')) $.jf_resetdg($('#dg0'));
+        }
         return true;
     };
     $.pf_chkchilddata = function(a_obj){

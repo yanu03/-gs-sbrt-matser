@@ -93,10 +93,15 @@ $(function(){
         
     });
     $('#btn4').bind('click', function(){
+        
         if($.jf_changeddg($('#dg0'), 'all')) {
-			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
+			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'cancel');
 		}else{
-			$.jf_resetdg($('#dg0'));
+            if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')) {
+                $.jf_resetdg($('#dg0'));
+            }else{
+                $.tracomalmsg('정보', '필수입력을 입력해주세요');
+            }
 		}
     });
     $('#btn5').bind('click', function(){
@@ -114,7 +119,7 @@ $(function(){
     });
     
     $('#btn7').bind('click', function(){
-        $.jf_exceldownload($('#dg0'), '/sm/SM0100G0_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
+        $.jf_exceldownload($('#dg0'), '/common/selectCommonCo_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
     });
  
     $('#btn8').bind('click', function(){

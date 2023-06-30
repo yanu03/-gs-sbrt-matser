@@ -19,6 +19,7 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
+  <script type="text/javascript" src="/static/jquery/jquery.fileDownload-1.4.5.js"></script> 
 	<script type="text/javascript">
     $( document ).ready(function() {
     
@@ -49,7 +50,7 @@
     $.pf_defaultparams = function(a_obj){
     	//데이터 추가시 default값을 정함.
         let rtn_params;
-        if(a_obj.attr('id') == 'dg0') rtn_params = {USE_YN : "Y"};
+        if(a_obj.attr('id') == 'dg0') rtn_params = {USE_YN : "Y", EMAIL : '', HP_NO : '', REMARK : ''};
 
         return rtn_params;
     };

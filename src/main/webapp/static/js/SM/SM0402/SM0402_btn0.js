@@ -104,4 +104,18 @@ $(function(){
         else $.jf_close();
     });
     
+    $('#btn7').bind('click', function(){
+        $.jf_exceldownload($('#dg1'), '/authority/selectAuthorityList_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
+    });
+ 
+    $('#btn8').bind('click', function(){
+        $.tracomcfmsg('확인', '엑셀 업로드시 차량관리 데이터가 재 갱신됩니다. 엑셀 업로드를 하시겠습니까?', 'excelupload');
+    });
+ 
+    $("#excelinputfile").on("change", function(e){
+        var form = $("#excelfrm")[0];
+        var formData = new FormData(form); 
+        $("#excelupload_p0").window('close');
+        $.jf_excelupload($('#dg1'), formData, '/sm/SM0402G0_exlUpload');
+    }); 
 });

@@ -28,7 +28,7 @@ $(function(){
             {field:'FAX',title:'팩스',width:150,align:'center',halign:'center'},
             {field:'EMAIL',title:'메일',width:200,align:'left',halign:'center'},
             {field:'DRV_CNT',title:'운전자수',width:80,align:'right',halign:'center',sortable:true},
-            {field:'SCV_VHC_CNT',title:'운행노선수',width:100,align:'right',halign:'center',sortable:true},
+            {field:'SVC_ROUT_CNT',title:'운행노선수',width:100,align:'right',halign:'center',sortable:true},
             {field:'LIC_VHC_CNT',title:'면허차대수',width:100,align:'right',halign:'center',sortable:true},
             {field:'SPR_VHC_CNT',title:'예비차대수',width:100,align:'right',halign:'center',sortable:true},
             {field:'REMARK',title:'비고',width:400,align:'left',halign:'center'},

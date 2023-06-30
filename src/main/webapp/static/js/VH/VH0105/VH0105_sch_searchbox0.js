@@ -17,7 +17,7 @@ $(function(){
 	$('#sch_sb0').searchbox({
 		width: 250,
 		height: 24,
-		prompt: '대표노선명, 차량번호, 운행상태',
+		prompt: '노선그룹명, 차량번호, 운행상태',
 		searcher: $.jf_schbox
 	});
 	

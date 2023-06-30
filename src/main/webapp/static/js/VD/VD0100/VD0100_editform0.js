@@ -299,6 +299,7 @@ $(function(){
 		labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
+            $.uf_chkmngid(newValue, $('#MNG_ID'));
         }
 	});
 

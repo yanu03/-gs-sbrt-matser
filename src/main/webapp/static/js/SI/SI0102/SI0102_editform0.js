@@ -61,7 +61,7 @@ $(function(){
     $('#fm_panel0').append('<input id="FAX" class="tracom-textbox" name="FAX">&nbsp;&nbsp;');
     $('#fm_panel0').append('<input id="EMAIL" class="tracom-textbox" name="EMAIL"><p>');
     $('#fm_panel0').append('<input id="DRV_CNT" class="tracom-numberbox" name="DRV_CNT">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="SCV_VHC_CNT" class="tracom-numberbox" name="SCV_VHC_CNT">&nbsp;&nbsp;');
+    $('#fm_panel0').append('<input id="SVC_ROUT_CNT" class="tracom-numberbox" name="SVC_ROUT_CNT">&nbsp;&nbsp;');
     $('#fm_panel0').append('<input id="COMP_REG_NO" class="tracom-textbox" name="COMP_REG_NO"><p>');
     $('#fm_panel0').append('<input id="SPR_VHC_CNT" class="tracom-numberbox" name="SPR_VHC_CNT">&nbsp;&nbsp;');
     $('#fm_panel0').append('<input id="PHONE" class="tracom-textbox" name="PHONE">&nbsp;&nbsp;');
@@ -194,12 +194,9 @@ $(function(){
             if(!jv_rowclick) return false;
         }
     });
+    // 도로명주소 검색팝업
     $('#sch_addr_btn').bind('click', function(){
-        // 도로명 검색 팝업 생성
-        // 검색후 나온 결과를 클릭시 해당 주소를 ADDR textbox에 주소정보를 넣어줘야함 or
-        // 검색후 나온 결과를 클릭하고 확인 버튼을 누르면 ADDR textbox에 주소정보를 넣어줘야함
-        $.tracomalmsg('정보','도로명 검색 팝업은 작업중...');
-        //$('#selcomp').window('open');
+        $.uf_findaddr($('#FAX'));
     });
     $('#sch_addr_btn').linkbutton({
         height: 24,
@@ -249,7 +246,7 @@ $(function(){
             if(!jv_rowclick) return false;
         }
     });
-    $('#SCV_VHC_CNT').numberbox({
+    $('#SVC_ROUT_CNT').numberbox({
         width: 200,
         height: 25,
         type:'text',

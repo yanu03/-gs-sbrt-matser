@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
+    <script type="text/javascript" src="/static/jquery/jquery.fileDownload-1.4.5.js"></script> 
 	<script type="text/javascript">
     $( document ).ready(function() { });
     $.pf_append = function(){return true;};
@@ -68,8 +69,9 @@
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
         else if(a_type == 'search'){
-            if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f')){
-                if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), '/member/updateMemberBasic', 'post', 'search');
+            if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') && $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
+                $.jf_savedgdata($('#dg0'), '/member/updateMemberBasic', 'post', 'search');
+                $.jf_savedgdata($('#dg1'), '/authority/saveAuthorityMember', 'post', null);
                 $.jf_retrieve($('#dg0'));
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);

@@ -11,6 +11,7 @@ $(function(){
 
 	$('#sch_panel0').append('<input id="sch_ns0" class="tracom-numberspinner">');
 	
+  var authority = $.jf_getcurauthority();
 	var v_date = new Date();
   var v_year = v_date.getFullYear().toString();
   /*추후 공통으로 빼주면 좋습니다*/

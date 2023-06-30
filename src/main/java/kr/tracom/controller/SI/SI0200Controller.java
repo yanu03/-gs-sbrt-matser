@@ -42,14 +42,14 @@ public class SI0200Controller extends ControllerSupport{
 	
 	@RequestMapping("/si/SI0200G0K0")
 	public @ResponseBody Map<String, Object> SI0200G0K0() throws Exception {
-		result.setData("dma_SEQ_BMS_VHC_MST_0", si0200Service.SI0200G0K0());
+		result.setData("rows", si0200Service.SI0200G0K0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/si/SI0200G0S0")
 	public @ResponseBody Map<String, Object> SI0200G0S0() throws Exception {
 		Map map = si0200Service.SI0200G0S0();
-		result.setData("dma_result", map);
+		result.setData("rows", map);
 		return result.getResultSave();
 	}
 	
@@ -83,13 +83,13 @@ public class SI0200Controller extends ControllerSupport{
 	
 	@RequestMapping("/si/SI0200SHI0")
 	public @ResponseBody Map<String, Object> SI0200SHI0() throws Exception {
-		result.setData("dlt_vhcSearchItem", si0200Service.SI0200SHI0());
+		result.setData("rows", si0200Service.SI0200SHI0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/si/SI0200SHI1")
 	public @ResponseBody Map<String, Object> SI0200SHI1() throws Exception {
-		result.setData("dlt_searchitem", si0200Service.SI0200SHI1());
+		result.setData("rows", si0200Service.SI0200SHI1());
 		return result.getResult();
 	}
 }

@@ -17,7 +17,7 @@ $(function(){
 	$('#sch_sb0').searchbox({
 		width: 210,
 		height: 24,
-		prompt: '대표노선명, 차량번호, 구분',
+		prompt: '노선그룹명, 차량번호, 구분',
 		searcher: $.jf_schbox
 	});
 	

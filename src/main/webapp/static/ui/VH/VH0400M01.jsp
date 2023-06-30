@@ -16,6 +16,8 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
+    <script src="/static/js/common/map_comm.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=100faa0e8b0c72a3da69169f45883b0b"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {
     
@@ -41,7 +43,7 @@
         let v_fdate = $('#sch_fdd').datebox('getValue');
         let v_tdate = $('#sch_tdd').datebox('getValue');
         rtn_params = {TYPE : "ALL", CONTENT1 : v_searchval, CONTENT2 : v_searchval,
-        								CONTENT3 : v_searchval, F_DATE : v_fdate, L_DATE : v_tdate};
+                    CONTENT3 : v_searchval, CONTENT4 : v_searchval, F_DATE : v_fdate, L_DATE : v_tdate};
         
         return rtn_params;
     };    
@@ -78,13 +80,6 @@
             // 만약 fromdate가 todate보다 30일 더 멀어지게 된다면
             // todate의 기준으로 부터 30일 전의 날짜로 설정해준다.
         }
-
-        return true;
-    };
-    // 기능 : 선택된 row의 좌표값에 따라 map의 위치를 바꿔주는 함수
-    $.uf_movemap = function(a_index, a_row){
-        let v_gpsX = a_row.GPS_X;
-        let v_gpsY = a_row.GPS_Y;
 
         return true;
     };
@@ -125,10 +120,10 @@
             <div data-options="region:'east', border:true, maxWidth:600, minWidth:600">
                 <!-- map panel -->
                 <div id="map_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
-                    <span>map section</span>
+                    <!-- <span>map section</span> -->
                 </div>
                 <!-- map js -->
-                <!-- <script src="/static/js/VH/VH0400/VH0400_map0.js"></script> -->
+                <script src="/static/js/VH/VH0400/VH0400_map0.js"></script>
             </div>
         </div>
     </div>

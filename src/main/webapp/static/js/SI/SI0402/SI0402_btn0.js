@@ -75,7 +75,9 @@ $(function(){
 		}
 	});
   $('#btn7').bind('click', function(){
-        $.jf_exceldownload($('#dg0'), '/si/SI0402G0_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
+				let v_selected = $('#dg0').datagrid('getSelected');
+				console.log(v_selected);
+        $.jf_exceldownload($('#dg1'), '/si/SI0402G1_exlDownload?param='+ v_selected.ROUT_ID);
     });
  
     $('#btn8').bind('click', function(){
@@ -86,6 +88,6 @@ $(function(){
         var form = $("#excelfrm")[0];
         var formData = new FormData(form); 
         $("#excelupload_p0").window('close');
-        $.jf_excelupload($('#dg0'), formData, '/si/SI0402G0_exlUpload');
+        $.jf_excelupload($('#dg1'), formData, '/si/SI0402G1_exlUpload');
     }); 
 });

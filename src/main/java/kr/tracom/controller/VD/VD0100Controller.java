@@ -55,8 +55,9 @@ public class VD0100Controller extends ControllerSupport {
 		result.setData("dma_result", map);
 		return result.getResultSave();
 	}	
+	
 	@RequestMapping("/vd/VD0100G0_exlDownload")
-    public String  SI0200G0_exlDownload(Model model) throws Exception {
+    public String  VD0100G0_exlDownload(Model model) throws Exception {
 
 		String[] getValues = {"DVC_ID", "DVC_KIND", "DVC_KIND_NM", "MAKER", "MAKER_NM", "INST_LOC", "INST_LOC_NM"
 								, "MNG_ID", "DVC_IP", "TRNS_TYPE", "TRNS_TYPE_NM","REMARK"};
@@ -70,5 +71,4 @@ public class VD0100Controller extends ControllerSupport {
 		return "ExcelView";
         //return new ModelAndView("ExcelView", "map", result);
 	}
-	
 }
