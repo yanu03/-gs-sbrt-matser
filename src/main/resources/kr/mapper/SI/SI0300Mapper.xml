@@ -176,11 +176,11 @@
 	
 	<!-- 운전자 삭제시 배차 UPDATE -->
 	<update id="SI0300G0D1" parameterType="Map">
-		UPDATE BMS_DAY_DRV_ALLOC_INFO
+		UPDATE BMS_DAY_ALLOC_PL_INFO
 		SET DRV_ID = ''
 		WHERE DRV_ID = #{DRV_ID};
 		
-		UPDATE BMS_DRV_ALLOC_INFO
+		UPDATE BMS_ALLOC_PL_INFO
 		SET DRV_ID = ''
 		WHERE DRV_ID = #{DRV_ID};
 	</update>
