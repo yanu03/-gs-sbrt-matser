@@ -76,5 +76,11 @@ public class AL0203Controller extends ControllerSupport{
 		return result.getResult();
 	}
 	
+	@RequestMapping("/al/AL0203P1R0")
+	public @ResponseBody Map<String, Object> AL0203P1R0() throws Exception {
+		result.setData("rows", al0203Service.AL0203P1R0());
+		return result.getResult();
+	}
+	
 	
 }

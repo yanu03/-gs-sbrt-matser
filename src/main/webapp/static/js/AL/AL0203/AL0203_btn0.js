@@ -55,10 +55,10 @@ $(function(){
 	
 	//btn 기능 binding
 	$('#btn0').bind('click', function(){
-		if($.jf_changeddg($('#dg1'), 'all')) {
+		if($.jf_changeddg($('#dg0'), 'all')) {
 			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
 		}else{
-			$.jf_retrieve($('#dg1'));
+			$.jf_retrieve($('#dg0'));
 		}
 	});
 	/*$('#btn3').bind('click', function(){
@@ -71,7 +71,7 @@ $(function(){
 	$('#btn4').bind('click', function(){
 		 if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g'))
 		 {
-			$.jf_savedgdata($('#dg1'), '/al/AL0203G1S0', 'post', null)
+			$.jf_savedgdata($('#dg1'), '/al/AL0203G1S0', 'post', 'save');
 			
 			// 동적 변환된 그리드를 저장하기 위해 공통 저장을 사용하지 않음
 			//$.uf_bgudajax();

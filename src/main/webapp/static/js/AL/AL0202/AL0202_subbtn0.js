@@ -37,9 +37,14 @@
   $('#subbtn1').bind('click', function(){
 		//추가
 	  if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
+		if(!$.jf_changeddg($('#dg0'), null)){
 			$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
 			$.jf_insert($('#dg1'), $.pf_defaultparams($('#dg1')), $.jf_curdgindex($('#dg1'))+1);
+		} else{
+			$.tracomalmsg('정보', '배차 데이터 저장 후 삽입이 가능합니다.', null);
 		} 
+	}
+			
   });
   $('#subbtn2').bind('click', function(){
 		$.jf_delete($('#dg1'));

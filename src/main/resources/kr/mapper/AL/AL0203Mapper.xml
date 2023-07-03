@@ -311,4 +311,34 @@
 	ORDER BY OPER_SN, NODE_SN
 </select>
 
+<select id="AL0203P1R0" resultType="Map" parameterType="Map">
+	SELECT 			A.ALLOC_ID
+					,A.SN
+					,A.NODE_ID
+					,C.NODE_NM
+					,C.NODE_TYPE
+					,DD.DL_CD_NM NODE_TYPE_NM
+					,A.NODE_SN
+					,A.ALLOC_NO
+					,A.OPER_SN
+					,A.ROUT_ID
+					,B.ROUT_NM
+					,A.WAY_DIV
+					,A.COR_ID
+					,A.ARRV_TM
+					,A.DPRT_TM
+					,A.UPD_DTM
+					,A.UPD_ID
+	FROM			BMS_OPER_ALLOC_PL_NODE_INFO A
+	LEFT JOIN		BMS_ROUT_MST B
+	ON				A.ROUT_ID = B.ROUT_ID
+	LEFT JOIN		BMS_NODE_MST C
+	ON				A.NODE_ID = C.NODE_ID
+	LEFT JOIN 		BMS_DL_CD_INFO DD
+	ON 				C.NODE_TYPE = DD.DL_CD 
+	AND 			DD.CO_CD = 'NODE_TYPE'
+	
+	ORDER BY  		ALLOC_ID, ALLOC_NO, OPER_SN, NODE_SN
+</select>
+
 </mapper>

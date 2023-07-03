@@ -86,7 +86,7 @@
 		let rtn_params;
 		let v_f_date = $('#sch_fdd').datebox('getValue').replace(/-/g, '');
 		if(a_obj.attr('id') == 'dg1'){
-			rtn_params = {ALLOC_ID: a_row.ALLOC_ID, OPER_DT: v_f_date}
+			rtn_params = {ALLOC_ID: a_row.ALLOC_ID, ALLOC_NO: a_row.ALLOC_NO, OPER_DT: v_f_date}
 		}
 		return rtn_params;
 	}
@@ -179,7 +179,7 @@
 		</div>
 		<div data-options="region:'center', border:false">	
 			<div class="easyui-layout" data-options="fit:true">
-				<div data-options="region:'west', border:false, minWidth:385, maxWidth:385">
+				<div data-options="region:'west', border:false, minWidth:490, maxWidth:490">
 					<div class="easyui-layout" data-options="fit:true">
 						<div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 						</div>			
@@ -190,9 +190,12 @@
 				<div data-options="region:'center', border:false">
 					<div class="easyui-layout" data-options="fit:true">
 						<div data-options="region:'north', border:true, maxHeight:30, minHeight:30">
-							<div id="sch_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
+							<!-- <div id="sch_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
+							</div> -->
+							<div id="subsch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 							</div>
 							<!-- <script src="/static/js/AL0203_sch_selectbox0.js"></script> -->
+							<script src="/static/js/AL/AL0202/AL0202_subsch_searchbox0.js"></script>
 							<script src="/static/js/AL/AL0204/AL0204_fromtodate0.js"></script>
 						</div>
 						<div data-options="region:'center', border:true">

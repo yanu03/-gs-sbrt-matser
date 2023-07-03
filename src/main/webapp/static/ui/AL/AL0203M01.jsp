@@ -24,6 +24,8 @@
 	var dlt_VIEW_OPER_PL_ROUT_INFO = [];
 	var v_jsonDatas = [];
 	var v_paramDatas = [];
+	var js_bgData = null;
+	var js_distriData = null;
 
 	$.extend($.fn.validatebox.defaults.rules, {
 		//시간 유효성 체크
@@ -67,7 +69,7 @@
 	$.pf_acceptcfmsg = function(a_type){
 		if(a_type == 'save'){
 			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') ){
-				$.jf_savedgdata($('#dg1'), '/al/AL0203G1S0', 'post', null)
+				$.jf_savedgdata($('#dg1'), '/al/AL0203G1S0', 'post', 'save')
 				//$.uf_bgudajax();
 			}
 			else
@@ -75,12 +77,15 @@
 		}
 		if(a_type == 'distri'){
 			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
+				debugger;
 				//배포 ajax
 				$.ajax({
 						type: 'post',
 						url: '/al/AL0203P0S0',
 						// data: JSON.stringify({'rows' : v_jsonDatas, 'dma_search' : v_paramDatas}), //INSERT QUERY가 변경됨에 따라 파라미터 변경함(전체 데이터 INSERT에서 INSERT SELECT로 변환)
-						data: JSON.stringify({'rows' : $.jf_getdata($('#dg1')), 'dma_search' : v_paramDatas}),
+						//data: JSON.stringify({'rows' : $.jf_getdata($('#dg1')), 'dma_search' : v_paramDatas}),
+						//0703 수정
+						data: JSON.stringify({'rows' : js_distriData, 'dma_search' : v_paramDatas}),
 						dataType: 'json',
 						async: false,
 						contentType: 'application/json; charset=utf-8',
@@ -92,9 +97,11 @@
 								timeout:1500,
 								showType:'slide'
 							});
-						},
+							js_distriData = null;
+						},	
 						error: function(error){
-							error.apply(this, arguments);
+							js_distriData = null;
+							//error.apply(this, arguments);
 							rtn_value = false;
 						}
 					});
@@ -132,11 +139,19 @@
 		if(a_type == 'save'){
 			$.jf_resetdg($('#dg1'), 'all');
 		}
+		if(typeof(a_type) == 'number'){
+			$.jf_resetdg($('#dg1'));
+			$.jf_setfocus($('#dg0'), a_type);
+		}
+		if(a_type == 'distri'){
+			js_distriData = null;
+		}
 		return true;
 	}
 
 	$.pf_ajaxafterproc = function(a_type){
 		//저장 ajax 동작후 call back 함수
+		if(a_type == 'save') $.uf_bgajax();
 		return true;
 	}		
 
@@ -148,10 +163,9 @@
 		
 		return rtn_params;
 	}
-
 	//운행상세계획 생성
 	$.uf_createoperdetailplan = function(){
-		$.tracomcfmsg('확인', '운행상세계획 데이터가 재 생성됩니다. 궤적 생성 하시겠습니까?', 'operdtlpl');
+		$.tracomcfmsg('확인', '선택한 배차ID 전체 운행상세계획 데이터가 재생성됩니다. 궤적생성 하시겠습니까?', 'operdtlpl');
 	}
 	//배포
 	$.uf_distri = function(){
@@ -183,7 +197,9 @@
 						v_paramDatas.push(v_newObj)-1;
 						v_paramDatas[i]['OPER_DT'] = v_relDts[i];
 					}
-
+					let v_allocId =  $.jf_curdgfieldvalue($('#dg0'), 'ALLOC_ID');
+					debugger;
+					js_distriData = js_bgData.filter(item => item.ALLOC_ID === v_allocId);
 					let v_alertStartDate = $('#sch_fdd').datebox('getValue');
 					let v_alertEndDate = $('#sch_tdd').datebox('getValue');
 					$.tracomcfmsg('확인', '운행계획을 배포 하시겠습니까? 선택한 배차ID 전체가 배포 됩니다. ('+ v_alertStartDate + '~' + v_alertEndDate+')', 'distri');
@@ -332,8 +348,8 @@
 	$.uf_bgajax = function() {
 		$.ajax({
 			type: 'post',
-			url: '/al/AL0302P0R0',
-			data: JSON.stringify({dma_search : {ALLOC_ID :  $('#dg0').datagrid('getSelected').ALLOC_ID}}),
+			url: '/al/AL0203P1R0',
+			data: JSON.stringify({dma_search : ''}),
 			dataType: 'json',
 			async: false,
 			contentType: 'application/json; charset=utf-8',
@@ -346,7 +362,7 @@
 				}
 			},
 			error: function(error){
-				error.apply(this, arguments);
+				//error.apply(this, arguments);
 				rtn_value = false;
 			}
 		});

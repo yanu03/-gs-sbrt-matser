@@ -39,7 +39,7 @@ public class AL0203Service extends ServiceSupport {
 	
 	public List AL0203G1R0() throws Exception {
 		// TODO Auto-generated method stub
-		Map param = getSimpleDataMap("dma_sub_search");
+		Map param = getSimpleDataMap("dma_search");
 		return al0203Mapper.AL0203G1R0(param);
 	}
 	
@@ -88,7 +88,7 @@ public class AL0203Service extends ServiceSupport {
 		int uCnt = 0;
 		int dCnt = 0;		
 		
-		List<Map<String, Object>> param = getSimpleList("dlt_BMS_OPER_ALLOC_PL_NODE_INFO");
+		List<Map<String, Object>> param = getSimpleList("rows");
 		//Map<String, Object> map = getSimpleDataMap("dma_relDt");
 		//String temp[] = map.get("relDt").toString().replace("[","").replace("]","").replace(" ","").split(",");
 		List<Map<String, Object>> mapList = getSimpleList("dma_search");
@@ -119,6 +119,11 @@ public class AL0203Service extends ServiceSupport {
 	public List AL0203P0R0() throws Exception {
 		Map<String, Object> map = getSimpleDataMap("dma_searchItem");
 		return al0203Mapper.AL0203P0R0(map);
+	}
+	
+	public List AL0203P1R0() throws Exception {
+		//Map<String, Object> map = getSimpleDataMap("dma_search");
+		return al0203Mapper.AL0203P1R0();
 	}
 	
 }
