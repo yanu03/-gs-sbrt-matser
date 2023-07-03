@@ -121,6 +121,6 @@ $(function(){
 		var form = $("#excelfrm")[0];
 		var formData = new FormData(form); 
 		$("#excelupload_p0").window('close');
-		$.jf_excelupload($('#dg0'), formData, '/al/AL0202G0S0_exlUpload');
+		$.jf_excelupload($('#dg1'), formData, '/al/AL0202G1_exlUpload');
 	}); 
 });

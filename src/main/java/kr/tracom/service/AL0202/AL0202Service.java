@@ -1,5 +1,6 @@
 package kr.tracom.service.AL0202;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +64,12 @@ public class AL0202Service extends ServiceSupport {
 		 
 		 return list;
 	}
+	
+	public List AL0202G0R1() throws Exception {
+		Map<String, Object> map = getSimpleDataMap("dma_search");
+		List list = al0202Mapper.AL0202G0R1(map);
+		 return list;
+	}	
 	
 	public List AL0202G1R0() throws Exception {
 		Map param = getSimpleDataMap("dma_sub_search");
@@ -196,4 +203,19 @@ public class AL0202Service extends ServiceSupport {
 	public Map AL0202G1K0() throws Exception {
 		return al0202Mapper.AL0202G1K0(); 
 	}
+	
+   public List AL0202G1_exlDownload() throws Exception {
+	      String param = (String)request.getAttribute("param");
+	      Map<String, Object> map = new HashMap<String, Object>();
+	      if(CommonUtil.empty(param)){
+	         map.put("TYPE", "ALL");
+	         map.put("CONTENT", "");
+	      }
+	      else{
+	         map.put("TYPE", "ALL");
+	         map.put("CONTENT", param);
+	      }
+
+	      return al0202Mapper.AL0202G1R0(map);
+	   }	
 }

@@ -4,16 +4,18 @@
 작성일 : 2023.05.11
 */
 $(function(){
-	//single main grid
-	$('#dg_panel0').append('<table id="dg0" class="easyui-datagrid" style="width:100%;height:100%"></table>');
+   //single main grid
+   $('#dg_panel0').append('<table id="dg0" class="easyui-datagrid" style="width:100%;height:100%"></table>');
 
     let v_fdate = $.tracomfromdate('d');
     let v_tdate = $.tracomtodate('d');
 
     $('#dg0').datagrid({
-    url:'/vh/VH0602G0R0',	//json 조회 url
+      view:scrollview,
+      pageSize:250,
+    url:'/vh/VH0602G0R0',   //json 조회 url
     method: 'POST', // url 던져서 쿼리 가져올때는 POST
-    queryParams: JSON.stringify({"dma_search" : {CONTENT1 : "", F_DATE : v_fdate, L_DATE : v_tdate}}),	//json 조회 params
+    queryParams: JSON.stringify({"dma_search" : {CONTENT1 : "", F_DATE : v_fdate, L_DATE : v_tdate}}),   //json 조회 params
     singleSelect: true,
     border: false,
     loadMsg: '데이터 로딩중입니다',
@@ -34,9 +36,9 @@ $(function(){
         {field:'CTRL_PHASE_NO',title:'교차로우선신호제어현시',width:180,halign:'center',align:'right',sortable:true},
         {field:'OCR_DTM',title:'발생일시',width:190,halign:'center',align:'center',sortable:true},
       ]],
-	frozenColumns:[[
-		]],
-		//event 정의
+   frozenColumns:[[
+      ]],
+      //event 정의
     loader: function(param, success, error){$.tracomdgloader($(this), param, success, error);
     },
     loadFilter: function(a_data){
@@ -45,6 +47,9 @@ $(function(){
       return a_data;
     },
     onLoadSuccess: function(data){
+             if(!data.total){
+              return;
+         }
         $.jf_setfocus($('#dg0'), -1);
         $.jf_setfooter($('#dg0'));
     },
@@ -59,6 +64,6 @@ $(function(){
     onAfterEdit: function(index,row,changes){},
     onCancelEdit:function(index,row){},
     onBeforeSortColumn: function(sort, order){},
-	});
+   });
 
 });

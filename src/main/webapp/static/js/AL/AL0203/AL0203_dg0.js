@@ -9,7 +9,7 @@ $(function(){
 	$('#dg_panel0').append('<table id="dg0" class="easyui-datagrid" style="width:100%;height:100%"></table>');
 	
 	$('#dg0').datagrid({
-    url:'/AL/AL0202G0R0',	//json 조회 url
+    url:'/AL/AL0202G0R1',	//json 조회 url
     method: 'POST',
     queryParams: JSON.stringify({"dma_search" : {CONTENT : "", TYPE:'ALL'}}),						//json 조회 params
 	singleSelect: true, //signleSelect : 단일 선택 true, 체크박스 포함일때 false
@@ -21,6 +21,7 @@ $(function(){
     columns:[[
 		{field:'ALLOC_ID',title:'배차ID',width:100,halign:'center',align:'center'},
         {field:'ALLOC_NM',title:'배차명',width:240,halign:'center',align:'left',editor:{type:'textbox',options:{required:true}}},
+		{field:'ALLOC_NO',title:'배차번호',width:100,halign:'center',align:'center'},
 		/*{field:'REMARK',title:'비고',width:300,halign:'center',align:'left',editor:{type:'textbox'}},*/
 			]],
 		frozenColumns:[[
@@ -29,6 +30,8 @@ $(function(){
 		},
 		//event 정의
 		onLoadSuccess: function(data){
+			$.jf_mergedg($('#dg0'), 'ALLOC_ID');
+			$.jf_mergedg($('#dg0'), 'ALLOC_NM');
 			$.jf_setfocus($('#dg0'), -1);
 			$.jf_setfooter($('#dg0'));
 		},

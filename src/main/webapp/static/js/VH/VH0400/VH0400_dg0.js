@@ -4,15 +4,17 @@
 작성일 : 2023.05.11
 */
 $(function(){
-	//single main grid
-	$('#dg_panel0').append('<table id="dg0" class="easyui-datagrid" style="width:100%;height:100%"></table>');
-	
-		var v_fdate = $('#sch_fdd').datebox('getValue');
-		var v_tdate = $('#sch_tdd').datebox('getValue');
+   //single main grid
+   $('#dg_panel0').append('<table id="dg0" class="easyui-datagrid" style="width:100%;height:100%"></table>');
+   
+      var v_fdate = $('#sch_fdd').datebox('getValue');
+      var v_tdate = $('#sch_tdd').datebox('getValue');
     $('#dg0').datagrid({
-    url:'/vh/VH0400G0R0',	//json 조회 url
+      view:scrollview,
+      pageSize:250,
+    url:'/vh/VH0400G0R0',   //json 조회 url
     method: 'POST', // url 던져서 쿼리 가져올때는 POST
-    queryParams: JSON.stringify({"dma_search" : {"TYPE" : "All", "CONTENT1" : "", "CONTENT2" : "", "CONTENT3" : "", F_DATE: v_fdate,L_DATE: v_tdate}}),	//json 조회 params
+    queryParams: JSON.stringify({"dma_search" : {"TYPE" : "All", "CONTENT1" : "", "CONTENT2" : "", "CONTENT3" : "", F_DATE: v_fdate,L_DATE: v_tdate}}),   //json 조회 params
     singleSelect: true,
     border: false,
     loadMsg: '데이터 로딩중입니다',
@@ -37,17 +39,18 @@ $(function(){
         {field:'EVT_TYPE_NM',title:'이벤트유형',width:150,halign:'center',align:'left',sortable:true},
         {field:'EVT_CONTS',title:'이벤트내용',width:200,halign:'center',align:'left',sortable:true},
       ]],
-	frozenColumns:[[
-			{field:'OCR_DTM',title:'발생일시',width:200,align:'center',halign:'center',sortable:true},
+   frozenColumns:[[
+         {field:'OCR_DTM',title:'발생일시',width:200,align:'center',halign:'center',sortable:true},
       {field:'UPD_DTM',title:'업데이트일시',width:200,align:'center',halign:'center',sortable:true},
-		]],
-		//event 정의
+      ]],
+      //event 정의
     loader: function(param, success, error){$.tracomdgloader($(this), param, success, error);
     },
     loadFilter: function(data){
       return data;
     },
     onLoadSuccess: function(data){
+            if(!data.total) return;
         $.jf_setfocus($('#dg0'), -1);
         $.jf_setfooter($('#dg0'));
     },
@@ -66,6 +69,6 @@ $(function(){
     onAfterEdit: function(index,row,changes){},
     onCancelEdit:function(index,row){},
     onBeforeSortColumn: function(sort, order){},
-	});
+   });
 
 });

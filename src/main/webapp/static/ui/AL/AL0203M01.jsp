@@ -67,8 +67,8 @@
 	$.pf_acceptcfmsg = function(a_type){
 		if(a_type == 'save'){
 			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') ){
-				// $.jf_savedgdata($('#ef0'), '/al/AL0203G1S0', 'post', null)
-				$.uf_bgudajax();
+				$.jf_savedgdata($('#dg1'), '/al/AL0203G1S0', 'post', null)
+				//$.uf_bgudajax();
 			}
 			else
 				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
@@ -143,7 +143,7 @@
 	$.pf_childparams = function(a_obj, a_row){
 		let rtn_params;
 		if(a_obj.attr('id') == 'dg1'){
-			rtn_params = {ALLOC_ID: a_row.ALLOC_ID} //상하행 조건 제외하는걸로 변경
+			rtn_params = {ALLOC_ID: a_row.ALLOC_ID, ALLOC_NO: a_row.ALLOC_NO} //상하행 조건 제외하는걸로 변경
 		}
 		
 		return rtn_params;
@@ -186,7 +186,7 @@
 
 					let v_alertStartDate = $('#sch_fdd').datebox('getValue');
 					let v_alertEndDate = $('#sch_tdd').datebox('getValue');
-					$.tracomcfmsg('확인', '해당 운행계획을 배포 하시겠습니까? ('+ v_alertStartDate + '~' + v_alertEndDate+')', 'distri');
+					$.tracomcfmsg('확인', '운행계획을 배포 하시겠습니까? 선택한 배차ID 전체가 배포 됩니다. ('+ v_alertStartDate + '~' + v_alertEndDate+')', 'distri');
 				}
 				//요일 구분 사용할 때 로직
 				/* if(v_allJson.length > 0 ){
@@ -328,6 +328,29 @@
 		}
 		return true;
 	}
+	
+	$.uf_bgajax = function() {
+		$.ajax({
+			type: 'post',
+			url: '/al/AL0302P0R0',
+			data: JSON.stringify({dma_search : {ALLOC_ID :  $('#dg0').datagrid('getSelected').ALLOC_ID}}),
+			dataType: 'json',
+			async: false,
+			contentType: 'application/json; charset=utf-8',
+			success: function(data){
+				if(typeof(data['rows']) != "undefined"){
+					js_bgData = data['rows'];
+				}else{
+					let msgtext = data['rsMsg']['message'];
+					top.$.messager.alert('sever massage',msgtext);
+				}
+			},
+			error: function(error){
+				error.apply(this, arguments);
+				rtn_value = false;
+			}
+		});
+	}		
     
 	</script>
 </head>
@@ -355,7 +378,7 @@
 		</div>
 		<div data-options="region:'center', border:false">	
 			<div class="easyui-layout" data-options="fit:true">
-				<div data-options="region:'west', border:false, minWidth:385, maxWidth:385">
+				<div data-options="region:'west', border:false, minWidth:490, maxWidth:490">
 					<div class="easyui-layout" data-options="fit:true">
 						<div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 						</div>			

@@ -6,19 +6,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Single Grid</title>
-	<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/material/easyui.css">
-	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/icon.css">
-	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/demo/demo.css">
-	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
-	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
-	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/common/sample_comm.js"></script>
+   <meta charset="UTF-8">
+   <title>Single Grid</title>
+   <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+   <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/material/easyui.css">
+   <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/icon.css">
+   <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/demo/demo.css">
+   <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
+   <script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
+   <script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
+   <script src="/static/js/common/sample_comm.js"></script>
     <script src="/static/js/common/map_comm.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=100faa0e8b0c72a3da69169f45883b0b"></script>
-	<script type="text/javascript">
+    <script type="text/javascript" src="/static/js/common/scrollview_comm.js"></script>
+   <script type="text/javascript">
     $( document ).ready(function() {
     
     });
@@ -43,7 +44,7 @@
         let v_fdate = $('#sch_fdd').datebox('getValue');
         let v_tdate = $('#sch_tdd').datebox('getValue');
         rtn_params = {TYPE : "ALL", CONTENT1 : v_searchval,  CONTENT2 : v_searchval,
-        							CONTENT3 : v_searchval, F_DATE: v_fdate, L_DATE:v_tdate};
+                             CONTENT3 : v_searchval, F_DATE: v_fdate, L_DATE:v_tdate};
         
         return rtn_params;
     };    
@@ -83,11 +84,11 @@
 
         return true;
     };
-	</script>
+   </script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">
 <div style="position:left;margin:0 0 0 0;border:0px solid red;width:100%;height:100vh;">
-	<div class="easyui-layout" data-options="fit:true" >
+   <div class="easyui-layout" data-options="fit:true" >
     <div data-options="region:'north', border:true, minHeight:50, maxHeight:50">
         <div class="easyui-layout" data-options="fit:true">
             <form>
@@ -127,8 +128,7 @@
             </div>
         </div>
     </div>
-	</div>	
+   </div>   
 </div>
 </body>
 </html>
-

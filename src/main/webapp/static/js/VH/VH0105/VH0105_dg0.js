@@ -4,15 +4,17 @@
 작성일 : 2023.05.11
 */
 $(function(){
-	//single main grid
-	$('#dg_panel0').append('<table id="dg0" class="easyui-datagrid" style="width:100%;height:100%"></table>');
+   //single main grid
+   $('#dg_panel0').append('<table id="dg0" class="easyui-datagrid" style="width:100%;height:100%"></table>');
 
-	var v_fdate = $.tracomfromdate('d');
-	var v_tdate = $.tracombasicdate();
+   var v_fdate = $.tracomfromdate('d');
+   var v_tdate = $.tracombasicdate();
     $('#dg0').datagrid({
-    url:'/vh/VH0105G0R0',	//json 조회 url
+      view: scrollview,
+      pageSize: 250,
+    url:'/vh/VH0105G0R0',   //json 조회 url
     method: 'POST', // url 던져서 쿼리 가져올때는 POST
-    queryParams: JSON.stringify({"dma_search" : {"TYPE" : "All", "CONTENT1" : "", "CONTENT2" : "", "CONTENT3" : "","F_DATE": v_fdate,"L_DATE":v_tdate}}),	//json 조회 params
+    queryParams: JSON.stringify({"dma_search" : {"TYPE" : "All", "CONTENT1" : "", "CONTENT2" : "", "CONTENT3" : "","F_DATE": v_fdate,"L_DATE":v_tdate}}),   //json 조회 params
     singleSelect: true,
     border: false,
     loadMsg: '데이터 로딩중입니다',
@@ -44,17 +46,18 @@ $(function(){
         {field:'LINK_NM',title:'링크명',width:250,halign:'center',align:'left'},
         {field:'PRV_PLCE_NM',title:'이전정류소명',width:200,halign:'center',align:'left'},
       ]],
-	frozenColumns:[[
-			{field:'OPER_DT',title:'운행일',width:150,align:'center',halign:'center',sortable:true},
+   frozenColumns:[[
+         {field:'OPER_DT',title:'운행일',width:150,align:'center',halign:'center',sortable:true},
       {field:'UPD_DTM',title:'갱신일시',width:200,align:'center',halign:'center',sortable:true},
-		]],
-		//event 정의
+      ]],
+      //event 정의
     loader: function(param, success, error){$.tracomdgloader($(this), param, success, error);
     },
     loadFilter: function(data){
       return data;
     },
     onLoadSuccess: function(data){
+            if(!data.total) return;
         $.jf_setfocus($('#dg0'), -1);
         $.jf_setfooter($('#dg0'));
     },
@@ -73,6 +76,6 @@ $(function(){
     onAfterEdit: function(index,row,changes){},
     onCancelEdit:function(index,row){},
     onBeforeSortColumn: function(sort, order){},
-	});
+   });
 
 });

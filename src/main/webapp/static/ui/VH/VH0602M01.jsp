@@ -6,17 +6,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Single Grid</title>
-	<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/material/easyui.css">
-	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/icon.css">
-	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/demo/demo.css">
-	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
-	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
-	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
-	<script src="/static/js/common/sample_comm.js"></script>
-	<script type="text/javascript">
+   <meta charset="UTF-8">
+   <title>Single Grid</title>
+   <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+   <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/material/easyui.css">
+   <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/icon.css">
+   <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/demo/demo.css">
+   <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
+   <script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
+   <script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
+   <script type="text/javascript" src="/static/js/common/scrollview_comm.js"></script>
+   <script src="/static/js/common/sample_comm.js"></script>
+   <script type="text/javascript">
     $( document ).ready(function() {
     
     });
@@ -36,7 +37,7 @@
     $.pf_ajaxafterproc = function(a_type){return true;};
 
     $.pf_combineparams = function(a_obj){
-    	//데이터 조회시 파라미터를 정함.
+       //데이터 조회시 파라미터를 정함.
         let rtn_params;
 
         let v_searchval = $('#sch_sb0').searchbox('getValue');
@@ -109,11 +110,11 @@
 
         return rtn_value;
     };
-	</script>
+   </script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">
 <div style="position:left;margin:0 0 0 0;border:0px solid red;width:100%;height:100vh;">
-	<div class="easyui-layout" data-options="fit:true" >
+   <div class="easyui-layout" data-options="fit:true" >
         <div data-options="region:'north', border:true, maxHeight:50, minHeight:50">
             <div class="easyui-layout" data-options="fit:true" >
                 <form>
@@ -144,7 +145,7 @@
             <!-- dg0 js -->
             <script src="/static/js/VH/VH0602/VH0602_dg0.js"></script>
         </div>
-	</div>	
+   </div>   
 </div>
 </body>
 </html>

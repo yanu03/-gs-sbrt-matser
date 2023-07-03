@@ -24,13 +24,13 @@ public class SM0403Controller extends ControllerSupport {
 
 	@RequestMapping("/sm/SM0403G0R0")
 	public @ResponseBody Map<String, Object> SM0403G0R0() throws Exception {
-		result.setData("dlt_BMS_USER_HIS", sm0403Service.SM0403G0R0());
+		result.setData("rows", sm0403Service.SM0403G0R0());
 		return result.getResult();
 	}
 	
 	@RequestMapping("/sm/SM0403SHI0")
 	public @ResponseBody Map<String, Object> SM0403SHI0() throws Exception {
-		result.setData("dlt_searchitem", sm0403Service.SM0403SHI0());
+		result.setData("rows", sm0403Service.SM0403SHI0());
 		return result.getResult();
 	}
 }
