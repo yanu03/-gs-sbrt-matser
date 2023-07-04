@@ -482,7 +482,6 @@ $.jf_multidatatojson = function(a_arrfield, a_arrvalue){
 $.jf_validatedata = function(a_obj, a_form, a_idx, a_type){
 	if(a_idx < 0) return true;
 	if(!$.pf_validatedata(a_obj, a_idx, a_type)) return false;
-
 		let a_bool = true;
 		if (a_type == 'g')
 			a_bool = a_obj.datagrid('validateRow', a_idx);

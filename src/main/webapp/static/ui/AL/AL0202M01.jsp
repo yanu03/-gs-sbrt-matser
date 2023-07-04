@@ -63,7 +63,7 @@
 
 	$.pf_acceptcfmsg = function(a_type){
 		if(a_type == 'save'){
-			if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
+			if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') ){
 				$.jf_savedgdata($('#dg0'), '/AL/AL0202G0S0', 'post', null)
 			}
 			else
@@ -77,6 +77,13 @@
 			else
 				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);				
 		}
+		if(a_type == 'subsave'){
+			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') ){
+				$.jf_savedgdata($('#dg1'), '/AL/AL0202G1S0', 'post', null)
+			}
+			else
+				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
+		}
 		return true;
 	}
 		
@@ -88,8 +95,8 @@
 			$.jf_resetdg($('#dg1'));
 			$.jf_setfocus($('#dg0'), a_type);
 		}
-		if(a_type == 'subsave1'){
-			$.jf_resetdg($('#dg1'), 'all');
+		if(a_type == 'subsave'){
+			$.jf_resetdg($('#dg1'));
 		}
 		return true;
 	}

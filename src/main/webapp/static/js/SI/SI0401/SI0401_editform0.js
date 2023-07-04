@@ -64,41 +64,104 @@ $(function () {
 	});
 
 
+	let htmlString = '<table>';
 
-
-
-	$('#fm_panel0').append('<table>');
 	//design
-	//$('#fm_panel0').append('<input id="ROUT_ID" name="ROUT_ID">&nbsp;');
-	$('#fm_panel0').append('<input id="ROUT_ID" class="tracom-textbox" name="ROUT_ID">&nbsp;');
-	// $('#fm_panel0').append('<input id="REP_ROUT_ID" name="REP_ROUT_ID">&nbsp;');
-	//추후 주석 제거
-	// $('#fm_panel0').append('<input id="REP_ROUT_NM" name="REP_ROUT_NM">&nbsp;');
-	$('#fm_panel0').append('<input id="ROUT_NM" class="tracom-textbox" name="ROUT_NM">&nbsp;');
-	$('#fm_panel0').append('<input id="ROUT_GRP" class="tracom-combobox" name="ROUT_GRP">&nbsp;');
-	$('#fm_panel0').append('<input id="ROUT_TYPE" class="tracom-combobox" name="ROUT_TYPE">&nbsp;');
-	$('#fm_panel0').append('<input id="ROUT_DIV" class="tracom-combobox" name="ROUT_DIV">&nbsp;');
-	$('#fm_panel0').append('<input id="AREA" class="tracom-combobox" name="AREA">&nbsp;');
-	// $('#fm_panel0').append('<input id="ST_STTN_ID" name="ST_STTN_ID">&nbsp;');
-	$('#fm_panel0').append('<input id="ST_STTN_NM" class="tracom-textbox" name="ST_STTN_NM">&nbsp;');
-	// $('#fm_panel0').append('<input id="ST_STTN_ENM" name="ST_STTN_ENM">&nbsp;');
-	// $('#fm_panel0').append('<input id="ED_STTN_ID" name="ED_STTN_ID">&nbsp;');
-	$('#fm_panel0').append('<input id="ED_STTN_NM" class="tracom-textbox" name="ED_STTN_NM">&nbsp;');
-	// $('#fm_panel0').append('<input id="ED_STTN_ENM" name="ED_STTN_ENM">&nbsp;');
-	// $('#fm_panel0').append('<input id="RET_STTN_ID" name="RET_STTN_ID">&nbsp;');
-	$('#fm_panel0').append('<input id="RET_STTN_NM" class="tracom-textbox" name="RET_STTN_NM">&nbsp;');
-	// $('#fm_panel0').append('<input id="RET_STTN_ENM" name="RET_STTN_ENM">&nbsp;');
-	$('#fm_panel0').append('<input id="OPER_CNT" class="tracom-numberbox" name="OPER_CNT">&nbsp;');
-	$('#fm_panel0').append('<input id="ALLOC_CNT" class="tracom-numberbox" name="ALLOC_CNT">&nbsp;');
-	$('#fm_panel0').append('<input id="FST_TM" class="tracom-textbox" name="FST_TM">&nbsp;');
-	$('#fm_panel0').append('<input id="LST_TM" class="tracom-textbox" name="LST_TM">&nbsp;');
-	$('#fm_panel0').append('<input id="NONE_PEAK" class="tracom-textbox" name="NONE_PEAK">&nbsp;');
-	$('#fm_panel0').append('<input id="WAY_DIV" class="tracom-combobox" name="WAY_DIV"><p>');
-	$('#fm_panel0').append('<input id="USE_YN_Y" class="tracom-radiobutton" name="USE_YN">&nbsp;');
-	$('#fm_panel0').append('<input id="USE_YN_N" class="tracom-radiobutton" name="USE_YN"><p>');
-	$('#fm_panel0').append('<input id="REMARK" class="tracom-textbox" name="REMARK"><p>');
+	htmlString += '<tr>';
+	htmlString += '<th><label>노선ID </label></th>';
+	htmlString += '<td></td>'; //숫자 주도록해서 append
+	htmlString += '<th><label>노선명 </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>노선그룹 </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
+	
+	htmlString += '<tr>';
+	/*htmlString += '<td><input id="ROUT_GRP" class="tracom-combobox" name="ROUT_GRP"></td>';*/
+	htmlString += '<th><label>노선유형  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>노선구분  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>권역  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
+	
+	htmlString += '<tr>';
+	htmlString += '<th><label>기점  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>종점  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>회차정류소  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
+	
+	htmlString += '<tr>';
+	htmlString += '<th><label>상하행  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>운행횟수  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>배차횟수  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
+	
+	htmlString += '<tr>';
+	htmlString += '<th><label>첫차시간(시분)  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>막차시간(시분)  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>운행간격(분)  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
+	
+	htmlString += '<tr>';
+	htmlString += '<th><label>사용여부  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>비고  </label></th>';
+	htmlString += '<td></td>';
+	//htmlString += '<th><label>미사용  </label></th>';
+	//htmlString += '<td></td>';
+	htmlString += '</tr>';
+	
+	/*htmlString += '<tr>';
+	htmlString += '<th><label>비고  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';*/
+	
+	htmlString += '</table>';
+	
+	$('#fm_panel0').html(htmlString);
+	
 
-	$('#fm_panel0').append('</table>');
+	//layout 수정건 07/04 양현우
+	//$('#fm_panel0').append('<table>');
+	//design
+	$('#fm_panel0 table tr:nth-child(1) td:nth-child(2)').append('<input id="ROUT_ID" class="tracom-textbox" name="ROUT_ID">'); //폼이 2개 이상이거나 중복이 우려될 경우
+	// $('#fm_panel0').append('<input id="REP_ROUT_ID" name="REP_ROUT_ID">;');
+	// $('#fm_panel0').append('<input id="REP_ROUT_NM" name="REP_ROUT_NM">;');
+	$('tr:nth-child(1) td:nth-child(4)').append('<td><input id="ROUT_NM" class="tracom-textbox" name="ROUT_NM"></td>;');
+	$('tr:nth-child(1) td:nth-child(6)').append('<input id="ROUT_GRP" class="tracom-combobox" name="ROUT_GRP">');
+	$('tr:nth-child(2) td:nth-child(2)').append('<input id="ROUT_TYPE" class="tracom-combobox" name="ROUT_TYPE">');
+	$('tr:nth-child(2) td:nth-child(4)').append('<input id="ROUT_DIV" class="tracom-combobox" name="ROUT_DIV">');
+	$('tr:nth-child(2) td:nth-child(6)').append('<input id="AREA" class="tracom-combobox" name="AREA">');
+	// $('#fm_panel0').append('<input id="ST_STTN_ID" name="ST_STTN_ID">;');
+	$('tr:nth-child(3) td:nth-child(2)').append('<input id="ST_STTN_NM" class="tracom-textbox" name="ST_STTN_NM">');
+	// $('#fm_panel0').append('<input id="ST_STTN_ENM" name="ST_STTN_ENM">;');
+	// $('#fm_panel0').append('<input id="ED_STTN_ID" name="ED_STTN_ID">;');
+	$('tr:nth-child(3) td:nth-child(4)').append('<input id="ED_STTN_NM" class="tracom-textbox" name="ED_STTN_NM">');
+	// $('#fm_panel0').append('<input id="ED_STTN_ENM" name="ED_STTN_ENM">;');
+	// $('#fm_panel0').append('<input id="RET_STTN_ID" name="RET_STTN_ID">;');
+	$('tr:nth-child(3) td:nth-child(6)').append('<input id="RET_STTN_NM" class="tracom-textbox" name="RET_STTN_NM">');
+	// $('#fm_panel0').append('<input id="RET_STTN_ENM" name="RET_STTN_ENM">;');
+	$('tr:nth-child(4) td:nth-child(2)').append('<input id="OPER_CNT" class="tracom-numberbox" name="OPER_CNT">');
+	$('tr:nth-child(4) td:nth-child(4)').append('<input id="ALLOC_CNT" class="tracom-numberbox" name="ALLOC_CNT">');
+	$('tr:nth-child(4) td:nth-child(6)').append('<input id="FST_TM" class="tracom-textbox" name="FST_TM">');
+	$('tr:nth-child(5) td:nth-child(2)').append('<input id="LST_TM" class="tracom-textbox" name="LST_TM">');
+	$('tr:nth-child(5) td:nth-child(4)').append('<input id="NONE_PEAK" class="tracom-textbox" name="NONE_PEAK">');
+	$('tr:nth-child(5) td:nth-child(6)').append('<input id="WAY_DIV" class="tracom-combobox" name="WAY_DIV">');
+	$('tr:nth-child(6) td:nth-child(2)').append('<input id="USE_YN_Y" class="tracom-radiobutton" name="USE_YN">예');
+	$('tr:nth-child(6) td:nth-child(2)').append('<input id="USE_YN_N" class="tracom-radiobutton" name="USE_YN">아니오');
+	$('tr:nth-child(6) td:nth-child(4)').append('<input id="REMARK" class="tracom-textbox" name="REMARK">');
+
 
 	$('#ROUT_ID').textbox({
 		width: 200,
@@ -108,7 +171,7 @@ $(function () {
 		required: true,
 		readonly: true,
 		value: '',
-		label: '노선ID : ',
+		//label: '노선ID : ', // layout 수정건 07/04 양현우
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -123,7 +186,7 @@ $(function () {
 		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "ROUT_GRP"}}),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
-		label: '노선그룹 : ',
+		//label: '노선그룹 : ',
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
 	});
 
@@ -135,7 +198,7 @@ $(function () {
 		required: true,
 		readonly: false,
 		value: '',
-		label: '노선명 : ',
+		//label: '노선명 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -150,7 +213,7 @@ $(function () {
 		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "ROUT_TYPE"}}),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
-		label: '노선유형 : ',
+		//label: '노선유형 : ',
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
 	});
 
@@ -163,7 +226,7 @@ $(function () {
 		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "ROUT_DIV"}}),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
-		label: '노선구분 : ',
+		//label: '노선구분 : ',
 		panelMaxHeight: 100,
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
 	});
@@ -177,7 +240,7 @@ $(function () {
 		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "AREA"}}),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
-		label: '권역 : ',
+		//label: '권역 : ',
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
 	});
 
@@ -190,7 +253,7 @@ $(function () {
 		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "WAY_DIV"}}),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
-		label: '상하행 : ',
+		//label: '상하행 : ',
 		panelMaxHeight: 170,
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
 	});
@@ -203,7 +266,7 @@ $(function () {
 		required: false,
 		readonly: false,
 		value: '',
-		label: '기점 : ',
+		//label: '기점 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -217,7 +280,7 @@ $(function () {
 		required: false,
 		readonly: false,
 		value: '',
-		label: '종점 : ',
+		//label: '종점 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -232,7 +295,7 @@ $(function () {
 		required: false,
 		readonly: false,
 		value: '',
-		label: '회차정류소 : ',
+		//label: '회차정류소 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -247,7 +310,7 @@ $(function () {
 		precision: 0,
 		readonly: false,
 		value: '',
-		label: '운행횟수 : ',
+		//label: '운행횟수 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -262,14 +325,14 @@ $(function () {
 		precision: 0,
 		readonly: false,
 		value: '',
-		label: '배차횟수 : ',
+		//label: '배차횟수 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
 	});
 
 	$('#FST_TM').textbox({
-		width: 250,
+		width: 200,
 		labelWidth: 150,
 		maxlength: 5,
 		height: 25,
@@ -277,14 +340,14 @@ $(function () {
 		required: false,
 		readonly: false,
 		value: '',
-		label: '첫차시간(시분) : ',
+		//label: '첫차시간(시분) : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
 	});
 
 	$('#LST_TM').textbox({
-		width: 250,
+		width: 200,
 		labelWidth: 150,
 		maxlength: 5,
 		height: 25,
@@ -292,7 +355,7 @@ $(function () {
 		required: false,
 		readonly: false,
 		value: '',
-		label: '막차시간(시분) : ',
+		//label: '막차시간(시분) : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -307,7 +370,7 @@ $(function () {
 		required: false,
 		readonly: false,
 		value: '',
-		label: '운행간격(분) : ',
+		//label: '운행간격(분) : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -315,7 +378,7 @@ $(function () {
 
 	$('#USE_YN_Y').radiobutton({
 		value: 'Y',
-		label: '사용',
+		//label: '사용',
 		labelWidth: 100,
 		labelPosition: 'after',
 		labelAlign: 'left',
@@ -327,7 +390,7 @@ $(function () {
 
 	$('#USE_YN_N').radiobutton({
 		value: 'N',
-		label: '미사용',
+		//label: '미사용',
 		labelWidth: 100,
 		labelPosition: 'after',
 		labelAlign: 'left',
@@ -343,7 +406,7 @@ $(function () {
 		maxlength: 200,
 		readonly: false,
 		value: '',
-		label: '비고 :',
+		//label: '비고 :',
 		multiline:true,
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;

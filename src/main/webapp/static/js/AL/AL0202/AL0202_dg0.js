@@ -61,14 +61,19 @@ $(function(){
 		},
 		onClickRow: function(index,row){},
 		onDblClickRow: function(index,row){
-			if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
-				$.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
-				$.jf_beginedit($('#dg0'), index);
+			if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') &&$.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') ){
+				if($.jf_changeddg($('#dg1'), null)){
+					$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', index);
+				}
+				else {
+					$.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
+					$.jf_beginedit($('#dg0'), index);
+				}
 			}			
 		},
 		onBeforeSelect: function(index,row){
 			let a_rtn = false;
-			if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
+			if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') && $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
 				$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
 				if($.jf_changeddg($('#dg1'), null)){
 					$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', index);

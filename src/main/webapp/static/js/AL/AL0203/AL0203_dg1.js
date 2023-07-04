@@ -91,7 +91,7 @@ $(function(){
 			 	$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
 				//$.jf_synctoform($('#dg1'), $('#modal_ef0'), index, row);
 			 },
-			 onBeforeEdit: function(index,row){},
+			 onBeforeEdit: function(index,row){if(index == 0 || index == $.jf_datalength($('#dg1'))-1) return false;},
 			 onBeginEdit: function(index,row){},
 			 onEndEdit: function(index,row,changes){
 

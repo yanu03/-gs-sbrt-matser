@@ -36,8 +36,9 @@
   });
   $('#subbtn1').bind('click', function(){
 	//궤적생성
-
-	$.uf_createoperdetailplan();
+	if(!$.jf_isempty($('#sch_tb').textbox('getValue'))){$.uf_createoperdetailplan();}
+	else $.tracomalmsg('정보', '정류소 정차시간을 입력해야 합니다.', null);
+	
   });
   $('#subbtn2').bind('click', function(){
 	//배포

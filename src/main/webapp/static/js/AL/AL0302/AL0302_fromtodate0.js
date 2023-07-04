@@ -20,7 +20,10 @@ $(function(){
 		parser: $.tracomdateparser,
 			onSelect: function(date){},
 			onChange: function(a_newValue, a_oldValue){
-				if(!$.uf_validdayftd(a_newValue, a_oldValue)) $(this).datebox('setValue', a_oldValue);
+				let v_todate = $('#sch_tdd').datebox('getValue');
+		        if(v_todate.length < 1) return false;
+		        if(a_newValue > v_todate) $('#sch_fdd').datebox('setValue', v_todate);
+				//if(!$.uf_validdayftd(a_newValue, a_oldValue)) $(this).datebox('setValue', a_oldValue);
 			}
 	});
 	
@@ -35,7 +38,10 @@ $(function(){
     parser: $.tracomdateparser,
 		onSelect: function(date){},
 		onChange: function(a_newValue, a_oldValue){
-			if(!$.uf_validdayftd(a_newValue, a_oldValue)) $(this).datebox('setValue', a_oldValue);
+			let v_fromdate = $('#sch_fdd').datebox('getValue');
+	        if(v_fromdate.length < 1) return false;
+	        if(a_newValue < v_fromdate) $('#sch_tdd').datebox('setValue', v_fromdate);
+			//if(!$.uf_validdayftd(a_newValue, a_oldValue)) $(this).datebox('setValue', a_oldValue);
 		}
 	});
 

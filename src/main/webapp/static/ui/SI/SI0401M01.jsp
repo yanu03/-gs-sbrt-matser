@@ -133,8 +133,8 @@
 			<div class="easyui-layout" data-options="fit:true">
 				<div data-options="region:'west', border:false, minWidth:1520, maxWidth:1520">
 					<div class="easyui-layout" data-options="fit:true">
-						<form id="ef0" method="post">
-							<div data-options="region:'north', border:false, minHeight:200, maxHeight:200">
+						<form id="ef0" class="tracom-form" method="post">
+							<div data-options="region:'north', border:false, minHeight:230, maxHeight:230">
 								<div id="fm_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 								</div>
 								<!--edit form object -->

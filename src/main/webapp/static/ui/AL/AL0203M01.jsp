@@ -75,9 +75,16 @@
 			else
 				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
 		}
+		if(typeof(a_type) == 'number'){
+			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') ){
+				$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
+				$.jf_savedgdata($('#dg1'), '/al/AL0203G1S0', 'post', null)	//그리드 순서에 따른 전체 저장 부분 갱신 필요
+			}
+			else
+				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);				
+		}
 		if(a_type == 'distri'){
 			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
-				debugger;
 				//배포 ajax
 				$.ajax({
 						type: 'post',
@@ -107,7 +114,8 @@
 					});
 			}
 		}
-		else if(a_type == 'operdtlpl'){
+		if(a_type == 'operdtlpl'){
+			//궤적생성
 			$.ajax({
 				type: 'post',
 				url: '/operPlan/makeOperAllocPlNodeInfo',
@@ -146,6 +154,7 @@
 		if(a_type == 'distri'){
 			js_distriData = null;
 		}
+		if(a_type == 'operdtlpl'){}
 		return true;
 	}
 

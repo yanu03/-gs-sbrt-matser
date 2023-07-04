@@ -67,38 +67,50 @@ $(function(){
 	});
 	$('#btn1').bind('click', function(){
 		if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') && $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
-			$.jf_append($('#dg0'), $.pf_defaultparams($('#dg0')));
+			if($.jf_changeddg($('#dg1'), null)) $.tracomalmsg('정보', '저장 후 추가 가능합니다.');
+			else {
+			$.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
+			$.jf_append($('#dg0'), $.pf_defaultparams($('#dg0')));	
+			}
 		}		
 	});
 	$('#btn2').bind('click', function(){
-			if($.jf_datalength($('#dg1'))>0) {
-				$.tracomalmsg('정보', '하위 데이터 삭제 후 가능합니다.'); 
-				return false;
-			}
+		if($.jf_datalength($('#dg1'))>0) {
+			$.tracomalmsg('정보', '하위 데이터 삭제 후 가능합니다.'); 
+			return false;
+		}
+		else {
+			if($.jf_changeddg($('#dg1'), null)) $.tracomalmsg('정보', '저장 후 삭제 가능합니다.'); 
 			else {
-				if($.jf_changeddg($('#dg1'), null)) $.tracomalmsg('정보', '저장 후 삭제 가능합니다.'); 
-				else {
-					//DEL_YN 업데이트 기능 사용하기 위함
-					let v_curdgData = $.jf_curdgrow($('#dg0'));
-					v_curdgData['DEL_YN'] = 'Y';
-					$('#dg0').datagrid('updateRow',{index:$.jf_curdgindex($('#dg0')),row:v_curdgData});
-					$.jf_delete($('#dg0'));
-				} 
-			}
+				//DEL_YN 업데이트 기능 사용하기 위함
+				let v_curdgData = $.jf_curdgrow($('#dg0'));
+				v_curdgData['DEL_YN'] = 'Y';
+				$('#dg0').datagrid('updateRow',{index:$.jf_curdgindex($('#dg0')),row:v_curdgData});
+				$.jf_delete($('#dg0'));
+			} 
+		}
 	});
 	$('#btn3').bind('click', function(){
-		if($.jf_changeddg($('#dg0'), 'all')) {
+		if($.jf_changeddg($('#dg0'), null)) {
+			$.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
 			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
-		}else{
+		}
+		else if($.jf_changeddg($('#dg1'), null)) {
+			$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
+			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'subsave');
+		}
+		else{
 			$.jf_resetdg($('#dg0'), 'all');
 		}
 	});
 	$('#btn4').bind('click', function(){
 		if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g')&& $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g'))
 		{
+			$.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
 			$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
 			if($.jf_changeddg($('#dg0'))) $.jf_savedgdata($('#dg0'), '/al/AL0202G0S0', 'post', null)
 			if($.jf_changeddg($('#dg1'))) $.jf_savedgdata($('#dg1'), '/al/AL0202G1S0', 'post', null)
+			//else $.tracomalmsg('정보', '저장할 데이터가 없습니다.'); 
 		}
 	});
 	$('#btn5').bind('click', function(){

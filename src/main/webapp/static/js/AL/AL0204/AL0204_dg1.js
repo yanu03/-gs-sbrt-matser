@@ -67,7 +67,7 @@ $(function(){
 			 onSelect: function(index,row){
 			 	$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
 			 },
-			 onBeforeEdit: function(index,row){},
+			 onBeforeEdit: function(index,row){if(index == 0 || index == $.jf_datalength($('#dg1'))-1) return false;},
 			 onBeginEdit: function(index,row){},
 			 onEndEdit: function(index,row,changes){
 

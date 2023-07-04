@@ -43,7 +43,7 @@ $(function(){
 		},
 		onBeforeSelect: function(index,row){
 			let a_rtn = false;
-			if($.jf_validatedata($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g'))){
+			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
 				$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
 				
 				if($.jf_changeddg($('#dg1'), null)){
