@@ -24,11 +24,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import kr.tracom.platform.common.util.CommonUtil;
+
 import kr.tracom.service.cm.File.EgovFileMngUtil;
 import kr.tracom.service.cm.File.FileService;
 import kr.tracom.mapper.cm.File.FileVO;
 import kr.tracom.support.ControllerSupport;
+import kr.tracom.util.CommonUtil;
 
 @Controller
 @Scope("request")

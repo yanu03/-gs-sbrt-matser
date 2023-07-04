@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import kr.tracom.handler.FTPHandler;
 import kr.tracom.mapper.SI0300.SI0300Mapper;
-import kr.tracom.platform.common.util.CommonUtil;
 import kr.tracom.support.ServiceSupport;
 import kr.tracom.support.exception.MessageException;
 import kr.tracom.util.CommonUtil;
@@ -109,7 +108,7 @@ public class SI0300Service extends ServiceSupport{
 						
 					}
 				} else if (rowStatus.equals("D")) {
-					si0300Mapper.SI0300G0D1(data);
+					//si0300Mapper.SI0300G0D1(data); //배차 삭제
 					dCnt += si0300Mapper.SI0300G0D0(data);
 				} 
 			}			

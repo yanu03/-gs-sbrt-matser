@@ -26,8 +26,6 @@ public interface SI0402Mapper {
 	
 	public int SI0402G1U0_1(Map param);
 	
-	public int updateLengthRoutNodeCmpstn(Map param);
-	
 	public Map SI0402G1K0();
 	
 	public int SI0402G1DA0(Map param); //노선과노드구성 테이블 삭제
@@ -85,15 +83,4 @@ public interface SI0402Mapper {
 	public int SI0402P3U0(Map param);
 	
 	public List SI0402P5R0(Map param);
-	
-	public Map getSttnLinkIdByNode(Map param);
-	
-	public Map getSttnCrsLinkIdByNode(Map param);
-	
-	public Map getSttnMoCrsLinkIdByNode(Map param);
-	
-	public List selectLinkMst();
-	
-	public int updateBearingLinkMst(Map param);
-	
 }

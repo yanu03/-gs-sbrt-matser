@@ -174,5 +174,26 @@ public class VhcService extends ServiceSupport {
         kafkaProducer.sendKafka(KafkaTopics.T_BRT, timsMessage, sttnId);	
 		
 		return null;
-	}	
+	}
+	
+	public List<Map> selectFrontRearVhc() throws Exception {
+		Map param = getSimpleDataMap("dma_sub_search");
+
+		String vhcNo = String.valueOf(param.get("VHC_NO"));
+
+		Map result = this.vhcMapper.selectVhcByVhcNo(param);
+
+		AtBrtAction brtRequest = new AtBrtAction();
+
+		brtRequest.setActionCode(AtBrtAction.frontRearInfoRequest);
+		brtRequest.setData((String) result.get("VHC_ID"));
+
+		TimsConfig timsConfig = TService.getInstance().getTimsConfig();
+		TimsMessageBuilder builder = new TimsMessageBuilder(timsConfig);
+		TimsMessage timsMessage = builder.actionRequest(brtRequest);
+
+		this.kafkaProducer.sendKafka(KafkaTopics.T_BRT, timsMessage, (String) result.get("VHC_ID"));
+
+		return null;
+	}
 }

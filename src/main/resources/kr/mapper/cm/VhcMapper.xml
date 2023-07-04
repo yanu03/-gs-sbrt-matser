@@ -157,6 +157,16 @@
 	LIMIT 1;
 </select>
 
+
+<select id="selectVhcByVhcNo" resultType="Map" parameterType="Map" >
+	SELECT
+		*
+	FROM
+		BMS_VHC_MST
+	WHERE VHC_NO LIKE CONCAT('%',#{VHC_NO},'%') 	
+	LIMIT 1;
+</select>
+
 <select id="selectVhcDvcInfoList" resultType="Map">
 	SELECT
 		VHC_ID,
