@@ -58,5 +58,12 @@ public class VhcController extends ControllerSupport {
 		
 		result.setData("", vhcService.selectBit());
 		return result.getResult();
-	}	
+	}
+	
+	@RequestMapping({ "/vhc/selectFrontRearVhc" })
+	@ResponseBody
+	public Map<String, Object> selectFrontRearVhc() throws Exception {
+		result.setData("", vhcService.selectFrontRearVhc());
+		return result.getResult();
+	}
 }

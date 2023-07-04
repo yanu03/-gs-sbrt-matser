@@ -9,9 +9,10 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import kr.tracom.mapper.SI0200.SI0200Mapper;
-import kr.tracom.platform.common.util.CommonUtil;
+
 import kr.tracom.support.ServiceSupport;
 import kr.tracom.support.exception.MessageException;
+import kr.tracom.util.CommonUtil;
 import kr.tracom.util.Constants;
 import kr.tracom.util.Result;
 
@@ -69,7 +70,7 @@ public class SI0200Service extends ServiceSupport {
 				} else if (rowStatus.equals("U")) {
 					uCnt += si0200Mapper.SI0200G0U0(data);
 				} else if (rowStatus.equals("D")) {
-					si0200Mapper.SI0200G0D1(data);
+					//si0200Mapper.SI0200G0D1(data); //배차 삭제
 					dCnt += si0200Mapper.SI0200G0D0(data);
 				} 
 			}			

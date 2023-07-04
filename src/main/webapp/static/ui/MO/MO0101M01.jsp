@@ -63,11 +63,16 @@
 	//소켓 통신용 pf
 	$.pf_sockdispatch = function(a_data) {
 		let dsptchMessage = "";
-		if(a_data['MESSAGE'].split('｜').length>0) dsptchMessage = dsptchConts.split('｜')[0];
+		let dsptchDiv = a_data.DSPTCH_DIV;
+		let dsptchKind = a_data.DSPTCH_KIND;
+		let min = "0분";
+		
+		if(a_data['MESSAGE'].split('｜').length>0) dsptchMessage = a_data['MESSAGE'].split('｜')[0];
 		else dsptchMessage = a_data['MESSAGE'];
 		
 		//디스패치가 일반메시지가 아닐경우
 		if(parseInt(dsptchMessage) != "undefined" && a_data.DSPTCH_DIV != "DP001"){
+			//if(dsptchMessage==0)return; //0인 경우 표시할 필요가 없음
 			if(Math.abs(parseInt(dsptchMessage) >= 60)) {
 				 min = Math.abs(parseInt(dsptchMessage/60)) + "분 ";
 			}
@@ -75,6 +80,7 @@
 			 
 			//운행중 디스패치일 경우 
 			 if(dsptchDiv == "DP002") {
+
 					if(dsptchKind == "DK001") contsResult = mapOption.DISPATCH_MSG_NORMAL;
 					else if(dsptchKind == "DK002") contsResult = min + sec + "느림";
 					else if(dsptchKind == "DK003") contsResult = min + sec + "빠름";
@@ -91,7 +97,7 @@
 			//VHC_NO : a_data.BUS_NO,
 			DSPTCH_DIV_NM : a_data.DSPTCH_DIV_NM,
 			// DSPTCH_CONTS : a_data.DSPTCH_CONTS,
-			DSPTCH_CONTS : a_data.DISPATCH,
+			DSPTCH_CONTS : contsResult,
 		};
 		// $.jf_append($('#dg1'), v_params);
 		$.jf_insert($('#dg2'), v_params, 0);

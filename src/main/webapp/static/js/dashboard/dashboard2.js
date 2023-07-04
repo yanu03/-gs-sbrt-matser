@@ -16,7 +16,7 @@
 	
 	dashboard.init = function() {
 		
-		dashboard.connect();
+		//dashboard.connect();
 		// dashboard.routDraw(); 우측하단 정류소 라인 만들기, 동적으로 만들지 않게 변경
    // dashboard.dispatchDraw(0, null,null);
    
@@ -194,7 +194,7 @@ dashboard.test = function() {
 		return;
 	};
   
-	dashboard.connect = function() {
+	/*dashboard.connect = function() {
 		var socket = new SockJS('/websocket');
 		stompClient = Stomp.over(socket);
 		
@@ -212,7 +212,7 @@ dashboard.test = function() {
 		setTimeout(function() {
 			dashboard.connect();
 		},1000);
-	};	
+	};*/
 	
 	dashboard.onMessageFrontRear = function(payload) {
 		var attrId = null;
