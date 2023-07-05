@@ -75,6 +75,13 @@
 			else
 				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
 		}
+		if(a_type == 'search'){
+			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') ){
+				$.jf_savedgdata($('#dg1'), '/al/AL0203G1S0', 'post', 'save')
+			}
+			else
+				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
+		}
 		if(typeof(a_type) == 'number'){
 			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') ){
 				$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
@@ -147,6 +154,10 @@
 		if(a_type == 'save'){
 			$.jf_resetdg($('#dg1'), 'all');
 		}
+		if(a_type == 'search'){
+			$.jf_resetdg($('#dg1'), 'all');
+			$.jf_retrieve($('#dg0'));
+		}
 		if(typeof(a_type) == 'number'){
 			$.jf_resetdg($('#dg1'));
 			$.jf_setfocus($('#dg0'), a_type);
@@ -178,6 +189,11 @@
 	}
 	//배포
 	$.uf_distri = function(){
+		if($.jf_isempty($.jf_curdgrow($('#dg0')))) {
+			$.tracomalmsg('정보', '배차를 선택해야 합니다.', null);
+			return false;
+		}
+		
 		if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
 			if($.jf_changeddg($('#dg1'), "ALL")){
 				$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
@@ -207,7 +223,6 @@
 						v_paramDatas[i]['OPER_DT'] = v_relDts[i];
 					}
 					let v_allocId =  $.jf_curdgfieldvalue($('#dg0'), 'ALLOC_ID');
-					debugger;
 					js_distriData = js_bgData.filter(item => item.ALLOC_ID === v_allocId);
 					let v_alertStartDate = $('#sch_fdd').datebox('getValue');
 					let v_alertEndDate = $('#sch_tdd').datebox('getValue');
@@ -264,8 +279,8 @@
 		let v_timeSplit = a_value.split(':');
 		if(v_timeSplit.length != 3) return false;
 		else{
-			if(typeof(parseInt(v_timeSplit[0])) == 'undefined' || typeof(parseInt(v_timeSplit[1])) == 'undefined'
-					|| typeof(parseInt(v_timeSplit[2])) == 'undefined') return false;
+			if(isNaN(parseInt(v_timeSplit[0])) || isNaN(parseInt(v_timeSplit[1]))
+					|| isNaN(parseInt(v_timeSplit[2]))) return false;
 			if(parseInt(v_timeSplit[0]) < 0 || 23 < parseInt(v_timeSplit[0])) return false;
 			if(parseInt(v_timeSplit[1]) < 0 || 59 < parseInt(v_timeSplit[1])) return false;
 			if(parseInt(v_timeSplit[2]) < 0 || 59 < parseInt(v_timeSplit[2])) return false;

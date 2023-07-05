@@ -1,5 +1,6 @@
 ﻿$(function(){
 	var jv_cbclick = true;
+	var jv_rtclick = false; //'조회'후에 데이터가 2개 이상일경우 focus 넘어가는 것 막기 위함
 	
 	$('#updatedg1').append('<div id="updatedg1_layout0"></div>');
 	
@@ -32,8 +33,8 @@
 	    region: 'north',
 	    border:true,
 	    split: true,
-			maxHeight:50,
-			minHeight:50
+		maxHeight:50,
+		minHeight:50
 	});
 	$('#updatedg1_layout0').layout('add',{
 	    region: 'center',
@@ -56,13 +57,35 @@
 		width:200,
 		height:22,
 		prompt:'노선ID 또는 노선명',
-	    searcher:function(value, name){
-			let v_idx = $.jf_fndmdstrct("updatedg1");
-			let v_values = js_mdstrct[v_idx].values;
-			let v_params = {CONTENT:value,ALLOC_ID:v_values.ALLOC_ID ,ALLOC_NO:v_values.ALLOC_NO};
-			$.jf_retrieve($('#updatedg1_dg0'), v_params);
+	    searcher:function(a_value, a_name){
+		
+			//let v_idx = $.jf_fndmdstrct("updatedg1");
+			//let v_values = js_mdstrct[v_idx].values;
+			//let v_params = {CONTENT:value,ALLOC_ID:v_values.ALLOC_ID ,ALLOC_NO:v_values.ALLOC_NO};
+			//let v_params = {CONTENT:a_value,ALLOC_ID:$.jf_getmdvalues("updatedg1").ALLOC_ID, ALLOC_NO:$.jf_getmdvalues("updatedg1").ALLOC_NO};
+			//$.jf_retrieve($('#updatedg1_dg0'), v_params);
+			let a_fields = ['ST_ROUT_ID', 'ST_ROUT_NM'];
+			$.jf_findtext($('#updatedg1_dg0'), a_fields, a_value);
+			$(this).textbox('textbox').focus();
 	    }
 	});
+	
+	$('#updatedg1_layout0').layout('panel','north').append('<a id="updatedg1_btn3" href="#">조회</a>');
+	
+	$('#updatedg1_btn3').linkbutton({
+	    height: 24,
+	    iconCls: 'icon-search'
+	});
+	
+	$('#updatedg1_btn3').bind('click', function(){
+		//let v_params = {TYPE:'VHC_NO',CONTENT:a_value};
+			//$.jf_retrieve($('#updatedg2_dg0'), v_params);
+		jv_rtclick = true;
+		let v_params = {CONTENT:$('#updatedg1_sb0').searchbox('getValue'),
+						ALLOC_ID:$.jf_getmdvalues("updatedg1").ALLOC_ID, ALLOC_NO:$.jf_getmdvalues("updatedg1").ALLOC_NO};
+		$.jf_retrieve($('#updatedg1_dg0'), v_params)
+ 	});	
+			
 	
 	$('#updatedg1_cb0').combobox({
 		width: 200,
@@ -151,6 +174,13 @@
 			$.jf_setfocus($('#updatedg1_dg0'), -1);
 			$.jf_setfooter($('#updatedg1_dg0'));
 			$('#updatedg1_sb0').searchbox('textbox').focus();
+			
+			//조회후 focus(find)
+			if(!jv_rtclick && !$.jf_isempty($('#updatedg1_sb0').searchbox('getValue'))){
+				let a_fields = ['ST_ROUT_ID', 'ST_ROUT_NM'];
+				$.jf_findtext($('#updatedg1_dg0'), a_fields, $('#updatedg1_sb0').searchbox('getValue'));
+			}
+			jv_rtclick = false;			
 		},
 		onBeforeLoad: function(param){ 
 			if(Object.keys(param).length < 1) return false;
@@ -179,7 +209,7 @@
 		v_queryParams = JSON.stringify({dma_search : {"ALLOC_ID" : $.jf_curdgfieldvalue($('#dg0'), 'ALLOC_ID')}});
 		$('#updatedg1_cb0').combobox({queryParams: v_queryParams});
 		let v_params = {ALLOC_ID:a_values.ALLOC_ID, ALLOC_NO:a_values.ALLOC_NO};	//data params
-		$('#updatedg1_sb0').searchbox('setValue', a_values.ROUT_NM);
+		$('#updatedg1_sb0').searchbox('setValue', a_values.ST_ROUT_NM);
 		if(!$.jf_curdgfieldvalue($('#dg1'), 'isNew') && !$.jf_isempty(a_values.ALLOC_NO) ){
 			jv_cbclick = false;
 			$('#updatedg1_cb0').combobox('setValue', a_values.ALLOC_NO);

@@ -16,21 +16,21 @@ $(function(){
 		singleSelect: true, //signleSelect : 단일 선택 true, 체크박스 포함일때 false
 		border: false,
 		loadMsg: '데이터 로딩중입니다',
-		emptyMsg: '데이터가 없습니다',
+		emptyMsg: '배포된 운행계획 데이터가 없습니다.',
 		// rownumbers: true,
 		showFooter: true,
 		columns:[[
 			{field:'ALLOC_ID',title:'배차ID',width:100,halign:'center',align:'center',hidden:true},
-			{field:'ALLOC_NO',title:'배차번호',width:100,halign:'center',align:'center',
+			/*{field:'ALLOC_NO',title:'배차번호',width:100,halign:'center',align:'center',
 				styler: function(value,row,index){return 'text-align:right;vertical-align:top;';}
-			},
+			},*/
 			{field:'ROUT_ID',title:'노선ID',width:100,halign:'center',align:'right',hidden:true},
 			{field:'ROUT_NM',title:'노선명',width:200,halign:'center',align:'left',
 				styler: function(value,row,index){return 'text-align:right;vertical-align:top;';}
 			},
 			{field:'NODE_ID',title:'노드ID',width:100,halign:'center',align:'left',hidden:true},
 			{field:'NODE_TYPE',title:'노드종류',width:100,halign:'center',align:'left',hidden:true},
-			{field:'NODE_TYPE_NM',title:'노드종류',width:100,halign:'center',align:'left'},
+			{field:'NODE_TYPE_NM',title:'노드종류',width:100,halign:'center',align:'center'},
 			{field:'NODE_NM',title:'노드명',width:300,halign:'center',align:'left'},
 			{field:'ARRV_TM',title:'도착시간',width:100,halign:'center',align:'center',
 			editor:{type:'textbox', options:{required:true, maxlength: 8, validType: {timeValid:['ARRV_TM'], timeRangeValid: ['ARRV_TM']}}}},
@@ -41,7 +41,7 @@ $(function(){
 			 },
 			 //event 정의
 			 onLoadSuccess: function(data){
-				$.jf_mergedg($('#dg1'), 'ALLOC_NO');
+				//$.jf_mergedg($('#dg1'), 'ALLOC_NO');
 				$.jf_mergedg($('#dg1'), 'ROUT_NM');
 			 	$.jf_setfocus($('#dg1'), -1);
 			 	$.jf_setfooter($('#dg1'));
@@ -73,7 +73,7 @@ $(function(){
 
 			 },
 			 onAfterEdit: function(index,row,changes){
-				$.jf_mergedg($('#dg1'), 'ALLOC_NO');
+				//$.jf_mergedg($('#dg1'), 'ALLOC_NO');
 				$.jf_mergedg($('#dg1'), 'ROUT_NM');
 			},
 			 onCancelEdit:function(index,row){}

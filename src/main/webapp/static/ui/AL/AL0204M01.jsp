@@ -21,6 +21,19 @@
 	var dlt_BRT_DAY_OPER_ALLOC_PL_NODE_INFO_CNT = null;
 	var dlt_VIEW_OPER_PL_NODE_INFO = [];
 
+	$.extend($.fn.validatebox.defaults.rules, {
+		//시간 유효성 체크
+	    timeValid: {
+	        validator: function(value, param){return $.uf_timeValid(value, param);},
+	        message: '잘못된 노드 시간입니다.'
+	    },
+		//시간 범위 유효성 체크
+	    timeRangeValid: {
+	        validator: function(value, param){return $.uf_timeRangeValid(value, param);},
+	        message: '노드 시간이 겹칩니다.'
+	    }
+	});		
+	
     $.pf_append = function(){return true;}
     $.pf_delete = function(){return true;}
     $.pf_validatedata = function(a_obj, a_idx, a_type){return true;}
@@ -57,6 +70,13 @@
 			else
 				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
 		}
+		if(a_type == 'search'){
+			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') ){
+				$.jf_savedgdata($('#dg1'), '/al/AL0204G1S0', 'post', 'save')
+			}
+			else
+				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
+		}
 		if(a_type == 'subsave'){
 			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') ){
 				$.jf_savedgdata($('#ef0'), '/al/AL0204G1S0', 'post', null)
@@ -70,6 +90,10 @@
 	$.pf_rejectcfmsg = function(a_type){
 		if(a_type == 'save'){
 			$.jf_resetdg($('#dg0'), 'all');
+		}
+		if(a_type == 'search'){
+			$.jf_resetdg($('#dg1'), 'all');
+			$.jf_retrieve($('#dg0'));
 		}
 		if(a_type == 'subsave1'){
 			$.jf_resetdg($('#dg1'));
@@ -97,8 +121,8 @@
 		let v_timeSplit = a_value.split(':');
 		if(v_timeSplit.length != 3) return false;
 		else{
-			if(typeof(parseInt(v_timeSplit[0])) == 'undefined' || typeof(parseInt(v_timeSplit[1])) == 'undefined'
-					|| typeof(parseInt(v_timeSplit[2])) == 'undefined') return false;
+			if(isNaN(parseInt(v_timeSplit[0])) || isNaN(parseInt(v_timeSplit[1]))
+					|| isNaN(parseInt(v_timeSplit[2]))) return false;
 			if(parseInt(v_timeSplit[0]) < 0 || 23 < parseInt(v_timeSplit[0])) return false;
 			if(parseInt(v_timeSplit[1]) < 0 || 59 < parseInt(v_timeSplit[1])) return false;
 			if(parseInt(v_timeSplit[2]) < 0 || 59 < parseInt(v_timeSplit[2])) return false;
@@ -184,7 +208,7 @@
 						<div id="dg_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 						</div>			
 						<!--datagrid0 -->
-						<script src="/static/js/AL/AL0203/AL0203_dg0.js"></script>
+						<script src="/static/js/AL/AL0204/AL0204_dg0.js"></script>
 					</div>
 				</div>
 				<div data-options="region:'center', border:false">

@@ -91,6 +91,14 @@
 		AND			WD.CO_CD = 'WAY_DIV'	
 		LEFT JOIN 	BMS_ALLOC_OPER_MST C
 		ON			A.ALLOC_ID = C.ALLOC_ID
+		
+		<where>
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT)">
+				<if test="TYPE == 'ALL'||TYPE == ''">
+					(A.ALLOC_ID LIKE CONCAT('%',#{CONTENT},'%') || C.ALLOC_NM LIKE CONCAT('%',#{CONTENT},'%'))
+				</if>
+			</if>
+		</where>
 		GROUP BY  ALLOC_ID, ALLOC_NO
 		ORDER BY  ALLOC_ID, ALLOC_NO
 	</select>	

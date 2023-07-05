@@ -61,7 +61,12 @@
 	ON				B.VHC_FUEL = VF.DL_CD AND VF.CO_CD = 'VHC_FUEL'
 	LEFT JOIN	  	BMS_TRANSCOMP_MST C
 		ON			B.COMP_ID = C.COMP_ID
-	WHERE A.ALLOC_ID = #{ALLOC_ID}
+	WHERE 			A.ALLOC_ID = #{ALLOC_ID}
+	<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT)">
+		<if test="TYPE == 'VHC_NO'">
+			AND B.VHC_NO LIKE CONCAT('%',#{CONTENT},'%')
+		</if>
+	</if>
 </select>
 
 <insert id="AL0104G2I0" parameterType="Map">

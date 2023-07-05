@@ -432,7 +432,7 @@
 	<if test= "ALLOC_NO != null and ALLOC_NO != ''">
 		AND			A.ALLOC_NO = #{ALLOC_NO}
 	</if>
-	<if test= "CONTENT != null and CONTENT != ''">
+	<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT)">
 		AND			B.ROUT_NM LIKE CONCAT('%',#{CONTENT},'%') || A.ROUT_ID LIKE CONCAT('%',#{CONTENT},'%')
 	</if>
 </select>

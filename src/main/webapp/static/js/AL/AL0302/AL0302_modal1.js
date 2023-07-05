@@ -1,4 +1,5 @@
 ﻿$(function(){
+	var jv_rtclick = false; //'조회'후에 데이터가 2개 이상일경우 focus 넘어가는 것 막기 위함
 	
 	$('#updatedg2').append('<div id="updatedg2_layout0"></div>');
 	
@@ -54,11 +55,29 @@
 		width:200,
 		height:22,
 		prompt:'차량번호',
-	    searcher:function(value, name){
-				let v_params = {TYPE:'VHC_NO',CONTENT:value};
-				$.jf_retrieve($('#updatedg2_dg0'), v_params);
+	    searcher:function(a_value, a_name){
+			//let v_params = {TYPE:'VHC_NO',CONTENT:a_value};
+			//$.jf_retrieve($('#updatedg2_dg0'), v_params);
+			let a_fields = ['VHC_NO'];
+			$.jf_findtext($('#updatedg2_dg0'), a_fields, a_value);
+			$(this).textbox('textbox').focus();
 	    }
 	});
+	
+	$('#updatedg2_layout0').layout('panel','north').append('<a id="updatedg2_btn3" href="#">조회</a>');
+	
+	$('#updatedg2_btn3').linkbutton({
+	    height: 24,
+	    iconCls: 'icon-search'
+	});
+	
+	$('#updatedg2_btn3').bind('click', function(){
+		//let v_params = {TYPE:'VHC_NO',CONTENT:a_value};
+			//$.jf_retrieve($('#updatedg2_dg0'), v_params);
+		jv_rtclick = true;
+		let v_params = {ALLOC_ID:$.jf_getmdvalues("updatedg2").ALLOC_ID, TYPE:'VHC_NO', CONTENT:$('#updatedg2_sb0').searchbox('getValue')};	//data params
+		$.jf_retrieve($('#updatedg2_dg0'), v_params)
+ 	});	
 		
 	$('#updatedg2_layout0').layout('panel','south').append('<a id="updatedg2_btn0" href="#">선택</a><a id="updatedg2_btn1" href="#">닫기</a>');
 
@@ -108,6 +127,13 @@
 			$.jf_setfocus($('#updatedg2_dg0'), -1);
 			$.jf_setfooter($('#updatedg2_dg0'));
 			$('#updatedg2_sb0').searchbox('textbox').focus();
+			
+			//조회후 focus(find)
+			if(!jv_rtclick && !$.jf_isempty($('#updatedg2_sb0').searchbox('getValue'))){
+				let a_fields = ['VHC_NO'];
+				$.jf_findtext($('#updatedg2_dg0'), a_fields, $('#updatedg2_sb0').searchbox('getValue'));
+			}
+			jv_rtclick = false;
 		},
 		onBeforeLoad: function(param){ 
 			if(Object.keys(param).length < 1) return false;
@@ -131,7 +157,7 @@
 		let v_win = $('#updatedg2');
 		$.jf_modmdstrct(v_win, a_obj, a_form, a_values, a_rtnobj, a_type);
 		let v_params = {ALLOC_ID:a_values.ALLOC_ID};	//data params
-		$('#updatedg2_sb0').searchbox('setValue', a_values.ROUT_NM);
+		$('#updatedg2_sb0').searchbox('setValue', a_values.VHC_NO);
 		$.jf_retrieve($('#updatedg2_dg0'), v_params)
 		v_win.window('open');  // open a window
 	}

@@ -1133,6 +1133,16 @@ $.jf_fndmdstrct = function(a_win){
 	return rtn_idx;
 }
 
+/** 
+작성자 : 양현우
+작성일 : 2023-07-05
+기능 : 모달 팝업창에서의 'values'를 리턴함
+**/
+$.jf_getmdvalues = function(a_win){
+	let v_idx = $.jf_fndmdstrct(a_win);
+	return js_mdstrct[v_idx].values;
+}
+
 $.jf_protectform = function(a_obj, a_form, a_bool, a_idx, a_type){
 
 	if(a_bool!=true&&$.jf_savah()!='Y')return; //저장권한이 없으면 protect를 동작할수 없음

@@ -69,6 +69,10 @@
 			else
 				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
 		}
+		if(a_type == 'excelupload'){
+	        $("#excelupload_p0").window('open');
+	          $("#excelinputfile").val('');
+	    	}
 		if(typeof(a_type) == 'number'){
 			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') ){
 				$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
@@ -79,7 +83,7 @@
 		}
 		if(a_type == 'subsave'){
 			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') ){
-				$.jf_savedgdata($('#dg1'), '/AL/AL0202G1S0', 'post', null)
+				$.jf_savedgdata($('#dg1'), '/al/AL0202G1S0', 'post', null)
 			}
 			else
 				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
@@ -126,7 +130,7 @@
 		let v_timeSplit = a_value.split(':');
 		if(v_timeSplit.length != 2) return false;
 		else{
-			if(typeof(parseInt(v_timeSplit[0])) == 'undefined' || typeof(parseInt(v_timeSplit[1])) == 'undefined') return false;
+			if(isNaN(parseInt(v_timeSplit[0])) || isNaN(parseInt(v_timeSplit[1]))) return false;
 			if(parseInt(v_timeSplit[0]) < 0 || 23 < parseInt(v_timeSplit[0])) return false;
 			if(parseInt(v_timeSplit[1]) < 0 || 59 < parseInt(v_timeSplit[1])) return false;
 		}
@@ -261,6 +265,12 @@
 							</div>	
 							<!--datagrid1 -->
 							<script src="/static/js/AL/AL0202/AL0202_dg1.js"></script>
+							<div id="excelupload_p0" class="easyui-window" title="엑셀 업로드" data-options="modal:true,closed:true,iconCls:'icon-save'"
+		                   	 style="width:500px;height:200px;padding:10px;">
+		                    	<form id="excelfrm" name="excelfrm" method="post" enctype="multipart/form-data">
+		                           <input id="excelinputfile" name="excelinputfile" type="file"/>
+		                        </form>
+		                   </div>
 						</div>
 					</div>
 				</div>

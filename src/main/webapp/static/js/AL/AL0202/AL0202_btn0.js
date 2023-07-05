@@ -59,11 +59,28 @@ $(function(){
 	
 	//btn 기능 binding
 	$('#btn0').bind('click', function(){
-		if($.jf_changeddg($('#dg1'), 'all')) {
+		if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') && $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
+			$.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
+			$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
+			if($.jf_changeddg($('#dg0'), null)){
+				//$.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
+				$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
+			} 
+			if($.jf_changeddg($('#dg1'), null)){
+				//$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
+				$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까????', 'subsave');
+			} 
+			else {
+				$.jf_retrieve($('#dg0'));
+			}
+		}		
+		
+		
+		/*if($.jf_changeddg($('#dg1'), 'all')) {
 			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
 		}else{
 			$.jf_retrieve($('#dg0'));
-		}
+		}*/
 	});
 	$('#btn1').bind('click', function(){
 		if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g') && $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){

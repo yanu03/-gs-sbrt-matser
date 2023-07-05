@@ -35,7 +35,6 @@ $(function(){
 			$.jf_cleargrid($('#dg1'), data.rows.length);
 			$.jf_setfocus($('#dg0'), -1);
 			$.jf_setfooter($('#dg0'));
-			$.uf_bgajax();
 		},
 		onBeforeLoad: function(param){
 		},

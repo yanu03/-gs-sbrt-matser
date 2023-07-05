@@ -115,9 +115,10 @@ $(function(){
 					if($.jf_curdgfieldvalue($('#dg1'), 'isNew')){
 						v_allocNo = null;
 					}
-					
+					let v_routNmEditor = $('#dg1').datagrid('getEditor', {index:$.jf_curdgindex($('#dg1')), field:'ST_ROUT_NM'});
+					let v_routNm = $(v_routNmEditor.target).textbox('getText');
 					let v_allocId = $.jf_curdgfieldvalue($('#dg0'), 'ALLOC_ID');
-					let v_values = {ALLOC_ID:v_allocId, ALLOC_NO:v_allocNo , ST_ROUT_ID: null, ST_ROUT_NM : null, ST_OPER_SN : null, ROUT_ST_TM : null
+					let v_values = {ALLOC_ID:v_allocId, ALLOC_NO:v_allocNo , ST_ROUT_ID: null, ST_ROUT_NM : v_routNm, ST_OPER_SN : null, ROUT_ST_TM : null
 									,ROUT_GRP:null, WAY_DIV:null};
 					$.mf_updatedg1mdopen($('#dg1'), null, v_values, $('#dg1'), 'c');
 		        });

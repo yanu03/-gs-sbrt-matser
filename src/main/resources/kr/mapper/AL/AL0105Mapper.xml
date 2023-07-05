@@ -41,8 +41,8 @@
 		ON			B.COMP_ID = C.COMP_ID
 	<where>
 		A.ALLOC_ID = #{ALLOC_ID}
-		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT2)">
-			AND (A.DRV_ID LIKE CONCAT('%',#{CONTENT2},'%') || B.DRV_NM LIKE CONCAT('%',#{CONTENT2},'%'))
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(CONTENT)">
+			AND (A.DRV_ID LIKE CONCAT('%',#{CONTENT},'%') || B.DRV_NM LIKE CONCAT('%',#{CONTENT},'%'))
 		</if>
 	</where>
 </select>

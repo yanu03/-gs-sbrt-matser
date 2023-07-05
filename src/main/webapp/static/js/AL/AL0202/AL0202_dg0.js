@@ -56,6 +56,7 @@ $(function(){
 		onLoadSuccess: function(data){
 			$.jf_setfocus($('#dg0'), -1);
 			$.jf_setfooter($('#dg0'));
+			$.jf_cleargrid($('#dg1'), data.rows.length);
 		},
 		onBeforeLoad: function(param){
 		},

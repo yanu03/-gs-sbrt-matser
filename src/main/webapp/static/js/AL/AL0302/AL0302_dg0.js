@@ -39,11 +39,11 @@ $(function(){
 		},
 		onBeforeSelect: function(index,row){
 			let a_rtn = false;
-			if($.jf_validatedata($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g'))){
+			if(($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g'))){
 				$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
 				
 				if($.jf_changeddg($('#dg1'), null)){
-					$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'focussave');
+					$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
 					a_rtn = false;
 				}else{
 					a_rtn = true;
