@@ -1,5 +1,5 @@
 ﻿$(function(){
-	var jv_rtclick = false; //'조회'후에 데이터가 2개 이상일경우 focus 넘어가는 것 막기 위함
+	//var jv_rtclick = false; //'조회'후에 데이터가 2개 이상일경우 focus 넘어가는 것 막기 위함
 	
 	$('#updatedg3').append('<div id="updatedg3_layout0"></div>');
 	
@@ -28,12 +28,22 @@
 		fit:true
 	});
 	
+	let v_northLayout = '<div class="easyui-layout" data-options="fit:true">'
+	v_northLayout += '<div data-options="region:\'center\', border:false">';
+	v_northLayout += 	'<div id="modal2_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:\'로딩중...\'"></div>'
+	v_northLayout += '</div>' //end center
+	v_northLayout += '<div data-options="region:\'east\', border:false, minWidth:80, maxWidth:80">';
+	v_northLayout += 	'<div id="modal2btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:\'로딩중...\'"></div>';
+	v_northLayout += '</div>' //end east
+	v_northLayout += '</div>' //end easyui-layout		
+	
 	$('#updatedg3_layout0').layout('add',{
 	    region: 'north',
 	    border:true,
 	    split: true,
-			maxHeight:50,
-			minHeight:50
+		maxHeight:35,
+		minHeight:35,
+		content:v_northLayout
 	});
 	$('#updatedg3_layout0').layout('add',{
 	    region: 'center',
@@ -45,11 +55,11 @@
 	    region: 'south',
 	    border:true,
 	    split: true,
-			maxHeight:50,
-			minHeight:50
+		maxHeight:50,
+		minHeight:50
 	});
 	
-	$('#updatedg3_layout0').layout('panel','north').append('<input id="updatedg3_sb0"></input>');
+	$('#modal2_panel0').append('<input id="updatedg3_sb0"></input>');
 	
 	$('#updatedg3_sb0').searchbox({
 		width:200,
@@ -64,7 +74,7 @@
 	    }
 	});
 	
-	$('#updatedg3_layout0').layout('panel','north').append('<a id="updatedg3_btn3" href="#">조회</a>');
+	$('#modal2btn_panel0').append('<a id="updatedg3_btn3" href="#">조회</a>');
 	
 	$('#updatedg3_btn3').linkbutton({
 	    height: 24,
@@ -74,7 +84,7 @@
 	$('#updatedg3_btn3').bind('click', function(){
 		//let v_params = {TYPE:'VHC_NO',CONTENT:a_value};
 			//$.jf_retrieve($('#updatedg2_dg0'), v_params);
-		jv_rtclick = true;
+		//jv_rtclick = true;
 		let v_params = {ALLOC_ID:$.jf_getmdvalues("updatedg3").ALLOC_ID, CONTENT:$('#updatedg3_sb0').searchbox('getValue')};	//data params
 		$.jf_retrieve($('#updatedg3_dg0'), v_params)
  	});	
@@ -131,11 +141,11 @@
 			$('#updatedg3_sb0').searchbox('textbox').focus();
 			
 			//조회후 focus(find)
-			if(!jv_rtclick && !$.jf_isempty($('#updatedg3_sb0').searchbox('getValue'))){
+			/*if(!jv_rtclick && !$.jf_isempty($('#updatedg3_sb0').searchbox('getValue'))){
 				let a_fields = ['DRV_ID', 'DRV_NM'];
 				$.jf_findtext($('#updatedg3_dg0'), a_fields, $('#updatedg3_sb0').searchbox('getValue'));
 			}
-			jv_rtclick = false;				
+			jv_rtclick = false;	*/			
 		},
 		onBeforeLoad: function(param){ 
 			if(Object.keys(param).length < 1) return false;
@@ -159,7 +169,7 @@
 		let v_win = $('#updatedg3');
 		$.jf_modmdstrct(v_win, a_obj, a_form, a_values, a_rtnobj, a_type);
 		let v_params = {ALLOC_ID:a_values.ALLOC_ID};	//data params
-		$('#updatedg3_sb0').searchbox('setValue', a_values.DRV_NM);
+		//$('#updatedg3_sb0').searchbox('setValue', a_values.DRV_NM);
 		$.jf_retrieve($('#updatedg3_dg0'), v_params)
 		v_win.window('open');  // open a window
 	}

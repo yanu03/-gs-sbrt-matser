@@ -1,4 +1,5 @@
 ﻿$(function(){
+	var jv_rtclick = false; //'조회'후에 데이터가 2개 이상일경우 focus 넘어가는 것 막기 위함
 	
 	$('#selcomp').append('<div id="selcomp_layout0"></div>');
 	
@@ -27,12 +28,22 @@
 		fit:true
 	});
 	
+	let v_northLayout = '<div class="easyui-layout" data-options="fit:true">'
+	v_northLayout += '<div data-options="region:\'center\', border:false">';
+	v_northLayout += 	'<div id="selcomp_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:\'로딩중...\'"></div>'
+	v_northLayout += '</div>' //end center
+	v_northLayout += '<div data-options="region:\'east\', border:false, minWidth:100, maxWidth:100">';
+	v_northLayout += 	'<div id="selcompbtn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:\'로딩중...\'"></div>';
+	v_northLayout += '</div>' //end east
+	v_northLayout += '</div>' //end easyui-layout	
+	
 	$('#selcomp_layout0').layout('add',{
 	    region: 'north',
 	    border:true,
 	    split: true,
-			maxHeight:50,
-			minHeight:50
+		maxHeight:35,
+		minHeight:35,
+		content:v_northLayout
 	});
 	$('#selcomp_layout0').layout('add',{
 	    region: 'center',
@@ -48,17 +59,35 @@
 			minHeight:50
 	});
 	
-	$('#selcomp_layout0').layout('panel','north').append('<input id="selcomp_sb0"></input>');
+	$('#selcomp_panel0').append('<input id="selcomp_sb0"></input>');
 	
 	$('#selcomp_sb0').searchbox({
 		width:200,
 		height:22,
 		prompt:'운수사 ID/명 검색',
-    searcher:function(value, name){
-			let v_params = {CONTENT:value};
-			$.jf_retrieve($('#selcomp_dg0'), v_params);
-    }
+   		searcher:function(a_value, a_name){
+			//let v_params = {CONTENT:value};
+			//$.jf_retrieve($('#selcomp_dg0'), v_params);
+			
+			let a_fields = ['COMP_ID', 'COMP_NM'];
+			$.jf_findtext($('#selcomp_dg0'), a_fields, a_value);
+			$(this).textbox('textbox').focus();			
+    	}
 	});
+	
+	$('#selcompbtn_panel0').append('<a id="selcomp_btn3" href="#">조회</a>');
+	
+	$('#selcomp_btn3').linkbutton({
+	    height: 24,
+	    iconCls: 'icon-search'
+	});
+	
+	$('#selcomp_btn3').bind('click', function(){
+		//let v_params = {TYPE:'VHC_NO',CONTENT:a_value};
+		//$.jf_retrieve($('#selbustop_dg0'), v_params);
+		let v_params = {CONTENT:$('#selcomp_sb0').searchbox('getValue')};
+		$.jf_retrieve($('#selcomp_dg0'), v_params);
+ 	});	
 		
 	$('#selcomp_layout0').layout('panel','south').append('<a id="selcomp_btn0" href="#">선택</a><a id="selcomp_btn1" href="#">닫기</a>');
 
@@ -97,8 +126,8 @@
     columns:[[
         {field:'COMP_ID',title:'운수사ID',width:120,align:'center',halign:'center'},
         {field:'COMP_NM',title:'운수사명',width:140,align:'center',halign:'center'},
-        {field:'AREA',title:'권역코드',width:140,align:'center',halign:'center'},
-		{field:'AREA_NM',title:'권역명',width:140,align:'center',halign:'center'}
+        //{field:'AREA',title:'권역코드',width:140,align:'left',halign:'center'},
+		{field:'AREA_NM',title:'권역',width:140,align:'center',halign:'center'}
     				]],
 		frozenColumns:[[
 						]],
@@ -109,6 +138,13 @@
 			$.jf_setfocus($('#selcomp_dg0'), -1);
 			$.jf_setfooter($('#selcomp_dg0'));
 			$('#selcomp_sb0').searchbox('textbox').focus();
+			
+			//조회후 focus(find)
+			//if(!jv_rtclick && !$.jf_isempty($('#selcomp_sb0').searchbox('getValue'))){
+			//	let a_fields = ['COMP_ID', 'COMP_NM'];
+			//	$.jf_findtext($('#selcomp_dg0'), a_fields, $('#selcomp_sb0').searchbox('getValue'));
+			//}
+			//jv_rtclick = false;				
 		},
 		onBeforeLoad: function(param){ 
 			if(Object.keys(param).length < 1) return false;
@@ -131,7 +167,8 @@
 	$.mf_selcompmdopen = function(a_obj, a_form, a_values, a_rtnobj, a_type){
 		let v_win = $('#selcomp');
 		$.jf_modmdstrct(v_win, a_obj, a_form, a_values, a_rtnobj, a_type);
-		let v_params = {CONTENT:a_values.COMP_NM};	//data params
+		//let v_params = {CONTENT:a_values.COMP_NM};	//data params
+		let v_params = {CONTENT:''};	//data params
 			$('#selcomp_sb0').searchbox('setValue', a_values.COMP_NM);
 			$.jf_retrieve($('#selcomp_dg0'), v_params)
 		v_win.window('open');  // open a window

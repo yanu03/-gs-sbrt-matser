@@ -186,7 +186,7 @@
 			let v_form = js_mdstrct[v_idx].form;
 			$('#'+v_form).form('load', v_values);
 			$('#selbustop').window('close');  // close a window
-			if($('#'+v_rtnobj).textbox('textbox') != "undefined")
+			if($('#'+v_rtnobj).textbox('textbox') != "undefined")	
 				$('#'+v_rtnobj).textbox('textbox').focus();
 			if($('#'+v_rtnobj).searchbox('textbox') != "undefined")
 				$('#'+v_rtnobj).searchbox('textbox').focus();

@@ -27,12 +27,22 @@
 		fit:true
 	});
 	
+	let v_northLayout = '<div class="easyui-layout" data-options="fit:true">'
+	v_northLayout += '<div data-options="region:\'center\', border:false">';
+	v_northLayout += 	'<div id="modal1_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:\'로딩중...\'"></div>'
+	v_northLayout += '</div>' //end center
+	v_northLayout += '<div data-options="region:\'east\', border:false, minWidth:80, maxWidth:80">';
+	v_northLayout += 	'<div id="modal1btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:\'로딩중...\'"></div>';
+	v_northLayout += '</div>' //end east
+	v_northLayout += '</div>' //end easyui-layout	
+	
 	$('#selcrosec_layout0').layout('add',{
 	    region: 'north',
 	    border:true,
 	    split: true,
-			maxHeight:50,
-			minHeight:50
+		maxHeight:35,
+		minHeight:35,
+		content:v_northLayout
 	});
 	$('#selcrosec_layout0').layout('add',{
 	    region: 'center',
@@ -48,17 +58,37 @@
 			minHeight:50
 	});
 	
-	$('#selcrosec_layout0').layout('panel','north').append('<input id="selcrosec_sb0"></input>');
+	$('#modal1_panel0').append('<input id="selcrosec_sb0"></input>');
 	
 	$('#selcrosec_sb0').searchbox({
 		width:200,
 		height:22,
 		prompt:'교차로 ID/명 검색',
-    searcher:function(value, name){
-			let v_params = {CONTENT:value, CRS_ECPT_ID:''};
-			$.jf_retrieve($('#selcrosec_dg0'), v_params);
+    	searcher:function(a_value, a_name){
+			//let v_params = {CONTENT:value, CRS_ECPT_ID:''};
+			//$.jf_retrieve($('#selcrosec_dg0'), v_params);
+			
+			let a_fields = ['CRS_ID', 'CRS_NM'];
+			$.jf_findtext($('#selcrosec_dg0'), a_fields, a_value);
+			$(this).textbox('textbox').focus();			
     }
 	});
+	$('#modal1btn_panel0').append('<a id="selcrosec_btn3" href="#">조회</a>');
+	
+	$('#selcrosec_btn3').linkbutton({
+	    height: 24,
+	    iconCls: 'icon-search'
+	});
+	
+	$('#selcrosec_btn3').bind('click', function(){
+		//let v_params = {TYPE:'VHC_NO',CONTENT:a_value};
+		//$.jf_retrieve($('#selcrosec_dg0'), v_params);
+		jv_rtclick = true;
+		
+		let v_params = {CONTENT:$('#selcrosec_sb0').searchbox('getValue')};
+		$.jf_retrieve($('#selcrosec_dg0'), v_params);
+ 	});			
+		
 		
 	$('#selcrosec_layout0').layout('panel','south').append('<a id="selcrosec_btn0" href="#">선택</a><a id="selcrosec_btn1" href="#">닫기</a>');
 
