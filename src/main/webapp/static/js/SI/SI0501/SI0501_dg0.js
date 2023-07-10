@@ -69,7 +69,7 @@ $(function(){
 		},
 		onSelect: function(index,row){
 			$.jf_deletemarker();
-			$.jf_deleteoverlay();
+			$.jf_deleteAllOverlay();
 			$.jf_movemap(row.GPS_X, row.GPS_Y);
 			$.jf_addimgmarker(row, mapOption.NODE_TYPE.BUSSTOP);
 			$.jf_addoverlay(row, mapOption.NODE_TYPE.BUSSTOP);

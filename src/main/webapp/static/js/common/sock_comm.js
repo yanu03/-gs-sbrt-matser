@@ -71,6 +71,7 @@ $(function () {
                 if(!$.pf_sockevt(v_item)) return false;
             }
             $.jf_sockevt(v_item);
+			$.jf_addevtoverlay(v_item);
         });
 
 
@@ -109,3 +110,35 @@ $(function () {
         }));
     });
 });
+
+$.jf_convertdsptch = function(a_data) {
+	let dsptchMessage = "";
+	let rtn_contsResult = "";
+	let dsptchDiv = a_data.DSPTCH_DIV;
+	let dsptchKind = a_data.DSPTCH_KIND;
+	let min = "0분";
+	
+	if(a_data['MESSAGE'].split('｜').length>0) dsptchMessage = a_data['MESSAGE'].split('｜')[0];
+	else dsptchMessage = a_data['MESSAGE'];
+	
+	//디스패치가 일반메시지가 아닐경우
+	if(parseInt(dsptchMessage) != "undefined" && a_data.DSPTCH_DIV != "DP001"){
+		//if(dsptchMessage==0)return; //0인 경우 표시할 필요가 없음
+		if(Math.abs(parseInt(dsptchMessage) >= 60)) {
+			 min = Math.abs(parseInt(dsptchMessage/60)) + "분 ";
+		}
+		 sec = Math.abs(parseInt(dsptchMessage%60)) + "초 ";
+		 
+		//운행중 디스패치일 경우 
+		 if(dsptchDiv == "DP002") {
+
+				if(dsptchKind == "DK001") rtn_contsResult = mapOption.DISPATCH_MSG_NORMAL;
+				else if(dsptchKind == "DK002") rtn_contsResult = min + sec + "느림";
+				else if(dsptchKind == "DK003") rtn_contsResult = min + sec + "빠름";
+			}
+		//정차중 디스패치일 경우
+		 else if(dsptchDiv == "DP003") rtn_contsResult = "정류장 정차 : " + min + sec;
+	}
+	
+	return rtn_contsResult;	
+}

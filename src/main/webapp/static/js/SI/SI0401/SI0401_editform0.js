@@ -144,13 +144,19 @@ $(function () {
 	$('tr:nth-child(2) td:nth-child(4)').append('<input id="ROUT_DIV" class="tracom-combobox" name="ROUT_DIV">');
 	$('tr:nth-child(2) td:nth-child(6)').append('<input id="AREA" class="tracom-combobox" name="AREA">');
 	// $('#fm_panel0').append('<input id="ST_STTN_ID" name="ST_STTN_ID">;');
+	$('tr:nth-child(3) td:nth-child(2)').append('<input id="ST_STTN_ID" class="tracom-textbox" name="ST_STTN_ID">');
 	$('tr:nth-child(3) td:nth-child(2)').append('<input id="ST_STTN_NM" class="tracom-textbox" name="ST_STTN_NM">');
+	$('tr:nth-child(3) td:nth-child(2)').append('<a id="sch_stSttn_btn" href="#"></a>');
 	// $('#fm_panel0').append('<input id="ST_STTN_ENM" name="ST_STTN_ENM">;');
 	// $('#fm_panel0').append('<input id="ED_STTN_ID" name="ED_STTN_ID">;');
+	$('tr:nth-child(3) td:nth-child(4)').append('<input id="ED_STTN_ID" class="tracom-textbox" name="ED_STTN_ID">');
 	$('tr:nth-child(3) td:nth-child(4)').append('<input id="ED_STTN_NM" class="tracom-textbox" name="ED_STTN_NM">');
+	$('tr:nth-child(3) td:nth-child(4)').append('<a id="sch_edSttn_btn" href="#"></a>');
 	// $('#fm_panel0').append('<input id="ED_STTN_ENM" name="ED_STTN_ENM">;');
 	// $('#fm_panel0').append('<input id="RET_STTN_ID" name="RET_STTN_ID">;');
+	$('tr:nth-child(3) td:nth-child(6)').append('<input id="RET_STTN_ID" class="tracom-textbox" name="RET_STTN_ID">');
 	$('tr:nth-child(3) td:nth-child(6)').append('<input id="RET_STTN_NM" class="tracom-textbox" name="RET_STTN_NM">');
+	$('tr:nth-child(3) td:nth-child(6)').append('<a id="sch_retSttn_btn" href="#"></a>');
 	// $('#fm_panel0').append('<input id="RET_STTN_ENM" name="RET_STTN_ENM">;');
 	$('tr:nth-child(4) td:nth-child(2)').append('<input id="OPER_CNT" class="tracom-numberbox" name="OPER_CNT">');
 	$('tr:nth-child(4) td:nth-child(4)').append('<input id="ALLOC_CNT" class="tracom-numberbox" name="ALLOC_CNT">');
@@ -257,6 +263,16 @@ $(function () {
 		panelMaxHeight: 170,
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
 	});
+	
+    $('#ST_STTN_ID').textbox({
+        width: 0,
+        height: 0,
+        maxlength: 10,
+        type:'hidden',
+        onChange: function(newValue,oldValue){
+            if(!jv_rowclick) return false;
+        }
+	});	
 
 	$('#ST_STTN_NM').textbox({
 		width: 200,
@@ -271,6 +287,25 @@ $(function () {
 			if (!jv_rowclick) return false;
 		}
 	});
+	
+    $('#sch_stSttn_btn').linkbutton({
+        height: 24,
+        iconCls: 'icon-search'
+	});
+    $('#sch_stSttn_btn').bind('click', function(){
+        let v_values = {STTN_ID:null, STTN_NM:$('#ST_STTN_NM').textbox('getValue')};
+        $.mf_selbustopmdopen(null,$('#ef0'), v_values, $('#ST_STTN_NM'), 'f');
+    });
+
+    $('#ED_STTN_ID').textbox({
+        width: 0,
+        height: 0,
+        maxlength: 10,
+        type:'hidden',
+        onChange: function(newValue,oldValue){
+            if(!jv_rowclick) return false;
+        }
+	});	
 
 	$('#ED_STTN_NM').textbox({
 		width: 200,
@@ -285,6 +320,25 @@ $(function () {
 			if (!jv_rowclick) return false;
 		}
 	});
+	
+    $('#sch_edSttn_btn').linkbutton({
+        height: 24,
+        iconCls: 'icon-search'
+	});
+    $('#sch_edSttn_btn').bind('click', function(){
+        let v_values = {STTN_ID:null, STTN_NM:$('#ED_STTN_NM').textbox('getValue')};
+        $.mf_selbustopmdopen(null,$('#ef0'), v_values, $('#ED_STTN_NM'), 'f');
+    });	
+	
+    $('#RET_STTN_ID').textbox({
+        width: 0,
+        height: 0,
+        maxlength: 10,
+        type:'hidden',
+        onChange: function(newValue,oldValue){
+            if(!jv_rowclick) return false;
+        }
+	});		
 
 	$('#RET_STTN_NM').textbox({
 		width: 200,
@@ -300,6 +354,16 @@ $(function () {
 			if (!jv_rowclick) return false;
 		}
 	});
+	
+    $('#sch_retSttn_btn').linkbutton({
+        height: 24,
+        iconCls: 'icon-search'
+	});
+	
+    $('#sch_retSttn_btn').bind('click', function(){
+        let v_values = {STTN_ID:null, STTN_NM:$('#RET_STTN_NM').textbox('getValue')};
+        $.mf_selbustopmdopen(null,$('#ef0'), v_values, $('#RET_STTN_NM'), 'f');
+    });
 
 	$('#OPER_CNT').numberbox({
 		width: 200,

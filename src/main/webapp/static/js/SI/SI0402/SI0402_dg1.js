@@ -40,14 +40,14 @@ $(function(){
 				if(data.rows.length == 0 ) {
 					$.jf_deleteline();
 					$.jf_deletemarker();
-					$.jf_deleteoverlay();
+					$.jf_deleteAllOverlay();
 				}
 				else $.jf_drawroute(data.rows);
 				// $.jf_deleteline();
 				// $.jf_drawline(data.rows);
 				// $.jf_deletemarker();
 				// for(var i=0; i<data.rows.length; i++) $.jf_addimgmarker(data.rows[i]);
-				// $.jf_deleteoverlay();
+				// $.jf_deleteAllOverlay();
 				// for(var i=0; i<data.rows.length; i++) $.jf_addoverlay(data.rows[i]);
 				$.jf_setfocus($('#dg1'), -1);
 				$.jf_setfooter($('#dg1'));

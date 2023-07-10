@@ -45,7 +45,7 @@
 		}
 		if(a_type == 'bg1'){
 			$.jf_deletemarker();
-			$.jf_deleteoverlay();
+			$.jf_deleteAllOverlay();
 			for(var i=0; i<a_data.length; i++) {
 				$.jf_addimgmarker(a_data[i]);
 				$.jf_addoverlay(a_data[i]);			
@@ -62,7 +62,7 @@
 
 	//소켓 통신용 pf
 	$.pf_sockdispatch = function(a_data) {
-		let dsptchMessage = "";
+		/* let dsptchMessage = "";
 		let dsptchDiv = a_data.DSPTCH_DIV;
 		let dsptchKind = a_data.DSPTCH_KIND;
 		let min = "0분";
@@ -87,7 +87,9 @@
 				}
 			//정차중 디스패치일 경우
 			 else if(dsptchDiv == "DP003") contsResult = "정류장 정차 : " + min + sec;
-		}
+		} */
+		
+		let contsResult = $.jf_convertdsptch(a_data);
 		
 		let v_params = {
 			//직접 통신하여 현재 변수명이 다름. kafka 연결후 수정해야함.

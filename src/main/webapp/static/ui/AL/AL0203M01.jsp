@@ -92,6 +92,10 @@
 		}
 		if(a_type == 'distri'){
 			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
+				$.jf_progress('open',{
+					  title:'배포',
+					  msg:'배포중입니다. 잠시만 기다려 주세요.'
+					});					
 				//배포 ajax
 				$.ajax({
 						type: 'post',
@@ -104,6 +108,7 @@
 						async: false,
 						contentType: 'application/json; charset=utf-8',
 						success: function(data){
+							$.jf_progress('close');
 							$('#dg1').datagrid('acceptChanges');
 							$.messager.show({
 								title:'정보',
@@ -122,6 +127,10 @@
 			}
 		}
 		if(a_type == 'operdtlpl'){
+			$.jf_progress('open',{
+				  title:'궤적생성',
+				  msg:'궤적생성 중입니다. 잠시만 기다려 주세요.'
+				});			
 			//궤적생성
 			$.ajax({
 				type: 'post',
@@ -132,6 +141,7 @@
 				async: false,
 				contentType: 'application/json; charset=utf-8',
 				success: function(data){
+					$.jf_progress('close');
 					$('#dg1').datagrid('acceptChanges');
 					$.messager.show({
 						title:'정보',

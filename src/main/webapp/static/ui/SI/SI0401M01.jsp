@@ -101,6 +101,24 @@
 		if(a_obj.attr('id') == 'dg1') rtn_params = {ROUT_ID: a_row.ROUT_ID}
 		return rtn_params;
 	}
+	
+	//리턴 변수명이 다른 변수 맞추기 위함
+	$.pf_mdclose = function(a_values, a_rtnobj){
+		if(a_rtnobj == 'ST_STTN_NM'){
+			a_values['ST_STTN_ID'] = a_values.STTN_ID
+			a_values['ST_STTN_NM'] = a_values.STTN_NM
+		}
+		else if(a_rtnobj == 'ED_STTN_NM'){
+			a_values['ED_STTN_ID'] = a_values.STTN_ID
+			a_values['ED_STTN_NM'] = a_values.STTN_NM
+		}
+		else if(a_rtnobj == 'RET_STTN_NM'){
+			a_values['RET_STTN_ID'] = a_values.STTN_ID
+			a_values['RET_STTN_NM'] = a_values.STTN_NM
+		}
+		
+		return a_values
+	}
     
 	</script>
 </head>
@@ -170,8 +188,8 @@
 	</div>
 </div>
 
-<div id="selcomp">
-    <script src="/static/js/common/modal_selcomp.js"></script>
+<div id="selbustop">
+    <script src="/static/js/common/modal_selbustop.js"></script>
 </div>
 
 </body>

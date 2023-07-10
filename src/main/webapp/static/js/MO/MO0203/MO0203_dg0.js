@@ -35,7 +35,7 @@ $(function(){
 		//event 정의
 		onLoadSuccess: function(data){
 			$.jf_deletemarker();
-			$.jf_deleteoverlay();
+			$.jf_deleteAllOverlay();
 			for(var i=0; i<data.rows.length; i++) {
 				$.jf_addimgmarker(data.rows[i]);
 				$.jf_addoverlay(data.rows[i]);			

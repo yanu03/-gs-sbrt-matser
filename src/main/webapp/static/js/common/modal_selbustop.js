@@ -27,12 +27,22 @@
 		fit:true
 	});
 	
+	let v_northLayout = '<div class="easyui-layout" data-options="fit:true">'
+	v_northLayout += '<div data-options="region:\'center\', border:false">';
+	v_northLayout += 	'<div id="selbustop_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:\'로딩중...\'"></div>'
+	v_northLayout += '</div>' //end center
+	v_northLayout += '<div data-options="region:\'east\', border:false, minWidth:80, maxWidth:80">';
+	v_northLayout += 	'<div id="selbustopbtn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:\'로딩중...\'"></div>';
+	v_northLayout += '</div>' //end east
+	v_northLayout += '</div>' //end easyui-layout	
+	
 	$('#selbustop_layout0').layout('add',{
 	    region: 'north',
 	    border:true,
 	    split: true,
-			maxHeight:50,
-			minHeight:50
+		maxHeight:35,
+		minHeight:35,
+		content:v_northLayout
 	});
 	$('#selbustop_layout0').layout('add',{
 	    region: 'center',
@@ -48,17 +58,35 @@
 			minHeight:50
 	});
 	
-	$('#selbustop_layout0').layout('panel','north').append('<input id="selbustop_sb0"></input>');
+	$('#selbustop_panel0').append('<input id="selbustop_sb0"></input>');
 	
 	$('#selbustop_sb0').searchbox({
 		width:200,
 		height:22,
 		prompt:'정류장 ID/명 검색',
-    searcher:function(value, name){
-			let v_params = {CONTENT:value, STTN_ECPT_ID:''};
-			$.jf_retrieve($('#selbustop_dg0'), v_params);
+    	searcher:function(a_value, a_name){
+		//	let v_params = {CONTENT:value, STTN_ECPT_ID:''};
+		//	$.jf_retrieve($('#selbustop_dg0'), v_params);
+		
+			let a_fields = ['STTN_ID', 'STTN_NM'];
+			$.jf_findtext($('#selbustop_dg0'), a_fields, a_value);
+			$(this).textbox('textbox').focus()			
     }
 	});
+		
+	$('#selbustopbtn_panel0').append('<a id="selbustop_btn3" href="#">조회</a>');
+	
+	$('#selbustop_btn3').linkbutton({
+	    height: 24,
+	    iconCls: 'icon-search'
+	});
+	
+	$('#selbustop_btn3').bind('click', function(){
+		//let v_params = {TYPE:'VHC_NO',CONTENT:a_value};
+		//$.jf_retrieve($('#selbustop_dg0'), v_params);
+		let v_params = {CONTENT:$('#selbustop_sb0').searchbox('getValue')};
+		$.jf_retrieve($('#selbustop_dg0'), v_params);
+ 	});		
 		
 	$('#selbustop_layout0').layout('panel','south').append('<a id="selbustop_btn0" href="#">선택</a><a id="selbustop_btn1" href="#">닫기</a>');
 
@@ -154,10 +182,10 @@
 	/*modal page 함수*/	
 	$.mf_selbustopmdopen = function(a_obj, a_form, a_values, a_rtnobj, a_type){
 		let v_win = $('#selbustop');
-			$.jf_modmdstrct(v_win, a_obj, a_form, a_values, a_rtnobj, a_type);
+		$.jf_modmdstrct(v_win, a_obj, a_form, a_values, a_rtnobj, a_type);
 		let v_params = {CONTENT:a_values.STTN_NM, STTN_ECPT_ID:''};	//data params
-			$('#selbustop_sb0').searchbox('setValue', a_values.STTN_NM);
-			$.jf_retrieve($('#selbustop_dg0'), v_params)
+		$('#selbustop_sb0').searchbox('setValue', a_values.STTN_NM);
+		$.jf_retrieve($('#selbustop_dg0'), v_params)
 		v_win.window('open');  // open a window
 	}
 	
@@ -183,6 +211,9 @@
 		}
 
 		else if(v_type == 'f'){
+			
+			if(typeof($.pf_mdclose) != "undefined") v_values = $.pf_mdclose(v_values, v_rtnobj);
+			
 			let v_form = js_mdstrct[v_idx].form;
 			$('#'+v_form).form('load', v_values);
 			$('#selbustop').window('close');  // close a window
