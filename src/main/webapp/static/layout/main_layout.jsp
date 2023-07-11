@@ -11,33 +11,54 @@
 <body>
       <!--layout-->
     <div class="easyui-layout" style="width:100%;height:100%;">
-        <div data-options="region:'north'" style="height:100px" id="mainMenu">
+    		<!--  -->
+        <div data-options="region:'north'" style="height:100px">
+        	<div class="easyui-layout" data-options="fit:true" >
+        		
+        		<div data-options="region:'north'" style="height:50px">
+        		</div>
+        		
+        		<div data-options="region:'center'" style="height:50px">
+        			<div class="easyui-layout" data-options="fit:true" >
+        			
+        				<div data-options="region:'center'" style="height:100px" id="mainMenu">
+	        			</div>
+	        			
+	        			<div data-options="region:'east', width:'400'" style="height:100px">
+	        				<label id="label1">label</label>
+	        				<a href="#">link</a>
+	        			</div>
+	        			
+        			</div>
+        		</div>
+	        	
+        	</div>
         </div>
         <!--
         <div data-options="region:'north'" style="height:100px" id="mainMenu">
-            메인&nbsp;
-            <a href='javascript:jf_addtab("_sample1", "샘플1");'>샘플1(single crud grid)</a>&nbsp;
-            <a href='javascript:jf_addtab("_sample2", "샘플2");'>샘플2</a>&nbsp;
-            <a href='javascript:jf_addtab("_sample3", "샘플3");'>샘플3</a>&nbsp;
-            <a href='javascript:jf_addtab("_sample4", "샘플4");'>샘플4</a>&nbsp;
-            <a href='javascript:jf_addtab("_sample5", "샘플5");'>샘플5</a>
-            <a href='javascript:jf_addtab("SI0401M01", "노선기초정보관리");'>노선기초정보관리</a>
-            <a href='javascript:jf_addtab("SI0501M01", "정류소정보관리");'>정류소정보관리</a>
-            <a href='javascript:jf_addtab("SI0503M01", "교차로정보관리");'>교차로정보관리</a>
-            <a href='javascript:jf_addtab("SI0402M01", "노선경로정보관리");'>노선경로정보관리</a>
-            <a href='javascript:jf_addtab("SI0102M01", "운수사 정보 관리");'>운수사 정보 관리</a>&nbsp;
-            <a href='javascript:jf_addtab("AL0202M01", "운행계획관리");'>운행계획관리</a>&nbsp;
-            <a href='javascript:jf_addtab("AL0203M01", "운행계획 세부 관리");'>운행계획 세부 관리</a>&nbsp;
-            <a href='javascript:jf_addtab("AL0204M01", "운행계획 일별 관리");'>운행계획 일별 관리</a>&nbsp;
-            <a href='javascript:jf_addtab("AL0302M01", "차량배차 관리");'>차량배차 관리</a>&nbsp;
-            <a href='javascript:jf_addtab("AL0305M01", "차량배차 일별관리");'>차량배차 일별관리</a>&nbsp;
-            <a href='javascript:jf_addtab("MO0101M01", "버스 위치정보 모니터링");'>버스 위치정보 모니터링</a>&nbsp;
-            <a href='javascript:jf_addtab("MO0203M01", "정류소 모니터링");'>정류소 모니터링</a>&nbsp;
-            <a href='javascript:jf_addtab("MO0204M01", "차내장치 모니터링");'>차내장치 모니터링</a>&nbsp;
-            <a href='javascript:jf_addtab("SM0100M01", "코드 관리");'>코드 관리</a>&nbsp;
-            <a href='javascript:jf_addtab("SM0403M01", "로그인 이력 조회");'>로그인 이력 조회</a>&nbsp;
-            <a href='javascript:jf_addtab("SI0200M01", "차량 관리");'>차량 관리</a>&nbsp;
-            <a href='javascript:jf_addtab("VD0100M01", "차내장치 정보 관리");'>차내장치 정보 관리</a>&nbsp;
+            ë©ì¸&nbsp;
+            <a href='javascript:jf_addtab("_sample1", "ìí1");'>ìí1(single crud grid)</a>&nbsp;
+            <a href='javascript:jf_addtab("_sample2", "ìí2");'>ìí2</a>&nbsp;
+            <a href='javascript:jf_addtab("_sample3", "ìí3");'>ìí3</a>&nbsp;
+            <a href='javascript:jf_addtab("_sample4", "ìí4");'>ìí4</a>&nbsp;
+            <a href='javascript:jf_addtab("_sample5", "ìí5");'>ìí5</a>
+            <a href='javascript:jf_addtab("SI0401M01", "ë¸ì ê¸°ì´ì ë³´ê´ë¦¬");'>ë¸ì ê¸°ì´ì ë³´ê´ë¦¬</a>
+            <a href='javascript:jf_addtab("SI0501M01", "ì ë¥ìì ë³´ê´ë¦¬");'>ì ë¥ìì ë³´ê´ë¦¬</a>
+            <a href='javascript:jf_addtab("SI0503M01", "êµì°¨ë¡ì ë³´ê´ë¦¬");'>êµì°¨ë¡ì ë³´ê´ë¦¬</a>
+            <a href='javascript:jf_addtab("SI0402M01", "ë¸ì ê²½ë¡ì ë³´ê´ë¦¬");'>ë¸ì ê²½ë¡ì ë³´ê´ë¦¬</a>
+            <a href='javascript:jf_addtab("SI0102M01", "ì´ìì¬ ì ë³´ ê´ë¦¬");'>ì´ìì¬ ì ë³´ ê´ë¦¬</a>&nbsp;
+            <a href='javascript:jf_addtab("AL0202M01", "ì´íê³íê´ë¦¬");'>ì´íê³íê´ë¦¬</a>&nbsp;
+            <a href='javascript:jf_addtab("AL0203M01", "ì´íê³í ì¸ë¶ ê´ë¦¬");'>ì´íê³í ì¸ë¶ ê´ë¦¬</a>&nbsp;
+            <a href='javascript:jf_addtab("AL0204M01", "ì´íê³í ì¼ë³ ê´ë¦¬");'>ì´íê³í ì¼ë³ ê´ë¦¬</a>&nbsp;
+            <a href='javascript:jf_addtab("AL0302M01", "ì°¨ëë°°ì°¨ ê´ë¦¬");'>ì°¨ëë°°ì°¨ ê´ë¦¬</a>&nbsp;
+            <a href='javascript:jf_addtab("AL0305M01", "ì°¨ëë°°ì°¨ ì¼ë³ê´ë¦¬");'>ì°¨ëë°°ì°¨ ì¼ë³ê´ë¦¬</a>&nbsp;
+            <a href='javascript:jf_addtab("MO0101M01", "ë²ì¤ ìì¹ì ë³´ ëª¨ëí°ë§");'>ë²ì¤ ìì¹ì ë³´ ëª¨ëí°ë§</a>&nbsp;
+            <a href='javascript:jf_addtab("MO0203M01", "ì ë¥ì ëª¨ëí°ë§");'>ì ë¥ì ëª¨ëí°ë§</a>&nbsp;
+            <a href='javascript:jf_addtab("MO0204M01", "ì°¨ë´ì¥ì¹ ëª¨ëí°ë§");'>ì°¨ë´ì¥ì¹ ëª¨ëí°ë§</a>&nbsp;
+            <a href='javascript:jf_addtab("SM0100M01", "ì½ë ê´ë¦¬");'>ì½ë ê´ë¦¬</a>&nbsp;
+            <a href='javascript:jf_addtab("SM0403M01", "ë¡ê·¸ì¸ ì´ë ¥ ì¡°í");'>ë¡ê·¸ì¸ ì´ë ¥ ì¡°í</a>&nbsp;
+            <a href='javascript:jf_addtab("SI0200M01", "ì°¨ë ê´ë¦¬");'>ì°¨ë ê´ë¦¬</a>&nbsp;
+            <a href='javascript:jf_addtab("VD0100M01", "ì°¨ë´ì¥ì¹ ì ë³´ ê´ë¦¬");'>ì°¨ë´ì¥ì¹ ì ë³´ ê´ë¦¬</a>&nbsp;
       
             </div>      
         -->
