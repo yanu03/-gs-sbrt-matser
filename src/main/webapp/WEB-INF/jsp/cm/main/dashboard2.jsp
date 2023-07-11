@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+	<!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
 	<meta charset="UTF-8">
 	<title>SAMPLE</title>
 	<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>

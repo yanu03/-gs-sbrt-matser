@@ -38,7 +38,7 @@ public class TimsService {
 
     public void bindAttribute() {
         AttributeManager.bind(AttributeManager.COMMON_ATTRIBUTE);
-        AttributeManager.bind(AttributeManager.BMS_ATTRIBUTE);
+        AttributeManager.bind(AttributeManager.BIS_ATTRIBUTE);
         AttributeManager.bind(AttributeManager.BRT_ATTRIBUTE);
     }
 
