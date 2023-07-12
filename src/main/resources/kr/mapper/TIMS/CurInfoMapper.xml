@@ -328,7 +328,7 @@
 			, NM.NODE_TYPE
 			, A.ORG_NODE_SN AS REAL_NODE_SN
 			, D.LINK_SN
-			, ROWNUM AS NODE_SN
+			, A.NODE_SN
 			, B.ROUT_NM
 			, B.ROUT_GRP
 			, D.LINK_ID
