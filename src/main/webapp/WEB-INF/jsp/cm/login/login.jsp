@@ -15,6 +15,14 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 
+<%
+	String msg = (String)session.getAttribute("errMsg");
+	if(msg != null){	
+	    out.println("<script>alert('" + msg + "');</script>");
+	    session.removeAttribute("errMsg");
+	} 		
+%>
+
 <script type="text/javascript">
 
 $( document ).ready(function() {
@@ -29,16 +37,22 @@ $( document ).ready(function() {
 function memberLogin(){
 	var params = {userID : $('#j_username').val()};
 
-	
 	$.ajax({
 		type : "GET",
 		data : params,
 		url : "/user/checkAccessType",
 		dataType : "json",
 		success : function(response) {
-			goLogin();
+			if(response.rsMsg.statusCode=='S'){
+				goLogin();
+			}
+			else{
+				alert(response.rsMsg.message);
+			}
+				
 		},
 		error : function(response, textStatus, jqXHR) {
+			
 		}
 	});
 	

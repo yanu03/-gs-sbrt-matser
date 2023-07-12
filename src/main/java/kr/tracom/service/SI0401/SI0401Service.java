@@ -39,7 +39,7 @@ public class SI0401Service extends ServiceSupport {
 	
 	public List SI0401SHI0() throws Exception {
 		return si0401Mapper.SI0401SHI0();
-	}	
+	}
 	
 	public Map SI0401G0S0() throws Exception {
 		int iCnt = 0;

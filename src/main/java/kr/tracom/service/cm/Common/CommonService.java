@@ -476,4 +476,11 @@ public class CommonService extends ServiceSupport {
 
 		return commonMapper.selectCommonCo(map);
 	}
+	
+	public String checkForeignTable() throws Exception {
+		String contextPath = request.getContextPath();
+		Map<String, Object> map = new HashMap<String, Object>();
+		commonMapper.selectForeignTable(map);
+		return "";
+	}
 }

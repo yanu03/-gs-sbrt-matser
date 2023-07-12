@@ -76,4 +76,5 @@ public interface CommonMapper {
 	
 	Map<String, Object> getCommonCode(Map<String, Object> paramMap);
 
+	public List<Map> selectForeignTable(Map param);
 }

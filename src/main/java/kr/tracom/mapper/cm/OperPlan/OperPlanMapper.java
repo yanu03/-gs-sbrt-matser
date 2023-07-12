@@ -67,6 +67,8 @@ public interface OperPlanMapper {
 	public void deleteOperPl(Map<String, Object> params);
 
 	public List<Map<String, Object>> selectOperPlanRout(Map<String, Object> params);
+	//주요노선기준
+	public List<Map<String, Object>> selectOperPlanRoutByMainNode(Map param);
 	
 	public List<Map<String, Object>> selectCourseList(Map<String, Object> params);
 	

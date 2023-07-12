@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import  kr.tracom.service.cm.Common.CommonService;
@@ -299,4 +300,16 @@ public class CommonController extends ControllerSupport {
 		return "ExcelView";
         //return new ModelAndView("ExcelView", "map", result);
 	}
+	
+    @RequestMapping(value = "/common/checkForeignTable", method = RequestMethod.GET, produces="application/json")
+    @ResponseBody
+    public  Map<String, Object> checkForeignTable() throws Exception {
+    	commonService.checkForeignTable();
+        
+        //result.setMsg(Result.STATUS_ERROR, "로그인에 실패하였습니다. 해당 아이디가 존재하지 않습니다.");
+                  
+                
+        return result.getResult();
+    }
+	
 }

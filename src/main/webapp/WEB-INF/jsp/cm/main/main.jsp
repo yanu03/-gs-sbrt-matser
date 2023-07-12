@@ -8,11 +8,32 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/material/easyui.css">
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/demo/demo.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="/static//js/common/main_comm.js"></script>
 	
 	<script type="text/javascript">
+		var jf_logout = function(){
+			 $.messager.confirm('알림','로그아웃 하시겠습니까?',function(r){
+				if (r){
+					$.ajax({
+						type : "POST",
+						data : JSON.stringify({
+							dma_search : {}
+						}),
+						url : "/user/logout",
+						dataType : "json",
+						success : function(response) {
+							location.href = "<c:url value='/user/login'/>";
+						},
+						error : function(response, textStatus,jqXHR) {
+						}
+					});
+				}
+			});
+		}
+	
 		var jf_addtab = function(a_progcd, a_pgmcode, a_str) {
 			
 			var authority = $.jf_getcurauthority(a_progcd);
@@ -45,6 +66,7 @@
 				var a = function() {
 					alert(1);
 				}
+				
 				$.ajax({
 					type : "POST",
 					data : JSON.stringify({
@@ -56,7 +78,7 @@
 					success : function(response) {
 						//menuList = response.rows;	            
 						$.jf_setmenulist(response.list_menu);
-						//$.jf_setdefInfo(response.map_defInfo);
+						$.jf_setdefInfo(response.map_defInfo);	
 						$.jf_setprogramauthority(response.list_programAuthority);
 						$('#main_panel').panel('refresh','/static/layout/main_layout.jsp');
 					},

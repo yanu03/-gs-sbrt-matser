@@ -1,7 +1,7 @@
 ﻿
 var js_menulist = []; //메뉴리스트
 
-//var js_defInfo = []; //세션정보
+var js_defInfo = []; //세션정보
 
 var js_authoritylist = []; //권한리스트
 
@@ -15,11 +15,11 @@ $.jf_getmenulist = function(){
 }
 
 $.jf_setdefInfo = function(a_defInfo){
-	//js_defInfo = a_defInfo;
+	js_defInfo = a_defInfo;
 }
 
 $.jf_getdefInfo = function(){
-	//return js_defInfo;
+	return js_defInfo;
 }
 
 $.jf_setprogramauthority = function(a_authoritylist){
