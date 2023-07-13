@@ -5,6 +5,9 @@
  * 
  * 수정자 : 박원용
  * 수정일 : 2023.04.17
+ * 
+ * 수정자 : 박원용
+ * 수정일 : 2023.07.13
  */
 $(function(){
 	$('#ef0').form({
@@ -68,28 +71,84 @@ $(function(){
         }
 	});
 	
-	$('#fm_panel0').append('<table>');
+    let htmlString = '<table>';
+
+    //design
+    htmlString += '<tr>';
+    htmlString += '<th><label>차량ID </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>차량번호 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>운수사명 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '<tr>';
+    htmlString += '<th><label>권역 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>차대번호 </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>제조사 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '<tr>';
+    htmlString += '<th><label>출고일자 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>모델명 </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>노선유형</label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '<tr>';
+    htmlString += '<th><label>차량유형 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>차량종류 </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>차량연료</label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '<tr>';
+    htmlString += '<th><label>승차인원</label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>사용여부 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>비고  </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '</table>';
+
+    $('#fm_panel0').html(htmlString);
+
+	// $('#fm_panel0').append('<table>');
 	//design
-	$('#fm_panel0').append('<input id="VHC_ID" class="tracom-textbox" name="VHC_ID">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="VHC_NO" class="tracom-textbox" name="VHC_NO">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="COMP_ID" class="tracom-textbox" name="COMP_ID">');
-	$('#fm_panel0').append('<input id="COMP_NM" class="tracom-textbox" name="COMP_NM">&nbsp;');
-    $('#fm_panel0').append('<a id="sch_comp_btn" href="#"></a>&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="AREA" class="tracom-combobox" name="AREA">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="CHAS_NO" class="tracom-textbox" name="CHAS_NO">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="MAKER" class="tracom-combobox" name="MAKER">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="RELS_DT" class="tracom-textbox" name="RELS_DT"><p>');
-    $('#fm_panel0').append('<input id="MODEL_NM" class="tracom-textbox" name="MODEL_NM">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="ROUT_TYPE" class="tracom-combobox" name="ROUT_TYPE">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="VHC_TYPE" class="tracom-combobox" name="VHC_TYPE">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="VHC_KIND" class="tracom-combobox" name="VHC_KIND">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="VHC_FUEL" class="tracom-combobox" name="VHC_FUEL">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="PSG_CNT" class="tracom-numberspinner" name="PSG_CNT">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="USE_YN_Y" class="tracom-radiobutton" name="USE_YN">');
-    $('#fm_panel0').append('<input id="USE_YN_N" class="tracom-radiobutton" name="USE_YN"><p>');
-    $('#fm_panel0').append('<input id="REMARK" class="tracom-textbox" name="REMARK">&nbsp;&nbsp;');
+	$('tr:nth-child(1) td:nth-child(2)').append('<input id="VHC_ID" class="tracom-textbox" name="VHC_ID">');
+    $('tr:nth-child(1) td:nth-child(4)').append('<input id="VHC_NO" class="tracom-textbox" name="VHC_NO">');
+	$('tr:nth-child(1) td:nth-child(6)').append('<input id="COMP_NM" class="tracom-textbox" name="COMP_NM">');
+    $('tr:nth-child(1) td:nth-child(6)').append('<a id="sch_comp_btn" href="#"></a>');
+    $('tr:nth-child(1) td:nth-child(6)').append('<input id="COMP_ID" class="tracom-textbox" name="COMP_ID">');// hidden
+
+    $('tr:nth-child(2) td:nth-child(2)').append('<input id="AREA" class="tracom-combobox" name="AREA">');
+    $('tr:nth-child(2) td:nth-child(4)').append('<input id="CHAS_NO" class="tracom-textbox" name="CHAS_NO">');
+    $('tr:nth-child(2) td:nth-child(6)').append('<input id="MAKER" class="tracom-combobox" name="MAKER">');
+
+    $('tr:nth-child(3) td:nth-child(2)').append('<input id="RELS_DT" class="tracom-textbox" name="RELS_DT">');
+    $('tr:nth-child(3) td:nth-child(4)').append('<input id="MODEL_NM" class="tracom-textbox" name="MODEL_NM">');
+    $('tr:nth-child(3) td:nth-child(6)').append('<input id="ROUT_TYPE" class="tracom-combobox" name="ROUT_TYPE">');
+
+    $('tr:nth-child(4) td:nth-child(2)').append('<input id="VHC_TYPE" class="tracom-combobox" name="VHC_TYPE">');
+    $('tr:nth-child(4) td:nth-child(4)').append('<input id="VHC_KIND" class="tracom-combobox" name="VHC_KIND">');
+    $('tr:nth-child(4) td:nth-child(6)').append('<input id="VHC_FUEL" class="tracom-combobox" name="VHC_FUEL">');
+
+    $('tr:nth-child(5) td:nth-child(2)').append('<input id="PSG_CNT" class="tracom-numberspinner" name="PSG_CNT">');
+    $('tr:nth-child(5) td:nth-child(4)').append('<input id="USE_YN_Y" class="tracom-radiobutton" name="USE_YN">');
+    $('tr:nth-child(5) td:nth-child(4)').append('<input id="USE_YN_N" class="tracom-radiobutton" name="USE_YN">');
+    $('tr:nth-child(5) td:nth-child(6)').append('<input id="REMARK" class="tracom-textbox" name="REMARK">');
 	
-	$('#fm_panel0').append('</table>');
+	// $('#fm_panel0').append('</table>');
     
 	$('#VHC_ID').textbox({
         width: 200,
@@ -99,10 +158,10 @@ $(function(){
         maxlength: 10,
         readonly: true,
         value:'',
-        label:'차량 ID',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'차량 ID',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -115,10 +174,10 @@ $(function(){
         maxlength: 9,
         readonly: false,
         value:'',
-        label:'차량번호',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'차량번호',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -141,10 +200,10 @@ $(function(){
         maxlength: 30,
         readonly: true,
         value:'',
-        label:'운수사명',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'운수사명',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         },
@@ -168,10 +227,10 @@ $(function(){
 		valueField: 'DL_CD',
         textField: 'DL_CD_NM',
 		value: '',				//dg0과 일치 시키면 편하다
-        label:'권역',
-        labelWidth: 40,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'권역',
+        // labelWidth: 40,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         panelMaxHeight : 400,
         loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
         },
@@ -198,10 +257,10 @@ $(function(){
         maxlength: 17,
         readonly: false,
         value:'',
-        label:'차대번호',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'차대번호',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -218,10 +277,10 @@ $(function(){
 		valueField: 'DL_CD',
         textField: 'DL_CD_NM',
         value: '',
-        label:'제조사',
-        labelWidth: 60,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'제조사',
+        // labelWidth: 60,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         panelMaxHeight : 100,
         loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
         },
@@ -250,9 +309,9 @@ $(function(){
         parser: $.tracomdateparser,
         readonly: false,
         value:'',
-        label: '출고일자',
-        labelWidth: 65,
-        labelAlign: 'left',
+        // label: '출고일자',
+        // labelWidth: 65,
+        // labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -265,7 +324,7 @@ $(function(){
         maxlength: 30,
         readonly: false,
         value:'',
-        label:'모델명',
+        // label:'모델명',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -281,10 +340,10 @@ $(function(){
 		valueField: 'DL_CD',
         textField: 'DL_CD_NM',
         value: '',
-        label:'노선유형',
-        labelWidth: 70,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'노선유형',
+        // labelWidth: 70,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         panelMaxHeight : 200,
         loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
         },
@@ -308,10 +367,10 @@ $(function(){
 		valueField: 'DL_CD',
         textField: 'DL_CD_NM',
         value: '',
-        label:'차량유형',
-        labelWidth: 70,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'차량유형',
+        // labelWidth: 70,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         panelMaxHeight : 140,
         loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
         },
@@ -341,9 +400,9 @@ $(function(){
 		valueField: 'DL_CD',
         textField: 'DL_CD_NM',
         value: '',
-        label:'차량종류',
-        labelWidth: 70,
-		labelPosition: 'before',
+        // label:'차량종류',
+        // labelWidth: 70,
+		// labelPosition: 'before',
 		labelAlign: 'left',
         loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
         },
@@ -367,10 +426,10 @@ $(function(){
 		valueField: 'DL_CD',
         textField: 'DL_CD_NM',
         value: '',
-        label:'차량연료',
-        labelWidth: 70,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'차량연료',
+        // labelWidth: 70,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         panelMaxHeight : 160,
         loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
         },
@@ -391,14 +450,14 @@ $(function(){
         value:'',
         min: 0, 
         max: 999,
-        label:'승차인원',
+        // label:'승차인원',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
     });
     $('#USE_YN_Y').radiobutton({
 		value: 'Y',
-		label: '사용',
+		label: '예',
 		labelWidth: 100,
 		labelPosition: 'after',
 		labelAlign: 'left',
@@ -410,7 +469,7 @@ $(function(){
 
     $('#USE_YN_N').radiobutton({
 		value: 'N',
-		label: '미사용',
+		label: '아니오',
 		labelWidth: 100,
 		labelPosition: 'after',
 		labelAlign: 'left',
@@ -429,7 +488,7 @@ $(function(){
         //validType:'length[0,200]',
         readonly: false,
         value:'',
-        label:'비고',
+        // label:'비고',
         multiline : true,
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
