@@ -481,7 +481,7 @@ public class OperPlanService extends ServiceSupport {
 			
 			//가감속에 따른 마진 계산
 			int sttnCnt = CommonUtil.stringToInt(routStEdTmInfo.get("STTN_CNT").toString()); //노선 정류장 정차시간
-			double margin = 1+routLen/(sttnCnt*1000)*0.1;
+			double margin = 1+(sttnCnt*1000)/routLen*0.1;
 			
 			max_speed = (float) (max_speed*margin);
 		} catch (Exception e) {
@@ -1390,8 +1390,10 @@ public class OperPlanService extends ServiceSupport {
 
 			//리스트 한 번에 insert
 			Map<String, Object> insertMap = new HashMap<>();
-			insertMap.put("ITEM_LIST", targetOperList);
-			operPlanMapper.insertOperAllocPlNodeInfoList(insertMap);
+			if(targetOperList!=null&&targetOperList.size()>0) {
+				insertMap.put("ITEM_LIST", targetOperList);
+				operPlanMapper.insertOperAllocPlNodeInfoList(insertMap);
+			}
 		} catch(Exception e) {
 			if (e instanceof DuplicateKeyException)
 			{

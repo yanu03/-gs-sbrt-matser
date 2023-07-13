@@ -47,6 +47,8 @@
 			
   });
   $('#subbtn2').bind('click', function(){
-		$.jf_delete($('#dg1'));
+		$.jf_checkforeigntable($.jf_curdgrow($('#dg1')),"AL0202_2", function(){
+			$.jf_delete($('#dg1'));
+		});
   });
 });

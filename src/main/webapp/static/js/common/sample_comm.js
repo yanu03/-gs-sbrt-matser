@@ -1018,6 +1018,9 @@ $.jf_savedgdata = function(a_obj, a_url, a_method, a_action) {
 				alert("세션이 만료되어 로그인 페이지로 돌아갑니다.");
 				top.location.replace("/user/login");
 			}
+			else{
+				top.$.messager.alert('sever massage',"저장중 오류가 발생하였습니다. 관리자에게 문의바랍니다.");
+			}
 			//else
 			//	error.apply(this, arguments);
 		}

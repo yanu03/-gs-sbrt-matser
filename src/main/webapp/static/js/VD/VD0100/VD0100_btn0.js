@@ -82,7 +82,10 @@ $(function(){
         else $.tracomalmsg('정보','필수 입력창을 입력후 추가해주세요');
     });
     $('#btn3').bind('click', function(){
-        $.jf_delete($('#dg1'));
+		$.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"VD0100", function(){
+				$.jf_delete($('#dg1'));
+			}
+		);
     });
     $('#btn4').bind('click', function(){
         if($.jf_changeddg($('#dg0'), 'all')) {

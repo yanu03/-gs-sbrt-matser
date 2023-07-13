@@ -211,11 +211,11 @@ ORDER BY
 </update>
 
 <delete id="VD0100G0D0" parameterType="Map">
-	DELETE FROM 	BMS_DVC_INFO
-	WHERE			DVC_ID = #{DVC_ID};
-	
 	DELETE FROM BMS_VHC_DVC_CMPSTN
 	WHERE			VHC_ID = #{VHC_ID} AND DVC_ID = #{DVC_ID};
+	
+	DELETE FROM 	BMS_DVC_INFO
+	WHERE			DVC_ID = #{DVC_ID};
 </delete>
 
 

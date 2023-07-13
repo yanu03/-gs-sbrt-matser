@@ -490,7 +490,7 @@ public class CommonService extends ServiceSupport {
 		String progId = (String)map.get("PROG_ID");
 		
 		
-		 Map<String, String> row = mapper.readValue((String)map.get("ROW"), Map.class);
+		 Map<String, Object> row = mapper.readValue((String)map.get("ROW"), Map.class);
 		
 
 		String table = Utils.getProgramToTable(progId);
@@ -509,17 +509,35 @@ public class CommonService extends ServiceSupport {
 		result.put("STATUS", "S");
 		int i = 0;
 		for (Map foreignTable : foreignTableList) {
+			int cnt = 0;
 			String foreignTableNm = (String)foreignTable.get("TABLE_NAME");
 			String programNm = Utils.getTableToProgramNm(foreignTableNm);
 			if(programNm==null)continue;			
 			String foreignColumnNm = (String)foreignTable.get("COLUMN_NAME");
-			String value = (String)row.get(foreignColumnNm);
-			foreignTable.put("VALUE", value);
-			int cnt = commonMapper.checkForeignTable(foreignTable);
+			String[] columnList = foreignColumnNm.split(",");
+			String query = "";
+			if(columnList.length>1) {
+				for(int j=0;j<columnList.length;j++) {
+					String column = columnList[j];
+					String value = row.get(column)+"";
+					
+					if(j>0) {
+						query += " AND ";
+					}
+					query +=column + " = '" + value +"'";
+				}
+				foreignTable.put("VALUE", query);
+			}
+			else {
+				String value = (String)row.get(foreignColumnNm);
+				query +=foreignColumnNm + " = '" + value +"'";
+				foreignTable.put("VALUE", query);
+			}
+			cnt = commonMapper.checkForeignTable(foreignTable);
 			
 			if(cnt>0) {
 				if(i>0)resultString += ", ";				
-				resultString += programNm + "(" +cnt +")";
+				resultString += programNm /* + "(" +cnt +")" */;
 				result.put("STATUS", "EXIST");
 				i++;
 			}
