@@ -301,14 +301,13 @@ public class CommonController extends ControllerSupport {
         //return new ModelAndView("ExcelView", "map", result);
 	}
 	
-    @RequestMapping(value = "/common/checkForeignTable", method = RequestMethod.GET, produces="application/json")
+    /*@RequestMapping(value = "/common/checkForeignTable", method = RequestMethod.GET, produces="application/json")*/
+	@RequestMapping(value = "/common/checkForeignTable")	
     @ResponseBody
     public  Map<String, Object> checkForeignTable() throws Exception {
-    	commonService.checkForeignTable();
-        
-        //result.setMsg(Result.STATUS_ERROR, "로그인에 실패하였습니다. 해당 아이디가 존재하지 않습니다.");
+		Map hash = commonService.checkForeignTable();
+		result.setData("dma_result", hash);
                   
-                
         return result.getResult();
     }
 	

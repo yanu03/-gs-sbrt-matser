@@ -1,5 +1,8 @@
 package kr.tracom.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Constants {
 	public static final Integer SYSTEM_BIMS = 1; //통합운영관리
 	public static final Integer SYSTEM_SBRT = 2; //차량운행관리

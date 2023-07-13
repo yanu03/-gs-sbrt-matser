@@ -3,6 +3,7 @@ package kr.tracom.util;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,6 +23,38 @@ import ws.schild.jave.EncodingAttributes;
 import ws.schild.jave.MultimediaObject;
 
 public class Utils {
+	static Map<String, Object> ProgramToTable = null;
+	static Map<String, Object> TableToProgramNm = null;
+	private Utils() {
+		initProgramToTable();
+		initTableToProgramNm();
+	}
+	
+	private static void initProgramToTable() {
+		ProgramToTable = new HashMap<String, Object>() {{
+    	    put("SI0401", "BMS_ROUT_MST");
+    	}};
+	}
+	private static void initTableToProgramNm() {
+		TableToProgramNm = new HashMap<String, Object>() {{
+    	    put("BMS_ROUT_NODE_CMPSTN", "노선 경로정보 관리");
+    	}};
+	}	
+	
+	public static String getProgramToTable(String progId) {
+		if(ProgramToTable==null) {
+			initProgramToTable();
+		}
+		return (String)ProgramToTable.get(progId);
+	}
+	
+	public static String getTableToProgramNm(String table) {
+		if(TableToProgramNm==null) {
+			initTableToProgramNm();
+		}
+		return (String)TableToProgramNm.get(table);
+	}
+	
 	public static boolean checkIe(String userAgent) {
 		return userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1;
 	}

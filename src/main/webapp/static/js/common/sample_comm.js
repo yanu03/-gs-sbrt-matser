@@ -557,6 +557,34 @@ $.jf_excelupload = function(a_obj, a_form, url){
 	});
 }
 
+$.jf_checkforeigntable = function(a_row, a_prog_id, a_cb){
+	
+	var row = JSON.stringify(a_row);
+	
+	$.ajax({
+		type : "POST",
+		data : JSON.stringify({
+			dma_search : {ROW : row, PROG_ID : a_prog_id}
+		}),
+		url : "/common/checkForeignTable",
+		
+		dataType : "json",
+		contentType: 'application/json; charset=utf-8',
+		success : function(response) {
+			if(response.dma_result.STATUS=='EXIST'){
+				alert(response.dma_result.MSG);
+			}
+			else{
+				a_cb();
+			}
+		},
+		error : function(response, textStatus,jqXHR) {
+			a_cb();
+		}
+	});
+					
+}
+
 $.jf_getcurauthority = function(){
 	let v_arraylist = top.$.jf_getprogramauthority();
 	for(var i=0; i<v_arraylist.length; i++){
