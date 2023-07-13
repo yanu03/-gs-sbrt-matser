@@ -71,15 +71,20 @@ $(function(){
 			$.jf_append($('#dg0'), $.pf_defaultparams($('#dg0')));
 		}		
 	});
+	
+	
 	$('#btn2').bind('click', function(){
-		if($.jf_datalength($('#dg1'))>0) {
-			$.tracomalmsg('정보', '하위 데이터 삭제 후 가능합니다.'); 
-			return false;
-		}
-		else {
-			if($.jf_changeddg('#dg1', 'all')) $.tracomalmsg('정보', '저장 후 삭제 가능합니다.'); 
-			else $.jf_delete($('#dg0'));
-		} 
+		$.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"SI0401", function(){
+				if($.jf_datalength($('#dg1'))>0) {
+					$.tracomalmsg('정보', '하위 데이터 삭제 후 가능합니다.'); 
+					return false;
+				}
+				else {
+					if($.jf_changeddg('#dg1', 'all')) $.tracomalmsg('정보', '저장 후 삭제 가능합니다.'); 
+					else $.jf_delete($('#dg0'));
+				}
+			}
+		);
 	});
 	$('#btn3').bind('click', function(){
 		if($.jf_changeddg($('#dg0'), 'all')) {
