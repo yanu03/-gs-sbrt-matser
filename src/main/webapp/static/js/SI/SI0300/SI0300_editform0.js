@@ -2,6 +2,9 @@
  * 프로그램명 : 운전자 관리 form
  * 작성자 : 박원용
  * 작성일 : 2023.04.19
+ * 
+ * 수정자 : 박원용
+ * 수정일 : 2023.07.13
  */
 $(function(){
 	
@@ -52,32 +55,73 @@ $(function(){
         }
 	});
 	
-	$('#fm_panel0').append('<table>');
+    let htmlString = '<table>';
+    //design
+    htmlString += '<tr>';
+    htmlString += '<th><label>운전자ID </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>운전자명 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>운수사명 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '<tr>';
+    htmlString += '<th><label>버스구분 </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>입사일 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>자격취득일 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '<tr>';
+    htmlString += '<th><label>재직여부 </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>퇴직일 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '<tr>';
+    htmlString += '<th><label>운전자 사진 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>비고 </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 a
+    htmlString += '</tr>';
+
+    htmlString += '</table>';
+
+    $('#fm_panel0').html(htmlString);
+    
+
+	// $('#fm_panel0').append('<table>');
 	//design
-    $('#fm_panel0').append('<input id="DRV_ID" class="tracom-textbox" name="DRV_ID">');
-    $('#fm_panel0').append('<input id="DRV_NM" class="tracom-textbox" name="DRV_NM">');
-    $('#fm_panel0').append('<input id="COMP_ID" class="tracom-textbox" name="COMP_ID">&nbsp;');
-	$('#fm_panel0').append('<input id="COMP_NM" class="tracom-textbox" name="COMP_NM">&nbsp;');
-    $('#fm_panel0').append('<a id="sch_comp_btn" href="#"></a>&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="BUS_DIV" class="tracom-textbox" name="BUS_DIV">');
-    $('#fm_panel0').append('<input id="EPLY_DATE1" class="tracom-textbox" name="EPLY_DATE1">');
-    $('#fm_panel0').append('<input id="CERTI_DT" class="tracom-textbox" name="CERTI_DT">');
-    $('#fm_panel0').append('<input id="EPLY_YN" class="tracom-combobox" name="EPLY_YN">');
-    $('#fm_panel0').append('<input id="RETIRE_DT" class="tracom-textbox" name="RETIRE_DT"><p>');
-    $('#fm_panel0').append('<input id="ATTACH_ID" type="hidden" name="ATTACH_ID">');
+    $('tr:nth-child(1) td:nth-child(2)').append('<input id="DRV_ID" class="tracom-textbox" name="DRV_ID">');
+    $('tr:nth-child(1) td:nth-child(4)').append('<input id="DRV_NM" class="tracom-textbox" name="DRV_NM">');
+	$('tr:nth-child(1) td:nth-child(6)').append('<input id="COMP_NM" class="tracom-textbox" name="COMP_NM">');
+    $('tr:nth-child(1) td:nth-child(6)').append('<a id="sch_comp_btn" href="#"></a>');
+    $('tr:nth-child(1) td:nth-child(6)').append('<input id="COMP_ID" class="tracom-textbox" name="COMP_ID">');
+
+    $('tr:nth-child(2) td:nth-child(2)').append('<input id="BUS_DIV" class="tracom-textbox" name="BUS_DIV">');
+    $('tr:nth-child(2) td:nth-child(4)').append('<input id="EPLY_DATE1" class="tracom-textbox" name="EPLY_DATE1">');
+    $('tr:nth-child(2) td:nth-child(6)').append('<input id="CERTI_DT" class="tracom-textbox" name="CERTI_DT">');
+
+    $('tr:nth-child(3) td:nth-child(2)').append('<input id="EPLY_YN" class="tracom-combobox" name="EPLY_YN">');
+    $('tr:nth-child(3) td:nth-child(4)').append('<input id="RETIRE_DT" class="tracom-textbox" name="RETIRE_DT">');
+    $('tr:nth-child(4) td:nth-child(2)').append('<input id="ATTACH_ID" type="hidden" name="ATTACH_ID">');
 	var str = '<form id="filefrm" name="filefrm" method="post" enctype="multipart/form-data">'
 			+ '<input id="path" type="hidden" name="path" >'
 			+ '<input id="attach_id" type="hidden" name="attach_id" >'
 			+ '<input id="file_1" type="file" name="file_1" onchange="$.uf_preview(this);" >'
-			+ '<a id="filebtn" href="#"></a><p>'
+			+ '<a id="filebtn" href="#"></a>'
 			+ '</form>'
-    $('#fm_panel0').append(str);
+    $('tr:nth-child(4) td:nth-child(2)').append(str);
     // 나중에 사진 파일 받아올 수 있을때 분리해둔 공간에 img 넣어주기 
     // id는 추후 작업할 때 넣기
-    $('#fm_panel0').append('<img id="picture" style="margin:0 0 0 0;border:0.1px solid black;width:300px;height:200px;float:left;"/>');
-    $('#fm_panel0').append('<input id="REMARK" class="tracom-textbox" name="REMARK">');
+    $('tr:nth-child(4) td:nth-child(2)').append('<img id="picture" style="margin:0 0 0 0;border:0.1px solid black;width:300px;height:200px;float:left;"/>');
+    $('tr:nth-child(4) td:nth-child(4)').append('<input id="REMARK" class="tracom-textbox" name="REMARK">');
 	
-	$('#fm_panel0').append('</table>');
+	// $('#fm_panel0').append('</table>');
     
 	$('#DRV_ID').textbox({
         width: 200,
@@ -88,10 +132,10 @@ $(function(){
         //validType:'length[0,10]',
         readonly: true,
         value:'',
-        label:'운전자 ID',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'운전자 ID',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -105,10 +149,10 @@ $(function(){
         //validType:'length[0,30]',
         readonly: false,
         value:'',
-        label:'운전자명',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'운전자명',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -129,10 +173,10 @@ $(function(){
         maxlength: 30,
         readonly: true,
         value:'',
-        label:'운수사명',
-        labelWidth: 70,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'운수사명',
+        // labelWidth: 70,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -156,10 +200,10 @@ $(function(){
 		valueField: 'DL_CD',
         textField: 'DL_CD_NM',
 		value: '',				//dg0과 일치 시키면 편하다
-        label:'운행버스구분',
-        labelWidth: 100,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'운행버스구분',
+        // labelWidth: 100,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         panelMaxHeight : 130,
         loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
         },
@@ -189,9 +233,9 @@ $(function(){
         parser: $.tracomdateparser,
         readonly: false,
         value:'',
-        label: '입사일',
-        labelWidth: 65,
-        labelAlign: 'left',
+        // label: '입사일',
+        // labelWidth: 65,
+        // labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -207,9 +251,9 @@ $(function(){
         parser: $.tracomdateparser,
         readonly: false,
         value:'',
-        label: '자격취득일',
-        labelWidth: 80,
-        labelAlign: 'left',
+        // label: '자격취득일',
+        // labelWidth: 80,
+        // labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -224,10 +268,10 @@ $(function(){
 		valueField: 'DL_CD',
         textField: 'DL_CD_NM',
 		value: '',				//dg0과 일치 시키면 편하다
-        label:'재직여부',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'재직여부',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         panelMaxHeight : 130,
         loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
         },
@@ -258,9 +302,9 @@ $(function(){
         parser: $.tracomdateparser,
         readonly: false,
         value: '',
-        label: '퇴직일',
-        labelWidth: 65,
-        labelAlign: 'left',
+        // label: '퇴직일',
+        // labelWidth: 65,
+        // labelAlign: 'left',
         onChange: function(a_newValue,oldValue){
             if(!jv_rowclick) return false;   
             return $.uf_chkretiredt(a_newValue);
@@ -335,18 +379,18 @@ $(function(){
         });
     });
 	$('#REMARK').textbox({
-        width: 500,
-        height: 80,
+        width: 350,
+        height: 120,
         type:'text',
         required: false,
         maxlength: 200,
         //validType:'length[0,200]',
         readonly: false,
         value:'',
-        label:'비고',
-        labelWidth:35,
-        labelPosition:'before',
-        labelAlign:'left',
+        // label:'비고',
+        // labelWidth:35,
+        // labelPosition:'before',
+        // labelAlign:'left',
         multiline : true,
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
