@@ -1,8 +1,11 @@
-﻿/** 
+/** 
 작성자 : 양현우
 작성일 : 2023-04-05
 수정자 : 양현우
 수정일 : 2023-04-05
+
+수정자 : 박원용
+수정일 : 2023.07.14
 **/
 $(function () {
 
@@ -74,33 +77,93 @@ $(function () {
 		}
 	});
 
+	let htmlString = '<table>';
 
-
-
-
-	$('#fm_panel0').append('<table>');
 	//design
-	$('#fm_panel0').append('<input id="STTN_ID" class="tracom-textbox" name="STTN_ID">&nbsp;');
-	$('#fm_panel0').append('<input id="STTN_NM" class="tracom-textbox" name="STTN_NM">&nbsp;');
-	$('#fm_panel0').append('<input id="AREA" class="tracom-combobox" name="AREA">&nbsp;');
-	$('#fm_panel0').append('<input id="STTN_NO" class="tracom-textbox" name="STTN_NO">&nbsp;');
-	$('#fm_panel0').append('<input id="GPS_Y" class="tracom-numberbox" name="GPS_Y">&nbsp;');
-	$('#fm_panel0').append('<input id="GPS_X" class="tracom-numberbox" name="GPS_X">&nbsp;');
-	$('#fm_panel0').append('<input id="STTN_FCLT_TYPE" class="tracom-combobox" name="STTN_FCLT_TYPE">&nbsp;');
-	$('#fm_panel0').append('<input id="VHC_DOOR_DIR_TYPE" class="tracom-combobox" name="VHC_DOOR_DIR_TYPE">&nbsp;');
-	$('#fm_panel0').append('<input id="WAY_DIV" class="tracom-combobox" name="WAY_DIV">&nbsp;');
-	$('#fm_panel0').append('<input id="BAY_TYPE" class="tracom-combobox" name="BAY_TYPE">&nbsp;');
-	$('#fm_panel0').append('<input id="BAY_LEN" class="tracom-numberbox" name="BAY_LEN"><p>');
-	$('#fm_panel0').append('<input id="LINE_CNT" class="tracom-numberbox" name="LINE_CNT">&nbsp;');
-	$('#fm_panel0').append('<input id="STOP_TM_PEAK" class="tracom-numberbox" name="STOP_TM_PEAK">&nbsp;');
-	$('#fm_panel0').append('<input id="STOP_TM_NONE_PEAK" class="tracom-numberbox" name="STOP_TM_NONE_PEAK"><p>');
-	$('#fm_panel0').append('<input id="CENTER_YN_Y" class="tracom-radiobutton" name="CENTER_YN">&nbsp;');
-	$('#fm_panel0').append('<input id="CENTER_YN_N" class="tracom-radiobutton" name="CENTER_YN">&nbsp;');
-	$('#fm_panel0').append('<input id="USE_YN_Y" class="tracom-radiobutton" name="USE_YN">&nbsp;');
-	$('#fm_panel0').append('<input id="USE_YN_N" class="tracom-radiobutton" name="USE_YN"><p>');
-	$('#fm_panel0').append('<input id="REMARK" class="tracom-textbox" name="REMARK"><p>');
+	htmlString += '<tr>';
+	htmlString += '<th><label>정류소ID </label></th>';
+	htmlString += '<td></td>'; //숫자 주도록해서 append
+	htmlString += '<th><label>정류소명 </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>권역 </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
 
-	$('#fm_panel0').append('</table>');
+	htmlString += '<tr>';
+	htmlString += '<th><label>정류소번호 </label></th>';
+	htmlString += '<td></td>'; //숫자 주도록해서 append
+	htmlString += '<th><label>경도(X) </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>위도(Y) </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
+
+	htmlString += '<tr>';
+	htmlString += '<th><label>정류소시설유형 </label></th>';
+	htmlString += '<td></td>'; //숫자 주도록해서 append
+	htmlString += '<th><label>버스문방향 </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>상하행</label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
+
+	htmlString += '<tr>';
+	htmlString += '<th><label>베이유형 </label></th>';
+	htmlString += '<td></td>'; //숫자 주도록해서 append
+	htmlString += '<th><label>베이길이 </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>차선수</label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
+
+	htmlString += '<tr>';
+	htmlString += '<th><label>첨두시 정차시간(초)  </label></th>';
+	htmlString += '<td></td>'; //숫자 주도록해서 append
+	htmlString += '<th><label>비첨두시 정차시간(초)  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>중앙차로여부</label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
+
+	htmlString += '<tr>';
+	htmlString += '<th><label>사용여부  </label></th>';
+	htmlString += '<td></td>'; //숫자 주도록해서 append
+	htmlString += '<th><label>비고  </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
+
+  htmlString += '</table>';
+
+  $('#fm_panel0').html(htmlString);
+
+	// $('#fm_panel0').append('<table>');
+	//design
+	$('tr:nth-child(1) td:nth-child(2)').append('<input id="STTN_ID" class="tracom-textbox" name="STTN_ID">');
+	$('tr:nth-child(1) td:nth-child(4)').append('<input id="STTN_NM" class="tracom-textbox" name="STTN_NM">');
+	$('tr:nth-child(1) td:nth-child(6)').append('<input id="AREA" class="tracom-combobox" name="AREA">');
+
+	$('tr:nth-child(2) td:nth-child(2)').append('<input id="STTN_NO" class="tracom-textbox" name="STTN_NO">');
+	$('tr:nth-child(2) td:nth-child(4)').append('<input id="GPS_Y" class="tracom-numberbox" name="GPS_Y">');
+	$('tr:nth-child(2) td:nth-child(6)').append('<input id="GPS_X" class="tracom-numberbox" name="GPS_X">');
+
+	$('tr:nth-child(3) td:nth-child(2)').append('<input id="STTN_FCLT_TYPE" class="tracom-combobox" name="STTN_FCLT_TYPE">');
+	$('tr:nth-child(3) td:nth-child(4)').append('<input id="VHC_DOOR_DIR_TYPE" class="tracom-combobox" name="VHC_DOOR_DIR_TYPE">');
+	$('tr:nth-child(3) td:nth-child(6)').append('<input id="WAY_DIV" class="tracom-combobox" name="WAY_DIV">');
+
+	$('tr:nth-child(4) td:nth-child(2)').append('<input id="BAY_TYPE" class="tracom-combobox" name="BAY_TYPE">');
+	$('tr:nth-child(4) td:nth-child(4)').append('<input id="BAY_LEN" class="tracom-numberbox" name="BAY_LEN">');
+	$('tr:nth-child(4) td:nth-child(6)').append('<input id="LINE_CNT" class="tracom-numberbox" name="LINE_CNT">');
+
+	$('tr:nth-child(5) td:nth-child(2)').append('<input id="STOP_TM_PEAK" class="tracom-numberbox" name="STOP_TM_PEAK">');
+	$('tr:nth-child(5) td:nth-child(4)').append('<input id="STOP_TM_NONE_PEAK" class="tracom-numberbox" name="STOP_TM_NONE_PEAK">');
+	$('tr:nth-child(5) td:nth-child(6)').append('<input id="CENTER_YN_Y" class="tracom-radiobutton" name="CENTER_YN">');
+	$('tr:nth-child(5) td:nth-child(6)').append('<input id="CENTER_YN_N" class="tracom-radiobutton" name="CENTER_YN">');
+
+	$('tr:nth-child(6) td:nth-child(2)').append('<input id="USE_YN_Y" class="tracom-radiobutton" name="USE_YN">');
+	$('tr:nth-child(6) td:nth-child(2)').append('<input id="USE_YN_N" class="tracom-radiobutton" name="USE_YN">');
+	$('tr:nth-child(6) td:nth-child(4)').append('<input id="REMARK" class="tracom-textbox" name="REMARK">');
+
+	// $('#fm_panel0').append('</table>');
 
 	$('#STTN_ID').textbox({
 		width: 200,
@@ -111,7 +174,7 @@ $(function () {
 		validType: 'length[0,20]',
 		readonly: true,
 		value: '',
-		label: '정류소ID : ',
+		// label: '정류소ID : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -125,7 +188,7 @@ $(function () {
 		required: true,
 		readonly: false,
 		value: '',
-		label: '정류소명 : ',
+		// label: '정류소명 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -140,7 +203,7 @@ $(function () {
 		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "AREA"}}),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
-		label: '권역 : ',
+		// label: '권역 : ',
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
 	});
 
@@ -153,7 +216,7 @@ $(function () {
 		precision: 0,
 		readonly: false,
 		value: '',
-		label: '정류소번호 : ',
+		// label: '정류소번호 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -168,8 +231,8 @@ $(function () {
 		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "STTN_FCLT_TYPE"}}),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
-		label: '정류소시설유형 : ',
-		labelWidth: 120,
+		// label: '정류소시설유형 : ',
+		// labelWidth: 120,
 		panelMaxHeight: 170,
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
 	});	
@@ -183,8 +246,8 @@ $(function () {
 		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "VHC_DOOR_DIR_TYPE"}}),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
-		label: '버스문방향 : ',
-		labelWidth: 100,
+		// label: '버스문방향 : ',
+		// labelWidth: 100,
 		panelMaxHeight: 100,
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
 	});	
@@ -198,7 +261,7 @@ $(function () {
 		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "WAY_DIV"}}),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
-		label: '상하행 : ',
+		// label: '상하행 : ',
 		panelMaxHeight: 170,
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
 	});	
@@ -212,7 +275,7 @@ $(function () {
 		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "BAY_TYPE"}}),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
-		label: '베이유형 : ',
+		// label: '베이유형 : ',
 		panelMaxHeight: 200,
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
 	});	
@@ -226,7 +289,7 @@ $(function () {
 		precision: 0,
 		readonly: false,
 		value: '',
-		label: '베이길이(m) : ',
+		// label: '베이길이(m) : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -241,7 +304,7 @@ $(function () {
 		precision: 0,
 		readonly: false,
 		value: '',
-		label: '차선수 : ',
+		// label: '차선수 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -256,7 +319,7 @@ $(function () {
 		precision: 0,
 		readonly: false,
 		value: '',
-		label: '첨두시 정차시간(초) : ',
+		// label: '첨두시 정차시간(초) : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -271,7 +334,7 @@ $(function () {
 		precision: 0,
 		readonly: false,
 		value: '',
-		label: '비첨두시 정차시간(초) : ',
+		// label: '비첨두시 정차시간(초) : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -285,7 +348,7 @@ $(function () {
 		precision: 6,
 		readonly: false,
 		value: '',
-		label: '경도 : ',
+		// label: '경도 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -299,7 +362,7 @@ $(function () {
 		precision: 6,
 		readonly: false,
 		value: '',
-		label: '위도 : ',
+		// label: '위도 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -350,13 +413,13 @@ $(function () {
 	});
 
 	$('#REMARK').textbox({
-		width: 500,
+		width: 350,
 		height: 50,
 		type: 'text',
 		maxlength: 200,
 		readonly: false,
 		value: '',
-		label: '비고 :',
+		// label: '비고 :',
 		multiline:true,
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
