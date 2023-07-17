@@ -47,8 +47,9 @@
 			
   });
   $('#subbtn2').bind('click', function(){
-		$.jf_checkforeigntable($.jf_curdgrow($('#dg1')),"AL0202_2", function(){
-			$.jf_delete($('#dg1'));
-		});
+		//운행계획 관리 삭제하면 해당 운행계획 세부관리도 삭제되게 변경
+		//$.jf_checkforeigntable($.jf_curdgrow($('#dg1')),"AL0202_2", function(){
+		$.jf_delete($('#dg1'));
+		//});
   });
 });

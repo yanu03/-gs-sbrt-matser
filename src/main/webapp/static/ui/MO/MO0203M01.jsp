@@ -121,7 +121,6 @@
 					
 		//a_datas 남은 시간에 따른 순서 sort하는 작업 필요
 		//
-		debugger;					
 		for(var i=0; i<v_BITList.length; i++) {
 			v_BITList[i].REMAIN_TM = parseInt((v_BITList[i].REMAIN_TM%3600)/60) + '분';
 			let v_newObj = {};

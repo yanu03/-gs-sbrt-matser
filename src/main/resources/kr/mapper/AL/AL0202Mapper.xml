@@ -314,6 +314,12 @@
 	</update>
 	
 	<delete id="AL0202G1D0" parameterType="Map">
+		DELETE
+		FROM			BMS_OPER_ALLOC_PL_NODE_INFO
+		WHERE			ALLOC_ID = #{ALLOC_ID}
+		AND				SN = #{SN};
+	
+	
 		DELETE 
 		FROM 			BMS_OPER_ALLOC_PL_ROUT_INFO
 		WHERE 			ALLOC_ID = #{ALLOC_ID}
