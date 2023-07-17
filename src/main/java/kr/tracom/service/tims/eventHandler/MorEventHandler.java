@@ -901,10 +901,10 @@ public class MorEventHandler{
 							// String routNm = curInfoMapper.selectRoutName(routId);
 							Map<String, Object> routIdMap = new HashMap<>();
 							routIdMap.put("ROUT_ID", routId);
-							Object routNm = getRoutMst(routIdMap);
+							Map<String, Object> routNm = getRoutMst(routIdMap);
 
 							arrivalInfoMap.put("ROUT_ID", routId);
-							arrivalInfoMap.put("ROUT_NM", routNm);
+							arrivalInfoMap.put("ROUT_NM", routNm.get("ROUT_NM"));
 							arrivalInfoMap.put("VHC_TYPE", "VT" + arrivalInfoItem.getBusType());
 							arrivalInfoMap.put("REMAIN_STTN", loc);
 							arrivalInfoMap.put("REMAIN_TM", remainSec);
