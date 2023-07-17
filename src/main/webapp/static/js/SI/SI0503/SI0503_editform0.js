@@ -1,4 +1,4 @@
-﻿/** 
+/** 
 작성자 : 양현우
 작성일 : 2023-04-06
 수정자 : 양현우
@@ -65,27 +65,62 @@ $(function () {
 		}
 	});
 
+	let htmlString = '<table>';
 
-
-
-
-	$('#fm_panel0').append('<table>');
 	//design
-	$('#fm_panel0').append('<input id="CRS_ID" name="CRS_ID">&nbsp;');
-	$('#fm_panel0').append('<input id="CRS_NM" name="CRS_NM">&nbsp;');
-	$('#fm_panel0').append('<input id="CRS_KIND" name="CRS_KIND">&nbsp;');
-	$('#fm_panel0').append('<input id="SIG_CTR_TYPE" name="SIG_CTR_TYPE">&nbsp;');
-	$('#fm_panel0').append('<input id="GPS_Y" name="GPS_Y">&nbsp;');
-	$('#fm_panel0').append('<input id="GPS_X" name="GPS_X">&nbsp;');
-	$('#fm_panel0').append('<input id="MAIN_CRS_YN_Y" name="MAIN_CRS_YN">&nbsp;');
-	$('#fm_panel0').append('<input id="MAIN_CRS_YN_N" name="MAIN_CRS_YN">&nbsp;');
-	$('#fm_panel0').append('<input id="PDSTRN_DET_YN_Y" name="PDSTRN_DET_YN">&nbsp;');
-	$('#fm_panel0').append('<input id="PDSTRN_DET_YN_N" name="PDSTRN_DET_YN">&nbsp;');
-	$('#fm_panel0').append('<input id="USE_YN_Y" name="USE_YN">&nbsp;');
-	$('#fm_panel0').append('<input id="USE_YN_N" name="USE_YN"><p>');
-	$('#fm_panel0').append('<input id="REMARK" name="REMARK"><p>');
+	htmlString += '<tr>';
+	htmlString += '<th><label>교차로ID </label></th>';
+	htmlString += '<td></td>'; //숫자 주도록해서 append
+	htmlString += '<th><label>교차로명 </label></th>';ㅁㅁㅁㅊ
+	htmlString += '<td></td>';
+	htmlString += '<th><label>교차로종류 </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
 
-	$('#fm_panel0').append('</table>');
+	htmlString += '<tr>';
+	htmlString += '<th><label>신호제어기 유형 </label></th>';
+	htmlString += '<td></td>'; //숫자 주도록해서 append
+	htmlString += '<th><label>경도(X) </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>위도(Y) </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
+
+	htmlString += '<tr>';
+	htmlString += '<th><label>주요교차로 여부 </label></th>';
+	htmlString += '<td></td>'; //숫자 주도록해서 append
+	htmlString += '<th><label>보행자감지 여부 </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '<th><label>사용 여부 </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
+
+	htmlString += '<tr>';
+	htmlString += '<th><label>비고 </label></th>';
+	htmlString += '<td></td>';
+	htmlString += '</tr>';
+
+	htmlString += '</table>';
+
+	$('#fm_panel0').html(htmlString);
+
+	// $('#fm_panel0').append('<table>');
+	//design
+	$('tr:nth-child(1) td:nth-child(2)').append('<input id="CRS_ID" class="tracom-textbox" name="CRS_ID">');
+	$('tr:nth-child(1) td:nth-child(4)').append('<input id="CRS_NM" class="tracom-textbox" name="CRS_NM">');
+	$('tr:nth-child(1) td:nth-child(6)').append('<input id="CRS_KIND" class="tracom-combobox" name="CRS_KIND">');
+	$('tr:nth-child(2) td:nth-child(2)').append('<input id="SIG_CTR_TYPE" class="tracom-combobox" name="SIG_CTR_TYPE">');
+	$('tr:nth-child(2) td:nth-child(4)').append('<input id="GPS_Y" class="tracom-numberbox" name="GPS_Y">');
+	$('tr:nth-child(2) td:nth-child(6)').append('<input id="GPS_X" class="tracom-numberbox" name="GPS_X">');
+	$('tr:nth-child(3) td:nth-child(2)').append('<input id="MAIN_CRS_YN_Y" class="tracom-radiobutton" name="MAIN_CRS_YN">');
+	$('tr:nth-child(3) td:nth-child(2)').append('<input id="MAIN_CRS_YN_N" class="tracom-radiobutton" name="MAIN_CRS_YN">');
+	$('tr:nth-child(3) td:nth-child(4)').append('<input id="PDSTRN_DET_YN_Y" class="tracom-radiobutton" name="PDSTRN_DET_YN">');
+	$('tr:nth-child(3) td:nth-child(4)').append('<input id="PDSTRN_DET_YN_N" class="tracom-radiobutton" name="PDSTRN_DET_YN">');
+	$('tr:nth-child(3) td:nth-child(6)').append('<input id="USE_YN_Y" class="tracom-radiobutton" name="USE_YN">');
+	$('tr:nth-child(3) td:nth-child(6)').append('<input id="USE_YN_N" class="tracom-radiobutton" name="USE_YN">');
+	$('tr:nth-child(4) td:nth-child(2)').append('<input id="REMARK" class="tracom-textbox" name="REMARK">');
+
+	// $('#fm_panel0').append('</table>');
 
 	$('#CRS_ID').textbox({
 		width: 200,
@@ -95,7 +130,7 @@ $(function () {
 		required: true,
 		readonly: true,
 		value: '',
-		label: '교차로ID : ',
+		// label: '교차로ID : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -109,7 +144,7 @@ $(function () {
 		required: true,
 		readonly: false,
 		value: '',
-		label: '교차로명 : ',
+		// label: '교차로명 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -125,7 +160,7 @@ $(function () {
 		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "CRS_KIND"}}),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
-		label: '교차로종류 : ',
+		// label: '교차로종류 : ',
 		panelMaxHeight: 230,
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
 	});
@@ -140,7 +175,7 @@ $(function () {
 		queryParams: JSON.stringify({"dma_search" : {"CO_CD" : "SIG_CTR_TYPE"}}),
 		valueField: 'DL_CD',
 		textField: 'DL_CD_NM',
-		label: '신호제어기유형 : ',
+		// label: '신호제어기유형 : ',
 		panelMaxHeight: 70,
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)}
 	});
@@ -153,7 +188,7 @@ $(function () {
 		precision: 6,
 		readonly: false,
 		value: '',
-		label: '경도 : ',
+		// label: '경도 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -167,7 +202,7 @@ $(function () {
 		precision: 6,
 		readonly: false,
 		value: '',
-		label: '위도 : ',
+		// label: '위도 : ',
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;
 		}
@@ -240,13 +275,13 @@ $(function () {
 	});
 
 	$('#REMARK').textbox({
-		width: 500,
+		width: 350,
 		height: 50,
 		type: 'text',
 		maxlength: 200,
 		readonly: false,
-		value: '',
-		label: '비고 :',
+		// value: '',
+		// label: '비고 :',
 		multiline:true,
 		onChange: function (newValue, oldValue) {
 			if (!jv_rowclick) return false;

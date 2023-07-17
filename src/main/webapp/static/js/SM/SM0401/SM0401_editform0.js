@@ -55,49 +55,84 @@ $(function(){
     }
 	});
 
-	$('#fm_panel0').append('<table>');
+  let htmlString = '<table>';
+
+   //design
+  htmlString += '<tr>';
+  htmlString += '<th><label>사용자ID </label></th>';
+  htmlString += '<td></td>'; //숫자 주도록해서 append
+  htmlString += '<th><label>사용자명 </label></th>';
+  htmlString += '<td></td>';
+  htmlString += '<th><label>권한그룹 </label></th>';
+  htmlString += '<td></td>';
+  htmlString += '</tr>';
+
+  htmlString += '<tr>';
+  htmlString += '<th><label>직급 </label></th>';
+  htmlString += '<td></td>'; //숫자 주도록해서 append
+  htmlString += '<th><label>직책 </label></th>';
+  htmlString += '<td></td>';
+  htmlString += '<th><label>사용여부 </label></th>';
+  htmlString += '<td></td>';
+  htmlString += '</tr>';
+
+  htmlString += '<tr>';
+  htmlString += '<th><label>비밀번호 </label></th>';
+  htmlString += '<td></td>'; //숫자 주도록해서 append
+  htmlString += '<th><label>비밀번호 확인 </label></th>';
+  htmlString += '<td></td>';
+  htmlString += '<th><label>비고 </label></th>';
+  htmlString += '<td></td>';
+  htmlString += '</tr>';
+
+  htmlString += '</table>';
+
+  $('#fm_panel0').html(htmlString);
+
+
+	// $('#fm_panel0').append('<table>');
 	//design
-	$('#fm_panel0').append('<input id="USER_ID" class="tracom-textbox" name="USER_ID">');
-	$('#fm_panel0').append('<input id="USER_NM" class="tracom-textbox" name="USER_NM"><p>');
-  //$('#fm_panel0').append('<input id="" class="tracom-textbox" name=""><p>'); // 권한그룹 넣어줘야함
-  $('#fm_panel0').append('<input id="AUTH_CD" class="tracom-combobox" name="AUTH_CD">');
-  $('#fm_panel0').append('<input id="JOB_POSITION" class="tracom-combobox" name="JOB_POSITION"><p>');
-  $('#fm_panel0').append('<input id="JOB_DUTY" class="tracom-combobox" name="JOB_DUTY">&nbsp;&nbsp;');
-  $('#fm_panel0').append('사용여부&nbsp;<input id="USE_YN_Y" class="tracom-radiobutton" name="USE_YN">');
-  $('#fm_panel0').append('<input id="USE_YN_N" class="tracom-radiobutton" name="USE_YN"><p>');
-  $('#fm_panel0').append('<input id="NEW_USER_PS" class="tracom-textbox" name="NEW_USER_PS">');
-  $('#fm_panel0').append('<input id="CHK_USER_PS" class="tracom-textbox" name="CHK_USER_PS"><p>');
-  $('#fm_panel0').append('<input id="REMARK" class="tracom-textbox" name="REMARK">');
+	$('tr:nth-child(1) td:nth-child(2)').append('<input id="USER_ID" class="tracom-textbox" name="USER_ID">');
+	$('tr:nth-child(1) td:nth-child(4)').append('<input id="USER_NM" class="tracom-textbox" name="USER_NM">');
+  //$('#fm_panel0').append('<input id="" class="tracom-textbox" name="">'); // 권한그룹 넣어줘야함
+  $('tr:nth-child(1) td:nth-child(6)').append('<input id="AUTH_CD" class="tracom-combobox" name="AUTH_CD">');
+  $('tr:nth-child(2) td:nth-child(2)').append('<input id="JOB_POSITION" class="tracom-combobox" name="JOB_POSITION">');
+  $('tr:nth-child(2) td:nth-child(4)').append('<input id="JOB_DUTY" class="tracom-combobox" name="JOB_DUTY">');
+  $('tr:nth-child(2) td:nth-child(6)').append('<input id="USE_YN_Y" class="tracom-radiobutton" name="USE_YN">');
+  $('tr:nth-child(2) td:nth-child(6)').append('<input id="USE_YN_N" class="tracom-radiobutton" name="USE_YN">');
+  $('tr:nth-child(3) td:nth-child(2)').append('<input id="NEW_USER_PS" class="tracom-textbox" name="NEW_USER_PS">');
+  $('tr:nth-child(3) td:nth-child(4)').append('<input id="CHK_USER_PS" class="tracom-textbox" name="CHK_USER_PS">');
+  $('tr:nth-child(3) td:nth-child(6)').append('<input id="REMARK" class="tracom-textbox" name="REMARK">');
 	
-	$('#fm_panel0').append('</table>');
+	// $('#fm_panel0').append('</table>');
 
 	$('#USER_ID').textbox({
-    width: 300,
+    width: 200,
     height: 25,
     type:'text',
     required: true,
     maxlength: 10,
     readonly: false,
     value:'',
-    label: '사용자ID',
-    labelWidth: 130,
-    labelAlign: 'right',
+    // label: '사용자ID',
+    // labelWidth: 130,
+    // labelAlign: 'right',
     onChange: function(newValue,oldValue){
       if(!jv_rowclick) return false;
     }
   });
 
   $('#USER_NM').textbox({
-    width: 300,
+    width: 200,
     height: 25,
     type:'text',
     required: true,
     maxlength: 30,
     readonly: false,
-    value:'',
-    label: '사용자명',
-    labelWidth: 130,
-    labelAlign: 'right',
+    // value:'',
+    // label: '사용자명',
+    // labelWidth: 130,
+    // labelAlign: 'right',
     onChange: function(newValue,oldValue){
       if(!jv_rowclick) return false;
     }
@@ -113,9 +148,9 @@ $(function(){
     valueField: 'AUTH_CD',
     textField: 'AUTH_NM',
     prompt:'-선택-',
-    label: '권한그룹',
-    labelWidth: 70,
-    labelAlign: 'right',
+    // label: '권한그룹',
+    // labelWidth: 70,
+    // labelAlign: 'right',
     panelMinHeight: 120,
     panelMaxHeight: 230,
     loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
@@ -136,9 +171,9 @@ $(function(){
     valueField: 'DL_CD',
     textField: 'DL_CD_NM',
     prompt:'-선택-',
-    label: '직급',
-    labelWidth: 54,
-    labelAlign: 'right',
+    // label: '직급',
+    // labelWidth: 54,
+    // labelAlign: 'right',
     panelMaxHeight: 230,
     loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
     },
@@ -157,9 +192,9 @@ $(function(){
     valueField: 'DL_CD',
     textField: 'DL_CD_NM',
     prompt:'-선택-',
-    label: '직책',
-    labelWidth: 54,
-    labelAlign: 'right',
+    // label: '직책',
+    // labelWidth: 54,
+    // labelAlign: 'right',
     panelMaxHeight: 230,
     loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
     },
@@ -191,32 +226,32 @@ $(function(){
 	});
   
   $('#NEW_USER_PS').textbox({
-    width: 300,
+    width: 200,
     height: 25,
     type:'password',
     required: false,
     maxlength: 100,
     readonly: false,
     value:'',
-    label: '비밀번호',
-    labelWidth: 130,
-    labelAlign: 'right',
+    // label: '비밀번호',
+    // labelWidth: 130,
+    // labelAlign: 'right',
     onChange: function(newValue,oldValue){
       if(!jv_rowclick) return false;
     }
 	});
 
   $('#CHK_USER_PS').textbox({
-    width: 300,
+    width: 200,
     height: 25,
     type:'password',
     required: false,
     maxlength: 100,
     readonly: false,
     value:'',
-    label: '비밀번호 확인',
-    labelWidth: 130,
-    labelAlign: 'right',
+    // label: '비밀번호 확인',
+    // labelWidth: 130,
+    // labelAlign: 'right',
     onChange: function(newValue,oldValue){
       if(!jv_rowclick) return false;
     }
@@ -231,9 +266,9 @@ $(function(){
     readonly: false,
     multiline : true,
     value:'',
-    label: '비고',
-    labelWidth: 54,
-    labelAlign: 'right',
+    // label: '비고',
+    // labelWidth: 54,
+    // labelAlign: 'right',
     onChange: function(newValue,oldValue){
       if(!jv_rowclick) return false;
     }

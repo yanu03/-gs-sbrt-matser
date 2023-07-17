@@ -61,6 +61,8 @@ public interface CommonMapper {
 
 	public List<Map> selectColumnTable(Map param);
 	
+	public int checkForeignTable(Map param);
+	
 	/**
 	 * 그룹코드로 세부코드 정보 한번에 삭제하기
 	 * 
@@ -76,4 +78,5 @@ public interface CommonMapper {
 	
 	Map<String, Object> getCommonCode(Map<String, Object> paramMap);
 
+	public List<Map> selectForeignTable(Map param);
 }

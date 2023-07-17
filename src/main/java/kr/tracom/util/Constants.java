@@ -1,5 +1,8 @@
 package kr.tracom.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Constants {
 	public static final Integer SYSTEM_BIMS = 1; //통합운영관리
 	public static final Integer SYSTEM_SBRT = 2; //차량운행관리
@@ -166,6 +169,7 @@ public class Constants {
     	public static final String DL_CD_MAX_DELAY_SEC = "SS023"; //정류소 최대 추가 대기 시간(운행계획)	
     	public static final String DL_CD_STD_AAC = "SS024"; //기준가속
     	public static final String DL_CD_STD_DEC = "SS025"; //기준감속
+    	public static final String DL_CD_MAX_STOP_TM= "SY004"; //최대정차시간
 
     }
     

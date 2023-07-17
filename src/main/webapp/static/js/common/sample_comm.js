@@ -557,6 +557,34 @@ $.jf_excelupload = function(a_obj, a_form, url){
 	});
 }
 
+$.jf_checkforeigntable = function(a_row, a_prog_id, a_cb){
+	
+	var row = JSON.stringify(a_row);
+	
+	$.ajax({
+		type : "POST",
+		data : JSON.stringify({
+			dma_search : {ROW : row, PROG_ID : a_prog_id}
+		}),
+		url : "/common/checkForeignTable",
+		
+		dataType : "json",
+		contentType: 'application/json; charset=utf-8',
+		success : function(response) {
+			if(response.dma_result.STATUS=='EXIST'){
+				alert(response.dma_result.MSG);
+			}
+			else{
+				a_cb();
+			}
+		},
+		error : function(response, textStatus,jqXHR) {
+			a_cb();
+		}
+	});
+					
+}
+
 $.jf_getcurauthority = function(){
 	let v_arraylist = top.$.jf_getprogramauthority();
 	for(var i=0; i<v_arraylist.length; i++){
@@ -989,6 +1017,9 @@ $.jf_savedgdata = function(a_obj, a_url, a_method, a_action) {
 			if (error.status == 403) {
 				alert("세션이 만료되어 로그인 페이지로 돌아갑니다.");
 				top.location.replace("/user/login");
+			}
+			else{
+				top.$.messager.alert('sever massage',"저장중 오류가 발생하였습니다. 관리자에게 문의바랍니다.");
 			}
 			//else
 			//	error.apply(this, arguments);

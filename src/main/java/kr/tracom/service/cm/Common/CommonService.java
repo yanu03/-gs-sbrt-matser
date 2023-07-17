@@ -13,10 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import kr.tracom.handler.FTPHandler;
 import kr.tracom.mapper.cm.Common.CommonMapper;
 import kr.tracom.support.ServiceSupport;
 import kr.tracom.util.CommonUtil;
+import kr.tracom.util.Utils;
 
 
 @Service
@@ -36,6 +39,9 @@ public class CommonService extends ServiceSupport {
 	
 	@Value("${fileupload.base.path}")
 	private String UPLOAD_BASE_DIR;
+	
+	@Value("${systgem.db.schema}")
+	private String SCHEMA;
 
 	/**
 	 * 헤더메뉴, 사이드메뉴 조회 (로그인 사용자에게 권한이 있는 메뉴만 조회함)
@@ -475,5 +481,72 @@ public class CommonService extends ServiceSupport {
 		}
 
 		return commonMapper.selectCommonCo(map);
+	}
+	
+	public Map checkForeignTable() throws Exception {
+		String resultString = "";
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> map = getSimpleDataMap("dma_search");
+		String progId = (String)map.get("PROG_ID");
+		
+		
+		 Map<String, Object> row = mapper.readValue((String)map.get("ROW"), Map.class);
+		
+
+		String table = Utils.getProgramToTable(progId);
+		map.put("TABLE", table);
+		map.put("SCHEMA",SCHEMA);
+
+		List<Map> foreignTableList = commonMapper.selectForeignTable(map);
+		
+		int size = foreignTableList.size();
+		if(size>0) {
+			String columnComment = (String)foreignTableList.get(0).get("COLUMN_COMMENT");
+			resultString = columnComment + "를 참조하는 하위 프로그램 [";
+		}
+		
+		Map result = new HashMap();
+		result.put("STATUS", "S");
+		int i = 0;
+		for (Map foreignTable : foreignTableList) {
+			int cnt = 0;
+			String foreignTableNm = (String)foreignTable.get("TABLE_NAME");
+			String programNm = Utils.getTableToProgramNm(foreignTableNm);
+			if(programNm==null)continue;			
+			String foreignColumnNm = (String)foreignTable.get("COLUMN_NAME");
+			String[] columnList = foreignColumnNm.split(",");
+			String query = "";
+			if(columnList.length>1) {
+				for(int j=0;j<columnList.length;j++) {
+					String column = columnList[j];
+					String value = row.get(column)+"";
+					
+					if(j>0) {
+						query += " AND ";
+					}
+					query +=column + " = '" + value +"'";
+				}
+				foreignTable.put("VALUE", query);
+			}
+			else {
+				String value = (String)row.get(foreignColumnNm);
+				query +=foreignColumnNm + " = '" + value +"'";
+				foreignTable.put("VALUE", query);
+			}
+			cnt = commonMapper.checkForeignTable(foreignTable);
+			
+			if(cnt>0) {
+				if(i>0)resultString += ", ";				
+				resultString += programNm /* + "(" +cnt +")" */;
+				result.put("STATUS", "EXIST");
+				i++;
+			}
+		}
+		resultString += "]를 삭제해야 합니다.";
+		result.put("MSG", resultString);
+		
+
+
+		return result;
 	}
 }

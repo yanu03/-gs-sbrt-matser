@@ -30,7 +30,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         UserDetails userDetails = (UserDetails) userDetailsService.loadUserByUsername(username);
 
-        if(Sha256.getHashTwo((String) password, "".getBytes(),(String) username).equals(userDetails.getPassword())){
+        if(userDetails!=null&&Sha256.getHashTwo((String) password, "".getBytes(),(String) username).equals(userDetails.getPassword())){
         	
         }
         else {

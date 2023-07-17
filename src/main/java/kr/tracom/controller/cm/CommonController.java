@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import  kr.tracom.service.cm.Common.CommonService;
@@ -299,4 +300,15 @@ public class CommonController extends ControllerSupport {
 		return "ExcelView";
         //return new ModelAndView("ExcelView", "map", result);
 	}
+	
+    /*@RequestMapping(value = "/common/checkForeignTable", method = RequestMethod.GET, produces="application/json")*/
+	@RequestMapping(value = "/common/checkForeignTable")	
+    @ResponseBody
+    public  Map<String, Object> checkForeignTable() throws Exception {
+		Map hash = commonService.checkForeignTable();
+		result.setData("dma_result", hash);
+                  
+        return result.getResult();
+    }
+	
 }

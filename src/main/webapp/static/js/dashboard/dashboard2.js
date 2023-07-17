@@ -15,8 +15,7 @@
 	};
 	
 	dashboard.init = function() {
-		
-		//dashboard.connect();
+		dashboard.connect();
 		// dashboard.routDraw(); 우측하단 정류소 라인 만들기, 동적으로 만들지 않게 변경
    // dashboard.dispatchDraw(0, null,null);
    
@@ -194,7 +193,7 @@ dashboard.test = function() {
 		return;
 	};
   
-	/*dashboard.connect = function() {
+	dashboard.connect = function() {
 		var socket = new SockJS('/websocket');
 		stompClient = Stomp.over(socket);
 		
@@ -202,17 +201,18 @@ dashboard.test = function() {
 	};
 	
 	dashboard.onConnected = function (frame) {
+		debugger;
 		console.log('onConnected: ' + frame);
-		stompClient.subscribe('/topic/public', dashboard.onMessageReceived);
+		stompClient.subscribe('/subscribe/vhc', dashboard.onMessageReceived);
 		stompClient.subscribe('/subscribe/frontRear', dashboard.onMessageFrontRear);
 	};
 	
 	dashboard.onError = function (error) {
-		// alert('Could not connect to WebSocket server. ' + error);
+		 alert('Could not connect to WebSocket server. ' + error);
 		setTimeout(function() {
 			dashboard.connect();
 		},1000);
-	};*/
+	};
 	
 	dashboard.onMessageFrontRear = function(payload) {
 		var attrId = null;
@@ -229,8 +229,8 @@ dashboard.test = function() {
 			}
 
 			dashboard.setRearFrontInfo(jsonObj);
-			var rear = dashboard.getRearFrontInfo2(dashboard.IMP_ID,"R");
-			var front = dashboard.getRearFrontInfo2(dashboard.IMP_ID,"F");
+			var rear = dashboard.getRearFrontInfo2(jsonObj.IMP_ID,"R");
+			var front = dashboard.getRearFrontInfo2(jsonObj.IMP_ID,"F");
 			
 			dashboard.rearDraw(rear);
 			dashboard.frontDraw (front);

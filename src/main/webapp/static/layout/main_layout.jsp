@@ -2,6 +2,7 @@
 <html>
 <head>
    <meta charset="UTF-8">
+   <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
    <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/material/easyui.css">
    <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/icon.css">
    <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/demo/demo.css">
@@ -11,7 +12,29 @@
 <body>
       <!--layout-->
     <div class="easyui-layout" style="width:100%;height:100%;">
-        <div data-options="region:'north'" style="height:100px" id="mainMenu">
+    		<!--  -->
+        <div data-options="region:'north'" style="height:100px">
+        	<div class="easyui-layout" data-options="fit:true" >
+        		
+        		<div data-options="region:'north'" style="height:50px" class="head_top">
+        		<a id="" class="logo" href="jf_gohome()"></a>
+        		</div>        		
+        		
+        		<div data-options="region:'center'" style="height:50px">
+        			<div class="easyui-layout" data-options="fit:true" >
+        			
+        				<div data-options="region:'center'" style="height:100px" id="mainMenu">
+	        			</div>
+	        			
+	        			<div data-options="region:'east', width:'400'" style="height:100px">
+	        				<label id="login-name">     </label>
+	        				<a href="javascript:void(0)" class="" plain="true" onclick="jf_logout()"group="" id="">로그아웃</a>
+
+	        			</div>
+        			</div>
+        		</div>
+	        	
+        	</div>
         </div>
         <!--
         <div data-options="region:'north'" style="height:100px" id="mainMenu">
@@ -41,10 +64,27 @@
       
             </div>      
         -->
-      <div data-options="region:'south',split:false" style="height:30px;">
+        <div class="easyui-layout" data-options="fit:true" >
+        			
+        				<div data-options="region:'center'" style="height:100px" id="mainMenu">
+	        			</div>
+	        			
+	        			<div data-options="region:'east', width:'400'" style="height:100px">
+	        				<label id="login-name">label</label>
+	        				<a href="javascript:void(0)" class="" plain="true" onclick="jf_logout()"group="" id="">logout</a>
+
+	        			</div>
+        			</div>
+        			
+      <div data-options="region:'south',split:false" style="" class="bot_option">
       <!--footer -->
-      copy left tracom.co.ltd.,   
+      <div id="" class="" style="position:absolute;right:0; margin-top:7px">
+      <span id="" style="font-weight:bold;text-align: right;margin-right: 10px; margin-top: 2px; color:white" class="">Copyright@ 2023 TRACOM CORP. All Rights Reserved</span>
+      </div>   
       </div>
+      
+      
+      
       <div data-options="region:'center'">
          <!--content -->
          <!---->
@@ -58,6 +98,10 @@
    <script type="text/javascript">
     $( document ).ready(function() {
     	createMenuBar($.jf_getmenulist(), '#mainMenu');
+    	var defInfo = $.jf_getdefInfo();
+		if(typeof(defInfo)!= "undefined" || defInfo != null){
+			$('#login-name').text(defInfo.SSN_USER_NM);
+		}
     });
 
     createMenuBar = function(menuList, container){

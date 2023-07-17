@@ -66,38 +66,79 @@ $(function(){
             return true;
         }
 	});
+
+    let htmlString = '<table>';
+
+   //design
+    htmlString += '<tr>';
+    htmlString += '<th><label>차량ID </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>차량번호 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>장치ID </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
 	
-	$('#fm_panel0').append('<table>');
+    htmlString += '<tr>';
+    htmlString += '<th><label>제조사 </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>장치종류 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>설치위치 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '<tr>';
+    htmlString += '<th><label>통신유형 </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>관리ID </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>위치좌표 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '<tr>';
+    htmlString += '<th><label>사용여부 </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>비고 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '</table>';
+
+    $('#fm_panel0').html(htmlString);
+
+	// $('#fm_panel0').append('<table>');
 	//design
-    $('#fm_panel0').append('<input id="VHC_ID" class="tracom-textbox" name="VHC_ID">&nbsp;&nbsp;');
-    //$('#fm_panel0').append('<a id="sch_VHC_btn" href="#"></a>&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="VHC_NO" class="tracom-textbox" name="VHC_NO">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="DVC_ID" class="tracom-textbox" name="DVC_ID">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="MAKER" class="tracom-combobox" name="MAKER">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="DVC_KIND" class="tracom-combobox" name="DVC_KIND">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="INST_LOC" class="tracom-combobox" name="INST_LOC"><p>');
-    $('#fm_panel0').append('<input id="TRNS_TYPE" class="tracom-combobox" name="TRNS_TYPE">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="MNG_ID" class="tracom-textbox" name="MNG_ID">');
-    $('#fm_panel0').append('<input id="DVC_COORDS" class="tracom-textbox" name="DVC_COORDS">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<a id="DVC_COORDS_btn" href="#">좌표</a>&nbsp;&nbsp;');
-    $('#fm_panel0').append('사용여부&nbsp;&nbsp;<input id="USE_YN_Y" class="tracom-radiobutton" name="USE_YN">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="USE_YN_N" class="tracom-radiobutton" name="USE_YN">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="REMARK"  class="tracom-textbox"name="REMARK">&nbsp;&nbsp;');
+    $('#fm_panel0 table tr:nth-child(1) td:nth-child(2)').append('<input id="VHC_ID" class="tracom-textbox" name="VHC_ID">');
+    //$('#fm_panel0').append('<a id="sch_VHC_btn" href="#"></a>');
+    $('tr:nth-child(1) td:nth-child(4)').append('<input id="VHC_NO" class="tracom-textbox" name="VHC_NO">');
+    $('tr:nth-child(1) td:nth-child(6)').append('<input id="DVC_ID" class="tracom-textbox" name="DVC_ID">');
+    $('tr:nth-child(2) td:nth-child(2)').append('<input id="MAKER" class="tracom-combobox" name="MAKER">');
+    $('tr:nth-child(2) td:nth-child(4)').append('<input id="DVC_KIND" class="tracom-combobox" name="DVC_KIND">');
+    $('tr:nth-child(2) td:nth-child(6)').append('<input id="INST_LOC" class="tracom-combobox" name="INST_LOC">');
+    $('tr:nth-child(3) td:nth-child(2)').append('<input id="TRNS_TYPE" class="tracom-combobox" name="TRNS_TYPE">');
+    $('tr:nth-child(3) td:nth-child(4)').append('<input id="MNG_ID" class="tracom-textbox" name="MNG_ID">');
+    $('tr:nth-child(3) td:nth-child(6)').append('<input id="DVC_COORDS" class="tracom-textbox" name="DVC_COORDS">');
+    $('tr:nth-child(3) td:nth-child(6)').append('<a id="DVC_COORDS_btn" href="#">좌표</a>');
+    $('tr:nth-child(4) td:nth-child(2)').append('<input id="USE_YN_Y" class="tracom-radiobutton" name="USE_YN">');
+    $('tr:nth-child(4) td:nth-child(2)').append('<input id="USE_YN_N" class="tracom-radiobutton" name="USE_YN">');
+    $('tr:nth-child(4) td:nth-child(4)').append('<input id="REMARK"  class="tracom-textbox"name="REMARK">');
 	
-	$('#fm_panel0').append('</table>');
+	// $('#fm_panel0').append('</table>');
 
 	$('#VHC_ID').textbox({
         width: 200,
         height: 25,
-        type:'text',	//or password
+        type:'text',	
         required: true,
         maxlength: 10,
         readonly: true,
         value:'',
-        label:'차량 ID',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'차량 ID',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -120,10 +161,10 @@ $(function(){
         //validType:'length[0,30]',
         readonly: true,
         value:'',
-        label:'차량번호',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'차량번호',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -138,10 +179,10 @@ $(function(){
         //validType:'length[0,10]',
         readonly: true,
         value:'',
-        label:'장치 ID',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'장치 ID',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -157,10 +198,10 @@ $(function(){
 		valueField: 'DL_CD',
         textField: 'DL_CD_NM',
         value: '',
-        label:'제조사',
-        labelWidth: 60,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'제조사',
+        // labelWidth: 60,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         panelMaxHeight: 100,
         loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
         },
@@ -191,10 +232,10 @@ $(function(){
 		valueField: 'DL_CD',
         textField: 'DL_CD_NM',
 		value: '',				//dg0과 일치 시키면 편하다
-        label:'장치종류',
-        labelWidth: 70,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'장치종류',
+        // labelWidth: 70,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         panelMaxHeight : 400,
 		//panelHeight:'auto',
         loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
@@ -227,10 +268,10 @@ $(function(){
 		valueField: 'DL_CD',
         textField: 'DL_CD_NM',
         value: '',
-        label:'설치위치',
-        labelWidth: 70,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'설치위치',
+        // labelWidth: 70,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         panelMaxHeight : 400,
         loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
         },
@@ -262,10 +303,10 @@ $(function(){
 		valueField: 'DL_CD',
         textField: 'DL_CD_NM',
         value: '',
-        label:'통신유형',
-        labelWidth: 70,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'통신유형',
+        // labelWidth: 70,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         panelMaxHeight : 100,
         loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
         },
@@ -293,10 +334,10 @@ $(function(){
         //validType:'length[0,30]',
         readonly: false,
         value:'',
-        label:'관리 ID',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'관리 ID',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
             $.uf_chkmngid(newValue, $('#MNG_ID'));
@@ -311,10 +352,10 @@ $(function(){
         maxlength: 6,
         readonly: true,
         value:'',
-        label:'위치좌표',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'위치좌표',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -357,7 +398,7 @@ $(function(){
 	});
 
 	$('#REMARK').textbox({
-        width: 500,
+        width: 350,
         height: 80,
         type:'text',
         required: false,
@@ -365,7 +406,7 @@ $(function(){
         //validType:'length[0,200]',
         readonly: false,
         value:'',
-        label:'비고',
+        // label:'비고',
         multiline : true,
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;

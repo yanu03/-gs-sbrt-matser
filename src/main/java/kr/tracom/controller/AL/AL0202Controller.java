@@ -88,7 +88,7 @@ public class AL0202Controller extends ControllerSupport {
       return result.getResult();
    }
 
-//	 SNì€ INSERTí• ë•Œ ì¿¼ë¦¬í•˜ëŠ”ê±¸ë¡œ ë³€ê²½   
+//	 SNÀº INSERTÇÒ¶§ Äõ¸®ÇÏ´Â°É·Î º¯°æ   
 //   @RequestMapping("/AL/AL0202G1K0")
 //   public @ResponseBody Map<String, Object> AL0202G1K0() throws Exception {
 //      result.setData("rows", al0202Service.AL0202G1K0());
@@ -105,9 +105,9 @@ public class AL0202Controller extends ControllerSupport {
     public String  AL0202G0_exlDownload(Model model) throws Exception {
 
       String[] getValues = {"ALLOC_NO","ALLOC_ID", "ROUT_ID", "ROUT_NM", "WAY_DIV", "WAY_DIV_NM", "ROUT_ST_TM", "ROUT_ED_TM"};
-      String[] headerTitle = {"ë°°ì°¨ë²ˆí˜¸", "ë°°ì°¨ID", "ë…¸ì„ ID", "ë…¸ì„ ëª…", "ìƒí•˜í–‰êµ¬ë¶„", "ìƒí•˜í–‰êµ¬ë¶„ ëª…", "ì‹œì‘ì‹œê°„(ì‹œë¶„)", "ì¢…ë£Œì‹œê°„(ì‹œë¶„)"};
+      String[] headerTitle = {"¹èÂ÷¹øÈ£", "¹èÂ÷ID", "³ë¼±ID", "³ë¼±¸í", "»óÇÏÇà±¸ºĞ", "»óÇÏÇà±¸ºĞ ¸í", "½ÃÀÛ½Ã°£(½ÃºĞ)", "Á¾·á½Ã°£(½ÃºĞ)"};
       
-      model.addAttribute("title", "ì°¨ëŸ‰ì •ë³´");
+      model.addAttribute("title", "Â÷·®Á¤º¸");
       model.addAttribute("headerTitle", headerTitle);
       model.addAttribute("getValues", getValues);
       model.addAttribute("excelList", al0202Service.AL0202G1_exlDownload());

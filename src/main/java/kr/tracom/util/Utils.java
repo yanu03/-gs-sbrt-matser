@@ -3,6 +3,7 @@ package kr.tracom.util;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,6 +23,60 @@ import ws.schild.jave.EncodingAttributes;
 import ws.schild.jave.MultimediaObject;
 
 public class Utils {
+	static Map<String, Object> ProgramToTable = null;
+	static Map<String, Object> TableToProgramNm = null;
+	private Utils() {
+		initProgramToTable();
+		initTableToProgramNm();
+	}
+	
+	private static void initProgramToTable() {
+		ProgramToTable = new HashMap<String, Object>() {{
+    	    put("SI0102", "BMS_TRANSCOMP_MST");
+    	    put("SI0200", "BMS_VHC_MST");
+    	    put("SI0102", "BMS_DRV_MST");
+    	    put("VD0100", "BMS_DVC_INFO");
+    	    put("SI0401", "BMS_ROUT_MST");
+    	    put("SI0501", "BMS_STTN_MST");
+    	    put("SI0503", "BMS_CRS_MST");
+    	    put("SI0402", "BMS_ROUT_NODE_CMPSTN");
+    	    put("AL0104", "BMS_ALLOC_VHC_CMPSTN");
+    	    put("AL0105", "BMS_ALLOC_DRV_CMPSTN");
+    	    put("AL0202", "BMS_ALLOC_OPER_MST");
+    	    put("AL0202_2", "BMS_OPER_ALLOC_PL_ROUT_INFO");
+    	    put("AL0203", "BMS_OPER_ALLOC_PL_NODE_INFO");
+    	    put("AL0302", "BMS_ALLOC_PL_INFO");
+    	}};
+	}
+	private static void initTableToProgramNm() {
+		TableToProgramNm = new HashMap<String, Object>() {{
+    	    put("BMS_ROUT_NODE_CMPSTN", "노선 경로정보 관리");
+    	    put("BMS_VHC_MST", "차량 관리");
+    	    put("BMS_DRV_MST", "운전자 관리");
+    	    put("BMS_VHC_DVC_CMPSTN", "차내장치 정보관리");
+    	    put("BMS_ROUT_COMP_CMPSTN", "노선 기초정보 관리(운수사정보)");
+    	    put("BMS_ALLOC_OPER_MST", "운행계획 관리(배차정보)");
+    	    put("BMS_OPER_ALLOC_PL_ROUT_INFO", "운행계획 관리(운행계획)");
+    	    put("BMS_OPER_ALLOC_PL_NODE_INFO", "운행계획 세부 관리");
+    	    put("BMS_ALLOC_VHC_CMPSTN", "배차별 차량 관리");
+    	    put("BMS_ALLOC_DRV_CMPSTN", "배차별 운전자 관리");
+    	}};
+	}	
+	
+	public static String getProgramToTable(String progId) {
+		if(ProgramToTable==null) {
+			initProgramToTable();
+		}
+		return (String)ProgramToTable.get(progId);
+	}
+	
+	public static String getTableToProgramNm(String table) {
+		if(TableToProgramNm==null) {
+			initTableToProgramNm();
+		}
+		return (String)TableToProgramNm.get(table);
+	}
+	
 	public static boolean checkIe(String userAgent) {
 		return userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1;
 	}

@@ -110,13 +110,13 @@ public class AL0201Service extends ServiceSupport {
 					String dayDiv = (String)data.get("DAY_DIV");
 					int operSn = Integer.valueOf(data.get("OPER_SN").toString());
 					iCnt += AL0201Mapper.AL0201G1I0(data);
-					operPlanService.makeOperAllocPlNodeInfo(null,routId, dayDiv, operSn, true, 0);
+					operPlanService.makeOperAllocPlNodeInfo(null,routId, dayDiv, operSn, true, 0,null,null,null);
 				} else if (rowStatus.equals("U")) {
 					uCnt += AL0201Mapper.AL0201G1U0(data);
 					String routId = (String)data.get("ROUT_ID");
 					String dayDiv = (String)data.get("DAY_DIV");
 					int operSn = Integer.valueOf(data.get("OPER_SN").toString());
-					operPlanService.makeOperAllocPlNodeInfo(null,routId, dayDiv, operSn, true, 0);
+					operPlanService.makeOperAllocPlNodeInfo(null,routId, dayDiv, operSn, true, 0,null,null,null);
 				} else if (rowStatus.equals("D")) {
 					dCnt += AL0201Mapper.AL0201G1D0(data);
 				} 
