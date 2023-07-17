@@ -294,8 +294,9 @@ $.jf_addoverlay = function(a_data, a_nodetype) {
 		}
 	}
 	else {
-		if(!$.jf_isempty(a_data.STTN_ID)) nodeType = 'busstop';
-		else if(!$.jf_isempty(a_data.CRS_ID)) nodeType = 'cross';
+		if(!$.jf_isempty(a_data.STTN_ID) || a_data.NODE_TYPE == 'NT002') nodeType = 'busstop';
+		else if(!$.jf_isempty(a_data.CRS_ID) || a_data.NODE_TYPE == 'NT001') nodeType = 'cross';
+		else nodeType = 'normal';
 	}
 	if(!$.jf_isempty(a_data['NODE_NM']))	overlayName = a_data.NODE_NM;
 
@@ -366,7 +367,6 @@ $.jf_adddsptchoverlay = function(a_data) {
 	//let v_message = a_data.MESSAGE;
 	let v_message = $.jf_convertdsptch(a_data);
 	let v_dsptchMsg = "";
-
 	/*v_dsptchMsg += '<div class="dsptchMessagePopup clickoverlay" id="busInfoPopup" style="position: absolute;"><div class="map_layer bustraffic" style="left: 0px;top: 10px;z-index:10000000;">'
 	v_dsptchMsg += '<a href="javascript:void(0)" id="busInfo-closer" class="close"><span class="blind">닫기</span></a>'
 	v_dsptchMsg += '<div id="popup-content">'
@@ -402,9 +402,9 @@ $.jf_adddsptchoverlay = function(a_data) {
 		v_dsptchMsg += '   <button class="close_mesage ir_pm" id="busInfo-closer">닫기</button> '
 		v_dsptchMsg += '</div>'
 	
-		if(!$.jf_isempty(a_data['VHC_ID'])) marker = $.jf_fndmkstrct(a_data.VHC_ID);
 		//if(!$.jf_isempty(a_data['IMP_ID'])) marker = $.jf_fndmkstrct(a_data.IMP_ID);
-		if ($.jf_fndicostrct('_dsptch') != null) {
+		if ($.jf_fndicostrct('_dsptch') == null) {
+		if (!$.jf_isempty(a_data['VHC_ID'])) marker = $.jf_fndbmkstrct(a_data.VHC_ID);
 			overlay = new kakao.maps.CustomOverlay({
 				content : v_dsptchMsg,
 				//position : marker.getPosition(),

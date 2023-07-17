@@ -97,18 +97,18 @@
 	
 	//BIT 내용 생성
 	$.uf_setBITInfo = function(a_datas) {
-		debugger;
 		let v_BITList = a_datas.LIST;
 		let v_tableStr = '';
 		let v_body = '';
+		let v_soonEta = '곧도착 : ';
 		v_tableStr = '<table id="MO0203_table" style="" class="w2tb bit_tb">'
-					+'<caption id="mf_tac_layout_contents_MN00070102_body_wq_uuid_505" class="w2group "></caption>'
-					+'<colgroup id="mf_tac_layout_contents_MN00070102_body_wq_uuid_506" class="w2group ">'
-					+'<col id="" style="width:25.00%;">'
-					+'<col id="" style="width:37.50%">'
-					+'<col id="" style="width:37.50%">'
+					//+'<caption id="mf_tac_layout_contents_MN00070102_body_wq_uuid_505" class="w2group "></caption>'
+					+'<colgroup>'
+					+'<col style="width:25.00%;">'
+					+'<col style="width:37.50%">'
+					+'<col style="width:37.50%">'
 					+'</colgroup>'
-					+'<tbody>';
+					+'<tbody><tr style="height:0px;"></tr>';
 		
 		/* tableStr = '<table id="mf_tac_layout_contents_MN00070102_body_MO0203T0" style="" class="w2group w2tb bit_tb">'
 					+'<caption id="mf_tac_layout_contents_MN00070102_body_wq_uuid_505" class="w2group "></caption>'
@@ -121,35 +121,43 @@
 					
 		//a_datas 남은 시간에 따른 순서 sort하는 작업 필요
 		//
-					
+		debugger;					
 		for(var i=0; i<v_BITList.length; i++) {
 			v_BITList[i].REMAIN_TM = parseInt((v_BITList[i].REMAIN_TM%3600)/60) + '분';
 			let v_newObj = {};
 			
 			if(v_BITList[i].REMAIN_TM != '0분'){
-				v_body += '<tr>'
-						+ '<tdstyle="border-color: black;">'	
+				v_body += '<tr style="height: 25px; position: absolute;">'
+						+ '<td style="border-color: black;">'	
 						+ '<span style="width: 100px;height: 23px;font-size: 2px;">'
-						+  v_BITList[i]['ROUT_NM'];
+						+  v_BITList[i]['ROUT_NM']
 						+ '</span></td>'
-						+ '<td style="border-color: black; " class="">'
+						+ '<td style="border-color: black; ">'
 						+ '<span style="width: 100px;height: 23px;font-size: 2px; color: yellow;">'
-						+ v_BITList[i]['REMAIN_STTN'];
+						+ v_BITList[i]['REMAIN_STTN']+ "정류장 전"
 						+ '</span></td>'
 						+ '<td style="border-color: black;  text-align: right;">'
 						+ '<span style="width: 100%;height: 23px;font-size: 2px;text-align: right;color: green;">'
-						+ v_BITList[i]['REMAIN_TM'];
+						+ v_BITList[i]['REMAIN_TM']
 						+ '</span></td></tr>'
 			}
-			else {
-				v_body +='<tr id="" class="">'
+			else v_soonEta += v_BITList[i]['ROUT_NM']+" ";
+			//else {
+			/* 	v_body +='<tr style="height: 30px;">'
 					+'<td style="border-color: yellow; border-right-color:yellow; border-top-style:double;" scope="row" colspan="3" rowspan="1">'
-					+'<span style="width: 100px;height: 23px;font-size: 2px;">'
-					+"곧도착 : " + v_BITList[i]['ROUT_NM'];
-					+'</span></td></tr>';
-			}
+					+'<span id="soonEtaSpan" style="width: 100px;height: 23px;font-size: 2px;">'
+					//+"곧도착 : " + v_BITList[i]['ROUT_NM'];
+					+"곧도착 : "
+					+'</span></td></tr>'; */
+			//}
 		}
 		
+		v_body +='<tr style="height: 30px;">'
+				+'<td style="border-color: yellow; border-right-color:yellow; border-top-style:double;" scope="row" colspan="3" rowspan="1">'
+				+'<span id="soonEtaSpan" style="width: 100px;height: 23px;font-size: 2px;">'
+				//+"곧도착 : " + v_BITList[i]['ROUT_NM'];
+				+v_soonEta;
+				+'</span></td></tr>';					
 		v_tableStr += v_body + '</tbody></table>';
 		$('#MO0203_bit').html(v_tableStr);
 	}
@@ -198,6 +206,7 @@
 								<div id="brt_div" class="pgm_detail" style="z-index: 10000;position: absolute;right: 52px;bottom: 11px;margin-right: -49px;width: 260px;height: 533px;">
 									<div id="bit_img" style="width: 100%; height:100%" class="w2group ">
 										<div style="background-image: url('/static/img/BIT-RED.png'); background-reapt: no-repeat; background-position: top; background-size: cover; height: 533px; position: relative;" class="w2group brt_bit">
+										
 										</div>
 									</div>
 									<div style="position: absolute;top: 30%;left: 20%;width: 154px;text-align: center;">
@@ -206,7 +215,24 @@
 									<div id="" style="position: absolute; top: 35%; left: 27%; text-align: center; width: 118px;" class="">
 										<span id="bit_sttnNo" style="color: white;font-size: 10px;" class="w2span ">정류소번호</span>
 									</div>
-									<div id="MO0203_bit" style="position: absolute; top: 41%; left: 20%; height:296px; width:154px;" class="it_tb"></div>
+									<div id="MO0203_bit" style="position: absolute; top: 41%; left: 20%; height:296px; width:154px;" class="it_tb">
+										<table id="MO0203_table" style="" class="w2tb bit_tb">
+											<caption id="mf_tac_layout_contents_MN00070102_body_wq_uuid_505" class="w2group "></caption>
+											<colgroup id="mf_tac_layout_contents_MN00070102_body_wq_uuid_506" class="w2group ">
+												<col id="" style="width:25.00%;">
+												<col id="" style="width:37.50%">
+												<col id="" style="width:37.50%">
+											</colgroup>
+											<tbody>
+												<tr style="height:0px;"></tr>
+												<tr style="height: 30px;">
+													<td style="border-color: yellow; border-right-color:yellow; border-top-style:double;" scope="row" colspan="3" rowspan="1">
+														<span id="soonEtaSpan" style="width: 100px;height: 23px;font-size: 2px;">곧도착 : </span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
 								
 							</div>	

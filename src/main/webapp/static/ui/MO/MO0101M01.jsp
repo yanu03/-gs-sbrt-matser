@@ -104,6 +104,7 @@
 		};
 		// $.jf_append($('#dg1'), v_params);
 		$.jf_insert($('#dg2'), v_params, 0);
+		$.jf_adddsptchoverlay(a_data);
 		return true;
 		//현재 데이터가 메시지만 넘어오고 있음. 디스패치 구분(DSPTCH_DIV)가 넘어올 경우 일반메시지, 운행메시지, 정차메시지 구분해야함.
 	}
@@ -127,7 +128,7 @@
 
 	$.pf_sockevt = function(a_data) {
 		let v_eventMessage = '';
-		switch(a_data){
+		switch(a_data.EVT_TYPE){
 			case 'ET001':
 				v_eventMessage = a_data.NODE_NM + '에 도착'; break;
 			case 'ET002':
@@ -182,7 +183,7 @@
 			EVT_DATA : v_eventMessage
 		}
 		$.jf_insert($('#dg1'), v_params, 0);
-		$.jf_addevtoverlay(v_item);
+		$.jf_addevtoverlay(a_data);
 		if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
 		return true;		
 	}

@@ -74,8 +74,8 @@
 .customoverlay.normal {
     background: #41417d;
     position: relative;
-    bottom: 48px;
-    left:2px;
+    bottom: 23px;
+    left:10px;
     border-radius: 6px;
     border: 1px solid #ccc;
     border-bottom: 2px solid #ddd;

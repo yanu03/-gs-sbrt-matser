@@ -22,7 +22,7 @@ $(function(){
 			{field:'OCR_DTM',title:'발생시간',width:100,halign:'center',align:'center'},
 			{field:'EVT_TYPE',title:'이벤트유형',width:150,halign:'center',align:'left',hidden:true},
 			{field:'EVT_TYPE_NM',title:'이벤트유형',width:150,halign:'center',align:'center'},
-			{field:'EVT_DATA',title:'이벤트내용',width:200,halign:'center',align:'left'}
+			{field:'EVT_DATA',title:'이벤트내용',width:250,halign:'center',align:'left'}
 				]],
 			loader: function(param, success, error){$.tracomdgloader($(this), param, success, error);
 			},

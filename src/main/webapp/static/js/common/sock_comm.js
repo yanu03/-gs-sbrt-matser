@@ -56,7 +56,7 @@ $(function () {
                 if(!$.pf_sockdispatch(v_item)) return false;
             }
             
-            $.jf_adddsptchoverlay(v_item);
+            //$.jf_adddsptchoverlay(v_item);
         });
         js_client.subscribe('/subscribe/vhc', function (chat) {
             var v_item = JSON.parse(chat.body);
