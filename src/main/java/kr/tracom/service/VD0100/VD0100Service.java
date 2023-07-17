@@ -55,24 +55,25 @@ public class VD0100Service extends ServiceSupport {
 			for (int i = 0; i < param.size(); i++) {
 				Map data = (Map) param.get(i);
 				String rowStatus = (String) data.get("rowStatus");
+				int mngIdLength = data.getOrDefault("MNG_ID", "").toString().length();
 				if (rowStatus.equals("C")) {
 					iCnt += vd0100Mapper.VD0100G0I0(data);
-//					if(data.getOrDefault("MNG_ID", "").toString().length() == 10) {
-//						//INSERT
-//						vd0100Mapper.VD0100G0I2(data);
-//					}
+					if(mngIdLength == 10) {
+						//INSERT
+						vd0100Mapper.VD0100G0I2(data);
+					}
 				} else if (rowStatus.equals("U")) {
 					uCnt += vd0100Mapper.VD0100G0U0(data);
-//					if(data.getOrDefault("MNG_ID", "").toString().length() == 10) {
-//						//UPDATE
-//						vd0100Mapper.VD0100G0U2(data);
-//					}
+					if(mngIdLength == 10) {
+						//UPDATE
+						vd0100Mapper.VD0100G0U2(data);
+					}
 				} else if (rowStatus.equals("D")) {
 					dCnt += vd0100Mapper.VD0100G0D0(data);
-//					if(data.getOrDefault("MNG_ID", "").toString().length() == 10) {
-//						//DELETE
-//						vd0100Mapper.VD0100G0D2(data);
-//					}
+					if(mngIdLength == 10) {
+						//DELETE
+						vd0100Mapper.VD0100G0D2(data);
+					}
 				} 
 			}			
 		} catch(Exception e) {
