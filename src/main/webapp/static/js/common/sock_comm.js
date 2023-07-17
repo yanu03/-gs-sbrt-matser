@@ -67,21 +67,20 @@ $(function () {
         });
         js_client.subscribe('/subscribe/evt', function (chat) {
             var v_item = JSON.parse(chat.body);
+            $.jf_sockevt(v_item);
             if(typeof($.pf_sockevt) != "undefined"){
                 if(!$.pf_sockevt(v_item)) return false;
             }
-            $.jf_sockevt(v_item);
 			$.jf_addevtoverlay(v_item);
         });
 
 
 		js_client.subscribe('/subscribe/arrival', function (chat) {
-
             var v_item = JSON.parse(chat.body);
             if(typeof($.pf_arrival) != "undefined"){
                 if(!$.pf_arrival(v_item)) return false;
             }
-            $.jf_arrival(v_item);
+            $.jf_setBITInfo(v_item);
         });
 
         js_client.subscribe('/subscribe/traffic', function (chat) {

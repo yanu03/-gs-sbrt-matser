@@ -21,12 +21,12 @@ $(function(){
         {field:'ROUT_ID',title:'노선ID',width:100,halign:'center',align:'left',hidden:true},
         {field:'NODE_ID',title:'정류소ID',width:100,halign:'center',align:'left'},
         {field:'NODE_SN',title:'노드순번',width:100,halign:'center',align:'center',hidden:true},
-				{field:'NODE_NM',title:'정류소명',width:250,align:'left',halign:'center'},
-				{field:'NODE_ENM',title:'노드영문명',width:100,align:'left',halign:'center',hidden:true},
-				{field:'NODE_TYPE',title:'노드유형',width:100,align:'center',halign:'center',hidden:true},
-				{field:'NODE_TYPE_NM',title:'노드유형',width:100,align:'center',halign:'center',hidden:true},
-				{field:'STTN_ID',title:'정류소ID',width:100,align:'center',halign:'center',hidden:true},
-				{field:'STTN_NO',title:'정류소번호',width:100,align:'center',halign:'center'},
+		{field:'NODE_NM',title:'정류소명',width:250,align:'left',halign:'center'},
+		{field:'NODE_ENM',title:'노드영문명',width:100,align:'left',halign:'center',hidden:true},
+		{field:'NODE_TYPE',title:'노드유형',width:100,align:'center',halign:'center',hidden:true},
+		{field:'NODE_TYPE_NM',title:'노드유형',width:100,align:'center',halign:'center',hidden:true},
+		{field:'STTN_ID',title:'정류소ID',width:100,align:'center',halign:'center',hidden:true},
+		{field:'STTN_NO',title:'정류소번호',width:100,align:'center',halign:'center'},
         {field:'GPS_Y',title:'위도',width:100,halign:'center',align:'center',hidden:true},
         {field:'GPS_X',title:'경도',width:100,halign:'center',align:'center',hidden:true},
 			]],
@@ -49,6 +49,8 @@ $(function(){
 		onBeforeSelect: function(index,row){},
 		onSelect: function(index,row){
 			$.jf_movemap(row.GPS_X, row.GPS_Y);
+			$('#bit_sttnNm').text(row.NODE_NM);
+			$('#bit_sttnNo').text(row.STTN_NO);
 		},
 		onBeforeEdit: function(index,row){},
 		onBeginEdit: function(index,row){},

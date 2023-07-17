@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/demo/demo.css">
 	 <link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
+	 <link rel="stylesheet" type="text/css" href="/static/css/map.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
@@ -111,7 +112,7 @@
 		let v_params = {
 			VHC_ID : a_data.VHC_ID,
 			VHC_NO : a_data.VHC_NO,
-			CUR_SPD : a_data.SPEED,
+			CUR_SPD : a_data.CUR_SPD,
 			OCR_DTM : $.jf_gettime(),
 			GPS_Y : a_data.GPS_Y,
 			GPS_X : a_data.GPS_X
@@ -181,6 +182,7 @@
 			EVT_DATA : v_eventMessage
 		}
 		$.jf_insert($('#dg1'), v_params, 0);
+		if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
 		return true;		
 	}
 

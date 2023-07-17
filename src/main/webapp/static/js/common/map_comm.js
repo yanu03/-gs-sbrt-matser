@@ -281,6 +281,7 @@ $.jf_addoverlay = function(a_data, a_nodetype) {
 	let overlayName = null;
 	let overlay = null;
 	let marker = null;
+	let nodeType = null;
 	let zIndex = mapOption.ZINDEX_BUS_OVERLAY;
 	if(!$.jf_isempty(a_nodetype)) {
 		if(a_nodetype == mapOption.NODE_TYPE.BUSSTOP) {
@@ -292,9 +293,13 @@ $.jf_addoverlay = function(a_data, a_nodetype) {
 			a_data['NODE_ID'] = a_data.CRS_ID;
 		}
 	}
+	else {
+		if(!$.jf_isempty(a_data.STTN_ID)) nodeType = 'busstop';
+		else if(!$.jf_isempty(a_data.CRS_ID)) nodeType = 'cross';
+	}
 	if(!$.jf_isempty(a_data['NODE_NM']))	overlayName = a_data.NODE_NM;
 
-	var msg = "<div class = 'busoverlay'>"
+	var msg = "<div class = 'customoverlay "+nodeType+"'>"
 			+ "<span class = 'map_title' style=''>" + overlayName + "</span>"
 			+ "</div>";
 
@@ -414,8 +419,8 @@ $.jf_adddsptchoverlay = function(a_data) {
 	}
 	
 	else if (a_data.DSPTCH_DIV == 'DP003'){
-		showMessage = "정류장 정차 : " + min + sec;
-		$("#stopMessage").text(showMessage);
+		//showMessage = "정류장 정차 : " + min + sec;
+		$("#stopMessage").text(v_message);
 	}
 	
 	if ($.jf_fndicostrct('_dsptch') != null && $.jf_fndicostrct('_evt') == null) {
@@ -442,6 +447,8 @@ $.jf_adddsptchoverlay = function(a_data) {
 $.jf_deleteOverlay = function(a_overlay) {
 	if(js_mkstruct != null && js_overlaystruct.length != 0) {
 		a_overlay.setMap(null);
+		var v_index = js_overlaystruct.indexOf(a_overlay);
+		if (v_index !== -1) js_overlaystruct.splice(v_index, 1);		
 	}
 	return true;
 }
@@ -1011,7 +1018,7 @@ $.jf_sockevt = function(a_data) {
 **/
 $.jf_addevtoverlay = function(a_data){
 	//이벤트 오버레이 테스트 필요함
-	var zIndex = ZINDEX_EVENT_OVERLAY;
+	var zIndex = mapOption.ZINDEX_EVENT_OVERLAY;
 	var v_eventMsg = "";
 	var stopTime = 0;
 	var nodeType = "";
@@ -1019,9 +1026,9 @@ $.jf_addevtoverlay = function(a_data){
 	var min = "";
 	var sec = "";
 	
-	if(a_data.NODE_TYPE == "NT001") {
+	if(a_data.CUR_NODE_TYPE == "NT001") {
 		nodeType = "교차로";
-	} else if(a_data.NODE_TYPE == "NT002"){
+	} else if(a_data.CUR_NODE_TYPE == "NT002"){
 		nodeType = "정류소";
 	}
 	
@@ -1031,14 +1038,16 @@ $.jf_addevtoverlay = function(a_data){
 		nextNodeType = "정류소";
 	}
 	
-	if (a_data.EVT_DIV == "ET001") {
+	if(a_data.NEXT_NODE_NM == null) a_data.NEXT_NODE_NM = '';
+	
+	if (a_data.EVT_TYPE == "ET001") {
 		//디스패치 오버레이가 있음  
 		if(($.jf_fndicostrct('_dsptch')) != null) v_eventMsg += '<div class="event map_info busInfoPopup" id="busInfoPopup" style="position: absolute; bottom:154px;">'
 		else v_eventMsg += '<div class="event map_info busInfoPopup" id="busInfoPopup" style="position: absolute;">';	
 		
 		//v_eventMsg += '<div class="event map_info busInfoPopup" id="busInfoPopup">';
 		v_eventMsg += '   <h3 class="blind">이벤트 안내</h3>';
-		v_eventMsg += '   <p class="action">'+a_data.EVT_TYPE+'</p>';
+		v_eventMsg += '   <p class="action">'+a_data.EVT_TYPE_NM+'</p>';
 		//v_eventMsg += '   <p class="stay_sec">(현재정차시간 : <span id="cur_stop_tm">'+0+'</span>)</p>';
 		v_eventMsg += '   <table class="station_info">';
 		v_eventMsg += '      <colgroup>';
@@ -1065,9 +1074,9 @@ $.jf_addevtoverlay = function(a_data){
 		v_eventMsg += '   <button class="close_mesage ir_pm" id="busInfo-closer">닫기</button>';
 		v_eventMsg += '</div>';
 			
-		addStopTime = setInterval(function() {
+		/*addStopTime = setInterval(function() {
 			var stopTime = 0;
-			stopTime = (routMap.getVhcInfo(data.VHC_ID).stopTime)++;
+			//stopTime = (routMap.getVhcInfo(data.VHC_ID).stopTime)++;
 	
 			if(stopTime >= 60) {
 				min = parseInt((stopTime/60))+"분 ";
@@ -1077,16 +1086,16 @@ $.jf_addevtoverlay = function(a_data){
 			var total = min+sec;
 			
 			//$("#cur_stop_tm").text(total);
-		}, 1000);
+		}, 1000);*/
 	}
-    else if (a_data.EVT_DIV == "ET020") {
+    else if (a_data.EVT_TYPE == "ET020") {
        eventMsg += '<div class="mesage map_mesage2">';
        eventMsg += '<h3 class="blind"></h3>';       
        eventMsg += '<span>차고지 출발</span>';              
        eventMsg += '<button class=close_mesage ir_pm"></button>';       
     }
 
-	else if (a_data.EVT_DIV == "ET002" || a_data.CUR_SPD > 30){
+	else if (a_data.EVT_TYPE == "ET002" || a_data.CUR_SPD > 30){
 		//이벤트 오버레이가 있음
 		if(($.jf_fndicostrct('_evt')) != null) {
 			setTimeout(function() {
@@ -1096,26 +1105,40 @@ $.jf_addevtoverlay = function(a_data){
 					//$(".dsptchMessagePopup").hide();
 				}
 				stopTime = 0;
-				clearInterval(addStopTime);
+				//clearInterval(addStopTime);
 				$.jf_deleteOverlay($.jf_fndicostrct('_evt'));
 			},1500)			
 		}
 	} 
 	//if (routMap.mapInfo[mapId].divEvent == "ET001") {
 	// 왜 따로 나눴더라	
-	if ($.jf_fndicostrct('evt') != null && (a_data.EVT_DIV == "ET001" || a_data.EVT_DIV == "ET020")) {
+	if ($.jf_fndicostrct('evt') == null && (a_data.EVT_TYPE == "ET001" || a_data.EVT_TYPE == "ET020")) {
 		/*if($.jf_fndicostrct('_dsptch') != null) {
 			
 		}*/
+		if(!$.jf_isempty(a_data['VHC_ID'])) marker = $.jf_fndbmkstrct(a_data.VHC_ID);
 		eventOverlay = new kakao.maps.CustomOverlay({
 			content: v_eventMsg,
 			position: marker.getPosition(),
 			zIndex : zIndex
 		});
-		overlay.id = a_data.VHC_ID+'_dsptch';
-		overlay.setMap(js_map);
-		js_overlaystruct.push(overlay);
+		eventOverlay.id = a_data.VHC_ID+'_evt';
+		eventOverlay.setMap(js_map);
+		js_overlaystruct.push(eventOverlay);
 		
 	}
+	return true;	
+}
+
+/** 
+작성자 : 양현우
+작성일 : 2023-07-12
+기능 : BIT 정보 설정
+**/
+$.jf_setBITInfo = function(a_datas) {
+	if(typeof($.uf_setBITInfo) != "undefined"){
+		if(!$.uf_setBITInfo(a_datas)) return false;
+	 }
+
 	return true;	
 }

@@ -1,0 +1,1000 @@
+@charset "UTF-8";
+/* 지도 관련 */
+.tmap_label { background-color: rgba(255,255,255,0.8); color:black; padding: 3px; border: 0.5px solid black; }
+.tmap_vertex_label { background-color: rgba(255,255,255,0.8); color:black; padding: 3px; border: 0.5px solid black; }
+.tmap_busstop_label { background-color: rgba(255,255,255,0.8); color:black; padding: 3px; border: 0.5px solid black; }
+.tmap_cross_label { background-color: rgba(255,255,255,0.8); color:black; padding: 3px; border: 0.5px solid black; }
+
+.map_info {
+	font-size: 12px;
+	padding: 5px;
+}
+
+
+.map_info .map_title {
+	font-weight: bold;
+}
+
+
+.customoverlay.busstop {
+    background: #fff;
+    position: relative;
+    bottom: 22px;
+    left:12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid #ddd;
+    float: left;
+}
+
+.customoverlay.incdnt {
+    background: #fff;
+    position: relative;
+    bottom: 48px;
+    left:2px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid #ddd;
+    float: left;
+}
+
+.customoverlay.vilot {
+    background: #fff;
+    position: relative;
+    bottom: 48px;
+    left:2px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid #ddd;
+    float: left;
+}
+
+.customoverlay.sound {
+    background: #fff;
+    position: relative;
+    bottom: 48px;
+    left:2px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid #ddd;
+    float: left;
+}
+
+.customoverlay.cross {
+    background: #41417d;
+    position: relative;
+    bottom: 23px;
+    left:10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid #ddd;
+    float: left;
+}
+
+.customoverlay.normal {
+    background: #41417d;
+    position: relative;
+    bottom: 48px;
+    left:2px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid #ddd;
+    float: left;
+}
+
+.customoverlay.busstop .map_title {
+    display: block;
+    text-align: center;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.customoverlay.incdnt .map_title {
+    display: block;
+    text-align: center;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.customoverlay.vilot .map_title {
+    display: block;
+    text-align: center;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.customoverlay.sound .map_title {
+    display: block;
+    text-align: center;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.customoverlay.cross .map_title {
+    display: block;
+    text-align: center;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+.customoverlay.normal .map_title {
+    display: block;
+    text-align: center;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+.customoverlay:nth-of-type(n) {
+    border: 0;
+    box-shadow: 0px 1px 2px #888;
+}
+
+.customoverlay.busstop:after {
+    content: '';
+    position: absolute;
+    margin-left: -12px;
+    left: 50%;
+    bottom: -12px;
+    width: 22px;
+    height: 12px;
+    background: url(/static/img/vertex_white.png);
+}
+
+.customoverlay.incdnt:after {
+    content: '';
+    position: absolute;
+    margin-left: -12px;
+    left: 50%;
+    bottom: -12px;
+    width: 22px;
+    height: 12px;
+    background: url(/static/img/vertex_white.png);
+}
+
+.customoverlay.vilot:after {
+    content: '';
+    position: absolute;
+    margin-left: -12px;
+    left: 50%;
+    bottom: -12px;
+    width: 22px;
+    height: 12px;
+    background: url(/static/img/vertex_white.png);
+}
+
+.customoverlay.sound:after {
+    content: '';
+    position: absolute;
+    margin-left: -12px;
+    left: 50%;
+    bottom: -12px;
+    width: 22px;
+    height: 12px;
+    background: url(/static/img/vertex_white.png);
+}
+
+.customoverlay.cross:after {
+    content: '';
+    position: absolute;
+    margin-left: -12px;
+    left: 50%;
+    bottom: -12px;
+    width: 22px;
+    height: 12px;
+    background: url(/static/img/vertex_purple.png) no-repeat;
+}
+
+.customoverlay.normal:after {
+    content: '';
+    position: absolute;
+    margin-left: -12px;
+    left: 50%;
+    bottom: -12px;
+    width: 22px;
+    height: 12px;
+    background: url(/static/img/vertex_purple.png) no-repeat;
+}
+.clickoverlay:after {
+    content: '';
+    position: absolute;
+    margin-left: -12px;
+    left: 50%;
+    bottom: -12px;
+    width: 22px;
+    height: 12px;
+    background: url(/static/img/vertex_dark.png) no-repeat;
+}
+
+.sttnInfopopup {
+    background: #fff;
+    position: absolute;
+/*     bottom: 57px;
+    left:2px; */
+    bottom: 35px;
+    left: -94px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid #ddd;
+    float: left;	
+    /* position: absolute;
+    left: 761px;
+    top: 407px;	 */
+    width: 190px;
+}
+
+.busInfoPopup {
+    background: #333333;
+    position: absolute;
+/*     bottom: 57px;
+    left:2px; */
+    bottom: 42px;
+    left: -178px;
+    border-radius: 5px;
+    border-bottom: 2px solid #333333;
+    overflow: hidden;
+    float: left;	
+    /* position: absolute;
+    left: 761px;
+    top: 407px;	 */
+    /* width: 190px; */
+}
+
+.bustraffic {
+	left: 0px;
+    top: 10px;
+    z-index: 10000000;	
+}
+
+.event_type {
+    margin-right: 40px;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+#overlay_tbody th{
+	font-size: 10px;
+}
+
+#overlay_tbody td{
+    font-size: 10px;
+    padding: 5px;
+    white-space: break-spaces;
+}
+
+#overlay_tbody div{
+	width : 80px;
+}
+
+.dsptchMessagePopup {
+    background: #333333;
+    position: absolute;
+/*     bottom: 57px;
+    left:2px; */
+    bottom: 42px;
+    left: -180px;
+    border-radius: 6px;
+    float: left;	
+    /* position: absolute;
+    left: 761px;
+    top: 407px;	 */
+    width: 361px;	
+}
+
+.sttnInfopopup.clickoverlay:after {
+    content: '';
+    position: absolute;
+    margin-left: -12px;
+    left: 50%;
+    bottom: -12px;
+    width: 22px;
+    height: 12px;
+    background: url(/static/img/vertex_white.png);
+}
+
+.crsInfopopup.clickoverlay:after {
+    content: '';
+    position: absolute;
+    margin-left: -12px;
+    left: 50%;
+    bottom: -12px;
+    width: 22px;
+    height: 12px;
+    background: url(/static/img/vertex_white.png);
+}
+
+.clickoverlay .tit {
+	padding: 11px 11px 0;
+	/* padding: 14px 40px 14px 14px; */
+    font-size: 12px;
+    color: #ffffff;
+    background-color: #333333;
+}
+
+.clickoverlay #popup-refresh{
+    right: 40px;
+    background: url(/static/img/layer_refresh.png) center center no-repeat;
+	position: absolute;
+    width: 15px;
+    height: 15px;
+    top: 15px;
+    opacity: 1;       	
+}
+
+.clickoverlay #popup-closer{
+    background: url(/static/img/layer_close.png) center center no-repeat;
+	position: absolute;
+    width: 15px;
+    height: 15px;
+    right: 11px;
+    /* top: 15px; */
+    top: 10px;
+    opacity: 1;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.clickoverlay #busInfo-closer{
+    background: url(/static/img/layer_close.png) center center no-repeat;
+	position: absolute;
+    width: 15px;
+    height: 15px;
+    right: 11px;
+    /* top: 15px; */
+    top: 10px;
+    opacity: 1;    	
+}
+
+.clickoverlay .blind {
+    display: block;
+    overflow: hidden;
+    top: -1000em;
+    position: absolute;
+}
+
+.clickoverlay .content {
+	padding: 8px;
+}
+
+.clickoverlay .trafficInfor {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.clickoverlay table.tby03 {
+	border-spacing: 0px;
+	width: 100%;
+}
+
+.clickoverlay table.tby03 th {
+    padding: 8px 10px;
+    background-color: #f3f5f8;
+    font-weight: bold;
+    border: 1px solid #d2d2d2;
+    text-align: center;
+}
+
+.clickoverlay table.tby03 td {
+    padding: 8px 10px;
+    border: 1px solid #d2d2d2;
+    background-color: #fff;
+    word-break: break-all;
+}
+
+.rightclickoverlay {
+    overflow: hidden;
+    position: absolute;
+    z-index: 9;
+    width: 120px;
+    margin: -3px 0 0 -11px;
+    padding: 3px 11px;
+    background: url(//t1.daumcdn.net/localimg/localimages/07/2018/pc/context/bg_context_190408.png) no-repeat;
+    white-space: nowrap;	
+}
+
+.rightclickoverlay .contextWrap {
+    padding: 10px 0 9px;
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+    user-select: none;	
+}
+
+.rightclickoverlay a {
+	display: block;
+    overflow: hidden;
+    height: 31px;
+    padding-left: 16px;
+    font-size: 12px;
+    line-height: 28px;
+    color: #444;	
+}
+
+.rightclickoverlay a .text {
+    display: block;
+    background: 0;
+    cursor: pointer;
+}
+
+.busoverlay {
+    background: #eb4545;
+    /* background: #a13e3e; */
+    position: relative;
+    bottom: 22px;
+    left:17px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid #ddd;
+    float: left;
+}
+
+.busoverlay:after {
+    content: '';
+    position: absolute;
+    margin-left: -12px;
+    left: 50%;
+    bottom: -12px;
+    width: 22px;
+    height: 12px;
+    background: url(/static/img/vertex_red.png);
+}
+
+.busoverlay .map_title {
+    display: block;
+    text-align: center;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color : white;
+/*     border : solid;
+    border-color : #eb4545;
+    border-width : thin; */
+}
+
+.busoverlay:nth-of-type(n) {
+    border: 0;
+    box-shadow: 0px 1px 2px #888;
+} 
+    
+.conderror {
+    background: #2b2b2b !important;
+    color : white;
+    position: relative;
+    bottom: 57px;
+    left:2px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid #ddd;
+    float: left;
+}
+
+.conderror:after {
+    content: '';
+    position: absolute;
+    margin-left: -12px;
+    left: 50%;
+    bottom: -12px;
+    width: 22px;
+    height: 12px;
+    background: url(/static/img/vertex_black.png) !important;
+}
+
+
+/* 지도 카테고리 관련*/
+/* .map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+.map_wrap {position:relative;width:100%;height:350px;} */
+.category {position:absolute;top:10px;left:10px;border-radius: 5px;border: 1px solid #d9d9d9;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
+.category li {float:left;list-style: none;border-right: 1px solid #d9d9d9;padding: 7px 0;text-align: center;cursor: pointer;width: 68px;font-size: 11px;font-weight: bold;color: dimgrey;}
+.category li.on {/* background: #0475f4; */color: #0475f4;}
+.category li:hover {/* background: rgb(246 246 246); *//* border-left: 1px solid #d9d9d9; *//* margin-left: -1px; */font-weight: bold;text-decoration: underline;}
+.category li:last-child{margin-right:0;border-right:0;}
+.category li span {display: block;margin: 4px auto 5px;width: 19px;min-height: 20px;}
+.category li.on span {}
+
+.category li.on .normal_busimg{background: url(/static/img/busstop_selected.png) no-repeat;}
+.category li.on .abnormal_busimg {background: url(/static/img/busstop_black_select.png) no-repeat;/* background-size: contain; */}
+.category li.on .crossimg{background: url(/static/img/cross.png) no-repeat;}
+
+/* 지도 카테고리 관련*/
+/* .map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+.map_wrap {position:relative;width:100%;height:350px;} */
+.category {position:absolute;top:10px;left:10px;border-radius: 5px;border: 1px solid #d9d9d9;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
+.category li {float:left;list-style: none;border-right: 1px solid #d9d9d9;padding: 7px 0;text-align: center;cursor: pointer;width: 68px;font-size: 11px;font-weight: bold;color: dimgrey;}
+.category li.on {/* background: #0475f4; */color: #0475f4;}
+.category li:hover {/* background: rgb(246 246 246); *//* border-left: 1px solid #d9d9d9; *//* margin-left: -1px; */font-weight: bold;text-decoration: underline;}
+.category li:last-child{margin-right:0;border-right:0;}
+.category li span {display: block;margin: 4px auto 5px;width: 19px;min-height: 20px;}
+.category li.on span {}
+
+.category li.on .normal_busimg{background: url(/static/img/busstop_selected.png) no-repeat;}
+.category li.on .abnormal_busimg {background: url(/static/img/busstop_black_select.png) no-repeat;/* background-size: contain; */}
+.category li.on .crossimg{background: url(/static/img/cross.png) no-repeat;}
+
+
+/* .category li .category_bg {background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png) no-repeat;}
+.category li .bank {background-position: -10px 0;}
+.category li .mart {background-position: -10px -36px;}
+.category li .pharmacy {background-position: -10px -72px;}
+.category li .oil {background-position: -10px -108px;}
+.category li .cafe {background-position: -10px -144px;}
+.category li .store {background-position: -10px -180px;}
+.category li.on .category_bg {background-position-x:-46px;} */
+
+.category li .normal_busimg
+{
+	background: url(/static/img/busstop_dis.png) no-repeat;
+	/* background-size: contain; */
+}
+
+.category li .abnormal_busimg
+{
+	background: url(/static/img/busstop_black_dis.png) no-repeat;
+	/* background-size: contain; */
+}
+
+.category li .crossimg
+{
+	background: url(/static/img/cross_dis.png) no-repeat;
+	/* background-size: contain; */
+}
+
+.category li .voiceimg
+{
+	background:url(/static/img/voice_node.png) no-repeat;
+	background-size: contain;
+}
+
+.category li .verteximg
+{
+	background:url(/static/img/vertex.png) no-repeat;
+	background-size: contain;
+}
+
+.category li .roadimg
+{
+	background:url(/static/img/road_trans.png) no-repeat;
+	background-size: contain;
+}
+
+.tab_div
+{
+	/* border-bottom: 1px solid #c4cad6;
+	margin-bottom: 10px */
+}
+
+
+
+.tab_ul
+{
+    position: relative;
+    border-bottom:1px solid #CED4D9 !important; width: 100%; margin: 0px 0px 0 0px;
+    border-top : none !important;
+    border-left : none !important;
+    border-right : none !important;
+    height: 28px
+}
+    
+.tab_ul li {float:left;list-style: none;border-left: none; padding:6px 0;text-align: center;cursor: pointer;color: black; min-width: 100px !important;} 
+.tab_ul li.on {background: none !important; margin-top: -1px !important; border-bottom: 2px solid #A13E3E !important;}
+/* .tab_ul li:hover {color: #0475f4;} */
+.tab_ul li:hover { margin-top: 2px; }
+.tab_ul li:last-child{margin-right:0;border-right:0;}
+.tab_ul li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+.tab_ul li.on + li {border-left:none;} 
+.tab_ul li:first-child {border-left:none;}
+
+.tab_ul2
+{
+    position: relative;
+    border-bottom:1px solid #CED4D9 !important; width: 100%; padding: 0 20px; margin:0px -20px 0 -20px;
+    border-top : none !important;
+    border-left : none !important;
+    border-right : none !important;
+    height: 28px
+}
+    
+.tab_ul2 li {float:left;list-style: none;border-left: none; padding:6px 0;text-align: center;cursor: pointer;color: black; min-width: 100px !important;} 
+.tab_ul2 li.on {background: none !important; margin-top: -1px !important; border-bottom: 2px solid #A13E3E !important;}
+/* .tab_ul li:hover {color: #0475f4;} */
+.tab_ul2 li:hover { margin-top: 2px; }
+.tab_ul2 li:last-child{margin-right:0;border-right:0;}
+.tab_ul2 li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+.tab_ul2 li.on + li {border-left:none;} 
+.tab_ul2 li:first-child {border-left:none;}
+
+/* 운행 정시성 탭관련 */
+.stat_pnctlty
+{
+    width: 301px;
+}
+
+/* 코스 탭관련 */
+.tab_cos
+{
+    position: relative;
+    /* top: 10px; */
+    /* left: 10px; */
+    width: 302px;
+    border: 1px solid #d9d9d9;
+    /* box-shadow: 0 1px 1px rgb(0 0 0 / 40%); */
+    /* background: #eee; */
+    overflow: hidden;
+    z-index: 2;
+    border-radius: 5px;
+    }
+    
+.tab_cos li {float:left;list-style: none;border-left: 1px solid #d9d9d9;padding:6px 0;text-align: center;cursor: pointer;width: 100px;color: black;} 
+.tab_cos li.on {background: #0475f4;color: #fff !important;border-radius: 5px;border-left: none;border-right: none;}
+.tab_cos li:hover {color: #0475f4;}
+.tab_cos li:last-child{margin-right:0;border-right:0;}
+.tab_cos li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+.tab_cos li.on + li {border-left:none;} 
+.tab_cos li:first-child {border-left:none;}
+
+/* 기상/대기 탭관련 */
+.tab_wet
+{
+    position: relative;
+    /* top: 10px; */
+    /* left: 10px; */
+    width: 302px;
+    border: 1px solid #d9d9d9;
+    /* box-shadow: 0 1px 1px rgb(0 0 0 / 40%); */
+    /* background: #eee; */
+    overflow: hidden;
+    z-index: 2;
+    border-radius: 5px;
+    }
+    
+.tab_wet li {float:left;list-style: none;border-left: 1px solid #d9d9d9;padding:6px 0;text-align: center;cursor: pointer;width: 100px;color: black;} 
+.tab_wet li.on {background: #0475f4;color: #fff !important;border-radius: 5px;border-left: none;border-right: none;}
+.tab_wet li:hover {color: #0475f4;}
+.tab_wet li:last-child{margin-right:0;border-right:0;}
+.tab_wet li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+.tab_wet li.on + li {border-left:none;} 
+.tab_wet li:first-child {border-left:none;}
+
+/* 신호 통계 탭관련 */
+.stat_sgn
+{
+    position: relative;
+    /* top: 10px; */
+    /* left: 10px; */
+    width: 302px;
+    border: 1px solid #d9d9d9;
+    /* box-shadow: 0 1px 1px rgb(0 0 0 / 40%); */
+    /* background: #eee; */
+    overflow: hidden;
+    z-index: 2;
+    border-radius: 5px;
+    }
+    
+.stat_sgn li {float:left;list-style: none;border-left: 1px solid #d9d9d9;padding:6px 0;text-align: center;cursor: pointer;width: 100px;color: black;} 
+.stat_sgn li.on {background: #0475f4;color: #fff !important;border-radius: 5px;border-left: none;border-right: none;}
+.stat_sgn li:hover {color: #0475f4;}
+.stat_sgn li:last-child{margin-right:0;border-right:0;}
+.stat_sgn li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+.stat_sgn li.on + li {border-left:none;} 
+.stat_sgn li:first-child {border-left:none;}
+
+/* 정류소 통계 탭관련 */
+.stat_sttn
+{
+    position: relative;
+    /* top: 10px; */
+    /* left: 10px; */
+    width: 302px;
+    border: 1px solid #d9d9d9;
+    /* box-shadow: 0 1px 1px rgb(0 0 0 / 40%); */
+    /* background: #eee; */
+    overflow: hidden;
+    z-index: 2;
+    border-radius: 5px;
+    }
+    
+.stat_sttn li {float:left;list-style: none;border-left: 1px solid #d9d9d9;padding:6px 0;text-align: center;cursor: pointer;width: 100px;color: black;} 
+.stat_sttn li.on {background: #0475f4;color: #fff !important;border-radius: 5px;border-left: none;border-right: none;}
+.stat_sttn li:hover {color: #0475f4;}
+.stat_sttn li:last-child{margin-right:0;border-right:0;}
+.stat_sttn li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+.stat_sttn li.on + li {border-left:none;} 
+.stat_sttn li:first-child {border-left:none;}
+
+/* 정류소 정시성 통계 탭관련 */
+.stat_sttn_pnc
+{
+    position: relative;
+    /* top: 10px; */
+    /* left: 10px; */
+    width: 302px;
+    border: 1px solid #d9d9d9;
+    /* box-shadow: 0 1px 1px rgb(0 0 0 / 40%); */
+    /* background: #eee; */
+    overflow: hidden;
+    z-index: 2;
+    border-radius: 5px;
+    }
+    
+.stat_sttn_pnc li {float:left;list-style: none;border-left: 1px solid #d9d9d9;padding:6px 0;text-align: center;cursor: pointer;width: 100px;color: black;} 
+.stat_sttn_pnc li.on {background: #0475f4;color: #fff !important;border-radius: 5px;border-left: none;border-right: none;}
+.stat_sttn_pnc li:hover {color: #0475f4;}
+.stat_sttn_pnc li:last-child{margin-right:0;border-right:0;}
+.stat_sttn_pnc li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+.stat_sttn_pnc li.on + li {border-left:none;} 
+.stat_sttn_pnc li:first-child {border-left:none;}
+
+/* 탭관련 */
+.moni_img 
+{
+    width: auto;
+    bottom: 5px;
+    }
+
+.moni_img li .busimg
+{
+	background:url(/static/img/bus_red.png) no-repeat;	
+}
+
+.moni_img li .sttnimg
+{
+	background:url(/static/img/busstop.png) no-repeat;		
+}
+
+.moni_img li .crossimg
+{
+	background:url(/static/img/cross.png) no-repeat;		
+}
+
+.map_status
+{
+    background-color: #ffffff;
+    z-index : 3;
+    float: right;
+    top: 90px;
+    right: 10px;
+    position: absolute;
+    width: 210px;
+    border-spacing: 0;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid #333333;
+}
+.map_status th
+{
+  padding: 7px;
+  background-color: #333333;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.map_status td
+{
+    border: 1px solid #dddddd;
+    padding: 7px;
+    font-size: 12px;	
+}
+
+.map_status.status_hide
+{
+	display:none;
+}
+
+.map_status .status_green
+{
+    border-bottom: 3px solid #28c613;
+}
+
+.map_status .status_red
+{
+    border-bottom: 3px solid #f11406;
+}
+
+.map_status .status_black
+{
+    border-bottom: 3px solid #5b5b5b;
+}
+
+.map_status .status_kinds
+{
+	text-align : center;
+	width : 60px;
+}
+
+.map_status .status_count
+{
+	text-align : center;
+	width : 30px;	
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+}
+
+.w2treeview_table_node td {
+    padding: 0 5px;
+    margin: 0;
+}
+
+.map-type {
+    position: absolute;
+    right: 10px;
+    margin-top: 15px
+}
+
+.map-type div {
+/*     list-style: none;
+    margin: 0;
+    padding: 0;	 */
+    display: flex;
+}
+
+.map-type a {
+	display: block;
+    overflow: hidden;
+    background-clip: padding-box;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%);
+    border: 1px solid rgba(0,0,0,.2);
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+    color: #000;
+	transform: scale(1);
+    border-color: rgba(0, 0, 0, 0.2);
+    margin-left: 10px;    	
+}
+
+.map-type a.active{
+    border: 1px solid #0475f4;
+}
+
+.map-type span{
+    display: block;
+    padding: 5px 0;
+    background-color: #fff;
+    text-align: center;	
+	font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+    color: #000;
+}
+
+.map-type span.active{
+	color: #0475f4;
+	font-weight: bold;
+}
+
+.map-type .map-type-01::before{
+	content:"";
+	overflow: hidden;
+    display: inline-block;
+    width: 62px;
+    height: 34px;
+    font-size: 0;
+    color: transparent;
+    vertical-align: top;
+	background-image: url(/static/img/normalImage.png);
+    /* background-size: 508px 492px; */    
+}
+
+.map-type .map-type-02:before{
+	content:"";	
+	overflow: hidden;
+    display: inline-block;
+    width: 62px;
+    height: 34px;
+    font-size: 0;
+    color: transparent;
+    vertical-align: top;
+	background-image: url(/static/img/skyviewImage.png);
+    /* background-size: 508px 492px;     */
+}
+
+.map-type .map-type-03:before{
+	content:"";	
+	overflow: hidden;
+    display: inline-block;
+    width: 62px;
+    height: 34px;
+    font-size: 0;
+    color: transparent;
+    vertical-align: top;
+	background-image: url(/static/img/trafficImage.png);
+    /* background-size: 508px 492px;    */ 
+}
+
+.map_mesage, .map_info {box-sizing: border-box; position: relative;width: 360px; background-color: #ffffff; border: 1px solid #888888; box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15);}
+.map_mesage2, .map_info2 {box-sizing: border-box; position: relative;width: 297px; background-color: #ff7b00; border-color: #ce6c11; border: 1px solid #888888; box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15); left: -11px !important; bottom: 68px !important;}
+.map_mesage::after, .map_info::after {content: ''; display: block; width: 22px; height: 12px; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); background: url('/static/img/vertex_white.png') no-repeat;}
+.map_mesage2::after, .map_info2::after {content: ''; display: block; width: 22px; height: 12px; position: absolute; bottom: -12px; left: 54%; transform: translateX(-50%); background: url('/static/img/vertex_white.png') no-repeat;}
+.mesage {height: 50px; padding:0 50px ; border-radius: 25px; bottom: 42px; left: -180px;}
+.dispatch {height: 50px; padding:0 50px ; border-radius: 25px; background-color: #0059ff; border-color: #0b4ecc; bottom: 42px; left: -179px;}
+.map_mesage span, .map_mesage2 span {display: block; color:#ffffff; line-height: 46px; font-size: 14px !important; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.event {box-sizing: border-box;}
+.map_mesage::before, .map_mesage2::before {display: block; width: 30px; height: 30px; position: absolute; border-radius: 100%; top: 50%; left: 10px; transform: translateY(-50%); line-height: 30px; text-align: center; color: #ffffff; font-weight: 800; }
+.dispatch::before {content: 'D'; background-color: #333333; font-size: 16px; }
+.mesage::before {content: '!'; background-color: #EB4545; font-size: 22px; }
+.map_mesage .close_mesage, .map_info .close_mesage, .map_mesage2 .close_mesage {position: absolute; background: url('/static/img/layer_close.png') no-repeat center; width: 30px; height: 30px; border: none; cursor: pointer;}
+.map_mesage .close_mesage {top: 50%; right: 10px; transform: translateY(-50%); }
+.map_info {padding: 20px; border-radius: 5px;}
+.map_info .action {display: inline-block; font-size: 14px; font-weight: 800;}
+.map_info .stay_sec {display: inline-block; color: #888888; margin-left: 10px;}
+.map_info .station_info {position: relative; margin-top: 10px;}
+.map_info .station_info::before {content: ''; display: block; width:3px; height: 25px; position: absolute; left: 5px; top: 50%; transform: translateY(-50%); background-color: #9BDAEE;}
+.map_info .station_info th {position: relative; padding-left: 16px; font-weight: 200; color: #888888; text-align: left;}
+.map_info .station_info th::before {content: ''; display: block; width: 9px; height: 9px; position: absolute; left: 0; top: 50%; transform: translateY(-50%); border-radius: 100%; background-color: #9BDAEE;}
+.map_info .event_mesage {background-color: #0059ff; border-color: #0b4ecc; color:#ffffff; padding: 10px; margin-top: 10px;}
+.map_info .event_mesage dd {margin: 0; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.map_info .close_mesage {top: 10px; right: 10px;}
+.cross_info {width: 160px; padding: 5px; border: 1px solid #707070; background-color: #303030; border-radius: 5px;}
+.cross_info .info_wrap {background-color: #000000; border-radius: 2px;}
+.cross_info .info_wrap .cross_img {width: 100%; height: 80px; display: block;}
+.cross_info .info_wrap .cross_mesages {padding: 5px 0}
+.cross_info .info_wrap .cross_mesages span {font-size: 20px; font-weight: 800; text-align: center; width: 100%; display: block;}
+.cross_info .info_wrap .cross_mesages .tx_green {color:#11FF00}
+.cross_info .info_wrap .cross_mesages .tx_red {color:#FF5151}
+.cross_info .info_wrap .cross_mesages .tx_yellow {color:#F7FF00}
+.map_icon {width: 360px; background-color: #ffffff; border-radius: 5px; border: 1px solid #888888;}
+.map_icon ul {display: flex; justify-content: space-between; }
+.map_icon ul li {width: calc(100% / 4); padding: 20px 0; text-align: center; border-right: 1px solid #888888;}
+.map_icon ul li:last-child {border: none;}
+.map_icon ul li img {width: 20px; height: 20px;}
+.map_icon ul li .icon_name {margin-top: 10px;}
+/* .station_display {width: 160px; padding: 5px; border: 1px solid #707070; border-radius: 5px; background-color: #303030;} */
+.station_display {width: 130px; padding: 5px; border: 1px solid #707070; border-radius: 5px; background-color: #303030;} /* width 130으로 수정 bs */
+.station_display .mesage_wrap {background-color: #000000; border-radius: 2px;}
+.station_display .mesage_wrap .display_mesage {padding: 10px 0}
+.station_display .mesage_wrap .display_mesage span {font-size: 20px; font-weight: 800; text-align: center; width: 100%; display: block; color:white;}
+.station_display .mesage_wrap .display_mesage .powerOnDiv span {font-size: 20px; font-weight: 800; text-align: center; width: 100%; display: block; color:white;}
+.station_display .mesage_wrap .display_mesage .tx_green {color:#11FF00}
+.station_display .mesage_wrap .display_mesage .tx_red {color:#FF5151}
+.station_display .mesage_wrap .display_mesage .tx_yellow {color:#F7FF00}
+
+
+
+
+/* 원본 - 고병수
+.bit_tb {
+margin-right: 130px; margin-left: 130px; background-color: black;color: white;border-color: black;height: 200px;
+} */
+
+.bit_tb {
+/* margin-right: 130px;
+margin-left: 130px; */ 
+background-color: black;
+color: white;
+border-color: black;
+height: 200px;
+/*height: 166px;*/
+width: 116px;
+top: 52px;
+}
+
+.ir_wa {display:block;overflow:hidden;position:relative;z-index:-10;width:100%;height:100%}
+.ir_pm {display:block;overflow:hidden; text-indent:200%; white-space:nowrap }
+.blind {display:block;overflow:hidden;position:absolute;top:-1000em;left:0}

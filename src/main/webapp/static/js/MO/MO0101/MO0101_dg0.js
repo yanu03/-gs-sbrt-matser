@@ -40,6 +40,9 @@ $(function(){
 		onBeforeSelect: function(index,row){},
 		onSelect: function(index,row){
 			$.jf_movemap(row.GPS_X, row.GPS_Y);
+			//기존에 있는 이벤트, 디스패치 오버레이 삭제해야함
+			if($.jf_fndicostrct('_evt') != null) $.jf_deleteOverlay($.jf_fndicostrct('_evt'));
+			if($.jf_fndicostrct('_dsptch') != null) $.jf_deleteOverlay($.jf_fndicostrct('_dsptch'));
 		},
 		onBeforeEdit: function(index,row){},
 		onBeginEdit: function(index,row){},
