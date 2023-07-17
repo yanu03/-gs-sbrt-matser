@@ -114,6 +114,8 @@
             NODE_ID : $.jf_seqdgdata('/si/SI0402G1K0', 'post')
             ,OLD_NODE_ID : ""
             ,OLD_NODE_SN : ""
+            ,LINK_ID : ""
+            ,LINK_NODE_YN : ""
             ,WAY_DIV : $.jf_curdgfieldvalue($('#dg0'), 'WAY_DIV')
          }
          $('#dg1').datagrid('updateRow',{index:$.jf_curdgindex($('#dg1')),row:v_row});

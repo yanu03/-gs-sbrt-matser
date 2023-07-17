@@ -101,12 +101,12 @@
 		let v_BITList = a_datas.LIST;
 		let v_tableStr = '';
 		let v_body = '';
-		v_tableStr = '<table id="MO0203_table" style="" class="w2group w2tb bit_tb">'
+		v_tableStr = '<table id="MO0203_table" style="" class="w2tb bit_tb">'
 					+'<caption id="mf_tac_layout_contents_MN00070102_body_wq_uuid_505" class="w2group "></caption>'
 					+'<colgroup id="mf_tac_layout_contents_MN00070102_body_wq_uuid_506" class="w2group ">'
-					+'<col id="" style="width:25.00%;" class="w2group ">'
-					+'<col id="" style="width:37.50%" class="w2group ">'
-					+'<col id="" style="width:37.50%" class="w2group ">'
+					+'<col id="" style="width:25.00%;">'
+					+'<col id="" style="width:37.50%">'
+					+'<col id="" style="width:37.50%">'
 					+'</colgroup>'
 					+'<tbody>';
 		
@@ -127,24 +127,24 @@
 			let v_newObj = {};
 			
 			if(v_BITList[i].REMAIN_TM != '0분'){
-				v_body += '<tr id="" class="w2group">'
-						+ '<td id="" style="border-color: black; " class="">'	
-						+ '<span id="" style="width: 100px;height: 23px;font-size: 2px;" class="">'
+				v_body += '<tr>'
+						+ '<tdstyle="border-color: black;">'	
+						+ '<span style="width: 100px;height: 23px;font-size: 2px;">'
 						+  v_BITList[i]['ROUT_NM'];
 						+ '</span></td>'
-						+ '<td id="" style="border-color: black; " class="">'
-						+ '<span id="" style="width: 100px;height: 23px;font-size: 2px; color: yellow;" class="w2span ">'
+						+ '<td style="border-color: black; " class="">'
+						+ '<span style="width: 100px;height: 23px;font-size: 2px; color: yellow;">'
 						+ v_BITList[i]['REMAIN_STTN'];
 						+ '</span></td>'
-						+ '<td id="" style="border-color: black;  text-align: right;" class="">'
-						+ '<span id="" style="width: 100%;height: 23px;font-size: 2px;text-align: right;color: green;" class="">'
+						+ '<td style="border-color: black;  text-align: right;">'
+						+ '<span style="width: 100%;height: 23px;font-size: 2px;text-align: right;color: green;">'
 						+ v_BITList[i]['REMAIN_TM'];
 						+ '</span></td></tr>'
 			}
 			else {
 				v_body +='<tr id="" class="">'
-					+'<td id="" style="border-color: yellow; border-right-color:yellow; border-top-style:double;" class="" scope="row" colspan="3" rowspan="1">'
-					+'<span id="" style="width: 100px;height: 23px;font-size: 2px;" class="">'
+					+'<td style="border-color: yellow; border-right-color:yellow; border-top-style:double;" scope="row" colspan="3" rowspan="1">'
+					+'<span style="width: 100px;height: 23px;font-size: 2px;">'
 					+"곧도착 : " + v_BITList[i]['ROUT_NM'];
 					+'</span></td></tr>';
 			}

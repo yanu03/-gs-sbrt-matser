@@ -182,6 +182,7 @@
 			EVT_DATA : v_eventMessage
 		}
 		$.jf_insert($('#dg1'), v_params, 0);
+		$.jf_addevtoverlay(v_item);
 		if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
 		return true;		
 	}

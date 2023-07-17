@@ -84,7 +84,7 @@
 				$('#dg1').datagrid('updateRow',{index:i,row:v_vals});
 			}
 		}*/
-		
+		debugger;
 		//현재 row와 아래 row만 변경
 		if (v_index < v_data.rows.length - 1) {
 			let v_data = $('#dg1').datagrid('getData');
@@ -95,8 +95,17 @@
 			let v_aboveRowNodeSN = v_aboveRow['NODE_SN'];
 			let v_belowRowNodeSN = v_belowRow['NODE_SN'];
 			
+			
 			v_aboveRow['NODE_SN'] = v_belowRowNodeSN;
 			v_belowRow['NODE_SN'] = v_aboveRowNodeSN;
+			
+			/*for (let key in v_aboveRow) {
+				if (key != 'LINK_ID' && key != 'NODE_SN') {
+					let temp = v_aboveRow[key];
+					v_aboveRow[key] = v_belowRow[key];
+					v_belowRow[key] = temp;
+				}
+			}		*/	
 
 			$('#dg1').datagrid('updateRow',{index:v_index,row:v_belowRow});			
 			$('#dg1').datagrid('updateRow',{index:v_index+1,row:v_aboveRow});			

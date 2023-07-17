@@ -71,7 +71,7 @@ $(function () {
             if(typeof($.pf_sockevt) != "undefined"){
                 if(!$.pf_sockevt(v_item)) return false;
             }
-			$.jf_addevtoverlay(v_item);
+			//$.jf_addevtoverlay(v_item);
         });
 
 
