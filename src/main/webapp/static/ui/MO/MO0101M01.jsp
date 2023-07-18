@@ -19,7 +19,14 @@
 	<!-- sockjs.min.js - stomp.min.js - sock_comm.js 순서 유지 -->
 	<script src="/static/js/common/sock_comm.js"></script> 
 	<script type="text/javascript">
-		$( document ).ready(function() {
+	window.addEventListener("resize", test);
+	
+	function test() {
+		js_map.relayout();
+	}
+	
+	
+	$( document ).ready(function() {
 			
 			
     });
@@ -104,6 +111,7 @@
 		};
 		// $.jf_append($('#dg1'), v_params);
 		$.jf_insert($('#dg2'), v_params, 0);
+		if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
 		$.jf_adddsptchoverlay(a_data);
 		return true;
 		//현재 데이터가 메시지만 넘어오고 있음. 디스패치 구분(DSPTCH_DIV)가 넘어올 경우 일반메시지, 운행메시지, 정차메시지 구분해야함.
@@ -183,8 +191,8 @@
 			EVT_DATA : v_eventMessage
 		}
 		$.jf_insert($('#dg1'), v_params, 0);
-		$.jf_addevtoverlay(a_data);
 		if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
+		$.jf_addevtoverlay(a_data);
 		return true;		
 	}
 

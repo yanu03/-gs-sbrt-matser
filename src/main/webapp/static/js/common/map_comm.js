@@ -1,7 +1,9 @@
-﻿var js_mkstruct = []; //marker array
-var js_overlaystruct = [];
-var js_bmkstruct = []; //
-var js_bostruct = []; //
+﻿var js_mkstruct = []; //marker struct
+var js_overlaystruct = []; //overlay struct
+var js_bmkstruct = []; // 버스 마커 struct
+var js_bostruct = []; //버스 오버레이 struct 
+var js_sigstruct = []; // 신호 마커 struct
+
 var js_linestruct = []; //polyline array
 const mapOption = {
 	NODE_TYPE : {
@@ -35,8 +37,8 @@ const mapOption = {
 	DISP_IMG : '/static/img/vertex.png',
 	DISP_IMG_SEL : '/static/img/vertex_selected.png',
 	SIGNAL_IMG_SIZE : (20,12),
-	SIGNAL_IMG : '/static/img/light_green.png',
-	SIGNAL_IMG_SEL : '/static/img/light_red.png',
+	SIGNAL_IMG_GREEN : '/static/img/light_green.png',
+	SIGNAL_IMG_RED : '/static/img/light_red.png',
 	SOUND_IMG_SIZE : (15,20),
 	SOUND_IMG : '/static/img/voice_node.png',
 	SOUND_IMG_SEL : '/static/img/voice_node_selected.png',
@@ -1142,3 +1144,62 @@ $.jf_setBITInfo = function(a_datas) {
 
 	return true;	
 }
+
+/** 
+작성자 : 양현우
+작성일 : 2023-07-18
+기능 : 신호 마커 만들기
+**/
+$.jf_addsigmarker = function(a_data) {
+	let zIndex = mapOption.ZINDEX_SIG_MARKER;
+	
+	let imageSize = new kakao.maps.Size(mapOption.SIGNAL_IMG_SIZE);
+	let markerImage = new kakao.maps.MarkerImage(mapOption.SIGNAL_IMG_RED, imageSize);
+	//let markerSelImage = new kakao.maps.MarkerImage(mapOption.SIGNAL_IMG_GREEN, imageSize);
+
+	// if(a_idx == a_focusidx) markerImage = markerSelImage;
+	let marker = new kakao.maps.Marker({
+		position: new kakao.maps.LatLng(a_data.GPS_Y, a_data.GPS_X),
+		image: markerImage,
+		zIndex : zIndex,
+	})
+	
+	marker.id = a_data.CRS_ID + '_sig' + a_data.SGNL_SN;
+	marker.setMap(js_map);
+	js_sigstruct.push(marker);
+
+	return true;
+}
+
+/** 
+작성자 : 양현우
+작성일 : 2023-07-18
+기능 : sigstruct 배열에서 a_id를 포함하는 마커 찾기
+**/
+$.jf_fndicsigstruct = function(a_id){
+	let rtn_marker = null;
+	for(let i=0; i<js_sigstruct.length; i++){
+		if(js_sigstruct[i].id.includes(a_id)){
+			rtn_marker = js_sigstruct[i];
+			break;
+		}
+	}
+	return rtn_marker;
+}
+
+/** 
+작성자 : 양현우
+작성일 : 2023-07-18
+기능 : 신호 마커 색 변경
+**/
+$.jf_changesigmarker = function(a_baseData, a_sockData) {
+	let v_greenImage = new kakao.maps.Size(mapOption.SIGNAL_IMG_GREEN);
+	let v_redImage = new kakao.maps.Size(mapOption.SIGNAL_IMG_RED);
+	if(a_baseData.PHASE_NO.indexOf(a_sockData))
+	
+	
+
+	return true;
+}
+
+
