@@ -44,31 +44,86 @@ $(function(){
         }
 	});
 	
-	$('#fm_panel0').append('<table>');
-	//design
-	$('#fm_panel0').append('<input id="COMP_ID" class="tracom-textbox" name="COMP_ID"><p>');
-    $('#fm_panel0').append('<input id="AREA" class="tracom-combobox" name="AREA">&nbsp;&nbsp;');
-	$('#fm_panel0').append('<input id="COMP_NM" class="tracom-textbox" name="COMP_NM">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="REP_NM" class="tracom-textbox" class="tracom-textbox" name="REP_NM"><p>');
-    $('#fm_panel0').append('<input id="ADDR" class="tracom-textbox" name="ADDR">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<a id="sch_addr_btn" href="#"></a><p>');
+    let htmlString = '<table>';
 
-    $('#fm_panel0').append('<input id="GPS_X" name="GPS_X"');
-    $('#fm_panel0').append('<input id="GPS_Y" name="GPS_Y">');
-    $('#fm_panel0').append('<input id="TM_X" name="TM_X">');
-    $('#fm_panel0').append('<input id="TM_Y" name="TM_Y">');
+    //design
+    htmlString += '<tr>';
+    htmlString += '<th><label>운수사ID </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>권역 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>운수사명 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '<tr>';
+    htmlString += '<th><label>대표자명 </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>주소 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label> </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '<tr>';
+    htmlString += '<th><label>팩스 </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>이메일 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>운전자수 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '<tr>';
+    htmlString += '<th><label>운행노선수 </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>사업자 등록 번호 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>예비차대수 </label></th>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '<tr>';
+    htmlString += '<th><label>전화번호 </label></th>';
+    htmlString += '<td></td>'; //숫자 주도록해서 append
+    htmlString += '<th><label>면허차대수</label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<th><label>비고</label></th>';
+    htmlString += '<td></td>';
+    htmlString += '<td></td>';
+    htmlString += '</tr>';
+
+    htmlString += '</table>';
+
+    $('#fm_panel0').html(htmlString);
+	// $('#fm_panel0').append('<table>');
+	//design
+	$('tr:nth-child(1) td:nth-child(2)').append('<input id="COMP_ID" class="tracom-textbox" name="COMP_ID">');
+    $('tr:nth-child(1) td:nth-child(4)').append('<input id="AREA" class="tracom-combobox" name="AREA">');
+	$('tr:nth-child(1) td:nth-child(6)').append('<input id="COMP_NM" class="tracom-textbox" name="COMP_NM">');
+
+    $('tr:nth-child(2) td:nth-child(2)').append('<input id="REP_NM" class="tracom-textbox" class="tracom-textbox" name="REP_NM">');
+    $('tr:nth-child(2) td:nth-child(4)').append('<input id="ADDR" class="tracom-textbox" name="ADDR">');
+    $('tr:nth-child(2) th:nth-child(5)').append('<a id="sch_addr_btn" href="#"></a>');
+
+    $('tr:nth-child(3) td:nth-child(2)').append('<input id="FAX" class="tracom-textbox" name="FAX">');
+    $('tr:nth-child(3) td:nth-child(4)').append('<input id="EMAIL" class="tracom-textbox" name="EMAIL">');
+    $('tr:nth-child(3) td:nth-child(6)').append('<input id="DRV_CNT" class="tracom-numberbox" name="DRV_CNT">');
+
+    $('tr:nth-child(4) td:nth-child(2)').append('<input id="SVC_ROUT_CNT" class="tracom-numberbox" name="SVC_ROUT_CNT">');
+    $('tr:nth-child(4) td:nth-child(4)').append('<input id="COMP_REG_NO" class="tracom-textbox" name="COMP_REG_NO">');
+    $('tr:nth-child(4) td:nth-child(6)').append('<input id="SPR_VHC_CNT" class="tracom-numberbox" name="SPR_VHC_CNT">');
+
+    $('tr:nth-child(5) td:nth-child(2)').append('<input id="PHONE" class="tracom-textbox" name="PHONE">');
+    $('tr:nth-child(5) td:nth-child(4)').append('<input id="LIC_VHC_CNT" class="tracom-numberbox" name="LIC_VHC_CNT">');
+    $('tr:nth-child(5) td:nth-child(6)').append('<input id="REMARK" class="tracom-textbox" name="REMARK">');
+
+    $('tr:nth-child(5) td:nth-child(7)').append('<input id="GPS_X" name="GPS_X">');
+    $('tr:nth-child(5) td:nth-child(7)').append('<input id="GPS_Y" name="GPS_Y">');
+    $('tr:nth-child(5) td:nth-child(7)').append('<input id="TM_X" name="TM_X">');
+    $('tr:nth-child(5) td:nth-child(7)').append('<input id="TM_Y" name="TM_Y">');
     
-    $('#fm_panel0').append('<input id="FAX" class="tracom-textbox" name="FAX">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="EMAIL" class="tracom-textbox" name="EMAIL"><p>');
-    $('#fm_panel0').append('<input id="DRV_CNT" class="tracom-numberbox" name="DRV_CNT">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="SVC_ROUT_CNT" class="tracom-numberbox" name="SVC_ROUT_CNT">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="COMP_REG_NO" class="tracom-textbox" name="COMP_REG_NO"><p>');
-    $('#fm_panel0').append('<input id="SPR_VHC_CNT" class="tracom-numberbox" name="SPR_VHC_CNT">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="PHONE" class="tracom-textbox" name="PHONE">&nbsp;&nbsp;');
-    $('#fm_panel0').append('<input id="LIC_VHC_CNT" class="tracom-numberbox" name="LIC_VHC_CNT"><p>');
-    $('#fm_panel0').append('<input id="REMARK" class="tracom-textbox" name="REMARK">');
-	
-	$('#fm_panel0').append('</table>');
+	// $('#fm_panel0').append('</table>');
     
     
 
@@ -81,10 +136,10 @@ $(function(){
         //validType:'length[0,10]',
         readonly: true,
         value:'',
-        label:'운수사 ID',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'운수사 ID',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -100,11 +155,11 @@ $(function(){
         valueField: 'DL_CD',
         textField: 'DL_CD_NM',
 		value: '',				//dg0과 일치 시키면 편하다
-        label:'권역',
-        labelWidth: 40,
-		labelPosition: 'before',
-		labelAlign: 'left',
-        panelMaxHeight : 250,
+        // label:'권역',
+        // labelWidth: 40,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
+        // panelMaxHeight : 250,
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)
         },
         onChange: function(newValue,oldValue){
@@ -120,10 +175,10 @@ $(function(){
         //validType:'length[0,30]',
         readonly: false,
         value:'',
-        label:'운수사 명',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'운수사 명',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -169,10 +224,10 @@ $(function(){
         //validType:'length[0,30]',
         readonly: false,
         value:'',
-        label:'대표자명',
-        labelWidth: 80,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'대표자명',
+        // labelWidth: 80,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -186,10 +241,10 @@ $(function(){
         //validType:'length[0,100]',
         readonly: false,
         value:'',
-        label:'주소',
-        labelWidth: 40,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'주소',
+        // labelWidth: 40,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -211,7 +266,7 @@ $(function(){
         //validType:'length[0,13]',
         readonly: false,
         value:'',
-        label:'팩스',
+        // label:'팩스',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
             $.uf_chknumber(newValue, "FAX");
@@ -226,7 +281,7 @@ $(function(){
         validType:'email',
         readonly: false,
         value:'',
-        label:'메일',
+        // label:'메일',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
             // $.uf_chknumber(newValue, "EMAIL");
@@ -241,7 +296,7 @@ $(function(){
         value:'',
         min: 0, 
         max: 5,
-        label:'운전자수',
+        // label:'운전자수',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -255,13 +310,13 @@ $(function(){
         value:'',
         min: 0, 
         max: 3,
-        label:'운행노선수',
+        // label:'운행노선수',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
     });
     $('#COMP_REG_NO').textbox({
-        width: 260,
+        width: 200,
         height: 25,
         type:'text',
         required: false,
@@ -269,10 +324,10 @@ $(function(){
         //validType:'length[0,12]',
         readonly: false,
         value:'',
-        label:'사업자 등록 번호',
-        labelWidth: 120,
-		labelPosition: 'before',
-		labelAlign: 'left',
+        // label:'사업자 등록 번호',
+        // labelWidth: 120,
+		// labelPosition: 'before',
+		// labelAlign: 'left',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
             $.uf_chknumber(newValue, "COMP_REG_NO");
@@ -287,7 +342,7 @@ $(function(){
         value:'',
         min: 0, 
         max: 5,
-        label:'얘바차대수',
+        // label:'얘바차대수',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -301,7 +356,7 @@ $(function(){
         //validType:'length[0,13]',
         readonly: false,
         value:'',
-        label:'전화번호',
+        // label:'전화번호',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
             $.uf_chknumber(newValue, "PHONE");
@@ -316,7 +371,7 @@ $(function(){
         value:'',
         min: 0, 
         max: 5,
-        label:'면허차대수',
+        // label:'면허차대수',
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;
         }
@@ -330,7 +385,7 @@ $(function(){
         //validType:'length[0,200]',
         readonly: false,
         value:'',
-        label:'비고',
+        // label:'비고',
         multiline : true,
         onChange: function(newValue,oldValue){
             if(!jv_rowclick) return false;

@@ -38,14 +38,10 @@ $(function(){
                         a_arrvalue =  new Array($('#BUS_DIV').textbox('getValue'), $('#BUS_DIV').textbox('getText'));
                         a_vals = $.jf_multidatatojson(a_arrfield, a_arrvalue);	//arr arr ?޾Ƽ? ó?? ?ϴ? ???? ????
                         break;
-                    case "ATTACH_ID":
-                        a_vals = $.jf_singledatatojson(target.id, $(target).textbox('getValue'));
-                        break;
                     case "file_1":
-
+                        a_vals = $.jf_singledatatojson(target.id, $(target).value);
                         break;
                     default:
-                        // console.log(target.id)
                             if(!$(target).textbox('isValid')){$(target).textbox('clear'); break;}
                             a_vals = $.jf_singledatatojson(target.id, $(target).textbox('getValue'));
                         break;
@@ -111,7 +107,7 @@ $(function(){
     $('tr:nth-child(4) td:nth-child(2)').append('<input id="ATTACH_ID" type="hidden" name="ATTACH_ID">');
 	var str = '<form id="filefrm" name="filefrm" method="post" enctype="multipart/form-data">'
 			+ '<input id="path" type="hidden" name="path" >'
-			+ '<input id="attach_id" type="hidden" name="attach_id" >'
+			// + '<input id="attach_id" type="hidden" name="attach_id" >'
 			+ '<input id="file_1" type="file" name="file_1" onchange="$.uf_preview(this);" >'
 			+ '<a id="filebtn" href="#"></a>'
 			+ '</form>'
@@ -339,10 +335,11 @@ $(function(){
             $("#picture").attr("src", imgUrl);
             if(!jv_rowclick) return false;
             $.uf_chkphoto(newValue);
-            $.uf_filesave();
+            //$.uf_filesave();
         }
     });
-	
+    
+
     $('#filebtn').linkbutton({
         height: 24,
         iconCls: 'icon-save'
