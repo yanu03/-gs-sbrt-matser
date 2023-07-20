@@ -44,6 +44,9 @@ public class WsClient {
 			case BrtAtCode.BUS_ARRIVAL_INFO:
 				messagingTemplate.convertAndSend("/subscribe/arrival", wsMap);
 			break;
+			case BrtAtCode.TRAFFIC_LIGHT_STATUS_RESPONSE:
+				messagingTemplate.convertAndSend("/subscribe/signal", wsMap);
+			break;
 			default:
 				messagingTemplate.convertAndSend("/subscribe/public", wsMap);
 			}
