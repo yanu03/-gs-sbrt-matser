@@ -85,6 +85,9 @@ $(function () {
 
         js_client.subscribe('/subscribe/traffic', function (chat) {
             var item = JSON.parse(chat.body);
+            if(typeof($.pf_socksig) != "undefined"){
+                if(!$.pf_socksig(v_item)) return false;
+            }
             // console.log(content);
             // var itemTod = $('#' + item.crossNodeId);
 

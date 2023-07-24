@@ -1174,17 +1174,16 @@ $.jf_addsigmarker = function(a_data) {
 /** 
 작성자 : 양현우
 작성일 : 2023-07-18
-기능 : sigstruct 배열에서 a_id를 포함하는 마커 찾기
+기능 : sigstruct 배열에서 a_id를 포함하는 마커들 찾기
 **/
 $.jf_fndicsigstruct = function(a_id){
-	let rtn_marker = null;
+	let rtn_markers = [];
 	for(let i=0; i<js_sigstruct.length; i++){
 		if(js_sigstruct[i].id.includes(a_id)){
-			rtn_marker = js_sigstruct[i];
-			break;
+			rtn_markers.push(js_sigstruct[i]);
 		}
 	}
-	return rtn_marker;
+	return rtn_markers;
 }
 
 /** 
@@ -1195,9 +1194,17 @@ $.jf_fndicsigstruct = function(a_id){
 $.jf_changesigmarker = function(a_baseData, a_sockData) {
 	let v_greenImage = new kakao.maps.Size(mapOption.SIGNAL_IMG_GREEN);
 	let v_redImage = new kakao.maps.Size(mapOption.SIGNAL_IMG_RED);
-	if(a_baseData.PHASE_NO.indexOf(a_sockData))
+	let markerImage = new kakao.maps.MarkerImage(v_redImage, mapOption.SIGNAL_IMG_SIZE);
 	
-	
+	if(a_baseData.PHASE_NO.indexOf(a_sockData)>-1)	markerImage = new kakao.maps.MarkerImage(v_greenImage, mapOption.SIGNAL_IMG_SIZE);
+		
+	let markers = $.jf_fndicsigstruct(a_baseData.CRS_ID);
+	if(markers.length != 0){
+		//현시에 맞게 마커 이미지들 변경되게 하는 코드 추가해야함
+		for(var i=0; i<markers.length; i++) {
+			markers[i].setImage(markerImage);
+		}
+	}
 
 	return true;
 }

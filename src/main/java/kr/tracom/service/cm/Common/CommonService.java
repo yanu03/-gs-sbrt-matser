@@ -40,7 +40,7 @@ public class CommonService extends ServiceSupport {
 	@Value("${fileupload.base.path}")
 	private String UPLOAD_BASE_DIR;
 	
-	@Value("${systgem.db.schema}")
+	@Value("${system.db.schema}")
 	private String SCHEMA;
 
 	/**

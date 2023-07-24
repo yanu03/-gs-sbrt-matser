@@ -111,7 +111,7 @@
 		};
 		// $.jf_append($('#dg1'), v_params);
 		$.jf_insert($('#dg2'), v_params, 0);
-		if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
+		//if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
 		$.jf_adddsptchoverlay(a_data);
 		return true;
 		//현재 데이터가 메시지만 넘어오고 있음. 디스패치 구분(DSPTCH_DIV)가 넘어올 경우 일반메시지, 운행메시지, 정차메시지 구분해야함.
@@ -184,16 +184,28 @@
 		}
 
 		let v_params = {
-			VHC_ID : a_data.VHC_ID,
-			VHC_NO : a_data.VHC_NO,
-			OCR_DTM : $.jf_gettime(),
-			EVT_TYPE_NM : a_data.EVT_TYPE_NM,
-			EVT_DATA : v_eventMessage
-		}
+				VHC_ID : a_data.VHC_ID,
+				VHC_NO : a_data.VHC_NO,
+				OCR_DTM : $.jf_gettime(),
+				EVT_TYPE_NM : a_data.EVT_TYPE_NM,
+				EVT_DATA : v_eventMessage,
+				GPS_X : a_data.GPS_X,
+				GPS_Y : a_data.GPS_Y,
+				CUR_SPD : a_data.CUR_SPD,			
+			}
 		$.jf_insert($('#dg1'), v_params, 0);
-		if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
+		if(!$.jf_dupcheck($('#dg0'), 'VHC_ID', a_data.VHC_ID)) $.jf_insert($('#dg0'), v_params, 0);
+		else {
+			let v_index = $.jf_fndduprow($('#dg0'), 'VHC_ID', a_data.VHC_ID);
+			$('#dg0').datagrid('updateRow',{index:v_index,row:v_params});
+		}
+		//if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
 		$.jf_addevtoverlay(a_data);
 		return true;		
+	}
+	
+	$.pf_socksig = function(a_data){
+		
 	}
 
 	</script>
