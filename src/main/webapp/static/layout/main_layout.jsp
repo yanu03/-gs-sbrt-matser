@@ -17,7 +17,7 @@
         	<div class="easyui-layout" data-options="fit:true" >
         		
         		<div data-options="region:'north'" style="height:50px" class="head_top">
-        		<a id="" class="logo" href="jf_gohome()"></a>
+        		<a id="" class="logo" href="javascript:jf_gohome()"></a>
         		</div>        		
         		
         		<div data-options="region:'center'" style="height:50px">

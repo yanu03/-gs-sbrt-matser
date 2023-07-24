@@ -121,8 +121,12 @@
 	</select>
 
 	
-	<select id="selectCurNearAllocOperPlByRout" resultType="String" parameterType="Map">
+	<select id="selectCurNearAllocOperPlByRoutEvtData" resultType="String" parameterType="Map">
 		SELECT FN_GET_CUR_NEAR_ALLOC_OPER_PL_BY_ROUT(#{UPD_DTM},#{ROUT_ID},#{EVENT_DATA})
+	</select>
+	
+<select id="selectCurNearAllocOperPlByRoutNodeId" resultType="String" parameterType="Map">
+		SELECT FN_GET_CUR_NEAR_ALLOC_OPER_PL_BY_ROUT(#{UPD_DTM},#{ROUT_ID},#{NODE_ID})
 	</select>
 	
 	<!-- 차량의 현재운행정보 가져오기  -->
