@@ -71,7 +71,7 @@ $(function () {
 	htmlString += '<tr>';
 	htmlString += '<th><label>교차로ID </label></th>';
 	htmlString += '<td></td>'; //숫자 주도록해서 append
-	htmlString += '<th><label>교차로명 </label></th>';ㅁㅁㅁㅊ
+	htmlString += '<th><label>교차로명 </label></th>';
 	htmlString += '<td></td>';
 	htmlString += '<th><label>교차로종류 </label></th>';
 	htmlString += '<td></td>';

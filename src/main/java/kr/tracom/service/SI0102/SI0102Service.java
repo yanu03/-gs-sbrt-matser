@@ -9,7 +9,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import kr.tracom.mapper.SI0102.SI0102Mapper;
-import  kr.tracom.mapper.SI0101.SI0101Mapper;
 import kr.tracom.support.ServiceSupport;
 import kr.tracom.support.exception.MessageException;
 import kr.tracom.util.Result;
