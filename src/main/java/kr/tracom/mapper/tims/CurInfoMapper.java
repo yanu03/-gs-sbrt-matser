@@ -21,7 +21,8 @@ public interface CurInfoMapper {
 	String getBusId(Map<String, Object> paramMap);
     Map<String, Object> getRoutMst(Map<String, Object> paramMap);
     
-	String selectCurNearAllocOperPlByRout(Map<String, Object> paramMap);
+	String selectCurNearAllocOperPlByRoutEvtData(Map<String, Object> paramMap);
+	String selectCurNearAllocOperPlByRoutNodeId(Map<String, Object> paramMap);
     
     Map<String, Object> getEventCode(Map<String, Object> paramMap);
     

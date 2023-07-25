@@ -713,7 +713,7 @@ public class EventHandler{
 						String eventData = busEvent.getEventData();
 						Map<String, Object> busEventMap = busEvent.toMap();
 						busEventMap.put("MNG_ID", sessionId);
-						byte eventCode = busEvent.getEventCode();
+						byte eventCode = busEvent.getEventCode();;
 
 						Map<String, Object> eventCodeMap = getCommonCode("OPER_EVT_TYPE", "NUM_VAL4", eventCode + "");
 						eventCd = (String) eventCodeMap.get("DL_CD");
@@ -752,8 +752,17 @@ public class EventHandler{
 						}
 	
 						try {
+							//기점 출발/도착
 							if (eventCode == (byte) 0x03 || eventCode == (byte) 0x04) {
-								String curNearStr = curInfoMapper.selectCurNearAllocOperPlByRout(busEventMap);
+								
+								String curNearStr = ""; 
+								if(eventData!=null&&eventData.length()>=9) { //기점 출발/도착인 경우 eventData에 정류소 id가 들어가는데.. 정류소 ID 9자리가 아닌경우 NodeId로 배차정보를 찾음
+									curInfoMapper.selectCurNearAllocOperPlByRoutEvtData(busEventMap);
+								}
+								else {
+									curInfoMapper.selectCurNearAllocOperPlByRoutNodeId(busEventMap);
+								}
+								
 								String curNearArr[] = curNearStr.split(",");
 								if(curNearArr.length==4) {
 									busEventMap.put("ALLOC_ID", curNearArr[0]);
@@ -765,8 +774,15 @@ public class EventHandler{
 							}
 							else {
 								Map<String, Object> curAllocPlInfo = getVhcOperInfo((String)busEventMap.get("VHC_ID"));
-								if(curAllocPlInfo==null) { //운행 정보를 못찾을 경우 10회가
-									String curNearStr = curInfoMapper.selectCurNearAllocOperPlByRout(busEventMap);
+								if(curAllocPlInfo==null) { 
+									String curNearStr = ""; 
+									if(eventData!=null&&eventData.length()>=9) { //정류소 출발/도착인 경우 eventData에 정류소 id가 들어가는데.. 정류소 ID 9자리가 아닌경우 NodeId로 배차정보를 찾음
+										curInfoMapper.selectCurNearAllocOperPlByRoutEvtData(busEventMap);
+									}
+									else {
+										curInfoMapper.selectCurNearAllocOperPlByRoutNodeId(busEventMap);
+									}
+									
 									String curNearArr[] = curNearStr.split(",");
 									if(curNearArr.length==4) {
 										busEventMap.put("ALLOC_ID", curNearArr[0]);

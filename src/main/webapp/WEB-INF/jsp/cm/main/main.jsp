@@ -59,6 +59,10 @@
 				closable : true
 			});
 		}
+		
+		var jf_gohome = function() {
+			top.window.location.href = "/";
+		}
 
 		$(document).ready(
 			function() {
