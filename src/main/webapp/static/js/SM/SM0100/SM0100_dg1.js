@@ -23,8 +23,8 @@ $(function(){
     remoteSort: false,
     multiSort: true,
     columns:[[
-        {field:'CO_CD',title:'공통코드',width:60,halign:'center',align:'center',hidden:true},
         {field:'DL_CD_NM',title:'상세코드명',width:220,align:'left',halign:'center',sortable:true,editor:{type:'textbox', options:{required:true,validType:['length[0,30]']}}},
+        {field:'CO_CD',title:'공통코드',width:60,halign:'center',align:'center',hidden:true},
         {field:'USE_YN',title:'사용여부',width:80,halign:'center',align:'center',sortable:true,editor:{type:'checkbox', options:{on:'Y', off:'N'}}},
         {field:'TXT_VAL1',title:'속성1(문자)',width:110,align:'left',halign:'center',editor:{type:'textbox', options:{validType:['length[0,30]']}}},
         {field:'TXT_VAL2',title:'속성2(문자)',width:110,align:'left',halign:'center',editor:{type:'textbox', options:{validType:['length[0,30]']}}},

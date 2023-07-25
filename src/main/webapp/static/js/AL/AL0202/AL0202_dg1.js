@@ -34,12 +34,14 @@ $(function(){
 		showFooter: true,
 		columns:[[
 			// {field:'ROUT_ID',title:'노선ID',width:100,halign:'center',align:'left'},
-			{field:'SN',title:'순번',width:100,halign:'center',align:'center',hidden:true},
 			{field:'ALLOC_NO',title:'배차번호',width:100,halign:'center',align:'center',editor:{type:'numberbox',options:{required:true,min:0,max:100}}},
+			{field:'ROUT_NM',title:'노선명',width:130,halign:'center',align:'left',hidden:false},	
 			{field:'OLD_ROUT_ID',title:'노선ID',width:100,halign:'center',align:'left',hidden:true},
+			{field:'ROUT_ID',title:'노선ID',width:100,halign:'center',align:'left',hidden:true},	
+			{field:'SN',title:'순번',width:100,halign:'center',align:'center',hidden:true},
 			{field:'ALLOC_ID',title:'배차ID',width:100,halign:'center',align:'left',hidden:true},
-			{field:'ROUT_NM',title:'노선명',width:130,halign:'center',align:'left',hidden:false},			
-			{field:'ROUT_ID',title:'노선ID',width:100,halign:'center',align:'left',hidden:true},			
+					
+					
 			/*
 			수정전 selectbox처리
 			{field:'ROUT_ID',title:'노선명',width:130,align:'left',halign:'center',formatter:function(value,row){return row.ROUT_NM;},

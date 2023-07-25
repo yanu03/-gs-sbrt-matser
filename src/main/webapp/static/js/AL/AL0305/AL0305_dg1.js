@@ -21,11 +21,11 @@ $(function(){
 	rownumbers: false,
 	showFooter: true,
 	columns:[[
+			{field:'ALLOC_NO',title:'배차번호',width:100,halign:'center',align:'center'},
+			{field:'ROUT_ST_TM',title:'출발시간',width:120,halign:'center',align:'center'},
 			{field:'OPER_DT',title:'운행일',width:100,halign:'center',align:'center',hidden:true},
 			//{field:'ALLOC_NO',title:'배차번호',width:100,halign:'center',align:'center',editor:{type:'numberbox',options:{required:true,min:0,max:100}}},
-			{field:'ALLOC_NO',title:'배차번호',width:100,halign:'center',align:'center'},
 			{field:'SN',title:'순번',width:100,halign:'center',align:'center',hidden:true},
-			{field:'ROUT_ST_TM',title:'출발시간',width:120,halign:'center',align:'center'},
 			{field:'ST_ROUT_ID',title:'시작노선ID',width:100,halign:'center',align:'center',hidden:true},
 			{field:'ST_ROUT_NM',title:'운행노선명',width:200,halign:'center',align:'left',editor:{type:'textbox',options:{required:true}}},
 			{field:'VHC_ID',title:'차량ID',width:100,halign:'center',align:'center',hidden:true},
