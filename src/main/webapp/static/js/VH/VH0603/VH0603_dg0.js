@@ -26,8 +26,8 @@ $(function(){
     multiSort: true,
     columns:[[
         {field:'UPD_DTM',title:'갱신일시',width:200,align:'center',halign:'center',sortable:true},
-        {field:'CRS_ID',title:'교차로아이디',width:200,align:'left',halign:'center',hidden:true},
         {field:'CRS_NM',title:'교차로명',width:200,align:'left',halign:'center',sortable:true},
+        {field:'CRS_ID',title:'교차로아이디',width:200,align:'left',halign:'center',hidden:true},
         {field:'CTR_STS',title:'제어기상태',width:100,align:'center',halign:'center',sortable:true},
         {field:'CTR_MODE',title:'신호제어모드',width:200,align:'center',halign:'center',sortable:true},
         {field:'A_PHASE_NO',title:'A_현시번호',width:150,halign:'center',align:'right',sortable:true},

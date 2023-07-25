@@ -21,9 +21,10 @@ $(function(){
     remoteSort: false,
     multiSort: true,
     columns:[[
-        {field:'AUTH_CD',title:'권한코드',width:120,halign:'center',align:'left',hidden:true},
+        
         {field:'USER_ID',title:'사용자 ID ',width:120,halign:'center',align:'left',sortable:true},
         {field:'USER_NM',title:'사용자명',width:120,align:'left',halign:'center',sortable:true},
+        {field:'AUTH_CD',title:'권한코드',width:120,halign:'center',align:'left',hidden:true},
         //{field:'ASSIGNED_TASK',title:'담당업무',width:400,align:'left',halign:'center',editor:{type:'textbox', options:{validType:['length[0,200]']}}},
         ]],
 	frozenColumns:[[
