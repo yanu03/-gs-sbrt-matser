@@ -41,6 +41,12 @@ public class WsClient {
 				messagingTemplate.convertAndSend("/subscribe/dispatch", wsMap);
 			break;
 
+			case BrtAtCode.TRAFFIC_MODULE_TWO:
+			case BrtAtCode.TRAFFIC_MODULE_THREE:
+				messagingTemplate.convertAndSend("/subscribe/prioritysignal", wsMap);
+			break;
+			
+			
 			case BrtAtCode.BUS_ARRIVAL_INFO:
 				messagingTemplate.convertAndSend("/subscribe/arrival", wsMap);
 			break;

@@ -14,9 +14,6 @@
 	<script type="text/javascript">
 		$( document ).ready(function() {
     });
-	var dlt_OPER_ALLOC_PL_ROUT_INFO = null;
-	var dlt_OPER_ALLOC_PL_ROUT_CNT = null;
-	var dlt_VIEW_OPER_PL_ROUT_INFO = [];
 
 	var js_allocId = null;
 	var js_dayDiv = null;

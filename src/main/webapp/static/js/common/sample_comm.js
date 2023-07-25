@@ -1077,16 +1077,18 @@ $.jf_seqdgdata = function(a_url, a_method) {
 작성일 : 2023-04-18
 기능 : ajax를 실행하여 변수에 저장하는 기능
 **/
-$.jf_ajaxtovar = function(a_url, a_method, a_var) {
+$.jf_ajaxtovar = function(a_url, a_method, a_param) {
+	let rtn_value;
 	$.ajax({
 		type: a_method,
 		url: a_url,
+		data: a_param,
 		dataType: 'json',
 		async: false,
 		contentType: 'application/json; charset=utf-8',
 		success: function(data){
 			if(typeof(data['rows']) != "undefined"){
-				a_var = data['rows']
+				rtn_value = data['rows']
 			}else{
 				let msgtext = data['rsMsg']['message'];
 				top.$.messager.alert('sever massage',msgtext);
@@ -1100,10 +1102,9 @@ $.jf_ajaxtovar = function(a_url, a_method, a_var) {
 			}
 			else
 				error.apply(this, arguments);
-			rtn_value = false;
 		}
 	});
-	return a_var;
+	return rtn_value;
 }
 
 /** 

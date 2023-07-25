@@ -100,6 +100,15 @@ $(function () {
             // }+
             
         });
+
+		js_client.subscribe('/subscribe/signal', function (chat) {
+            var v_item = JSON.parse(chat.body);
+            if(typeof($.pf_socksig) != "undefined"){
+                if(!$.pf_socksig(v_item)) return false;
+            }
+        });
+
+
     });
 
     js_sendBtn.click(function () {

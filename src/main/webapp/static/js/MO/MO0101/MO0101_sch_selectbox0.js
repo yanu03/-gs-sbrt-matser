@@ -33,6 +33,7 @@
 			$.jf_bgajax('/rout/selectNodeListByRout', 'POST', v_param, 'bg0');
 			$.jf_bgajax('/rout/selectNodeListByRout', 'POST', v_sttnParam, 'bg1');
 			$.jf_bgajax('/rout/selectNodeListByRout', 'POST', v_crsParam, 'bg2');
+			js_sigList = $.jf_ajaxtovar('/mo/MO0101P0R0', 'POST', null);
 	    }
 	});
 });

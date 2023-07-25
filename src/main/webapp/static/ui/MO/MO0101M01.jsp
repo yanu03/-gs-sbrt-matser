@@ -25,6 +25,7 @@
 		js_map.relayout();
 	}
 	
+	var js_sigList = [];
 	
 	$( document ).ready(function() {
 			
@@ -63,7 +64,13 @@
 			for(var i=0; i<a_data.length; i++) {
 				$.jf_addimgmarker(a_data[i]);
 				$.jf_addoverlay(a_data[i]);			
-			}			
+			}
+			for(var i=0; i<js_sigList.length; i++){
+				$.jf_addsigmarker(js_sigList[i], a_data);
+			}
+						
+			//marker.id = a_data.CRS_ID;
+			
 		}
 		return true;
 	}		
@@ -110,7 +117,8 @@
 			DSPTCH_CONTS : contsResult,
 		};
 		// $.jf_append($('#dg1'), v_params);
-		$.jf_insert($('#dg2'), v_params, 0);
+		//$.jf_insert($('#dg2'), v_params, 0);
+		$('#dg2').datagrid('insertRow', {index : 0, row: v_params});
 		//if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
 		$.jf_adddsptchoverlay(a_data);
 		return true;
@@ -126,11 +134,14 @@
 			GPS_Y : a_data.GPS_Y,
 			GPS_X : a_data.GPS_X
 		}
-		if(!$.jf_dupcheck($('#dg0'), 'VHC_ID', a_data.VHC_ID)) $.jf_insert($('#dg0'), v_params, 0);
+		$('#dg1').datagrid('insertRow', {index : 0, row: v_params});
+		//if(!$.jf_dupcheck($('#dg0'), 'VHC_ID', a_data.VHC_ID)) $.jf_insert($('#dg0'), v_params, 0);
+		if(!$.jf_dupcheck($('#dg0'), 'VHC_ID', a_data.VHC_ID)) $('#dg0').datagrid('insertRow', {index : 0, row: v_params});
 		else {
 			let v_index = $.jf_fndduprow($('#dg0'), 'VHC_ID', a_data.VHC_ID);
 			$('#dg0').datagrid('updateRow',{index:v_index,row:v_params});
 		}
+		if($.jf_datalength($('#dg0')) == 1) $.jf_setfocus($('#dg0'), 0);
 		return true;
 	}
 
@@ -193,19 +204,23 @@
 				GPS_Y : a_data.GPS_Y,
 				CUR_SPD : a_data.CUR_SPD,			
 			}
-		$.jf_insert($('#dg1'), v_params, 0);
-		if(!$.jf_dupcheck($('#dg0'), 'VHC_ID', a_data.VHC_ID)) $.jf_insert($('#dg0'), v_params, 0);
+		
+		//$.jf_insert($('#dg1'), v_params, 0);
+		$('#dg1').datagrid('insertRow', {index : 0, row: v_params});
+		//if(!$.jf_dupcheck($('#dg0'), 'VHC_ID', a_data.VHC_ID)) $.jf_insert($('#dg0'), v_params, 0);
+		if(!$.jf_dupcheck($('#dg0'), 'VHC_ID', a_data.VHC_ID)) $('#dg0').datagrid('insertRow', {index : 0, row: v_params});
 		else {
 			let v_index = $.jf_fndduprow($('#dg0'), 'VHC_ID', a_data.VHC_ID);
 			$('#dg0').datagrid('updateRow',{index:v_index,row:v_params});
 		}
-		//if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
+		if($.jf_datalength($('#dg0')) == 1) $.jf_setfocus($('#dg0'), 0);
+		if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
 		$.jf_addevtoverlay(a_data);
 		return true;		
 	}
 	
 	$.pf_socksig = function(a_data){
-		
+		$.jf_changesigmarker(js_sigList, a_data);
 	}
 
 	</script>

@@ -36,7 +36,7 @@ const mapOption = {
 	DISP_IMG_SIZE : (12, 12),
 	DISP_IMG : '/static/img/vertex.png',
 	DISP_IMG_SEL : '/static/img/vertex_selected.png',
-	SIGNAL_IMG_SIZE : (20,12),
+	SIGNAL_IMG_SIZE : (25,24),
 	SIGNAL_IMG_GREEN : '/static/img/light_green.png',
 	SIGNAL_IMG_RED : '/static/img/light_red.png',
 	SOUND_IMG_SIZE : (15,20),
@@ -1108,7 +1108,8 @@ $.jf_addevtoverlay = function(a_data){
 				}
 				stopTime = 0;
 				//clearInterval(addStopTime);
-				$.jf_deleteOverlay($.jf_fndicostrct('_evt'));
+				//임시, Timeout이 걸려 이미 if문에 걸린 상태로 delete를 여러번 시도함
+				if(($.jf_fndicostrct('_evt')) != null)$.jf_deleteOverlay($.jf_fndicostrct('_evt'));
 			},1500)			
 		}
 	} 
@@ -1150,24 +1151,29 @@ $.jf_setBITInfo = function(a_datas) {
 작성일 : 2023-07-18
 기능 : 신호 마커 만들기
 **/
-$.jf_addsigmarker = function(a_data) {
+$.jf_addsigmarker = function(a_data, a_crsList) {
 	let zIndex = mapOption.ZINDEX_SIG_MARKER;
 	
 	let imageSize = new kakao.maps.Size(mapOption.SIGNAL_IMG_SIZE);
 	let markerImage = new kakao.maps.MarkerImage(mapOption.SIGNAL_IMG_RED, imageSize);
 	//let markerSelImage = new kakao.maps.MarkerImage(mapOption.SIGNAL_IMG_GREEN, imageSize);
 
+	let v_matchingCRS = a_crsList.find(item => item.CRS_ID === a_data.CRS_ID);
 	// if(a_idx == a_focusidx) markerImage = markerSelImage;
-	let marker = new kakao.maps.Marker({
-		position: new kakao.maps.LatLng(a_data.GPS_Y, a_data.GPS_X),
-		image: markerImage,
-		zIndex : zIndex,
-	})
-	
-	marker.id = a_data.CRS_ID + '_sig' + a_data.SGNL_SN;
-	marker.setMap(js_map);
-	js_sigstruct.push(marker);
-
+	if (v_matchingCRS) {
+		let marker = new kakao.maps.Marker({
+			position: new kakao.maps.LatLng(a_data.GPS_Y, a_data.GPS_X),
+			image: markerImage,
+			zIndex : zIndex,
+		})
+		//a_crsList에는 맵에 찍힌 crsId들이 있다.
+		//a_crsList에 a_data.CRS_ID가 포함되어 있다면, 마커를 그린다.
+		
+		
+		marker.id = a_data.CRS_ID + '_sig' + a_data.SGNL_SN;
+		marker.setMap(js_map);
+		js_sigstruct.push(marker);
+	}
 	return true;
 }
 
@@ -1192,21 +1198,33 @@ $.jf_fndicsigstruct = function(a_id){
 기능 : 신호 마커 색 변경
 **/
 $.jf_changesigmarker = function(a_baseData, a_sockData) {
-	let v_greenImage = new kakao.maps.Size(mapOption.SIGNAL_IMG_GREEN);
-	let v_redImage = new kakao.maps.Size(mapOption.SIGNAL_IMG_RED);
-	let markerImage = new kakao.maps.MarkerImage(v_redImage, mapOption.SIGNAL_IMG_SIZE);
+	let v_greenImage = mapOption.SIGNAL_IMG_GREEN;
+	let v_redImage = mapOption.SIGNAL_IMG_RED;
+	let v_imageSize = new kakao.maps.Size(mapOption.SIGNAL_IMG_SIZE);
+	let v_phaseList = a_sockData.LIST;
 	
-	if(a_baseData.PHASE_NO.indexOf(a_sockData)>-1)	markerImage = new kakao.maps.MarkerImage(v_greenImage, mapOption.SIGNAL_IMG_SIZE);
-		
-	let markers = $.jf_fndicsigstruct(a_baseData.CRS_ID);
-	if(markers.length != 0){
-		//현시에 맞게 마커 이미지들 변경되게 하는 코드 추가해야함
-		for(var i=0; i<markers.length; i++) {
-			markers[i].setImage(markerImage);
+	for (let baseData of a_baseData) {
+		let basePhaseNo = baseData.PHASE_NO.split(",");
+		let v_markerImage;
+
+		for(let sockData of v_phaseList){
+			if (baseData.CRS_ID === sockData.CRS_ID) {
+				if (basePhaseNo.includes(sockData.PHASE_NO.toString())) {
+					v_markerImage = new kakao.maps.MarkerImage(v_greenImage, v_imageSize);
+				} else {
+					v_markerImage = new kakao.maps.MarkerImage(v_redImage, v_imageSize);
+				}
+				
+				//let markers = $.jf_fndicsigstruct(baseData.CRS_ID);
+				let markerId = baseData.CRS_ID + '_sig' + baseData.SGNL_SN;
+				let markers = $.jf_fndicsigstruct(markerId);
+				if(markers.length != 0){
+					for(let marker of markers) {
+						marker.setImage(v_markerImage);
+					}
+				}
+			}
 		}
 	}
-
 	return true;
 }
-
-

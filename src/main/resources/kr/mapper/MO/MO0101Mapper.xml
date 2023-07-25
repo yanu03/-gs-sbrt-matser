@@ -318,11 +318,16 @@
 	
 	<select id="MO0101P0R0" resultType="Map">
 	
-		SELECT			MSG_ID
-					,	MSG_NM
-					,	MSG_CONTS
-					
-		FROM			BMS_OPER_INST_MSG_MST			
+		SELECT			CRS_ID
+					,	SGNL_SN
+					,	PHASE_NO
+					,	GPS_X
+					,	GPS_Y
+					,	TM_X
+					,	TM_Y
+					,	UPD_DTM
+					,	UPD_ID
+		FROM			BMS_CRS_SGNL_CMPSTN			
 	
 	</select>
 	
