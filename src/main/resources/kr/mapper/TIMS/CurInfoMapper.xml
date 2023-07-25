@@ -168,7 +168,7 @@
 		FROM
 			BMS_VHC_MST A
 		LEFT OUTER JOIN
-			BRT_CUR_OPER_INFO B
+			BMS_CUR_OPER_INFO B
 		ON A.VHC_ID = B.VHC_ID
 		WHERE B.OPER_DT = #{OPER_DT}
 		  AND A.VHC_ID = #{VHC_NO}
@@ -288,12 +288,11 @@
 		   , UPD_DTM = VALUES(UPD_DTM)
 	</insert>
 	
-	
 	<insert id="insertOrUpdateSigOperEventInfo" parameterType="HashMap">
 		INSERT INTO BMS_CRS_SIGOPER_EVENT_HIS (
 			 UPD_DTM
 		   , NODE_ID
-		   , REP_ROUT_ID
+		   , ROUT_GRP
 		   , ROUT_ID
 		   , VHC_NO
 		   , CTRL_LV
@@ -305,7 +304,7 @@
 		VALUES (
 			  NOW(3)
 			   , #{NODE_ID}
-			   , #{REP_ROUT_ID}
+			   , #{ROUT_GRP}
 			   , #{ROUT_ID}
 			   , #{VHC_NO}
 			   , #{CTRL_LV}

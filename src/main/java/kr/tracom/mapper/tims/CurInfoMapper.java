@@ -52,5 +52,7 @@ public interface CurInfoMapper {
 	
 	String getSttnLinkId(Map<String, Object> paramMap);
 
+	Map<String, Object> selectCurOperInfoByVhcNo(Map<String, Object> paramMap);
+	
 	int insertOrUpdateSigOperEventInfo(Map<String, Object> paramMap);
 }

@@ -427,14 +427,14 @@ $.jf_adddsptchoverlay = function(a_data) {
 	
 	if ($.jf_fndicostrct('_dsptch') != null && $.jf_fndicostrct('_evt') == null) {
 		setTimeout(function() {
-			$.jf_deleteOverlay($.jf_fndicostrct('_dsptch'));
+			if(($.jf_fndicostrct('_dsptch')) != null) $.jf_deleteOverlay($.jf_fndicostrct('_dsptch'));
 		},mapOption.DISPATCH_OVERLAY_TIME);	
 	}
 	
 	else if($.jf_fndicostrct('_dsptch') != null && $.jf_fndicostrct('_evt') != null) {
 		$("#busInfoPopup").css("bottom", "42px");
 		setTimeout(function() {
-			$.jf_deleteOverlay($.jf_fndicostrct('_dsptch'));		
+			if(($.jf_fndicostrct('dsptch')) != null) $.jf_deleteOverlay($.jf_fndicostrct('_dsptch'));		
 		},mapOption.DISPATCH_OVERLAY_TIME);			
 	}
 

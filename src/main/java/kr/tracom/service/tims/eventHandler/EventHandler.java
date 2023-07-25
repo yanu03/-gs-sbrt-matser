@@ -713,7 +713,7 @@ public class EventHandler{
 						String eventData = busEvent.getEventData();
 						Map<String, Object> busEventMap = busEvent.toMap();
 						busEventMap.put("MNG_ID", sessionId);
-						byte eventCode = busEvent.getEventCode();;
+						byte eventCode = busEvent.getEventCode();
 
 						Map<String, Object> eventCodeMap = getCommonCode("OPER_EVT_TYPE", "NUM_VAL4", eventCode + "");
 						eventCd = (String) eventCodeMap.get("DL_CD");

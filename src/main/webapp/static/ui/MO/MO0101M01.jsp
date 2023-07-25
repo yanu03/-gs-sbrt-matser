@@ -134,7 +134,6 @@
 			GPS_Y : a_data.GPS_Y,
 			GPS_X : a_data.GPS_X
 		}
-		$('#dg1').datagrid('insertRow', {index : 0, row: v_params});
 		//if(!$.jf_dupcheck($('#dg0'), 'VHC_ID', a_data.VHC_ID)) $.jf_insert($('#dg0'), v_params, 0);
 		if(!$.jf_dupcheck($('#dg0'), 'VHC_ID', a_data.VHC_ID)) $('#dg0').datagrid('insertRow', {index : 0, row: v_params});
 		else {
@@ -204,7 +203,6 @@
 				GPS_Y : a_data.GPS_Y,
 				CUR_SPD : a_data.CUR_SPD,			
 			}
-		
 		//$.jf_insert($('#dg1'), v_params, 0);
 		$('#dg1').datagrid('insertRow', {index : 0, row: v_params});
 		//if(!$.jf_dupcheck($('#dg0'), 'VHC_ID', a_data.VHC_ID)) $.jf_insert($('#dg0'), v_params, 0);

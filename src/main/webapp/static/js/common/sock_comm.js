@@ -108,6 +108,14 @@ $(function () {
             }
         });
 
+		js_client.subscribe('/subscribe/prioritysignal', function (chat) {
+			debugger;
+            var v_item = JSON.parse(chat.body);
+            if(typeof($.pf_sockprisig) != "undefined"){
+                if(!$.pf_sockprisig(v_item)) return false;
+            }
+        });
+
 
     });
 
