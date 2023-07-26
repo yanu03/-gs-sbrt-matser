@@ -106,11 +106,11 @@ $(function(){
         let v_selected = $('#dg0').datagrid('getSelected');
         $.jf_exceldownload($('#dg1'), '/vd/VD0100G0_exlDownload?param='+ v_selected.VHC_ID+'&name='+ v_selected.VHC_NO);
     });
- 
+
     $('#btn8').bind('click', function(){
         $.tracomcfmsg('확인', '엑셀 업로드시 차량관리 데이터가 재 갱신됩니다. 엑셀 업로드를 하시겠습니까?', 'excelupload');
     });
- 
+
     $("#excelinputfile").on("change", function(e){
         var form = $("#excelfrm")[0];
         var formData = new FormData(form); 

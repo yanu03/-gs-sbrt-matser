@@ -84,7 +84,7 @@
 				$('#dg1').datagrid('updateRow',{index:i,row:v_vals});
 			}
 		}*/
-		debugger;
+		
 		//현재 row와 아래 row만 변경
 		if (v_index < v_data.rows.length - 1) {
 			let v_data = $('#dg1').datagrid('getData');

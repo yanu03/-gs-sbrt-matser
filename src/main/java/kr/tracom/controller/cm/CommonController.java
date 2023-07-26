@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -286,20 +288,6 @@ public class CommonController extends ControllerSupport {
 
 		return result.getResult();
 	}
-
-	@RequestMapping("/common/selectCommonCo_exlDownload")
-    public String selectCommonCo_exlDownload(Model model) throws Exception {
-		
-		String[] getValues = {"CO_CD", "CO_CD_NM", "SORT", "USE_YN", "REMARK"};
-		String[] headerTitle = {"공통코드", "공통코드명 ", "순서", "사용여부", "비고"};
-		
-		model.addAttribute("title", "공통코드정보");
-		model.addAttribute("headerTitle", headerTitle);
-		model.addAttribute("getValues", getValues);
-		model.addAttribute("excelList", commonService.selectCommonCo_exlDownload());
-		return "ExcelView";
-        //return new ModelAndView("ExcelView", "map", result);
-	}
 	
     /*@RequestMapping(value = "/common/checkForeignTable", method = RequestMethod.GET, produces="application/json")*/
 	@RequestMapping(value = "/common/checkForeignTable")	
@@ -310,5 +298,22 @@ public class CommonController extends ControllerSupport {
                   
         return result.getResult();
     }
+	
+	@RequestMapping("/common/commonDtl_exlDownload")
+    public String selectCommonCo_exlDownload(HttpServletRequest req ,Model model) throws Exception {
+		String param = req.getParameter("param1");
+		String name = req.getParameter("param2");
+		String[] getValues = {"DL_CD", "DL_CD_NM", "SORT", "TXT_VAL1", "TXT_VAL2", "TXT_VAL3", "NUM_VAL4", "NUM_VAL5", "NUM_VAL6", 
+				"USE_YN", "REMARK"};
+		String[] headerTitle = {"상세코드", "상세코드명 ", "순서", "참조값1", "참조값2", "참조값3", "참조값4", "참조값5", "참조값6", 
+				"사용여부", "비고"};
+		
+		model.addAttribute("title", name+"상세코드정보");
+		model.addAttribute("headerTitle", headerTitle);
+		model.addAttribute("getValues", getValues);
+		model.addAttribute("excelList", commonService.commonDtl_excelDownload(param));
+		return "ExcelView";
+        //return new ModelAndView("ExcelView", "map", result);
+	}
 	
 }
