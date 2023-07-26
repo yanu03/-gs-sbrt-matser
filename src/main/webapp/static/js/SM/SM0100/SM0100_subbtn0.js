@@ -48,7 +48,7 @@ $(function(){
     $('#sub_btn0').bind('click', function(){
         if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')){
             if(!$.jf_changeddg($('#dg0'), null)){
-								$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
+                $.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
                 $.jf_append($('#dg1'), $.pf_defaultparams($('#dg1')));
             }else{
                 $.tracomalmsg('정보', '저장되지 않는 데이터가 있어 추가할 수 없습니다.', null);

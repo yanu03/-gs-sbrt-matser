@@ -67,8 +67,8 @@ $(function(){
     });
     $('#btn2').bind('click', function(){
         if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g')){
-						if(!$.jf_changeddg($('#dg1'), null)){
-								$.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
+            if(!$.jf_changeddg($('#dg1'), null)){
+                $.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
                 $.jf_append($('#dg0'), $.pf_defaultparams($('#dg0')));
             }else{
                 $.tracomalmsg('정보', '저장되지 않는 데이터가 있어 추가할 수 없습니다.', null);
@@ -119,7 +119,8 @@ $(function(){
     });
     
     $('#btn7').bind('click', function(){
-        $.jf_exceldownload($('#dg0'), '/common/selectCommonCo_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
+        let v_selected = $('#dg0').datagrid('getSelected');
+        $.jf_exceldownload($('#dg1'), '/common/commonDtl_exlDownload?param1='+ v_selected.CO_CD + '&param2=' + v_selected.CO_CD_NM);
     });
  
     $('#btn8').bind('click', function(){

@@ -105,7 +105,7 @@ $(function(){
     });
     
     $('#btn7').bind('click', function(){
-        $.jf_exceldownload($('#dg1'), '/authority/selectAuthorityList_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
+        $.jf_exceldownload($('#dg0'), '/authority/authorityList_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
     });
  
     $('#btn8').bind('click', function(){

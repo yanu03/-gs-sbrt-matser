@@ -68,7 +68,8 @@ $(function(){
         if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g')) $.jf_savedgdata($('#dg1'), '/authority/saveAuthorityMember', 'post', null);
     }); 
     $('#sub_btn7').bind('click', function(){
-        $.jf_exceldownload($('#dg1'), '/member/searchMemberBasic_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
+        let v_selected = $('#dg0').datagrid('getSelected');
+        $.jf_exceldownload($('#dg1'), '/authority/authorityMemberList_exlDownload?param='+ v_selected.AUTH_CD);
     });
  
     $('#sub_btn8').bind('click', function(){
