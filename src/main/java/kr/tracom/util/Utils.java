@@ -34,7 +34,7 @@ public class Utils {
 		ProgramToTable = new HashMap<String, Object>() {{
     	    put("SI0102", "BMS_TRANSCOMP_MST");
     	    put("SI0200", "BMS_VHC_MST");
-    	    put("SI0102", "BMS_DRV_MST");
+    	    put("SI0300", "BMS_DRV_MST");
     	    put("VD0100", "BMS_DVC_INFO");
     	    put("SI0401", "BMS_ROUT_MST");
     	    put("SI0501", "BMS_STTN_MST");
@@ -46,10 +46,14 @@ public class Utils {
     	    put("AL0202_2", "BMS_OPER_ALLOC_PL_ROUT_INFO");
     	    put("AL0203", "BMS_OPER_ALLOC_PL_NODE_INFO");
     	    put("AL0302", "BMS_ALLOC_PL_INFO");
+    	    put("SM0100", "BMS_CO_CD_INFO");
+    	    put("SM0100_2", "BMS_DL_CD_INFO");
+    	    put("SM0401", "BMS_USER_MST");
     	}};
 	}
 	private static void initTableToProgramNm() {
 		TableToProgramNm = new HashMap<String, Object>() {{
+			put("BMS_TRANSCOMP_MST","운수사 정보 관리");
     	    put("BMS_ROUT_NODE_CMPSTN", "노선 경로정보 관리");
     	    put("BMS_VHC_MST", "차량 관리");
     	    put("BMS_DRV_MST", "운전자 관리");
@@ -60,6 +64,8 @@ public class Utils {
     	    put("BMS_OPER_ALLOC_PL_NODE_INFO", "운행계획 세부 관리");
     	    put("BMS_ALLOC_VHC_CMPSTN", "배차별 차량 관리");
     	    put("BMS_ALLOC_DRV_CMPSTN", "배차별 운전자 관리");
+    	    put("BMS_ALLOC_PL_INFO", "차량배차 관리");
+    	    put("BMS_DVC_INFO", "차내장치정보 관리");
     	}};
 	}	
 	

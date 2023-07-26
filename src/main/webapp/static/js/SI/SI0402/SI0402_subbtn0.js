@@ -115,8 +115,11 @@
 		}
 	});
 	$('#subbtn2').bind('click', function(){
-		$.jf_delete($('#dg1'));
-		$.jf_drawroute($('#dg1').datagrid('getData')['rows']);
+		$.jf_checkforeigntable($.jf_curdgrow($('#dg1')),"SI0402", function(){
+				$.jf_delete($('#dg1'));
+				$.jf_drawroute($('#dg1').datagrid('getData')['rows']);
+			}
+		);	
 	});
 	$('#subbtn6').bind('click', function(){
 		if($.jf_changeddg($('#dg1'), null)) {

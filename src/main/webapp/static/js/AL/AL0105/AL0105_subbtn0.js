@@ -24,7 +24,11 @@ $(function(){
     });
     $('#out_btn').bind('click', function(){
 		  //alert('out');
-      $.uf_movevhc("del");
+      $.jf_checkforeigntable($.jf_curdgrow($('#dg2')),"AL0105", function(){
+        $.uf_movevhc("del");
+        //$.jf_delete($('#dg0'));
+          }
+      );
     });
     
     

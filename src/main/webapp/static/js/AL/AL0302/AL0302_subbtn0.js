@@ -48,8 +48,10 @@
 		} 
   });
   $('#subbtn2').bind('click', function(){
-	//삭제
-	$.jf_delete($('#dg1'));
+		$.jf_checkforeigntable($.jf_curdgrow($('#dg1')),"AL0302", function(){
+					$.jf_delete($('#dg1'));
+			}
+		);
   });
   $('#subbtn3').bind('click', function(){
 	//배포

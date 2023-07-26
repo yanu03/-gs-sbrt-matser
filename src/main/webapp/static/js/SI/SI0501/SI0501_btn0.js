@@ -75,7 +75,11 @@ $(function(){
 	});
 	$('#btn2').bind('click', function(){
 		//미완료, 삭제시 데이터검증 필요함.
-		$.jf_delete($('#dg0'));
+		$.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"SI0501", function(){
+					$.jf_delete($('#dg0'));
+				}
+		);
+		
 	});
 	$('#btn3').bind('click', function(){
 		if($.jf_changeddg($('#dg0'), 'all')) {

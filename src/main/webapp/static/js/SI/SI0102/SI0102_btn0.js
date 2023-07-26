@@ -80,7 +80,10 @@ $(function(){
     $('#btn2').bind('click', function(){
         // 삭제할때 사용된 데이터가 있는지 확인 후 삭제를 해야함
         // 현재는 확인할 URL이 없기때문에 나중에 확인해야함
-        $.jf_delete($('#dg0'));
+        $.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"SI0102", function(){
+                $.jf_delete($('#dg0'));
+            }
+        );
     });
     $('#btn3').bind('click', function(){
         if($.jf_changeddg($('#dg0'), 'all')) {
