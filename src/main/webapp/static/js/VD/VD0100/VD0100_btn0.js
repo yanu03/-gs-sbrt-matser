@@ -103,7 +103,8 @@ $(function(){
         else $.jf_close();
     });
     $('#btn7').bind('click', function(){
-        $.jf_exceldownload($('#dg0'), '/vd/VD0100G0_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
+        let v_selected = $('#dg0').datagrid('getSelected');
+        $.jf_exceldownload($('#dg1'), '/vd/VD0100G0_exlDownload?param='+ v_selected.VHC_ID+'&name='+ v_selected.VHC_NO);
     });
  
     $('#btn8').bind('click', function(){
