@@ -8,9 +8,12 @@
 	 		,USER_ID
 	 		,USER_NM
 	 		,LOGIN_STS
+	 		,DL1.DL_CD_NM AS LOGIN_STS_NM
 	 		,IP
 		FROM 
-			BMS_USER_HIS
+			BMS_USER_HIS A
+			LEFT JOIN BMS_DL_CD_INFO DL1
+			ON A.LOGIN_STS = DL1.DL_CD AND DL1.CO_CD = 'LOGIN_STS'			
 			
 		<where>
 			<if test="TYPE == 'ALL' and CONTENT != null and CONTENT != ''">

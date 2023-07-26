@@ -25,7 +25,7 @@
 	</update>
 	
 	<insert id="insertLoginHis" parameterType="Map">
-		INSERT INTO PLF_USER_HIS(
+		INSERT INTO BMS_USER_HIS(
 			OCR_DTM
 			,USER_ID
 			,USER_NM
@@ -42,7 +42,7 @@
 	</insert>
 	
 	<insert id="insertLogoutHis" parameterType="Map">
-		INSERT INTO PLF_USER_HIS(
+		INSERT INTO BMS_USER_HIS(
 			OCR_DTM
 			,USER_ID
 			,USER_NM
