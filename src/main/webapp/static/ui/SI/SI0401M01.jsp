@@ -190,6 +190,8 @@
 <div id="selbustop">
     <script src="/static/js/common/modal_selbustop.js"></script>
 </div>
-
+<div id="selcomp">
+	<script src="/static/js/common/modal_selcomp.js"></script>
+</div>
 </body>
 </html>
