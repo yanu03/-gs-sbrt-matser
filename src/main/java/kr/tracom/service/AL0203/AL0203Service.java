@@ -1,5 +1,6 @@
 package kr.tracom.service.AL0203;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import kr.tracom.mapper.AL0203.AL0203Mapper;
 import  kr.tracom.service.cm.OperPlan.OperPlanService;
 import kr.tracom.support.ServiceSupport;
 import kr.tracom.support.exception.MessageException;
+import kr.tracom.util.CommonUtil;
 import kr.tracom.util.Result;
 
 @Service
@@ -125,5 +127,23 @@ public class AL0203Service extends ServiceSupport {
 		//Map<String, Object> map = getSimpleDataMap("dma_search");
 		return al0203Mapper.AL0203P1R0();
 	}
+	
+	public List AL0203G1_exlDownload(String allocId, String allocNo) throws Exception {
+	      String allocid = allocId;
+	      String allocno = allocNo;
+	      Map<String, Object> map = new HashMap<String, Object>();
+	      if(CommonUtil.empty(allocid) && CommonUtil.empty(allocno)){
+	         map.put("TYPE", "ALL");
+	         map.put("ALLOC_ID", "");
+	         map.put("ALLOC_NO", "");
+	      }
+	      else{
+	         map.put("TYPE", "ALL");
+	         map.put("ALLOC_ID", allocid);
+	         map.put("ALLOC_NO", allocno);
+	      }
+	
+	      return al0203Mapper.AL0203G1R0(map);
+   }
 	
 }

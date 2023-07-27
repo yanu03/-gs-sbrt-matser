@@ -16,10 +16,9 @@
    <script type="text/javascript" src="/static/jquery/jquery.fileDownload-1.4.5.js"></script> 
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=100faa0e8b0c72a3da69169f45883b0b"></script>
    <script type="text/javascript">
-      $( document ).ready(function() {
-         
-         
-    });
+   $( document ).ready(function() {
+
+   });
 
    dlt_OPER_ALLOC_PL_NODE_INFO = [];
    let isPathAdd;
@@ -27,32 +26,47 @@
    let isCrossAdd;
    let curPoint; //클릭 이벤트용 전역변수
    
-    $.pf_append = function(){return true;}
-    $.pf_delete = function(){return true;}
-    $.pf_validatedata = function(a_obj, a_idx, a_type){return true;}
-    $.pf_setfocus = function(a_obj, a_idx){return true;}
-    $.pf_retrieve = function(a_obj) {return true;}
+   let uv_nodemap = {
+      "ROUT_ID" : 10,
+      "NODE_ID" : 10,
+      "NODE_SN" : 12,
+      "WAY_DIV" : 5,
+      "LINK_ID" : 10,
+      "STTN_ID" : 10,
+      "CRS_ID" : 10,
+      "GPS_X" : 18,
+      "GPS_Y" : 18,
+      "NODE_NM" : 30,
+      "NODE_TYPE" : 5,
+      "REMARK" : 200
+   };
+
+   $.pf_append = function(){return true;}
+   $.pf_delete = function(){return true;}
+   $.pf_validatedata = function(a_obj, a_idx, a_type){return true;}
+   $.pf_setfocus = function(a_obj, a_idx){return true;}
+   $.pf_retrieve = function(a_obj) {return true;}
    //자식 검색
-    $.pf_childretrieve = function(a_obj, a_params){return true;}
-    $.pf_setfooter = function(a_obj){return true;}
+   $.pf_childretrieve = function(a_obj, a_params){return true;}
+   $.pf_setfooter = function(a_obj){return true;}
       
    //검색조건 파라미터
-    $.pf_combineparams = function(a_obj){
-       let rtn_params;
-       if(a_obj.attr('id') == "dg0"){
-          rtn_params = {CONTENT : $("#sch_sb0").searchbox('getValue'), TYPE : 'ALL'};  
-       }
-       return rtn_params;
-    };
-    
+   $.pf_combineparams = function(a_obj){
+      let rtn_params;
+      if(a_obj.attr('id') == "dg0"){
+         rtn_params = {CONTENT : $("#sch_sb0").searchbox('getValue'), TYPE : 'ALL'};  
+      }
+      return rtn_params;
+   };
+   
    //추가 파라미터
-    $.pf_defaultparams = function(a_obj){
+   $.pf_defaultparams = function(a_obj){
       let rtn_params;
       if(a_obj.attr('id') == "dg0") rtn_params = {ROUT_ID:$.jf_seqdgdata('/si/SI0402G0K0', 'post')}
-       return rtn_params;
-    }
-    
-    $.pf_modalselect = function(a_obj){return true;}
+      return rtn_params;
+   }
+   
+   $.pf_modalselect = function(a_obj){return true;}
 
    $.pf_acceptcfmsg = function(a_type){
       if(a_type == 'save'){
@@ -77,9 +91,9 @@
             $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
       }
       if(a_type == 'excelupload'){
-          $("#excelupload_p0").window('open');
-          $("#excelinputfile").val('');
-       }
+         $("#excelupload_p0").window('open');
+         $("#excelinputfile").val('');
+      }
       return true;
    }
       
@@ -224,6 +238,88 @@
       if(isCrossAdd) js_map.setCursor('move'); 
    }
 
+// ------------------------------------------ 엑셀 업로드 ------------------------------------------
+
+   $.uf_exlvalidatedata = function(){
+      let rtn_value = true;
+      let v_data = $('#dg1').datagrid('getRows');
+
+      for(let i=0; i < v_data.length; i++){
+         if(v_data[i].msg != null && typeof(v_data[i].msg) != 'undefined'){
+               if(!$.uf_subvalidate(v_data[i])) rtn_value = false;
+            }
+      }
+
+      return rtn_value;
+   }
+
+   $.uf_subvalidate = function(a_data){
+      let rtn_value = true;
+      
+      for(key in a_data){
+            // debugger;
+            for(key2 in uv_nodemap){
+               if(key == key2){
+                  if(a_data[key].length > uv_nodemap[key2]){
+                        rtn_value = false;
+                        //if(rtn_value == false) console.log("key : " + key+ ", value : " + a_data[key]);
+                  }
+               }
+            }
+      }
+
+      return rtn_value;
+   }
+
+   $.uf_updategrid = function(a_obj, a_data){     
+      // debugger; 
+      a_obj.datagrid('loadData',[]);
+      for(let i=0; i < a_data.length; i ++){
+            a_obj.datagrid('appendRow', a_data[i]);
+
+            if(a_data[i].msg != null && typeof(a_data[i].msg) != 'undefined'){
+               a_obj.datagrid('freezeRow', i);
+               a_data[i].REMARK += ' msg : ' + a_data[i].msg;
+            }
+      }
+
+      //$.jf_protectform($('#dg1'), $('#ef0'), true, a_data.length);
+      $.jf_setfocus(a_obj, -1);
+      $.jf_setfooter(a_obj);
+
+      return true;
+   }
+   
+   $.uf_reupdate = function(a_obj, a_data){
+      if(typeof(a_data[0]['errorMsg']) != "undefined"){
+            top.$.tracomalmsg('정보', a_data[0]['errorMsg'], null);  
+      }else{
+            $.uf_updategrid(a_obj, a_data);
+      }
+   }
+   
+   $.uf_excelupload = function(a_obj, a_form, url){
+      $.ajax({
+         type: 'POST',
+         enctype: 'multipart/form-data',
+         url: url,
+         data: a_form,
+         processData: false,
+         contentType: false,
+         cache: false,
+         success: function(data) {
+            // debugger;
+            $.uf_reupdate(a_obj, data['rows']);
+         },
+         error: function(e) {
+            if (e.status == 403) {
+               alert("세션이 만료되어 로그인 페이지로 돌아갑니다.");
+               top.location.replace("/user/login");
+            }
+            console.log('ERROR : ', e);
+         }
+      });
+   }
 
    </script>
 </head>

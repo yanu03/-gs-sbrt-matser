@@ -16,8 +16,8 @@
 			ON A.LOGIN_STS = DL1.DL_CD AND DL1.CO_CD = 'LOGIN_STS'			
 			
 		<where>
-			<if test="TYPE == 'ALL' and CONTENT != null and CONTENT != ''">
-				AND USER_ID LIKE CONCAT('%',#{CONTENT},'%') || USER_NM LIKE CONCAT('%',#{CONTENT},'%')
+			<if test="TYPE == 'ALL' and @kr.tracom.util.CommonUtil@notEmpty(CONTENT)">
+				USER_ID LIKE CONCAT('%',#{CONTENT},'%') || USER_NM LIKE CONCAT('%',#{CONTENT},'%')
 			</if>
 			<if test="TYPE == 'USER_ID'">
 				AND USER_ID LIKE CONCAT('%',#{CONTENT},'%')
@@ -25,13 +25,13 @@
 			<if test="TYPE == 'USER_NM'">
 				AND USER_NM LIKE CONCAT('%',#{CONTENT},'%') 
 			</if>
-			<if test="(F_DATE != null and F_DATE != '') and (L_DATE == null or L_DATE == '')">
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE) and @kr.tracom.util.CommonUtil@notEmpty(L_DATE)">
 				<![CDATA[AND DATE_FORMAT(OCR_DTM, '%Y-%m-%d') >= #{F_DATE}]]>
 			</if>
-			<if test="(F_DATE == null or F_DATE == '') and L_DATE != null and L_DATE != '' ">
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE) and @kr.tracom.util.CommonUtil@notEmpty(L_DATE) ">
 				<![CDATA[AND DATE_FORMAT(OCR_DTM, '%Y-%m-%d') <= #{L_DATE}]]>
 			</if>
-			<if test="F_DATE != null and F_DATE != '' and L_DATE != null and L_DATE != '' ">
+			<if test="@kr.tracom.util.CommonUtil@notEmpty(F_DATE) and @kr.tracom.util.CommonUtil@notEmpty(L_DATE) ">
 				AND DATE_FORMAT(OCR_DTM, '%Y-%m-%d') between #{F_DATE} and #{L_DATE}
 			</if>			
 			

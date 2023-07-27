@@ -1,5 +1,6 @@
 package kr.tracom.service.AL0202;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,11 +15,11 @@ import kr.tracom.mapper.AL0201.AL0201Mapper;
 import kr.tracom.mapper.AL0202.AL0202Mapper;
 import kr.tracom.mapper.cm.OperPlan.OperPlanMapper;
 import  kr.tracom.service.cm.OperPlan.OperPlanService;
+import kr.tracom.service.tims.TimsService;
 import kr.tracom.support.ServiceSupport;
 import kr.tracom.support.exception.MessageException;
 import kr.tracom.util.CommonUtil;
 import kr.tracom.util.Result;
-import kr.tracom.service.tims.TimsService;
 
 
 @Service
@@ -204,18 +205,143 @@ public class AL0202Service extends ServiceSupport {
 		return al0202Mapper.AL0202G1K0(); 
 	}
 	
-   public List AL0202G1_exlDownload() throws Exception {
-	      String param = (String)request.getAttribute("param");
-	      Map<String, Object> map = new HashMap<String, Object>();
-	      if(CommonUtil.empty(param)){
-	         map.put("TYPE", "ALL");
-	         map.put("CONTENT", "");
-	      }
-	      else{
-	         map.put("TYPE", "ALL");
-	         map.put("CONTENT", param);
-	      }
+   public List AL0202G1_exlDownload(String parameter) throws Exception {
+      String param = parameter;
+      Map<String, Object> map = new HashMap<String, Object>();
+      if(CommonUtil.empty(param)){
+         map.put("TYPE", "ALL");
+         map.put("ALLOC_ID", "");
+      }
+      else{
+         map.put("TYPE", "ALL");
+         map.put("ALLOC_ID", param);
+      }
 
-	      return al0202Mapper.AL0202G1R0(map);
-	   }	
+      return al0202Mapper.AL0202G1R0(map);
+   }	
+	
+	public String AL0202G1_exlUploadCheck(String value, int valueLength, String id) throws Exception{
+		String result = "";
+		String date1 = "";
+		// Required input check
+		if(id == "노선ID" || id == "노드ID" || id == "노드순번" || id == "노드명") {
+			if(value == "" || value == null) {
+				result =  id + "을(를) 작성 후 업로드 해주세요.";
+			}
+		}
+		// checking data length
+		if(value.length() > valueLength) {
+			result = id + "을(를) 데이터 형식에 맞게 입력 해주세요.";
+		}
+		
+		return result;
+	}
+	
+	// 기능: excel upload validate
+	public List<Map<String, Object>> AL0202G1_exlUpload(List<Map<String, Object>> data) throws Exception{
+		String [] keys = {"ALLOC_ID", "SN", "ALLOC_NO", "ROUT_ID"};
+		List<Map<String, Object>> list = data;
+		Map<Integer, Object> map2 = new HashMap<Integer, Object>(); 
+		
+		Map<String, Object> resultMap = new HashMap<String,Object>(); // error message
+		List<String> array = new ArrayList<String>(); // contain SN 
+		
+		String value;
+		String resultMsg = "";
+		int cnt = 0; // 빈column갯수 새기
+		int index = 0; 
+		
+		
+		// checking to data type
+		loop1:
+		for(Map<String, Object> map : list) {
+			for(Map.Entry<String, Object> entry : map.entrySet()) {
+				value = entry.getValue().toString();
+				if(entry.getKey() == "ALLOC_ID") {
+					resultMsg = AL0202G1_exlUploadCheck(value, 10, "배차ID");
+				}
+				else if(entry.getKey() == "SN") {
+					resultMsg = AL0202G1_exlUploadCheck(value, 5, "순번");
+				}
+				else if(entry.getKey() == "ALLOC_NO") {
+					resultMsg = AL0202G1_exlUploadCheck(value, 2, "배차번호");
+//					array.add(value);
+				}
+				else if(entry.getKey() == "ROUT_ID") {
+					resultMsg = AL0202G1_exlUploadCheck(value, 10, "노선ID");
+				}
+				else if(entry.getKey() == "OPER_SN") {
+					resultMsg = AL0202G1_exlUploadCheck(value, 3, "운행순번");
+				}
+				else if(entry.getKey() == "COR_ID") {
+					resultMsg = AL0202G1_exlUploadCheck(value, 10, "코스ID");
+				}
+				else if(entry.getKey() == "ROUT_ST_TM") {
+					resultMsg = AL0202G1_exlUploadCheck(value, 8, "노선시작시간");
+				}
+				else if(entry.getKey() == "ROUT_ED_TM") {
+					resultMsg = AL0202G1_exlUploadCheck(value, 8, "노선종료시간");
+				}
+				else if(entry.getKey() == "REST_TM") {
+					resultMsg = AL0202G1_exlUploadCheck(value, 8, "휴게시간");
+				}
+				else if(entry.getKey() == "VHC_ID") {
+					resultMsg = AL0202G1_exlUploadCheck(value, 10, "차량ID");
+				}
+				else if(entry.getKey() == "DRV_ID") {
+					resultMsg = AL0202G1_exlUploadCheck(value, 10, "운전자ID");
+				}
+				if(resultMsg != "") {
+					resultMap.put("errorMsg",resultMsg);
+					for(int i=0; i < keys.length; i++) {
+						if(entry.getKey() == keys[i]) {
+							list.clear();
+							list.add(resultMap);
+							break loop1;
+						}
+					}
+					map2.put(index, resultMsg);
+				}
+			}
+			index++;
+		}
+		
+		for(Map.Entry<Integer, Object> entry : map2.entrySet()) {
+			for(int i=0; i < list.size(); i++) {
+				if(entry.getKey() == i) {
+					Map<String, Object> listValue = list.get(i);
+					//System.out.println(entry.getValue());
+					listValue.put("msg", entry.getValue());
+					list.add(i, listValue);
+				}
+			}
+		}
+		
+		// find NODE_SN duplication
+		loop2:
+		for(int i=0; i < array.size(); i++) {
+			for(Map<String, Object> map : list){
+				if(array.get(i) == map.get("NODE_SN")) {
+					cnt++;
+				}
+			}
+			if(cnt > 1) {
+				resultMsg = "노드순번 "+ array.get(i) +"은 중복된 순번입니다.";
+				resultMap.put("errorMsg",resultMsg);
+				list.clear();
+				list.add(resultMap);
+				break loop2;
+			}
+			cnt = 0;
+		}
+	
+		if(list.isEmpty()) {
+			resultMsg = "일치하는 데이터가 존재하지 않습니다.";
+			resultMap.put("errorMsg",resultMsg);
+			list.clear();
+			list.add(resultMap);
+		}
+		
+		return list;
+	}
 }

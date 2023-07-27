@@ -460,6 +460,11 @@ $(function () {
 		labelAlign: 'left',
 		onChange: function (checked) {
 			if (!jv_rowclick) return false;
+			if(checked == true){
+				if(!$.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"SI0401", function(){})) {
+					$('#USE_YN_Y').radiobutton('check');
+				}
+			}
 		}
 	});
 

@@ -1,6 +1,7 @@
 package kr.tracom.service.AL0302;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import kr.tracom.mapper.AL0302.AL0302Mapper;
 import kr.tracom.service.tims.TimsService;
 import kr.tracom.support.ServiceSupport;
 import kr.tracom.support.exception.MessageException;
+import kr.tracom.util.CommonUtil;
 import kr.tracom.util.Constants;
 import kr.tracom.util.Result;
 
@@ -245,4 +247,18 @@ public class AL0302Service extends ServiceSupport {
 		return result;	
 	}
 	
+	public List AL0302G1_exlDownload(String parameter) throws Exception {
+	      String param = parameter;
+	      Map<String, Object> map = new HashMap<String, Object>();
+	      if(CommonUtil.empty(param)){
+	         map.put("TYPE", "ALL");
+	         map.put("ALLOC_ID", "");
+	      }
+	      else{
+	         map.put("TYPE", "ALL");
+	         map.put("ALLOC_ID", param);
+	      }
+
+	      return al0302Mapper.AL0302G1R0(map);
+	   }	
 }

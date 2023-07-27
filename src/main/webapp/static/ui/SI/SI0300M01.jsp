@@ -17,6 +17,7 @@
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
 	<script src="/static/js/common/sample_comm.js"></script>
     <script type="text/javascript" src="/static/jquery/jquery.fileDownload-1.4.5.js"></script> 
+    <style>#file_1{ visibility : hidden; width:0;}</style>
 	<script type="text/javascript">
     $( document ).ready(function() {});
     $.pf_append = function(){return true;};
@@ -146,61 +147,33 @@
 		}
 	}
 	
-	/* $.uf_filesave = function(input) {
-		var form = $("#filefrm")[0];
-		var formData = new FormData(form);
-
-		$('#path').val("SI0300"); //저장시 파일 경로
-
-		$.ajax({
-			type : 'POST',
-			
-			enctype : 'multipart/form-data',
-			url : '/cm/fileUploadAction',
-			data : formData,
-			processData : false,
-			contentType : false,
-			cache : false,
-			success : function(data) {
-				debugger;
-				$('#ATTACH_ID')
-						.textbox('setValue', data.rows[0].atchFileId);
-			},
-			error : function(e) {
-				//$('#result').text(e.responseText);
-				console.log('ERROR : ', e);
-			}
-		});
-	} */
-	
-	$.uf_filesave = function(){
-        debugger;
-        event.preventDefault();
-        var form = $("#filefrm")[0];
-        $('#path').val("SI0300"); //저장시 파일 경로
-        $('#attach_id').val($('#ATTACH_ID').textbox('getValue'));
-        
-        var formData = new FormData(form); 			
-        
-        $.ajax({
-            type: 'POST',
-            enctype: 'multipart/form-data',
-            url: '/cm/fileUploadAction',
-            data: formData,
-            processData: false,
-            contentType: false,
-            cache: false,
-            success: function (data) {
-                $('#ATTACH_ID').textbox('setValue',data.rows[0].atchFileId);
-                //$('#filebtn').prop('disabled', false);
-            },
-            error: function (e) {
-                //$('#result').text(e.responseText);
-                console.log('ERROR : ', e);
-                //$('#filebtn').prop('disabled', false);
+	$.uf_uploadclick = function(){
+        top.$.messager.alert({
+            title: '정보',
+            ok: '확인',
+            icon: 'info',
+            msg: '이미지 선택 후 "파일선택" 버튼옆의 버튼을 클릭 해주세요.<br> *클릭 하지 않을 시 이미지가 저장되지 않습니다.*',
+            fn: function(){
+                $('#file_1').click();
             }
-        });
-	}
+        });	
+        
+        return true;
+    }
+    
+    $.uf_checkchangeimg = function(){
+        let rtn_value = true;
+
+        let v_img = $('#picture').attr('src');
+        let v_imglength = String(v_img).length;
+        if(typeof(v_img) == 'undefined' || v_imglength == 51 || v_imglength == 28){
+            rtn_value = true;
+        }else{
+            $('#picture').attr('src', '/static/img/common/noimg.jpg');
+        }
+        
+        return rtn_value;
+    }
 	</script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">

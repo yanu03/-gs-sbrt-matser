@@ -24,6 +24,10 @@
     var uv_dg1data;
     // pivotgrid의 무한로드 방지 플레그
     var uv_chkdata0 = true;
+    
+    var uv_stlinksn = null;
+    var uv_edlinksn = null;    
+    
     $.pf_append = function(){return true;};
     $.pf_delete = function(){return true;};
     $.pf_validatedata = function(a_obj, a_idx, a_type){return true;};
@@ -44,24 +48,39 @@
 
     $.pf_childretrieve = function(a_obj, a_param){
       let v_queryParams;
-      v_queryParams = JSON.stringify({dma_search : $.pf_childparams(a_obj, a_param)});
-      a_obj.pivotgrid({queryParams : v_queryParams});
+      $.pf_childparams(a_obj, a_param, function(a_return){
+    	  v_queryParams = JSON.stringify({dma_search : a_return});
+          a_obj.pivotgrid({queryParams : v_queryParams});
+      });
+      
+     
       
       return true;
     };
     
-    $.pf_childparams = function(a_obj, a_param){
+    $.pf_childparams = function(a_obj, a_param, a_callback){
       let rtn_params = {};
       let v_stcombobox = $('#sch_lb1').combobox('getValue');
       let v_edcombobox = $('#sch_lb2').combobox('getValue');
       let v_fdate = $('#sch_fdd').datebox('getValue');
       let v_tdate = $('#sch_tdd').datebox('getValue');
-      let v_stlinksn = $.uf_linksnajax('/st/ST0201G1R0', {ROUT_ID: a_param, ST_NODE_ID: v_stcombobox});
-      let v_edlinksn = $.uf_linksnajax('/st/ST0201G1R1', {ROUT_ID: a_param, ED_NODE_ID: v_edcombobox});
-
-      if(a_obj.attr('id') == 'dg1') rtn_params = {ROUT_ID: a_param, ST_LINK_SN : v_stlinksn.ST_LINK_SN, ED_LINK_SN : v_edlinksn.ED_LINK_SN, F_DATE : v_fdate, L_DATE : v_tdate};
-
-      return rtn_params;
+      
+      
+      $.uf_linksnajax('/st/ST0201G1R0', {ROUT_ID: a_param, ST_NODE_ID: v_stcombobox},function(a_data1){
+	    	  if(a_data1.ST_LINK_SN != null && typeof(a_data1.ST_LINK_SN) != 'undefined'){
+	      		uv_stlinksn = a_data1.ST_LINK_SN;
+	      	}
+    	 		$.uf_linksnajax('/st/ST0201G1R1', {ROUT_ID: a_param, ED_NODE_ID: v_edcombobox},function(a_data2){
+    	 			if(a_data2.ED_LINK_SN != null && typeof(a_data2.ED_LINK_SN) != 'undefined'){
+    	 	      		uv_edlinksn = a_data2.ED_LINK_SN;
+    	 	      	}
+   	 		    if(a_obj.attr('id') == 'dg1'){
+   	 		    	  rtn_params = {ROUT_ID: a_param, ST_LINK_SN : uv_stlinksn, ED_LINK_SN : uv_edlinksn, F_DATE : v_fdate, L_DATE : v_tdate};
+   	 		      }
+    	 			  a_callback(rtn_params);
+          });
+      });
+  
     };
     // pivotgrid header 바꾸기
     $.uf_formathead = function(a_value){
@@ -78,7 +97,7 @@
       let v_datalength;
       let v_treeicon;
       let v_treefoldericon;
-      if(a_obj.attr('id') == 'dg1') v_datalength = uv_dg1data.length;
+      if(a_obj.attr('id') == 'dg1') v_datalength = uv_dg1data.length+1;
 
       for(let i=0; i < v_datalength; i++){
         v_treeicon = document.querySelector("span.tree-icon.tree-file");
@@ -169,8 +188,7 @@
       
       return rtn_value;
     }
-    $.uf_linksnajax = function(a_url, a_param){
-      let rtn_value;
+    $.uf_linksnajax = function(a_url, a_param, a_callback){
         $.ajax({
           type:'POST',
           url: a_url,
@@ -180,7 +198,7 @@
           contentType: 'application/json; charset=utf-8',
           success: function(data){
             if(typeof(data['rows']) != "undefined" && data['rows'] != null){
-              rtn_value = data['rows'];
+            	a_callback(data['rows']);
             }else{
               data = {"total":0,"rows":[]};
               rtn_value = data;

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.tracom.service.SI0200.SI0200Service;
-import kr.tracom.service.cm.Common.CommonService;
 import kr.tracom.service.cm.Excel.ExcelUpload;
 import kr.tracom.support.ControllerSupport;
 
@@ -72,11 +71,15 @@ public class SI0200Controller extends ControllerSupport{
 	
 	@RequestMapping("/si/SI0200G0_exlUpload")
     public @ResponseBody  Map<String, Object> SI0200G0_exlUpload(@RequestParam("excelinputfile")MultipartFile file) throws Exception {
-
 		String[] getValues = {"VHC_ID", "VHC_NO", "COMP_ID", "COMP_NM", "AREA", "AREA_NM", "CHAS_NO"
-				, "MAKER", "MAKER_NM", "RELS_DT", "REMARK"};
-	
-		result.setData("rows", excelUploadService.excelToList(file, getValues));
+				, "MAKER", "MAKER_NM", "RELS_DT", "USE_YN", "REMARK"};
+		String[] headerTitle = {"차량 ID", "차량 번호", "운수사 ID", "운수사 명", "권역", "권역 명", "차대번호"
+				, "제조사", "제조사 명", "출고일자", "사용여부","비고"};
+		List<Map<String, Object>> list = excelUploadService.excelToList(file, getValues);
+		List<Map<String, Object>> resultList = si0200Service.SI0200G0_exlUpload(list, getValues, headerTitle);
+		
+		result.setData("rows",resultList);
+
 		return result.getResult();
 	}
 

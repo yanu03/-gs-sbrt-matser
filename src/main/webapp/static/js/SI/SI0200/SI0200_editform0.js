@@ -476,6 +476,12 @@ $(function(){
         checked: false,
 		onChange: function (checked) {
 			if (!jv_rowclick) return false;
+            if(checked == true){
+                if(!$.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"SI0200", function(){})) {
+                    $('#USE_YN_Y').radiobutton('check');
+                }
+            }
+            
 		}
 	});
 

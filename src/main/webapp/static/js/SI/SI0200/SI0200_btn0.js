@@ -88,11 +88,16 @@ $(function(){
 			$.tracomcfmsg('확인', '저장되지 않은 데이터가 있습니다. 저장 하시겠습니까?', 'save');
 		}else{
 			$.jf_resetdg($('#dg0'), 'all');
+			$('#dg0').datagrid('load');
 		}
     });
     $('#btn5').bind('click', function(){
-        if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f')){
-            $.jf_savedgdata($('#dg0'), '/si/SI0200G0S0', 'post', null);
+        if($.jf_validatedata($('#dg0'), $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f')){
+						if($.uf_exlvalidatedata()){
+							$.jf_savedgdata($('#dg0'), '/si/SI0200G0S0', 'post', null);
+						}else{
+							$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);  
+						}
         }else{
             $.tracomalmsg('정보','필수 입력창을 입력후 저장해주세요');
         }
@@ -106,18 +111,18 @@ $(function(){
     });
     
 	$('#btn7').bind('click', function(){
-       $.jf_exceldownload($('#dg0'), '/si/SI0200G0_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
-    });
+		$.jf_exceldownload($('#dg0'), '/si/SI0200G0_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
+	});
 
 	$('#btn8').bind('click', function(){
-		$.tracomcfmsg('확인', '엑셀 업로드시 차량관리 데이터가 재 갱신됩니다. 엑셀 업로드를 하시겠습니까?', 'excelupload');
-    });
+		$.tracomcfmsg('확인', '엑셀 업로드 후 데이터 형식에 맞지 않는 데이터가 존재 시 수정 후 저장 해주십시오.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 엑셀 업로드를 하시겠습니까? ', 'excelupload');
+	});
 
 	$("#excelinputfile").on("change", function(e){
 		var form = $("#excelfrm")[0];
-	    var formData = new FormData(form); 
+		var formData = new FormData(form); 
 		$("#excelupload_p0").window('close');
-		$.jf_excelupload($('#dg0'), formData, '/si/SI0200G0_exlUpload');
+		$.uf_excelupload($('#dg0'), formData, '/si/SI0200G0_exlUpload');
 	}); 
 
 });

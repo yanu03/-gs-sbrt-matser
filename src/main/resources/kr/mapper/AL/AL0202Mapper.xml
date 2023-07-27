@@ -294,6 +294,11 @@
 						#{UPD_DTM},
 						#{SSN_USER_ID}
 						)
+		ON DUPLICATE KEY UPDATE
+		ALLOC_ID = VALUES(ALLOC_ID),
+		SN = VALUES(SN),
+		ALLOC_NO = VALUES(ALLOC_NO),
+		ROUT_ID = VALUES(ROUT_ID);
 	</insert>
 	
 	<update id="AL0202G1U0" parameterType="Map">
