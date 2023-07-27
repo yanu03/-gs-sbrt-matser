@@ -212,7 +212,7 @@ public class GetResponse {
 	            		
 	        			//웹소켓 데이터 세팅
 	        	    	Map<String, Object> wsModuleThreeDataMap = new HashMap<>();
-	        	    	wsModuleThreeDataMap.put("ATTR_ID", BrtAtCode.TRAFFIC_MODULE_TWO);
+	        	    	wsModuleThreeDataMap.put("ATTR_ID", BrtAtCode.TRAFFIC_MODULE_THREE);
 	        	    	wsModuleThreeDataMap.put("LIST", trafficModule3MapList);
 	                	
 	            		webSocketClient.sendMessage(wsModuleThreeDataMap);
