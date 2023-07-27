@@ -131,6 +131,11 @@
 				#{REMARK},
 				#{UPD_DTM}
 				)
+		ON DUPLICATE KEY UPDATE
+			VHC_ID = VALUES(VHC_ID),
+			VHC_NO = VALUES(VHC_NO),
+			COMP_ID = VALUES(COMP_ID)
+			
 	</insert>
 
 	<update id="SI0200G0U0" parameterType="Map">

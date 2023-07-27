@@ -189,7 +189,7 @@ public class AuthorityService extends ServiceSupport {
 		return authorityMapper.selectAuthorityKey();
 	}
 
-	public List selectAuthorityList_exlDownload() throws Exception {
+	public List authorityList_exlDownload() throws Exception {
 		String param = (String)request.getAttribute("param");
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(CommonUtil.empty(param)){
@@ -203,5 +203,19 @@ public class AuthorityService extends ServiceSupport {
 
 		return authorityMapper.selectAuthorityList(map);
 	}
+	
+	public List authorityMemberList_exlDownload(String parameter) throws Exception {
+		String param = parameter; //String param = (String)request.getAttribute("param");
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(CommonUtil.empty(param)){
+			map.put("TYPE", "ALL");
+			map.put("AUTH_CD", "");
+		}
+		else{
+			map.put("TYPE", "ALL");
+			map.put("AUTH_CD", param);
+		}
 
+		return authorityMapper.selectAuthorityMemberList(map);
+	}
 }

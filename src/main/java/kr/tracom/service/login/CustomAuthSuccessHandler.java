@@ -105,6 +105,8 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 		session.setAttribute(Constants.SSN_USER_NM, (String) memberMap.get("USER_NM"));
 		session.setAttribute(Constants.SSN_SYSTEM_BIT, memberMap.get("SYSTEM_BIT"));
 		
+		memberMap.put("IP", CommonUtil.getIpAddress(req));
+		userService.insertLoginHis(memberMap);
 		//user.setUserInfo(session);
 		res.sendRedirect("/main/main");
 	}

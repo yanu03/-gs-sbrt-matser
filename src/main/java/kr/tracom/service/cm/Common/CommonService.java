@@ -492,14 +492,18 @@ public class CommonService extends ServiceSupport {
 		
 		 Map<String, Object> row = mapper.readValue((String)map.get("ROW"), Map.class);
 		
-
+		System.out.println(progId);
 		String table = Utils.getProgramToTable(progId);
+		System.out.println(table);
 		map.put("TABLE", table);
 		map.put("SCHEMA",SCHEMA);
-
+		
+		System.out.println(map);
+		
 		List<Map> foreignTableList = commonMapper.selectForeignTable(map);
 		
 		int size = foreignTableList.size();
+		System.out.println(foreignTableList);
 		if(size>0) {
 			String columnComment = (String)foreignTableList.get(0).get("COLUMN_COMMENT");
 			resultString = columnComment + "를 참조하는 하위 프로그램 [";
@@ -533,6 +537,9 @@ public class CommonService extends ServiceSupport {
 				query +=foreignColumnNm + " = '" + value +"'";
 				foreignTable.put("VALUE", query);
 			}
+			System.out.println("-------------------------------------------------------");
+			System.out.println(foreignTable);
+			System.out.println("-------------------------------------------------------");
 			cnt = commonMapper.checkForeignTable(foreignTable);
 			
 			if(cnt>0) {
@@ -546,7 +553,24 @@ public class CommonService extends ServiceSupport {
 		result.put("MSG", resultString);
 		
 
-
+		System.out.println(result);
 		return result;
 	}
+	
+	public List commonDtl_excelDownload(String parameter) throws Exception {
+	      String param = parameter;
+	      Map<String, Object> map = new HashMap<String, Object>();
+	      if(CommonUtil.empty(param)){
+	         map.put("TYPE", "ALL");
+	         map.put("CO_CD", "");
+	      }
+	      else{
+	         map.put("TYPE", "ALL");
+	         map.put("CO_CD", param);
+	      }
+
+	      return commonMapper.selectCommonDtlList(map);
+	   }
+	
+	
 }

@@ -77,20 +77,25 @@ public class ExcelData {
     }
 
     public List<Map<String, Object>> getWorkData(int firstIndex, String[] getValues){
+    	int emptyCnt = 1;
     	List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
         for(int i=firstIndex; i<lastRowNum; i++){
             row = sheet.getRow(i);
             Map<String, Object> workData = new HashMap<String, Object>();
             for(int j=firstCellNum; j<lastCellNum; j++){
-            	
+            	//System.out.println(row.getCell(j));
                 cell = row.getCell(j);
                 
-                if(lastCellNum>getValues.length)break;
+                if(lastCellNum>getValues.length) break;
                 
-                workData.put(getValues[j], cell.getStringCellValue());
-                
-       
+                if(cell == null){
+                	workData.put(getValues[j], ""); 
+                	emptyCnt += 1;
+                }else{
+//                	System.out.println(cell.getStringCellValue());
+                	workData.put(getValues[j], cell.getStringCellValue());
+                }
                 //String color = ExcelUtil.getFillForegroundColorARGBHex(cell);
 
                 //workDailyData.put("workDate", getWorkDate());
@@ -99,10 +104,18 @@ public class ExcelData {
                 //workDailyData.put("workOrdr", getWorkOrdr(j));
 
                 //workMonthData.add(workDailyData);
+               
             }
-            list.add(workData);
+            // 기능 : 한 행 전채가 공백일 경우 배열에 데이터를 넣지 않는다.
+            // 작성자 : 박원용
+            if(emptyCnt != lastCellNum) {
+            	// 기능 : Map이 비어있으면 배열에 추가가 되지 않는다
+            	if(!workData.isEmpty()) list.add(workData);
+            }
+            
+            emptyCnt = 1;
+            
         }
-
         return list;
     }
 

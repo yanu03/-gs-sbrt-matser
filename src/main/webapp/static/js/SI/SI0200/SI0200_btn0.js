@@ -78,8 +78,10 @@ $(function(){
         }
     });
     $('#btn3').bind('click', function(){
-        $.jf_delete($('#dg0'));
-        // 하위 데이터가 존재하는지 db에서 확인 해야함
+	
+        $.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"SI0200", function(){
+						$.jf_delete($('#dg0'));
+				});
     });
     $('#btn4').bind('click', function(){
         if($.jf_changeddg($('#dg0'), 'all')) {

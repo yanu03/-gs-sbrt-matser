@@ -100,7 +100,7 @@ public class UserController extends ControllerSupport {
 		return result.getResult();
 	}
 
-	/**
+	/** 사용안함
 	 * login - 요청받은 ID, 비밀번호를 회원DB와 비교한다.
 	 * 
 	 * @date 2017.12.22

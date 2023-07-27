@@ -166,7 +166,7 @@ public class GetResponse {
 	                    moduleTwoMap.put("NODE_ID",trafficModule2.getStationNodeId());
 	                    Map<String, Object> result1 = curInfoMapper.selectCurOperInfoByVhcNo(moduleTwoMap);
 	                    if(result1!=null) {
-		                    moduleTwoMap.put("REP_ROUT_ID",result1.get("REP_ROUT_ID"));
+		                    moduleTwoMap.put("ROUT_GRP",result1.get("ROUT_GRP"));
 		                    moduleTwoMap.put("ROUT_ID",result1.get("ROUT_ID"));
 	                    }
 	                    moduleTwoMap.put("CTRL_LV",2);
@@ -199,7 +199,7 @@ public class GetResponse {
 	                    moduleThreeMap.put("NODE_ID",trafficModule3.getCrossNodeId());
 	                    Map<String, Object> result2 = curInfoMapper.selectCurOperInfoByVhcNo(moduleThreeMap);
 	                    if(result2!=null) {
-		                    moduleThreeMap.put("REP_ROUT_ID",result2.get("REP_ROUT_ID"));
+		                    moduleThreeMap.put("ROUT_GRP",result2.get("ROUT_GRP"));
 		                    moduleThreeMap.put("ROUT_ID",result2.get("ROUT_ID"));
 	                    }
 	                    moduleThreeMap.put("CTRL_LV",3);

@@ -62,10 +62,14 @@ $(function(){
 		}
 	});
 	$('#btn4').bind('click', function(){
-		 if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g'))
-		 {
-			$.jf_savedgdata($('#dg1'), '/si/SI0402G1S0', 'post', null)
-		 }
+		if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g'))
+		{
+			if($.uf_exlvalidatedata()){
+				$.jf_savedgdata($('#dg1'), '/si/SI0402G1S0', 'post', null);
+			}else{
+				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);  
+			}
+		}
 	});
 	$('#btn5').bind('click', function(){
 		if($.jf_changeddg($('#dg0'), 'all')) {
@@ -76,18 +80,17 @@ $(function(){
 	});
   $('#btn7').bind('click', function(){
 				let v_selected = $('#dg0').datagrid('getSelected');
-				console.log(v_selected);
         $.jf_exceldownload($('#dg1'), '/si/SI0402G1_exlDownload?param='+ v_selected.ROUT_ID);
     });
  
     $('#btn8').bind('click', function(){
-        $.tracomcfmsg('확인', '엑셀 업로드시 차량관리 데이터가 재 갱신됩니다. 엑셀 업로드를 하시겠습니까?', 'excelupload');
+        $.tracomcfmsg('확인', '엑셀 업로드 후 데이터 형식에 맞지 않는 데이터가 존재 시 수정 후 저장 해주십시오.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 엑셀 업로드를 하시겠습니까?', 'excelupload');
     });
  
     $("#excelinputfile").on("change", function(e){
         var form = $("#excelfrm")[0];
         var formData = new FormData(form); 
         $("#excelupload_p0").window('close');
-        $.jf_excelupload($('#dg1'), formData, '/si/SI0402G1_exlUpload');
+        $.uf_excelupload($('#dg1'), formData, '/si/SI0402G1_exlUpload');
     }); 
 });

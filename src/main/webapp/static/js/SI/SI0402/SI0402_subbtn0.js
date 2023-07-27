@@ -84,7 +84,7 @@
 				$('#dg1').datagrid('updateRow',{index:i,row:v_vals});
 			}
 		}*/
-		debugger;
+		
 		//현재 row와 아래 row만 변경
 		if (v_index < v_data.rows.length - 1) {
 			let v_data = $('#dg1').datagrid('getData');
@@ -115,8 +115,11 @@
 		}
 	});
 	$('#subbtn2').bind('click', function(){
-		$.jf_delete($('#dg1'));
-		$.jf_drawroute($('#dg1').datagrid('getData')['rows']);
+		$.jf_checkforeigntable($.jf_curdgrow($('#dg1')),"SI0402", function(){
+				$.jf_delete($('#dg1'));
+				$.jf_drawroute($('#dg1').datagrid('getData')['rows']);
+			}
+		);	
 	});
 	$('#subbtn6').bind('click', function(){
 		if($.jf_changeddg($('#dg1'), null)) {
