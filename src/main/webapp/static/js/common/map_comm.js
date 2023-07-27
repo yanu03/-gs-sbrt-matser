@@ -85,8 +85,13 @@ const mapOption = {
 	//================================색깔, 크기 관련 end===============================================
 	//================================디스패치 관련 start===============================================
 	DISPATCH_MSG_NORMAL : "정상 운행중입니다.",
-	DISPATCH_OVERLAY_TIME : 2500
+	DISPATCH_OVERLAY_TIME : 2500,
 	//================================디스패치 관련 end=================================================
+	//================================우선신호 관련 start=================================================
+	SIG_EARLY_MESSAGE : "교차로제어 운영 : 조기종결",
+	SIG_EXTENSION_MESSAGE : "교차로제어 운영 : 현시연장",
+	TRF_OVERLAY_TIME : 2500
+	//================================우선신호 관련 end=================================================
 			
 }
 
@@ -401,7 +406,7 @@ $.jf_adddsptchoverlay = function(a_data) {
 		else v_dsptchMsg += '<div class="dispatch map_mesage" style="position: absolute;"></h3>';
 	    v_dsptchMsg += '<h3 class="blind"></h3>'
 		v_dsptchMsg += '   <span>'+v_message+'</span>'
-		v_dsptchMsg += '   <button class="close_mesage ir_pm" id="busInfo-closer">닫기</button> '
+		//v_dsptchMsg += '   <button class="close_mesage ir_pm" id="busInfo-closer">닫기</button> '
 		v_dsptchMsg += '</div>'
 	
 		//if(!$.jf_isempty(a_data['IMP_ID'])) marker = $.jf_fndmkstrct(a_data.IMP_ID);
@@ -434,7 +439,7 @@ $.jf_adddsptchoverlay = function(a_data) {
 	else if($.jf_fndicostrct('_dsptch') != null && $.jf_fndicostrct('_evt') != null) {
 		$("#busInfoPopup").css("bottom", "42px");
 		setTimeout(function() {
-			if(($.jf_fndicostrct('dsptch')) != null) $.jf_deleteOverlay($.jf_fndicostrct('_dsptch'));		
+			if(($.jf_fndicostrct('_dsptch')) != null) $.jf_deleteOverlay($.jf_fndicostrct('_dsptch'));		
 		},mapOption.DISPATCH_OVERLAY_TIME);			
 	}
 
@@ -1073,7 +1078,7 @@ $.jf_addevtoverlay = function(a_data){
 		v_eventMsg += '     <dt class="blind">정차 제어</dt>';
 		v_eventMsg += '      <dd id="trfStopSec"></dd>';
 		v_eventMsg += '   </dl>';
-		v_eventMsg += '   <button class="close_mesage ir_pm" id="busInfo-closer">닫기</button>';
+		//v_eventMsg += '   <button class="close_mesage ir_pm" id="busInfo-closer">닫기</button>';
 		v_eventMsg += '</div>';
 			
 		/*addStopTime = setInterval(function() {
@@ -1227,4 +1232,41 @@ $.jf_changesigmarker = function(a_baseData, a_sockData) {
 		}
 	}
 	return true;
+}
+
+/** 
+작성자 : 양현우
+작성일 : 2023-07-26
+기능 : 우선신호 레벨3 오버레이
+**/
+$.jf_addsigoverlay = function(a_data, a_row){
+	debugger;
+	let zIndex = mapOption.ZINDEX_TRF_OVERLAY;
+	let v_showMessage = '';
+	let v_sigMessage = '';
+	let v_overlay = null;
+	let v_marker = null;
+	let v_sigData = a_data.LIST;
+	
+	if(v_sigData.CTRL_TYPE = 'ST001') v_showMessage = mapOption.SIG_EARLY_MESSAGE;
+	else if(v_sigData.CTRL_TYPE = 'ST002') v_showMessage = mapOption.SIG_EXTENSION_MESSAGE;
+	
+	v_sigMessage += '<div class="mesage map_mesage2">';
+	v_sigMessage += '<h3 class="blind"></h3>';
+	v_sigMessage += '   <span>'+v_showMessage+'</span>';
+	//v_sigMessage += '   <button class="close_mesage ir_pm" id="busInfo-closer">닫기</button> ';
+	v_sigMessage += '</div>';
+	
+	if(!$.jf_isempty(a_row['VHC_ID'])) v_marker = $.jf_fndbmkstrct(a_row.VHC_ID);
+	v_overlay = new kakao.maps.CustomOverlay({
+		content: v_sigMessage,
+		position: v_marker.getPosition(),
+		zIndex : zIndex
+	});
+	
+	v_overlay.id = a_row.VHC_ID+'_sig';
+	v_overlay.setMap(js_map);
+	js_overlaystruct.push(v_overlay);	
+	
+	//timeout 돌려서 오버레이 사라지게 하는 함수 넣기		
 }

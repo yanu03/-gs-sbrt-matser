@@ -146,6 +146,21 @@
 
 	$.pf_sockevt = function(a_data) {
 		let v_eventMessage = '';
+		
+		
+		if(a_data.OPER_STS != 'OS001'){
+			let v_dgData = $('#dg0').datagrid('getRows');
+			//a_data.VHC_ID 같은 row 찾기
+			for(var i=0; i<v_dgData.length; i++){
+				if(v_dgData[i].VHC_ID == a_data.VHC_ID){
+					$('#dg0').datagrid('selectRow', i);
+					$.jf_delete(i);
+					return true;
+				}
+				
+			}
+		}
+		
 		switch(a_data.EVT_TYPE){
 			case 'ET001':
 				v_eventMessage = a_data.NODE_NM + '에 도착'; break;
@@ -220,6 +235,11 @@
 	$.pf_socksig = function(a_data){
 		$.jf_changesigmarker(js_sigList, a_data);
 	}
+	
+	$.pf_sockprisig = function(a_data){
+		//if(a_data.LIST[0].VHC_NO != $.jf_curdgfieldvalue($('#dg0'), 'VHC_NO')) return false;
+		$.jf_addsigoverlay(a_data, $.jf_curdgrow($('#dg0')));
+	} 
 
 	</script>
 </head>
