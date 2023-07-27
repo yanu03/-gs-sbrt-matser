@@ -138,8 +138,8 @@ public class AuthorityController extends ControllerSupport {
 		return result.getResult();
 	}
 
-	@RequestMapping("/authority/selectAuthorityList_exlDownload")
-    public String  selectAuthorityList_exlDownload(Model model) throws Exception {
+	@RequestMapping("/authority/authorityList_exlDownload")
+    public String  authorityList_exlDownload(Model model) throws Exception {
 
 		String[] getValues = {"AUTH_CD", "AUTH_NM", "USE_YN", "REMARK"};
 		String[] headerTitle = {"권한코드", "권한명", "사용여부", "비고"};
@@ -147,7 +147,21 @@ public class AuthorityController extends ControllerSupport {
 		model.addAttribute("title", "권한그룹정보");
 		model.addAttribute("headerTitle", headerTitle);
 		model.addAttribute("getValues", getValues);
-		model.addAttribute("excelList", authorityService.selectAuthorityList_exlDownload());
+		model.addAttribute("excelList", authorityService.authorityList_exlDownload());
+		return "ExcelView";
+        //return new ModelAndView("ExcelView", "map", result);
+	}
+	
+	@RequestMapping("/authority/authorityMemberList_exlDownload")
+    public String  authorityMemberList_exlDownload(HttpServletRequest req, Model model) throws Exception {
+		String param = req.getParameter("param");
+		String[] getValues = {"USER_ID", "USER_NM", "AUTH_CD"};
+		String[] headerTitle = {"사용자ID", "사용자명", "권한코드"};
+		
+		model.addAttribute("title", "사용자권한정보");
+		model.addAttribute("headerTitle", headerTitle);
+		model.addAttribute("getValues", getValues);
+		model.addAttribute("excelList", authorityService.authorityMemberList_exlDownload(param));
 		return "ExcelView";
         //return new ModelAndView("ExcelView", "map", result);
 	}
