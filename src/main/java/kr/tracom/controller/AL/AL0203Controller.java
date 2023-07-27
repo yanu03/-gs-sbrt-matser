@@ -2,9 +2,12 @@ package kr.tracom.controller.AL;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -81,5 +84,19 @@ public class AL0203Controller extends ControllerSupport{
 		return result.getResult();
 	}
 	
+	@RequestMapping("/al/AL0203G1_exlDownload")
+    public String  AL0203G0_exlDownload(HttpServletRequest req , Model model) throws Exception {
+	   String allocId = req.getParameter("param1");
+	   String allocNo = req.getParameter("param2");
+	   String[] getValues = {"ALLOC_ID", "ROUT_ID", "ROUT_NM", "NODE_ID", "NODE_TYPE", "NODE_TYPE_NM", "NODE_NM", "ARRV_TM", "DPRT_TM"};
+	   String[] headerTitle = {"배차ID", "노선ID", "노선명", "노드ID", "노드종류", "노드종류 명", "노드명", "도착시간", "출발시간"};
+      
+	   model.addAttribute("title", "운행계획세부정보");
+	   model.addAttribute("headerTitle", headerTitle);
+	   model.addAttribute("getValues", getValues);
+	   model.addAttribute("excelList", al0203Service.AL0203G1_exlDownload(allocId,allocNo));
+	   return "ExcelView";
+        //return new ModelAndView("ExcelView", "map", result);
+   }
 	
 }

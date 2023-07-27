@@ -19,6 +19,23 @@
 	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
     $( document ).ready(function() {});
+
+    let uv_vhcmap = {
+        "VHC_ID" : 10,
+        "COMP_ID" : 10,
+        "AREA" : 5,
+        "CHAS_NO" : 17,
+        "MAKER" : 5,
+        "RELS_DT" : 10,
+        "MODEL_NM" : 30,
+        "ROUT_TYPE" : 5,
+        "VHC_TYPE" : 5,
+        "VHC_KIND" : 5,
+        "VHC_FUEL" : 5,
+        "PSG_CNT" : 5,
+        "REMARK" : 200
+    };
+
     $.pf_append = function(){return true;}
     $.pf_delete = function(){ return true;}
     $.pf_validatedata = function(a_obj, a_idx, a_type){return true;}
@@ -54,26 +71,28 @@
     };
     $.pf_acceptcfmsg = function(a_type){
         if(a_type == 'save'){
-            if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){$.jf_savedgdata($('#dg0'), '/si/SI0200G0S0', 'post', null);}
+            if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') && $.uf_validatedata()){$.jf_savedgdata($('#dg0'), '/si/SI0200G0S0', 'post', null);}
             else{$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);}
         }
         else if(a_type == 'close'){
-            if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
+            if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') && $.uf_validatedata()){
                 $.jf_savedgdata($('#dg0'), '/si/SI0200G0S0', 'post', null);  
                 $.jf_close();
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);  
         }
         else if(a_type == 'search'){
-            if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') ){
-                if($.jf_changeddg($('#dg0'), null)) $.jf_savedgdata($('#dg0'), '/si/SI0200G0S0', 'post', 'search');
+            if($.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f') && $.uf_validatedata()){
+                if($.jf_changeddg($('#dg0'), null)) {
+                    $.jf_savedgdata($('#dg0'), '/si/SI0200G0S0', 'post', 'search');
+                }
                 $.jf_retrieve($('#dg0'));
             }
             else $.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
         }
         else if(a_type == 'excelupload'){
-  		  	$("#excelupload_p0").window('open');
-		  		$("#excelinputfile").val('');
+            $("#excelupload_p0").window('open');
+            $("#excelinputfile").val('');
         }
 
         return true;
@@ -90,6 +109,87 @@
     $.pf_deleteafter = function(a_obj){
         if($.jf_datalength($('#dg0')) == 0) $.jf_protectform($('#dg0'), $('#ef0'), true, 0);
         return true;
+    }
+
+    $.uf_exlvalidatedata = function(){
+        let rtn_value = true;
+        let v_data = $('#dg0').datagrid('getRows');
+
+        for(let i=0; i < v_data.length; i++){
+            if(v_data[i].msg != null && typeof(v_data[i].msg) != 'undefined'){
+                if(!$.uf_subvalidate(v_data[i])) rtn_value = false;
+            }
+        }
+
+        return rtn_value;
+    }
+
+    $.uf_subvalidate = function(a_data){
+        
+        let rtn_value = true;
+        
+        for(key in a_data){
+            // debugger;
+            for(key2 in uv_vhcmap){
+                if(key == key2){
+                    if(a_data[key].length > uv_vhcmap[key2]){
+                        rtn_value = false;
+                        //if(rtn_value == false) console.log("key : " + key+ ", value : " + a_data[key]);
+                    }
+                }
+            }
+        }
+
+        return rtn_value;
+    }
+
+    $.uf_updategrid = function(a_obj, a_data){      
+        a_obj.datagrid('loadData',[]);
+
+        for(let i=0; i < a_data.length; i ++){
+            a_obj.datagrid('appendRow', a_data[i]);
+
+            if(a_data[i].msg != null && typeof(a_data[i].msg) != 'undefined'){
+                a_obj.datagrid('freezeRow', i);
+                a_data[i].REMARK += ' msg : ' + a_data[i].msg;
+            }
+        }
+
+        // $.jf_protectform($('#dg0'), $('#ef0'), true, a_data.length);
+        $.jf_setfocus(a_obj, -1);
+        $.jf_setfooter(a_obj);
+
+        return true;
+    }
+    
+    $.uf_reupdate = function(a_obj, a_data){
+        if(typeof(a_data[0]['errorMsg']) != "undefined"){
+            top.$.tracomalmsg('정보', a_data[0]['errorMsg'], null);  
+        }else{
+            $.uf_updategrid(a_obj, a_data);
+        }
+    }
+    
+    $.uf_excelupload = function(a_obj, a_form, url){
+        $.ajax({
+            type: 'POST',
+            enctype: 'multipart/form-data',
+            url: url,
+            data: a_form,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function(data) {
+                $.uf_reupdate(a_obj, data['rows']);
+            },
+            error: function(e) {
+                if (e.status == 403) {
+                    alert("세션이 만료되어 로그인 페이지로 돌아갑니다.");
+                    top.location.replace("/user/login");
+                }
+                console.log('ERROR : ', e);
+            }
+        });
     }
 	</script>
 </head>
@@ -112,11 +212,11 @@
                     <!-- btn0 js -->
                     <script src="/static/js/SI/SI0200/SI0200_btn0.js"></script>
                     <div id="excelupload_p0" class="easyui-window" title="엑셀 업로드" data-options="modal:true,closed:true,iconCls:'icon-save'"
-                    	style="width:500px;height:200px;padding:10px;">
-                    	<form id="excelfrm" name="excelfrm" method="post" enctype="multipart/form-data">
-												<input id="excelinputfile" name="excelinputfile" type="file"/>
-											</form>
-								    </div>
+                        style="width:500px;height:200px;padding:10px;">
+                        <form id="excelfrm" name="excelfrm" method="post" enctype="multipart/form-data">
+                                                <input id="excelinputfile" name="excelinputfile" type="file"/>
+                                            </form>
+                                    </div>
                 </div>
             </div>
         </div>

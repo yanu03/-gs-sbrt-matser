@@ -93,7 +93,8 @@ $(function(){
 		$.uf_distri();
 	});*/
   $('#btn7').bind('click', function(){
-		$.jf_exceldownload($('#dg0'), '/al/AL0203G0_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
+		let v_selected = $('#dg0').datagrid('getSelected');
+		$.jf_exceldownload($('#dg0'), '/al/AL0203G1_exlDownload?param1='+v_selected.ALLOC_ID+'&param2='+v_selected.ALLOC_NO);
 	});
 
 	$('#btn8').bind('click', function(){

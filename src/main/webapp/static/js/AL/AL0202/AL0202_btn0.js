@@ -48,11 +48,11 @@ $(function(){
 	    height: 24,
 	    iconCls: 'icon-clear'
 	});
-	$('#btn7').linkbutton({
+	$('#btn6').linkbutton({
 		height: 24,
 		iconCls: 'icon-excel'
 	});
-	$('#btn8').linkbutton({
+	$('#btn7').linkbutton({
 			height: 24,
 			iconCls: 'icon-excel'
 	});
@@ -125,10 +125,15 @@ $(function(){
 	$('#btn4').bind('click', function(){
 		if($.jf_validatedata($('#dg0'), null, $.jf_fnddgstrct($('#dg0')), 'g')&& $.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g'))
 		{
-			$.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
-			$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
-			if($.jf_changeddg($('#dg0'))) $.jf_savedgdata($('#dg0'), '/al/AL0202G0S0', 'post', null)
-			if($.jf_changeddg($('#dg1'))) $.jf_savedgdata($('#dg1'), '/al/AL0202G1S0', 'post', null)
+			if($.uf_exlvalidatedata()){
+				$.jf_endedit($('#dg0'), $.jf_fnddgstrct($('#dg0')));
+				$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
+				if($.jf_changeddg($('#dg0'))) $.jf_savedgdata($('#dg0'), '/al/AL0202G0S0', 'post', null)
+				if($.jf_changeddg($('#dg1'))) $.jf_savedgdata($('#dg1'), '/al/AL0202G1S0', 'post', null)
+			}else{
+				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);  
+			}
+				
 			//else $.tracomalmsg('정보', '저장할 데이터가 없습니다.'); 
 		}
 	});
@@ -141,17 +146,18 @@ $(function(){
 	});
   
 	$('#btn6').bind('click', function(){
-		$.jf_exceldownload($('#dg0'), '/al/AL0202G0_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
+		let v_selected = $('#dg0').datagrid('getSelected');
+		$.jf_exceldownload($('#dg1'), '/al/AL0202G1_exlDownload?param='+ v_selected.ALLOC_ID);
 	});
 
 	$('#btn7').bind('click', function(){
-			$.tracomcfmsg('확인', '엑셀 업로드시 차량관리 데이터가 재 갱신됩니다. 엑셀 업로드를 하시겠습니까?', 'excelupload');
+			$.tracomcfmsg('확인', '엑셀 업로드 후 데이터 형식에 맞지 않는 데이터가 존재 시 수정 후 저장 해주십시오.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 엑셀 업로드를 하시겠습니까?', 'excelupload');
 	});
 
 	$("#excelinputfile").on("change", function(e){
 		var form = $("#excelfrm")[0];
 		var formData = new FormData(form); 
 		$("#excelupload_p0").window('close');
-		$.jf_excelupload($('#dg1'), formData, '/al/AL0202G1_exlUpload');
+		$.uf_excelupload($('#dg1'), formData, '/al/AL0202G1_exlUpload');
 	}); 
 });

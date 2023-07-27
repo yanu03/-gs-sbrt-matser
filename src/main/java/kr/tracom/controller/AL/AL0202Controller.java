@@ -1,6 +1,9 @@
 package kr.tracom.controller.AL;
 
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -101,17 +104,17 @@ public class AL0202Controller extends ControllerSupport {
       return result.getResult();
    }*/
    
-   @RequestMapping("/al/AL0202G0_exlDownload")
-    public String  AL0202G0_exlDownload(Model model) throws Exception {
-
-      String[] getValues = {"ALLOC_NO","ALLOC_ID", "ROUT_ID", "ROUT_NM", "WAY_DIV", "WAY_DIV_NM", "ROUT_ST_TM", "ROUT_ED_TM"};
-      String[] headerTitle = {"배차번호", "배차ID", "노선ID", "노선명", "상하행구분", "상하행구분 명", "시작시간(시분)", "종료시간(시분)"};
+   @RequestMapping("/al/AL0202G1_exlDownload")
+    public String  AL0202G0_exlDownload(HttpServletRequest req , Model model) throws Exception {
+	   String allocId = req.getParameter("param");
+	   String[] getValues = {"ALLOC_NO","ALLOC_ID", "ROUT_ID", "ROUT_NM", "WAY_DIV", "WAY_DIV_NM", "ROUT_ST_TM", "ROUT_ED_TM", "SN"};
+	   String[] headerTitle = {"배차번호", "배차ID", "노선ID", "노선명", "상하행구분", "상하행구분 명", "시작시간(시분)", "종료시간(시분)", "순번"};
       
-      model.addAttribute("title", "차량정보");
-      model.addAttribute("headerTitle", headerTitle);
-      model.addAttribute("getValues", getValues);
-      model.addAttribute("excelList", al0202Service.AL0202G1_exlDownload());
-      return "ExcelView";
+	   model.addAttribute("title", "운행계획정보");
+	   model.addAttribute("headerTitle", headerTitle);
+	   model.addAttribute("getValues", getValues);
+	   model.addAttribute("excelList", al0202Service.AL0202G1_exlDownload(allocId));
+	   return "ExcelView";
         //return new ModelAndView("ExcelView", "map", result);
    }
    
@@ -119,10 +122,15 @@ public class AL0202Controller extends ControllerSupport {
    @RequestMapping("/al/AL0202G1_exlUpload")
     public @ResponseBody  Map<String, Object> AL0202G1_exlUpload(@RequestParam("excelinputfile")MultipartFile file) throws Exception {
 
-      String[] getValues = {"ALLOC_NO", "OLD_ROUT_ID", "ALLOC_ID", "ROUT_NM", "ROUT_ID", "OLD_ALLOC_NO", "DAY_DIV"
-            , "DAY_DIV_NM", "WAY_DIV", "WAY_DIV_NM", "OLD_WAY_DIV", "OPER_SN", "OLD_OPER_SN", "ROUT_ST_TM", "ROUT_ED_TM"};
+      String[] getValues = {"ALLOC_NO",  "ALLOC_ID", "ROUT_ID", "ROUT_NM", "WAY_DIV", "WAY_DIV_NM", 
+    		  "ROUT_ST_TM","ROUT_ED_TM", "SN", "DRV_ID", "VHC_ID",  "COR_ID", "REST_TM", "OPER_SN" };
    
-      result.setData("rows", excelUploadService.excelToList(file, getValues));
+      
+      List<Map<String, Object>> list = excelUploadService.excelToList(file, getValues);
+      List<Map<String, Object>> resultList = al0202Service.AL0202G1_exlUpload(list);
+      
+      result.setData("rows", resultList);
+      
       return result.getResult();
    }
 }

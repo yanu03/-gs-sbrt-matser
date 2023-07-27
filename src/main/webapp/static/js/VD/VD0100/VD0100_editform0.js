@@ -394,6 +394,13 @@ $(function(){
         onChange: function(checked){
             //checked : true, false
             if(!jv_rowclick) return false;
+            if(checked == true){
+                if(!$.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"VD0100", function(){})) {
+                    $('#USE_YN_Y').radiobutton('check');
+                }
+            }
+            
+
         }
 	});
 

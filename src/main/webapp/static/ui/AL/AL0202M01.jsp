@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/jquery-easyui-1.10.15/themes/color.css">
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/jquery-easyui-1.10.15/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/static/jquery/jquery.fileDownload-1.4.5.js"></script> 
 	<script src="/static/js/common/sample_comm.js"></script>
 	<script type="text/javascript">
 		$( document ).ready(function() {
@@ -19,6 +20,12 @@
 	var js_dayDiv = null;
 	var js_wayDiv = null;
 
+	var uv_routmap ={
+		"ALLOC_ID" : 10,
+		"SN" : 5,
+		"ALLOC_NO" : 2,
+		"ROUT_ID" : 10
+	}
 
     $.pf_append = function(){return true;}
     $.pf_delete = function(){return true;}
@@ -66,9 +73,9 @@
 				$.tracomalmsg('정보', '데이터가 정상적이지 않아 저장할 수 없습니다.', null);
 		}
 		if(a_type == 'excelupload'){
-	        $("#excelupload_p0").window('open');
-	          $("#excelinputfile").val('');
-	    	}
+				$("#excelupload_p0").window('open');
+					$("#excelinputfile").val('');
+			}
 		if(typeof(a_type) == 'number'){
 			if($.jf_validatedata($('#dg1'), null, $.jf_fnddgstrct($('#dg1')), 'g') ){
 				$.jf_endedit($('#dg1'), $.jf_fnddgstrct($('#dg1')));
@@ -201,7 +208,129 @@
 		}
 		return true;
 	}
-	
+	// -------------------------------- excel upload ---------------------------------------
+
+	$.uf_exlvalidatedata = function(){
+        let rtn_value = true;
+        let v_data = $('#dg1').datagrid('getRows');
+				let v_allocno = [];
+				let v_maxallocno;
+				let v_deduplicateallocno = [];
+				// 업로드된 그리드의 배차번호 얻기
+				for(let i=0; i < v_data.length; i++){
+					v_allocno.push(v_data[i].ALLOC_NO);
+				}
+				v_maxallocno = Math.max(...v_allocno);
+
+				// 얻은 배차번호의 중복 제거 
+				v_allocno.forEach((nonduple) => {
+						if(!v_deduplicateallocno.includes(nonduple)){
+							v_deduplicateallocno.push(nonduple);
+						}
+				});
+
+        for(let i=0; i < v_data.length; i++){
+            if(v_data[i].msg != null && typeof(v_data[i].msg) != 'undefined'){
+							if(!$.uf_subvalidate(v_data[i], "msg","")){
+									rtn_value = false;
+							} 
+            }
+        }
+
+				if(!$.uf_subvalidate(v_data, "alloc_no", v_deduplicateallocno)) rtn_value = false;
+
+        return rtn_value;
+    }
+
+    $.uf_subvalidate = function(a_data, a_type, a_allocno){
+        let rtn_value = true;
+				let v_starttimes = [];
+				let v_cnt = 0;
+
+				if(a_type == "msg"){
+					for(key in a_data){
+							for(key2 in uv_routmap){
+									if(key == key2){
+											if(a_data[key].length > uv_routmap[key2]){
+												rtn_value = false;
+											}
+									}
+							}
+					}
+				}
+				else if(a_type == "alloc_no"){
+						loop: for(let i=0; i < a_allocno.length; i++){
+								for(let j=0; j < a_data.length; j++){
+										if(a_allocno[i] == a_data[j].ALLOC_NO){
+												// 여기서 배차번호 기준 데이터 만든다
+												v_starttimes.push(a_data[j].ROUT_ST_TM);
+										}
+								}
+								for(let data of v_starttimes){
+										v_starttimes.filter((value) => {
+												if(data == value) v_cnt++;
+										});
+										if(v_cnt > 1) {
+												rtn_value = false;
+												break loop;
+										}
+										v_cnt = 0;
+								}
+								v_starttimes = [];
+							}
+				}		
+
+				rtn_value = false;
+        return rtn_value;
+    }
+
+    $.uf_updategrid = function(a_obj, a_data){      
+        a_obj.datagrid('loadData',[]);
+        for(let i=0; i < a_data.length; i ++){
+						a_obj.datagrid('appendRow', a_data[i]);
+
+            if(a_data[i].msg != null && typeof(a_data[i].msg) != 'undefined'){
+                a_obj.datagrid('freezeRow', i);
+                a_data[i].REMARK += ' msg : ' + a_data[i].msg;
+            }
+        }
+        $.jf_setfocus(a_obj, -1);
+        $.jf_setfooter(a_obj);
+
+        return true;
+    }
+    
+    $.uf_reupdate = function(a_obj, a_data){
+        if(typeof(a_data[0]['errorMsg']) != "undefined"){
+            top.$.tracomalmsg('정보', a_data[0]['errorMsg'], null);  
+        }else{
+            $.uf_updategrid(a_obj, a_data);
+        }
+    }
+    
+    $.uf_excelupload = function(a_obj, a_form, url){
+        $.ajax({
+            type: 'POST',
+            enctype: 'multipart/form-data',
+            url: url,
+            data: a_form,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function(data) {
+							console.log(data);
+                $.uf_reupdate(a_obj, data['rows']);
+            },
+            error: function(e) {
+                if (e.status == 403) {
+                    alert("세션이 만료되어 로그인 페이지로 돌아갑니다.");
+                    top.location.replace("/user/login");
+                }
+                console.log('ERROR : ', e);
+            }
+        });
+    }
+
 	</script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">
@@ -261,12 +390,12 @@
 							</div>	
 							<!--datagrid1 -->
 							<script src="/static/js/AL/AL0202/AL0202_dg1.js"></script>
-							<div id="excelupload_p0" class="easyui-window" title="엑셀 업로드" data-options="modal:true,closed:true,iconCls:'icon-save'"
-		                   	 style="width:500px;height:200px;padding:10px;">
-		                    	<form id="excelfrm" name="excelfrm" method="post" enctype="multipart/form-data">
-		                           <input id="excelinputfile" name="excelinputfile" type="file"/>
-		                        </form>
-		                   </div>
+								<div id="excelupload_p0" class="easyui-window" title="엑셀 업로드" data-options="modal:true,closed:true,iconCls:'icon-save'"
+									style="width:500px;height:200px;padding:10px;">
+									<form id="excelfrm" name="excelfrm" method="post" enctype="multipart/form-data">
+												<input id="excelinputfile" name="excelinputfile" type="file"/>
+										</form>
+								</div>
 						</div>
 					</div>
 				</div>

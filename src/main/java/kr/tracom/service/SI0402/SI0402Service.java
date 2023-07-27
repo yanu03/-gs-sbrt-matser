@@ -443,18 +443,148 @@ public class SI0402Service extends ServiceSupport {
 		return si0402Mapper.SI0402G1K0();
 	}	
 
-	public List SI0402G1_exlDownload() throws Exception {
-		String param = (String)request.getAttribute("param");
+	public List SI0402G1_exlDownload(String parameter) throws Exception {
+		String param = parameter; //(String)request.getAttribute("param");
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(CommonUtil.empty(param)){
 			map.put("TYPE", "ALL");
-			map.put("CONTENT", "");
+			map.put("ROUT_ID", "");
 		}
 		else{
 			map.put("TYPE", "ALL");
-			map.put("CONTENT", param);
+			map.put("ROUT_ID", param);
 		}
-
+		System.out.println(map);
 		return si0402Mapper.SI0402G1R0(map);
+	}
+	
+	public String SI0402G1_exlUploadCheck(String value, int valueLength, String id) throws Exception{
+		String result = "";
+		String date1 = "";
+		// Required input check
+		if(id == "노선ID" || id == "노드ID" || id == "노드순번" || id == "노드명") {
+			if(value == "" || value == null) {
+				result =  id + "을(를) 작성 후 업로드 해주세요.";
+			}
+		}
+		// checking data length
+		if(value.length() > valueLength) {
+			result = id + "을(를) 데이터 형식에 맞게 입력 해주세요.";
+		}
+		
+		return result;
+	}
+	
+	// 기능: excel upload validate
+	public List<Map<String, Object>> SI0402G1_exlUpload(List<Map<String, Object>> data) throws Exception{
+		String [] keys = {"ROUT_ID", "NODE_ID", "NODE_SN", "NODE_NM"};
+		List<Map<String, Object>> list = data;
+		Map<Integer, Object> map2 = new HashMap<Integer, Object>(); 
+		
+		Map<String, Object> resultMap = new HashMap<String,Object>(); // error message
+		List<String> array = new ArrayList<String>(); // contain NODE_SN 
+		
+		String value;
+		String resultMsg = "";
+		int cnt = 0; // 빈column갯수 새기
+		int index = 0; 
+		
+		
+		// checking to data type
+		loop1:
+		for(Map<String, Object> map : list) {
+			map.put("USE_YN", "Y");
+			map.put("LINK_NODE_YN", "Y");
+			for(Map.Entry<String, Object> entry : map.entrySet()) {
+				value = entry.getValue().toString();
+				if(entry.getKey() == "ROUT_ID") {
+					resultMsg = SI0402G1_exlUploadCheck(value, 10, "노선ID");
+				}
+				else if(entry.getKey() == "NODE_ID") {
+					resultMsg = SI0402G1_exlUploadCheck(value, 10, "노드ID");
+				}
+				else if(entry.getKey() == "NODE_SN") {
+					resultMsg = SI0402G1_exlUploadCheck(value, 12, "노드순번");
+					array.add(value);
+				}
+				else if(entry.getKey() == "WAY_DIV") {
+					resultMsg = SI0402G1_exlUploadCheck(value, 5, "상하행구분");
+				}
+				else if(entry.getKey() == "LINK_ID") {
+					resultMsg = SI0402G1_exlUploadCheck(value, 10, "링크ID");
+				}
+				else if(entry.getKey() == "STTN_ID") {
+					resultMsg = SI0402G1_exlUploadCheck(value, 10, "정류소ID");
+				}
+				else if(entry.getKey() == "CRS_ID") {
+					resultMsg = SI0402G1_exlUploadCheck(value, 10, "교차로ID");
+				}
+				else if(entry.getKey() == "GPS_X") {
+					resultMsg = SI0402G1_exlUploadCheck(value, 18, "경도");
+				}
+				else if(entry.getKey() == "GPS_Y") {
+					resultMsg = SI0402G1_exlUploadCheck(value, 18, "위도");
+				}
+				else if(entry.getKey() == "NODE_NM") {
+					resultMsg = SI0402G1_exlUploadCheck(value, 30, "노드명");
+				}
+				else if(entry.getKey() == "NODE_TYPE") {
+					resultMsg = SI0402G1_exlUploadCheck(value, 5, "노드유형");
+				}
+				else if(entry.getKey() == "REMARK") {
+					resultMsg = SI0402G1_exlUploadCheck(value, 200, "비고");
+				}
+				if(resultMsg != "") {
+					resultMap.put("errorMsg",resultMsg);
+					for(int i=0; i < keys.length; i++) {
+						if(entry.getKey() == keys[i]) {
+							list.clear();
+							list.add(resultMap);
+							break loop1;
+						}
+					}
+					map2.put(index, resultMsg);
+				}
+			}
+			index++;
+		}
+		
+		for(Map.Entry<Integer, Object> entry : map2.entrySet()) {
+			for(int i=0; i < list.size(); i++) {
+				if(entry.getKey() == i) {
+					Map<String, Object> listValue = list.get(i);
+					//System.out.println(entry.getValue());
+					listValue.put("msg", entry.getValue());
+					list.add(i, listValue);
+				}
+			}
+		}
+		
+		// find NODE_SN duplication
+		loop2:
+		for(int i=0; i < array.size(); i++) {
+			for(Map<String, Object> map : list){
+				if(array.get(i) == map.get("NODE_SN")) {
+					cnt++;
+				}
+			}
+			if(cnt > 1) {
+				resultMsg = "노드순번 "+ array.get(i) +"은 중복된 순번입니다.";
+				resultMap.put("errorMsg",resultMsg);
+				list.clear();
+				list.add(resultMap);
+				break loop2;
+			}
+			cnt = 0;
+		}
+	
+		if(list.isEmpty()) {
+			resultMsg = "일치하는 데이터가 존재하지 않습니다.";
+			resultMap.put("errorMsg",resultMsg);
+			list.clear();
+			list.add(resultMap);
+		}
+		
+		return list;
 	}
 }

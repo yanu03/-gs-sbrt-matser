@@ -108,7 +108,8 @@ $(function(){
 	var str = '<form id="filefrm" name="filefrm" method="post" enctype="multipart/form-data">'
 			+ '<input id="path" type="hidden" name="path" >'
 			// + '<input id="attach_id" type="hidden" name="attach_id" >'
-			+ '<input id="file_1" type="file" name="file_1" onchange="$.uf_preview(this);" >'
+			+ '<input id="file_1" type="file" name="file_1" onchange="$.uf_preview(this);">'
+            + '<input type="button" id="uploadbtn" value="파일 선택" onClick="$.uf_uploadclick()"/>'
 			+ '<a id="filebtn" href="#"></a>'
 			+ '</form>'
     $('tr:nth-child(4) td:nth-child(2)').append(str);

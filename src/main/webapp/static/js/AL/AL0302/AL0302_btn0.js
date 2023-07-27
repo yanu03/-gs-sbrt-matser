@@ -80,7 +80,8 @@ $(function(){
 		$.uf_distri();
 	});*/
   $('#btn7').bind('click', function(){
-		$.jf_exceldownload($('#dg0'), '/al/AL0302G0_exlDownload?param='+ $('#sch_sb0').searchbox('getValue'));
+		let v_selected = $('#dg0').datagrid('getSelected');
+		$.jf_exceldownload($('#dg1'), '/al/AL0302G1_exlDownload?param='+ v_selected.ALLOC_ID);
 	});
 
 	$('#btn8').bind('click', function(){

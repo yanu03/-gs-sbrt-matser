@@ -12,7 +12,7 @@ $(function(){
     $('#dg0').datagrid({
     url:'/sm/SM0403G0R0',	//json 조회 url
     method: 'POST', // url 던져서 쿼리 가져올때는 POST
-    queryParams: JSON.stringify({dma_search : {TYPE: "ALL", CONTENT : "", USE_YN : "", F_DATE : f_date, L_DATE : l_date}}),	//json 조회 params
+    queryParams: JSON.stringify({dma_search : {TYPE: "ALL", CONTENT : "",F_DATE : f_date, L_DATE : l_date}}),	//json 조회 params
     singleSelect: true,
     border: false,
     loadMsg: '데이터 로딩중입니다',

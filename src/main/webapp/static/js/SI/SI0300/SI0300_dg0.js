@@ -55,6 +55,7 @@ $(function(){
     onClickRow: function(index,row){},
     onDblClickRow: function(index,row){},
     onBeforeSelect: function(index,row){
+        $.uf_checkchangeimg();
         return $.jf_validatedata(null, $('#ef0'), $.jf_fnddgstrct($('#dg0')), 'f');
     },
     onSelect: function(a_index,a_row){
