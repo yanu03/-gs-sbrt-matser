@@ -48,8 +48,8 @@
 		} 
   });
   $('#subbtn2').bind('click', function(){
-		$.jf_checkforeigntable($.jf_curdgrow($('#dg1')),"AL0302", function(){
-					$.jf_delete($('#dg1'));
+		$.jf_checkforeigntable($.jf_curdgrow($('#dg1')),"AL0302", function(a_type){
+					if(a_type != "Y") $.jf_delete($('#dg1'));
 			}
 		);
   });

@@ -572,7 +572,8 @@ $.jf_checkforeigntable = function(a_row, a_prog_id, a_cb){
 		contentType: 'application/json; charset=utf-8',
 		success : function(response) {
 			if(response.dma_result.STATUS=='EXIST'){
-				alert(response.dma_result.MSG);
+				$.tracomalmsg('정보',response.dma_result.MSG);
+				a_cb('Y');
 			}
 			else{
 				a_cb();

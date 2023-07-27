@@ -79,8 +79,8 @@ $(function(){
     });
     $('#btn3').bind('click', function(){
 	
-        $.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"SI0200", function(){
-						$.jf_delete($('#dg0'));
+        $.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"SI0200", function(a_type){
+						if(a_type != "Y") $.jf_delete($('#dg0'));
 				});
     });
     $('#btn4').bind('click', function(){

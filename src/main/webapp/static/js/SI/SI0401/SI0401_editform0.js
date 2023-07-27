@@ -461,9 +461,11 @@ $(function () {
 		onChange: function (checked) {
 			if (!jv_rowclick) return false;
 			if(checked == true){
-				if(!$.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"SI0401", function(){})) {
-					$('#USE_YN_Y').radiobutton('check');
-				}
+				$.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"SI0401", function(a_type){
+						if(a_type == "Y"){
+								$('#USE_YN_Y').radiobutton('check');
+						}
+				});
 			}
 		}
 	});

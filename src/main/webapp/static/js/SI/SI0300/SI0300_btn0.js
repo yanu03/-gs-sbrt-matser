@@ -75,8 +75,8 @@ $(function(){
         else $.tracomalmsg('정보','필수 입력창을 입력후 추가해주세요');
     });
     $('#btn3').bind('click', function(){
-        $.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"SI0300", function(){
-            	$.jf_delete($('#dg0'));
+        $.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"SI0300", function(a_type){
+            	if(a_type != "Y") $.jf_delete($('#dg0'));
             }
         );
     });
