@@ -35,7 +35,7 @@ public class Utils {
     	    put("SI0102", "BMS_TRANSCOMP_MST");
     	    put("SI0200", "BMS_VHC_MST");
     	    put("SI0300", "BMS_DRV_MST");
-    	    put("VD0100", "BMS_DVC_INFO");
+    	    put("VD0100", "BMS_VHC_DVC_CMPSTN");
     	    put("SI0401", "BMS_ROUT_MST");
     	    put("SI0501", "BMS_STTN_MST");
     	    put("SI0503", "BMS_CRS_MST");
@@ -65,7 +65,7 @@ public class Utils {
     	    put("BMS_ALLOC_VHC_CMPSTN", "배차별 차량 관리");
     	    put("BMS_ALLOC_DRV_CMPSTN", "배차별 운전자 관리");
     	    put("BMS_ALLOC_PL_INFO", "차량배차 관리");
-    	    put("BMS_DVC_INFO", "차내장치정보 관리");
+    	    put("BMS_VHC_DVC_CMPSTN", "차내장치정보 관리");
     	}};
 	}	
 	
