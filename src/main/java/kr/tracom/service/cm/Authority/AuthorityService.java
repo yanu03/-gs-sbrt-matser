@@ -9,7 +9,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import kr.tracom.mapper.cm.Authority.AuthorityMapper;
-
 import kr.tracom.support.ServiceSupport;
 import kr.tracom.support.exception.MessageException;
 import kr.tracom.util.CommonUtil;

@@ -120,7 +120,8 @@
 		//$.jf_insert($('#dg2'), v_params, 0);
 		$('#dg2').datagrid('insertRow', {index : 0, row: v_params});
 		//if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
-		$.jf_adddsptchoverlay(a_data);
+		if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
+		if($.jf_fndicostrct('_dsptch') == null) $.jf_adddsptchoverlay(a_data);
 		return true;
 		//현재 데이터가 메시지만 넘어오고 있음. 디스패치 구분(DSPTCH_DIV)가 넘어올 경우 일반메시지, 운행메시지, 정차메시지 구분해야함.
 	}
@@ -154,7 +155,7 @@
 			for(var i=0; i<v_dgData.length; i++){
 				if(v_dgData[i].VHC_ID == a_data.VHC_ID){
 					$('#dg0').datagrid('selectRow', i);
-					$.jf_delete(i);
+					$.jf_delete($('#dg0'));
 					return true;
 				}
 				
@@ -238,6 +239,7 @@
 	
 	$.pf_sockprisig = function(a_data){
 		//if(a_data.LIST[0].VHC_NO != $.jf_curdgfieldvalue($('#dg0'), 'VHC_NO')) return false;
+		if(a_data.VHC_NO != $.jf_curdgfieldvalue($('#dg0'), 'VHC_NO')) return false;
 		$.jf_addsigoverlay(a_data, $.jf_curdgrow($('#dg0')));
 	} 
 

@@ -54,10 +54,11 @@ const mapOption = {
 	ZINDEX_STTN_OVERLAY : 5, //정류소 오버레이 z-index
 	ZINDEX_CRS_MARKER : 1, //교차로 마커 z-index
 	ZINDEX_CRS_OVERLAY : 3, //교차로 오버레이 z-index
+	ZINDEX_MARKER_OVERLAY : 5,
 	ZINDEX_FOCUS_STTNCRS_MARKER : 3, //선택된 정류소 or 교차로 마커 z-index
 	ZINDEX_BUS_MARKER : 6, //버스 마커 z-index
-	ZINDEX_FOCUS_BUS_MARKER : 10, //선택된 버스 마커 z-index
-	ZINDEX_BUS_OVERLAY : 9, //버스 오버레이 z-index
+	ZINDEX_FOCUS_BUS_MARKER : 101, //선택된 버스 마커 z-index
+	ZINDEX_BUS_OVERLAY : 100, //버스 오버레이 z-index
 	ZINDEX_BUS_RIGHTCLICK_OVERLAY : 999, //버스 우클릭창 z-index
 	ZINDEX_SIG_MARKER : 4, //신호등 z-index
 	ZINDEX_DISPATCH_OVERLAY : 100000, //디스패치 오버레이 z-index
@@ -289,7 +290,7 @@ $.jf_addoverlay = function(a_data, a_nodetype) {
 	let overlay = null;
 	let marker = null;
 	let nodeType = null;
-	let zIndex = mapOption.ZINDEX_BUS_OVERLAY;
+	let zIndex = mapOption.ZINDEX_MARKER_OVERLAY;
 	if(!$.jf_isempty(a_nodetype)) {
 		if(a_nodetype == mapOption.NODE_TYPE.BUSSTOP) {
 			a_data['NODE_NM'] = a_data.STTN_NM;
@@ -370,7 +371,7 @@ $.jf_adddsptchoverlay = function(a_data) {
 	let overlayName = null;
 	let overlay = null;
 	let marker = null;
-	let zIndex = mapOption.ZINDEX_BUS_OVERLAY;
+	let zIndex = mapOption.ZINDEX_DISPATCH_OVERLAY;
 	//let v_message = a_data.MESSAGE;
 	let v_message = $.jf_convertdsptch(a_data);
 	let v_dsptchMsg = "";
@@ -401,6 +402,7 @@ $.jf_adddsptchoverlay = function(a_data) {
 	v_dsptchMsg += '</div> </div>'
 	v_dsptchMsg += '</div></div>'	*/			
 
+
 	if(a_data.DSPTCH_DIV == 'DP001' || a_data.DSPTCH_DIV == 'DP002'){
 		if($.jf_fndicostrct('evt') != null) v_dsptchMsg += '<div class="dispatch map_mesage" style="position: absolute; bottom:210px;"></h3>';
 		else v_dsptchMsg += '<div class="dispatch map_mesage" style="position: absolute;"></h3>';
@@ -410,7 +412,6 @@ $.jf_adddsptchoverlay = function(a_data) {
 		v_dsptchMsg += '</div>'
 	
 		//if(!$.jf_isempty(a_data['IMP_ID'])) marker = $.jf_fndmkstrct(a_data.IMP_ID);
-		if ($.jf_fndicostrct('_dsptch') == null) {
 		if (!$.jf_isempty(a_data['VHC_ID'])) marker = $.jf_fndbmkstrct(a_data.VHC_ID);
 			overlay = new kakao.maps.CustomOverlay({
 				content : v_dsptchMsg,
@@ -422,7 +423,6 @@ $.jf_adddsptchoverlay = function(a_data) {
 			overlay.id = a_data.VHC_ID+'_dsptch';
 			overlay.setMap(js_map);
 			js_overlaystruct.push(overlay);		
-		}
 	}
 	
 	else if (a_data.DSPTCH_DIV == 'DP003'){
@@ -976,8 +976,23 @@ $.jf_sockbus = function(a_data){
 	let busMarker = $.jf_fndbmkstrct(a_data.VHC_ID);
 	if($.jf_isempty(busMarker))$.jf_addbusmarker(a_data);
 	else {
-		$.jf_movemarker(busMarker, a_data.GPS_X, a_data.GPS_Y);
-		$.jf_updatebearing(busMarker, a_data.BEARING);	
+        let oldPos = busMarker.getPosition();
+        let newPos = new kakao.maps.LatLng(a_data.GPS_Y, a_data.GPS_X);		
+		
+		if(!oldPos.equals(newPos)) {
+			$.jf_movemarker(busMarker, a_data.GPS_X, a_data.GPS_Y);
+			$.jf_updatebearing(busMarker, a_data.BEARING);	
+
+            let evtOverlay = $.jf_fndicostrct(a_data.VHC_ID+ '_evt');  
+            if(!$.jf_isempty(evtOverlay)) $.jf_moveoverlay(evtOverlay, a_data.GPS_X, a_data.GPS_Y);		
+
+			let dsptchOverlay = $.jf_fndicostrct(a_data.VHC_ID+ '_dsptch');
+			if(!$.jf_isempty(dsptchOverlay)) $.jf_moveoverlay(dsptchOverlay, a_data.GPS_X, a_data.GPS_Y);
+			
+			let sigOverlay = $.jf_fndicostrct(a_data.VHC_ID+ '_sig');	
+			if(!$.jf_isempty(sigOverlay)) $.jf_moveoverlay(sigOverlay, a_data.GPS_X, a_data.GPS_Y);
+		}
+		
 	}
 
 	let busOverlay = $.jf_fndbostrct(a_data.VHC_ID);
@@ -1007,8 +1022,16 @@ $.jf_sockevt = function(a_data) {
 	let busMarker = $.jf_fndbmkstrct(a_data.VHC_ID);
 	if($.jf_isempty(busMarker))$.jf_addbusmarker(a_data);
 	else {
-		$.jf_movemarker(busMarker, a_data.GPS_X, a_data.GPS_Y);
-		$.jf_updatebearing(busMarker, a_data.BEARING);	
+		let oldPos = busMarker.getPosition();
+        let newPos = new kakao.maps.LatLng(a_data.GPS_Y, a_data.GPS_X);	
+		
+		if(!oldPos.equals(newPos)) {
+			$.jf_movemarker(busMarker, a_data.GPS_X, a_data.GPS_Y);
+			$.jf_updatebearing(busMarker, a_data.BEARING);
+			
+			let evtOverlay = $.jf_fndicostrct(a_data.VHC_ID+ '_evt');  
+            if(!$.jf_isempty(evtOverlay)) $.jf_moveoverlay(evtOverlay, a_data.GPS_X, a_data.GPS_Y);		
+		}	
 	}
 
 	let busOverlay = $.jf_fndbostrct(a_data.VHC_ID);
@@ -1017,6 +1040,7 @@ $.jf_sockevt = function(a_data) {
 
 	return true;
 }
+
 
 /** 
 작성자 : 양현우
@@ -1240,7 +1264,6 @@ $.jf_changesigmarker = function(a_baseData, a_sockData) {
 기능 : 우선신호 레벨3 오버레이
 **/
 $.jf_addsigoverlay = function(a_data, a_row){
-	debugger;
 	let zIndex = mapOption.ZINDEX_TRF_OVERLAY;
 	let v_showMessage = '';
 	let v_sigMessage = '';
@@ -1268,5 +1291,8 @@ $.jf_addsigoverlay = function(a_data, a_row){
 	v_overlay.setMap(js_map);
 	js_overlaystruct.push(v_overlay);	
 	
-	//timeout 돌려서 오버레이 사라지게 하는 함수 넣기		
+	setTimeout(function() {
+		if(($.jf_fndicostrct('_sig')) != null) $.jf_deleteOverlay($.jf_fndicostrct('_sig'));		
+	},mapOption.TRF_OVERLAY_TIME);	
+	
 }
