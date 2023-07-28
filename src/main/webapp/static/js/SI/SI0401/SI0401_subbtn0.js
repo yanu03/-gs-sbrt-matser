@@ -44,7 +44,11 @@
 		$.mf_selcompmdopen($('#dg1'), $('#ef0'), v_values, $('#COMP_NM'), 'g');
 	});
 	$('#subbtn2').bind('click', function(){
-		$.jf_delete($('#dg1'));
+		$.jf_checkforeigntable($.jf_curdgrow($('#dg1')),"SI0401_2", function(a_type){
+			if(a_type != "Y") $.jf_delete($('#dg1'));
+		});
+		
+		
 	});
 	$('#subbtn3').bind('click', function(){
 		if($.jf_changeddg($('#dg1'))) {
