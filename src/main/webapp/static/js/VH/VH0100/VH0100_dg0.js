@@ -11,7 +11,7 @@ $(function(){
       var v_tdate = $.tracombasicdate();
     $('#dg0').datagrid({
       view: scrollview,
-    pageSize:250,
+    pageSize:500,
     url:'/vh/VH0100G0R0',   //json 조회 url
     method: 'POST', // url 던져서 쿼리 가져올때는 POST
     queryParams: JSON.stringify({"dma_search" : {"TYPE" : "All", "CONTENT1" : "", "CONTENT2" : "", "CONTENT3" : "", "F_DATE":v_fdate, "L_DATE":v_tdate}}),   //json 조회 params

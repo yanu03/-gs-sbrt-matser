@@ -37,9 +37,7 @@
 				AND DATE_FORMAT(A.UPD_DTM, '%Y-%m-%d') BETWEEN #{F_DATE} AND #{L_DATE}
 		</if>			
 	</where>
-	
 	ORDER BY			A.UPD_DTM DESC
-<!-- 	LIMIT 10000; -->
 </select>
 
 </mapper>

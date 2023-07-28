@@ -20,11 +20,10 @@ $(function(){
     multiSort: true,
     checkOnSelect: true,
     columns:[[
-            // {field:'ck',title:'',width:60,checkbox:true},
-            {field:'ROUT_GRP',title:'노선그룹',width:120,align:'center',halign:'center',hidden:true},
             {field:'ROUT_GRP_NM',title:'노선그룹명',width:120,align:'center',halign:'center',sortable:true},
-            {field:'NODE_ID',title:'정류소ID',width:200,align:'left',halign:'center',hidden:true},
             {field:'NODE_NM',title:'정류소명',width:250,align:'left',halign:'center',sortable:true},
+            {field:'ROUT_GRP',title:'노선그룹',width:120,align:'center',halign:'center',hidden:true},
+            {field:'NODE_ID',title:'정류소ID',width:200,align:'left',halign:'center',hidden:true},
         ]],
 	frozenColumns:[[
 		]],
