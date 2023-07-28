@@ -80,12 +80,11 @@ $(function(){
 					return false;
 				}
 				else {
-					if($.jf_changeddg('#dg1', 'all')) $.tracomalmsg('정보', '저장 후 삭제 가능합니다.'); 	
-					else{
+
 						$.jf_checkforeigntable($.jf_curdgrow($('#dg0')),"SI0401", function(a_type){
 							if(a_type != "Y") $.jf_delete($('#dg0'));
 						});						
-					}
+					
 				}
 	});
 	$('#btn3').bind('click', function(){
