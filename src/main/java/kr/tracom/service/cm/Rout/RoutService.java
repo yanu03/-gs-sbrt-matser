@@ -45,7 +45,7 @@ public class RoutService extends ServiceSupport {
 	}
 	
 	public List<Map<String, Object>> selectNodeListByRouts() throws Exception {
-		Map<String, Object> map = getSimpleDataMap("dma_sub_search");
+		Map<String, Object> map = getSimpleDataMap("dma_search");
 		String temp[] = map.get("ROUT_IDS").toString().replace("[","").replace("]","").replace(" ","").split(",");
 		map.put("ROUT_IDS", temp);
 		return routMapper.selectNodeListByRouts(map);

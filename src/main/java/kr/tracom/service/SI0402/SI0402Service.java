@@ -283,15 +283,21 @@ public class SI0402Service extends ServiceSupport {
 					}
 				}
 				Map routMap = new HashMap();
-				double routStrtLen = DataInterface.getDistanceBetween(CommonUtil.decimalToDouble(routNodeList.get(0).get("GPS_X")), CommonUtil.decimalToDouble(routNodeList.get(0).get("GPS_Y")), 
-						CommonUtil.decimalToDouble(routNodeList.get(routNodeList.size()-1).get("GPS_X")), CommonUtil.decimalToDouble(routNodeList.get(routNodeList.size()-1).get("GPS_Y")));
+				if(routNodeList!=null&&routNodeList.size()>0) {
+					try {
+						double routStrtLen = DataInterface.getDistanceBetween(CommonUtil.decimalToDouble(routNodeList.get(0).get("GPS_X")), CommonUtil.decimalToDouble(routNodeList.get(0).get("GPS_Y")), 
+								CommonUtil.decimalToDouble(routNodeList.get(routNodeList.size()-1).get("GPS_X")), CommonUtil.decimalToDouble(routNodeList.get(routNodeList.size()-1).get("GPS_Y")));
+								
+						routMap.put("ROUT_ID", (String)routNodeList.get(0).get("ROUT_ID"));
 						
-				routMap.put("ROUT_ID", (String)routNodeList.get(0).get("ROUT_ID"));
-				
-				routMap.put("ROUT_LEN", CommonUtil.pointRound(routLen,3));
-				routMap.put("ROUT_STRT_LEN", CommonUtil.pointRound(routStrtLen,3));
-				routMap.put("STTN_CNT", sttnCnt);
-				routMapper.updateRout(routMap);
+						routMap.put("ROUT_LEN", CommonUtil.pointRound(routLen,3));
+						routMap.put("ROUT_STRT_LEN", CommonUtil.pointRound(routStrtLen,3));
+						routMap.put("STTN_CNT", sttnCnt);
+						routMapper.updateRout(routMap);
+					} catch(Exception e) {
+						
+					}
+				}
 			}
 		} catch(Exception e) {
 			if (e instanceof DuplicateKeyException)

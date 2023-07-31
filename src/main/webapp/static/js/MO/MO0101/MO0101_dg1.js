@@ -16,7 +16,7 @@ $(function(){
 		loadMsg: '데이터 로딩중입니다',
 		emptyMsg: '데이터 수신중입니다',
 		rownumbers: true,
-		showFooter: true,
+		showFooter: false,
 		columns:[[
 			{field:'VHC_NO',title:'차량번호',width:150,halign:'center',align:'center'},
 			{field:'OCR_DTM',title:'발생시간',width:100,halign:'center',align:'center'},

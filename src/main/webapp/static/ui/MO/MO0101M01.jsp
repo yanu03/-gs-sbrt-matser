@@ -26,6 +26,7 @@
 	}
 	
 	var js_sigList = [];
+	var js_routGrpRoutList = []; //노선별 그룹노선 리스트
 	
 	$( document ).ready(function() {
 			
@@ -36,7 +37,14 @@
     $.pf_delete = function(){return true;}
     $.pf_validatedata = function(a_obj, a_idx, a_type){return true;}
     $.pf_setfocus = function(a_obj, a_idx){return true;}
-    $.pf_retrieve = function(a_obj) {return true;}
+    $.pf_retrieve = function(a_obj) {
+    	a_obj.datagrid('loadData', { total: 0, rows: [] });
+    	$('#dg1').datagrid('loadData', { total: 0, rows: [] });
+    	$('#dg2').datagrid('loadData', { total: 0, rows: [] });
+    	$.jf_deleteAllbusmarker();
+    	$.jf_deleteAllBusOverlay();
+    	return true;
+    }
     $.pf_childretrieve = function(a_obj, a_params){return true;}
     $.pf_setfooter = function(a_obj){return true;}
     $.pf_combineparams = function(a_obj){};    
@@ -77,43 +85,14 @@
 
 	//소켓 통신용 pf
 	$.pf_sockdispatch = function(a_data) {
-		/* let dsptchMessage = "";
-		let dsptchDiv = a_data.DSPTCH_DIV;
-		let dsptchKind = a_data.DSPTCH_KIND;
-		let min = "0분";
-		
-		if(a_data['MESSAGE'].split('｜').length>0) dsptchMessage = a_data['MESSAGE'].split('｜')[0];
-		else dsptchMessage = a_data['MESSAGE'];
-		
-		//디스패치가 일반메시지가 아닐경우
-		if(parseInt(dsptchMessage) != "undefined" && a_data.DSPTCH_DIV != "DP001"){
-			//if(dsptchMessage==0)return; //0인 경우 표시할 필요가 없음
-			if(Math.abs(parseInt(dsptchMessage) >= 60)) {
-				 min = Math.abs(parseInt(dsptchMessage/60)) + "분 ";
-			}
-			 sec = Math.abs(parseInt(dsptchMessage%60)) + "초 ";
-			 
-			//운행중 디스패치일 경우 
-			 if(dsptchDiv == "DP002") {
-
-					if(dsptchKind == "DK001") contsResult = mapOption.DISPATCH_MSG_NORMAL;
-					else if(dsptchKind == "DK002") contsResult = min + sec + "느림";
-					else if(dsptchKind == "DK003") contsResult = min + sec + "빠름";
-				}
-			//정차중 디스패치일 경우
-			 else if(dsptchDiv == "DP003") contsResult = "정류장 정차 : " + min + sec;
-		} */
-		
+		if(!$.uf_routFilter(a_data)) return false;
 		let contsResult = $.jf_convertdsptch(a_data);
 		
 		let v_params = {
-			//직접 통신하여 현재 변수명이 다름. kafka 연결후 수정해야함.
 			SEND_DATE : $.jf_gettime(),
 			ROUT_NM : a_data.ROUT_NM,
 			VHC_NO : a_data.VHC_NO,
-			//VHC_NO : a_data.BUS_NO,
 			DSPTCH_DIV_NM : a_data.DSPTCH_DIV_NM,
-			// DSPTCH_CONTS : a_data.DSPTCH_CONTS,
 			DSPTCH_CONTS : contsResult,
 		};
 		// $.jf_append($('#dg1'), v_params);
@@ -127,6 +106,7 @@
 	}
 
 	$.pf_sockbus = function(a_data) {
+		if(!$.uf_routFilter(a_data)) return false;
 		let v_params = {
 			VHC_ID : a_data.VHC_ID,
 			VHC_NO : a_data.VHC_NO,
@@ -146,6 +126,7 @@
 	}
 
 	$.pf_sockevt = function(a_data) {
+		if(!$.uf_routFilter(a_data)) return false;
 		let v_eventMessage = '';
 		
 		
@@ -156,6 +137,8 @@
 				if(v_dgData[i].VHC_ID == a_data.VHC_ID){
 					$('#dg0').datagrid('selectRow', i);
 					$.jf_delete($('#dg0'));
+					let marker = $.jf_fndbmkstrct(a_data.VHC_ID);
+					$.jf_deletebusmarker(marker);
 					return true;
 				}
 				
@@ -228,7 +211,7 @@
 			$('#dg0').datagrid('updateRow',{index:v_index,row:v_params});
 		}
 		if($.jf_datalength($('#dg0')) == 1) $.jf_setfocus($('#dg0'), 0);
-		if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return false;
+		if(a_data.VHC_ID != $.jf_curdgfieldvalue($('#dg0'), 'VHC_ID')) return true;
 		$.jf_addevtoverlay(a_data);
 		return true;		
 	}
@@ -242,6 +225,21 @@
 		if(a_data.VHC_NO != $.jf_curdgfieldvalue($('#dg0'), 'VHC_NO')) return false;
 		$.jf_addsigoverlay(a_data, $.jf_curdgrow($('#dg0')));
 	} 
+	
+	$.uf_routFilter = function(a_data){
+		let v_cbData = $('#sch_lb0').combobox('getData'); //combobox 전체 데이터
+		let v_cbValue = $('#sch_lb0').combobox('getValue'); //노선ID
+		
+		if(v_cbValue == ''){ //'모두'
+			for (var i=0; i<v_cbData.length; i++) {
+				if(v_cbData[i].ROUT_ID == a_data.ROUT_ID) return true;
+			}
+		}
+		else {
+			if(v_cbValue == a_data.ROUT_ID) return true;
+		}
+		return false;
+	}
 
 	</script>
 </head>
@@ -252,12 +250,13 @@
 			<div class="easyui-layout" data-options="fit:true">
 				<!--검색 조건 특히 name으로 동작하는 요소를 위해서 form을 검색 layout을 감사줌 -->
 				<form style="border:0px solid red;">
-				<div data-options="region:'west', border:false, minWidth:600, maxWidth:600">
+				<div data-options="region:'west', border:false, minWidth:650, maxWidth:650">
 					<div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 					</div>
 					<!-- 검색 object -->
 					<script src="/static/js/MO/MO0101/MO0101_sch_searchbox0.js"></script>
-					<script src="/static/js/MO/MO0101/MO0101_sch_selectbox0.js"></script>
+					<script src="/static/js/MO/MO0101/MO0101_sch_selectbox1.js"></script> <!-- 노선그룹 -->
+					<script src="/static/js/MO/MO0101/MO0101_sch_selectbox0.js"></script> <!-- 노선 -->
 				</div>
 				</form>
 				<div data-options="region:'center', border:false">
@@ -265,6 +264,8 @@
 					</div>
 					<!-- 버튼 object -->
 					<script src="/static/js/MO/MO0101/MO0101_btn0.js"></script>
+					<script src="/static/js/MO/MO0101/MO0101_switchbtn0.js"></script>
+					<script src="/static/js/MO/MO0101/MO0101_switchbtn1.js"></script>
 				</div>
 			</div>
 		</div>

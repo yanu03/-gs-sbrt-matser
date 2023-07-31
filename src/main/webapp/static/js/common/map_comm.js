@@ -320,9 +320,17 @@ $.jf_addoverlay = function(a_data, a_nodetype) {
 		zIndex : zIndex,
 		//id : a_data.NODE_ID
 	})		
-	if(!$.jf_isempty(a_data.NODE_ID)) overlay.id = a_data.NODE_ID;
-	else if(!$.jf_isempty(a_data.STTN_ID)) overlay.id = a_data.STTN_ID;
-	else if(!$.jf_isempty(a_data.CRS_ID)) overlay.id = a_data.CRS_ID;
+	//if(!$.jf_isempty(a_data.NODE_ID)) overlay.id = a_data.NODE_ID;
+	if(!$.jf_isempty(a_data.NODE_ID)) {
+		if(nodeType == 'busstop')	overlay.id = a_data.NODE_ID+'_sttn';
+		else if(nodeType == 'cross') overlay.id = a_data.NODE_ID+'_crs';
+		else overlay.id = a_data.NODE_ID;
+			
+	}
+	//else if(!$.jf_isempty(a_data.STTN_ID)) overlay.id = a_data.STTN_ID;
+	else if(!$.jf_isempty(a_data.STTN_ID)) overlay.id = a_data.STTN_ID+'_sttn';
+	//else if(!$.jf_isempty(a_data.CRS_ID)) overlay.id = a_data.CRS_ID;
+	else if(!$.jf_isempty(a_data.CRS_ID)) overlay.id = a_data.CRS_ID+'_crs';
 
 	overlay.setMap(js_map);
 	js_overlaystruct.push(overlay);
@@ -359,6 +367,21 @@ $.jf_fndicostrct = function(a_id){
 		}
 	}
 	return rtn_overlay;
+}
+
+/** 
+작성자 : 양현우
+작성일 : 2023-07-18
+기능 : js_overlaystruct 배열에서 a_id를 포함하는 오버레이들 찾기
+**/
+$.jf_fndicsostrct = function(a_id){
+	let rtn_overlays = [];
+	for(let i=0; i<js_overlaystruct.length; i++){
+		if(js_overlaystruct[i].id.includes(a_id)){
+			rtn_overlays.push(js_overlaystruct[i]);
+		}
+	}
+	return rtn_overlays;
 }
 
 /** 
@@ -584,6 +607,35 @@ $.jf_addbusmarker = function(a_data) {
 
 /** 
 작성자 : 양현우
+작성일 : 2023-07-28
+기능 : 등록되어 있는 버스 마커 전체 삭제
+**/
+$.jf_deleteAllbusmarker = function() {
+	if(js_mkstruct != null && js_bmkstruct.length != 0) {
+		for (var i=0; i<js_bmkstruct.length; i++) {
+			js_bmkstruct[i].setMap(null);
+		}
+	}
+	js_bmkstruct = [];
+	return true;
+}
+
+/** 
+작성자 : 양현우
+작성일 : 2023-07-28
+기능 : 등록되어 있는 버스 마커 삭제
+**/
+$.jf_deletebusmarker = function(a_marker) {
+	if(js_mkstruct != null && js_bmkstruct.length != 0) {
+		a_marker.setMap(null);
+		var v_index = js_bmkstruct.indexOf(a_marker);
+		if (v_index !== -1) js_bmkstruct.splice(v_index, 1);		
+	}
+	return true;	
+}
+
+/** 
+작성자 : 양현우
 작성일 : 2023-05-10
 기능 : bmkstruct 배열에서 버스 마커 찾기
 **/
@@ -639,6 +691,20 @@ $.jf_addbusoverlay = function(a_data) {
 
 	overlay.setMap(js_map);
 	js_bostruct.push(overlay);
+}
+/** 
+작성자 : 양현우
+작성일 : 2023-07-28
+기능 : 등록되어 있는 버스 오버레이 전체 삭제
+**/
+$.jf_deleteAllBusOverlay = function() {
+	if(js_bmkstruct != null && js_bostruct.length != 0) {
+		for (var i=0; i<js_bostruct.length; i++) {
+			js_bostruct[i].setMap(null);
+		}
+	}
+	js_bostruct = [];
+	return true;
 }
 
 /** 
