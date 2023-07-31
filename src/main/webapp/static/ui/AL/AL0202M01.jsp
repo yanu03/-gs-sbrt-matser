@@ -280,7 +280,6 @@
 							}
 				}		
 
-				rtn_value = false;
         return rtn_value;
     }
 

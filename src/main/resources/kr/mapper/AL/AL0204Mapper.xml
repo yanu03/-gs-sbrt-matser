@@ -96,7 +96,7 @@
 			AND A.OPER_SN = #{OPER_SN}
 	</if> -->
 	<!-- ORDER BY OPER_SN, NODE_SN -->
-	ORDER BY  		ALLOC_ID, ALLOC_NO, OPER_SN, NODE_SN
+	ORDER BY  		ALLOC_ID, ALLOC_NO, SN, NODE_SN
 </select>
 
 <select id="AL0204G1CNT" resultType="Map" parameterType="Map">

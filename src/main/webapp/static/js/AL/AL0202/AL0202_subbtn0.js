@@ -12,7 +12,7 @@
 
 	$('#subbtn0').linkbutton({
 	    height: 24,
-	    iconCls: 'icon-search'
+	    iconCls: 'icon-reload'
 	});
 	$('#subbtn1').linkbutton({
 	    height: 24,

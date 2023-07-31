@@ -218,7 +218,7 @@
 							<div id="subsch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 							</div>
 							<!-- <script src="/static/js/AL0203_sch_selectbox0.js"></script> -->
-							<script src="/static/js/AL/AL0202/AL0202_subsch_searchbox0.js"></script>
+							<script src="/static/js/AL/AL0203/AL0203_subsch_searchbox0.js"></script>
 							<script src="/static/js/AL/AL0204/AL0204_fromtodate0.js"></script>
 						</div>
 						<div data-options="region:'center', border:true">

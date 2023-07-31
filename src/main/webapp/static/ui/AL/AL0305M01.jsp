@@ -241,7 +241,7 @@
 								<div data-options="region:'west', border:false, minWidth:300, maxWidth:300">
 									<div id="subsch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 									</div>
-									<script src="/static/js/AL/AL0202/AL0202_subsch_searchbox0.js"></script>
+									<script src="/static/js/AL/AL0302/AL0302_subsch_searchbox0.js"></script>
 								</div>
 								<div data-options="region:'center', border:false">
 									<div id="subsch_panel1" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
