@@ -28,8 +28,10 @@
 		LEFT OUTER JOIN BMS_DL_CD_INFO EY 
 			ON A.EPLY_YN = EY.DL_CD AND EY.CO_CD = 'EPLY_YN'
 			
+			
 		<!-- WHERE A.
 		USE_YN != 'N' -->
+		<where>
 			<if test="TYPE == 'ALL' and CONTENT != null and CONTENT != ''">
 				AND (DRV_ID LIKE CONCAT('%',#{CONTENT},'%') || DRV_NM LIKE CONCAT('%',#{CONTENT},'%') || COMP_NM LIKE CONCAT('%',#{CONTENT},'%')) 
 			</if>
@@ -42,6 +44,8 @@
  			<if test="TYPE == 'COMP_NM'">
 				AND COMP_NM LIKE CONCAT('%',#{CONTENT},'%') 
 			</if>
+		</where>
+			
 		
 	</select>	
 
