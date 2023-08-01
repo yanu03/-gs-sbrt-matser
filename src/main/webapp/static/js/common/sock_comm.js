@@ -55,7 +55,7 @@ $(function () {
             if(typeof($.pf_sockdispatch) != "undefined"){
                 if(!$.pf_sockdispatch(v_item)) return false;
             }
-            
+            else return false;
             //$.jf_adddsptchoverlay(v_item);
         });
         js_client.subscribe('/subscribe/vhc', function (chat) {
@@ -63,6 +63,7 @@ $(function () {
             if(typeof($.pf_sockbus) != "undefined"){
                 if(!$.pf_sockbus(v_item)) return false;
             }
+			else return false;
             $.jf_sockbus(v_item);
         });
         js_client.subscribe('/subscribe/evt', function (chat) {
@@ -70,6 +71,7 @@ $(function () {
             if(typeof($.pf_sockevt) != "undefined"){
                 if(!$.pf_sockevt(v_item)) return false;
             }
+			else return false;
             $.jf_sockevt(v_item);
 			//$.jf_addevtoverlay(v_item);
         });
@@ -80,6 +82,7 @@ $(function () {
             if(typeof($.pf_arrival) != "undefined"){
                 if(!$.pf_arrival(v_item)) return false;
             }
+			else return false;
             $.jf_setBITInfo(v_item);
         });
 
@@ -88,6 +91,7 @@ $(function () {
             if(typeof($.pf_socksig) != "undefined"){
                 if(!$.pf_socksig(v_item)) return false;
             }
+			else return false;
             // console.log(content);
             // var itemTod = $('#' + item.crossNodeId);
 
@@ -106,6 +110,7 @@ $(function () {
             if(typeof($.pf_socksig) != "undefined"){
                 if(!$.pf_socksig(v_item)) return false;
             }
+			else return false;
         });
 
 		js_client.subscribe('/subscribe/prioritysignal', function (chat) {
@@ -113,6 +118,7 @@ $(function () {
             if(typeof($.pf_sockprisig) != "undefined"){
                 if(!$.pf_sockprisig(v_item)) return false;
             }
+			else return false;
         });
 
 

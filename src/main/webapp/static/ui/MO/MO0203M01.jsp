@@ -52,13 +52,26 @@
     $.pf_delete = function(){return true;}
     $.pf_validatedata = function(a_obj, a_idx, a_type){return true;}
     $.pf_setfocus = function(a_obj, a_idx){return true;}
-    $.pf_retrieve = function(a_obj) {return true;}
+    $.pf_retrieve = function(a_obj) {
+    	$.jf_deleteAllbusmarker();
+    	$.jf_deleteAllBusOverlay();
+    	return true;
+    }
     $.pf_childretrieve = function(a_obj, a_params){return true;}
     $.pf_setfooter = function(a_obj){return true;}
     $.pf_combineparams = function(a_obj){
     	let rtn_params;
     	if(a_obj.attr('id') == "dg0"){
-    		rtn_params = {CONTENT2 : $('#sch_lb0').combobox('getValue'), CONTENT3 : $("#sch_sb0").searchbox('getValue')};  
+   			let v_routIds = [];
+    		if($('#sch_lb0').combobox('getValue') == ''){
+    			for(var i=0; i<$('#sch_lb0').combobox('getData').length; i++) {
+    				v_routIds.push($('#sch_lb0').combobox('getData')[i].ROUT_ID);
+    			}
+    		}
+    		else {
+    			v_routIds.push($('#sch_lb0').combobox('getValue'))
+    		}	    		
+    		rtn_params = {ROUT_IDS : v_routIds,  CONTENT3 : $("#sch_sb0").searchbox('getValue')};  
     	}
     	return rtn_params;
 	};    
@@ -68,6 +81,22 @@
 	$.pf_rejectcfmsg = function(a_type){}
 	$.pf_ajaxafterproc = function(a_type){return true;}		
 	$.pf_childparams = function(a_obj, a_row){}
+	$.pf_bgajaxafterproc = function(a_data, a_type){
+		if(a_type == 'bg0'){
+			$.jf_movemap(a_data[0].GPS_X, a_data[0].GPS_Y);
+			$.jf_deleteline();
+			$.jf_drawline(a_data);
+		}
+		if(a_type == 'bg1'){
+			$.jf_deletemarker();
+			$.jf_deleteAllOverlay();
+			for(var i=0; i<a_data.length; i++) {
+				$.jf_addimgmarker(a_data[i]);
+				$.jf_addoverlay(a_data[i]);			
+			}
+		}
+		return true;
+	}		
 	//백그라운드용(맵 노선용) ajax
 	$.uf_bgajax = function() {
 		$.ajax({
@@ -160,6 +189,26 @@
 		v_tableStr += v_body + '</tbody></table>';
 		$('#MO0203_bit').html(v_tableStr);
 	}
+	
+	$.pf_sockbus = function(a_data) {
+		if(!$.uf_routFilter(a_data)) return false;
+		return true;
+	}
+	
+	$.uf_routFilter = function(a_data){
+		let v_cbData = $('#sch_lb0').combobox('getData'); //combobox 전체 데이터
+		let v_cbValue = $('#sch_lb0').combobox('getValue'); //노선ID
+		
+		if(v_cbValue == ''){ //'모두'
+			for (var i=0; i<v_cbData.length; i++) {
+				if(v_cbData[i].ROUT_ID == a_data.ROUT_ID) return true;
+			}
+		}
+		else {
+			if(v_cbValue == a_data.ROUT_ID) return true;
+		}
+		return false;
+	}	
     
 	</script>
 </head>
@@ -170,11 +219,12 @@
 			<div class="easyui-layout" data-options="fit:true">
 				<!--검색 조건 특히 name으로 동작하는 요소를 위해서 form을 검색 layout을 감사줌 -->
 				<form style="border:0px solid red;">
-				<div data-options="region:'west', border:false, minWidth:600, maxWidth:600">
+				<div data-options="region:'west', border:false, minWidth:650, maxWidth:650">
 					<div id="sch_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 					</div>
 					<!-- 검색 object -->
 					<script src="/static/js/MO/MO0203/MO0203_sch_searchbox0.js"></script>
+					<script src="/static/js/MO/MO0203/MO0203_sch_selectbox1.js"></script> <!-- 노선그룹 -->
 					<script src="/static/js/MO/MO0203/MO0203_sch_selectbox0.js"></script>
 				</div>
 				</form>
@@ -182,7 +232,8 @@
 					<div id="btn_panel0" class="easyui-panel" data-options="fit:true,cache:true,loadingMessage:'로딩중...'">
 					</div>
 					<!-- 버튼 object -->
-					<script src="/static/js/MO/MO0101/MO0101_btn0.js"></script>
+					<script src="/static/js/MO/MO0203/MO0203_btn0.js"></script>
+					<script src="/static/js/MO/MO0101/MO0101_switchbtn0.js"></script>
 				</div>
 			</div>
 		</div>

@@ -10,7 +10,8 @@ $(function(){
 	$('#dg0').datagrid({
     url:'/mo/MO0203G0R0',	//json 조회 url
     method: 'POST',
-    queryParams: JSON.stringify({"dma_search" : {CONTENT : "", TYPE:'ALL'}}),						//json 조회 params
+    //queryParams: JSON.stringify({"dma_search" : {CONTENT : "", TYPE:'ALL'}}),						//json 조회 params
+    queryParams: JSON.stringify({"dma_search" : {"ROUT_IDS" : []}}),					//json 조회 params
 	singleSelect: true, //signleSelect : 단일 선택 true, 체크박스 포함일때 false
 	border: false,
 	loadMsg: '데이터 로딩중입니다',
@@ -43,7 +44,7 @@ $(function(){
 			$.jf_setfocus($('#dg0'), $.jf_fnddgstrct($('#dg0')));
 			$.jf_setfooter($('#dg0'));
 		},
-		onBeforeLoad: function(param){},
+		onBeforeLoad: function(param){if(Object.keys(param).length < 1) return false;},
 		onClickRow: function(index,row){},
 		onDblClickRow: function(index,row){},
 		onBeforeSelect: function(index,row){},

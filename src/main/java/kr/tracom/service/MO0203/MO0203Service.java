@@ -27,6 +27,8 @@ public class MO0203Service extends ServiceSupport{
 	
 	public List<Map> MO0203G0R0() throws Exception{
 		Map param = getSimpleDataMap("dma_search");
+		String temp[] = param.get("ROUT_IDS").toString().replace("[","").replace("]","").replace(" ","").split(",");
+		param.put("ROUT_IDS", temp);		
 		return mo0203Mapper.MO0203G0R0(param);
 	}
 	

@@ -23,9 +23,9 @@
 	    	return false;
 	    },
 	    onChange: function(a_newValue, a_oldValue){
+			//$.jf_retrieve($('#dg0'));
 	        let v_queryParams = JSON.stringify({"dma_search" : {"ROUT_GRP" : a_newValue}});
 			$('#sch_lb0').combobox({queryParams: v_queryParams});	
-	        //$('#sch_lb0').combobox('reload', v_queryParams);			
 	    }
 	});
 });

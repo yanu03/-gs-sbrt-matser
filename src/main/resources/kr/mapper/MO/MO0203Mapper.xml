@@ -40,14 +40,19 @@
 		LEFT JOIN		BMS_DL_CD_INFO DL1 
 			ON A.NODE_TYPE = DL1.DL_CD AND DL1.CO_CD = 'NODE_TYPE'
 		  
-		WHERE
-			A.NODE_TYPE = 'NT002'
+		WHERE			A.NODE_TYPE = 'NT002'
+		<if test="@kr.tracom.util.CommonUtil@notEmpty(ROUT_IDS)">
+		AND					E.ROUT_ID IN
+			<foreach collection="ROUT_IDS" item="item" index="index"  open="(" close=")" separator=",">
+				#{item}
+			</foreach>						
+		</if>
 			<if test="CONTENT1 != null">
 				AND R.ROUT_GRP = #{CONTENT1}				
 			</if>
-			<if test="CONTENT2 != ''">
+			<!-- <if test="CONTENT2 != ''">
 				AND E.ROUT_ID = #{CONTENT2}				
-			</if>
+			</if> -->
 			<if test="CONTENT3 != null">
 				AND A.NODE_NM LIKE CONCAT('%',#{CONTENT3},'%')		
 			</if>
