@@ -218,10 +218,8 @@
 				let v_deduplicateallocno = [];
 				// 업로드된 그리드의 배차번호 얻기
 				for(let i=0; i < v_data.length; i++){
-					v_allocno.push(v_data[i].ALLOC_NO);
+					v_allocno.push(parseInt(v_data[i].ALLOC_NO));
 				}
-				v_maxallocno = Math.max(...v_allocno);
-
 				// 얻은 배차번호의 중복 제거 
 				v_allocno.forEach((nonduple) => {
 						if(!v_deduplicateallocno.includes(nonduple)){

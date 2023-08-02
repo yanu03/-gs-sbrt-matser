@@ -45,7 +45,7 @@
         let v_fdate = $('#sch_fdd').datebox('getValue');
         let v_tdate = $('#sch_tdd').datebox('getValue');
         rtn_params = {TYPE : "ALL", CONTENT1 : v_searchval,  CONTENT2 : v_searchval,
-                             CONTENT3 : v_searchval, F_DATE: v_fdate, L_DATE:v_tdate};
+                            CONTENT3 : v_searchval, F_DATE: v_fdate, L_DATE:v_tdate};
         
         return rtn_params;
     };    
@@ -85,11 +85,36 @@
 
         return true;
     };
-   </script>
+    
+    // $.uf_rownumberwidth = function(){
+    
+    // 	let v_datas = $('#dg0').datagrid('getRows');
+    // 	let v_rownumber;
+    // 	let v_header;
+    
+    // 	//for(let i=0; v_datas.length; i++){
+    // 		//v_rownumber = document.querySelector("td.datagrid-td-rownumber");
+        
+    // 		v_header = document.querySelector('tr:nth-child(1) td:nth-child(1)');
+    // 		v_header.style.width = "70px";
+    // 		for(let i=0; i < v_datas.length; i++){
+    // 			//v_rownumber = document.querySelector('tr:nth-child('+i+') td:nth-child(1)');
+    // 			v_rownumber = document.getElementById('dg0_datagrid-row-r1-1-'+i);
+    // 			v_rownumber = v_rownumber.querySelector(".datagrid-td-rownumber");
+    // 			console.log(v_rownumber);
+    // 			v_rownumber.style.width = "70px";
+    // 		}
+    
+    
+    
+    // 	//}
+    
+    // }
+    </script>
 </head>
 <body style="margin:0 0 0 0;padding:0 0 0 0;">
 <div style="position:left;margin:0 0 0 0;border:0px solid red;width:100%;height:100vh;">
-   <div class="easyui-layout" data-options="fit:true" >
+    <div class="easyui-layout" data-options="fit:true" >
     <div data-options="region:'north', border:true, minHeight:50, maxHeight:50">
         <div class="easyui-layout" data-options="fit:true">
             <form>
