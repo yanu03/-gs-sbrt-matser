@@ -4,7 +4,6 @@
  * 작성일 : 2023.05.18
  */
 $(function(){
-
   $('#chart_panel0').append('<div id="chart0" style="width:100%, height:100%"></div>');
 //debugger;
   let v_fdate = $.tracomfromdate('d');
@@ -41,18 +40,22 @@ $(function(){
   }
 
   $.cf_chart0 = function(a_data, a_node){
+    //console.log('chart -------------------------------')
     Highcharts.chart('chart0', {
       title: {
         text: '정류소 정차 시간대별 통계'
       },
       xAxis: {
-        categories: $.uf_chart0xAxisdata(),
+        categories: $.uf_chart0xAxisdata(a_data),
         title: {
-          text: 'sec'
+          text: $.uf_xAxistext()
         }
       },
       yAxis: {
-        max : 150
+        max : 150,
+        title:{
+          text: 'sec'
+        }
       },
       series: [
       {
@@ -76,17 +79,17 @@ $(function(){
       {
         type: 'spline', //라인그래프
         name: '전체 최대 정차시간',
-        data: $.uf_chart0avgdata(a_data, 'MAX_STOP_TIME')
+        data: $.uf_chart0data(a_data, 'MAX_STOP_TIME',null, 'all')
       },
       {
         type: 'spline', //라인그래프
         name: '전체 최소 정차시간',
-        data: $.uf_chart0avgdata(a_data, 'MIN_STOP_TIME')
+        data: $.uf_chart0data(a_data, 'MIN_STOP_TIME',null, 'all')
       },
       {
         type: 'spline', //라인그래프
         name: '전체 평균 정차시간',
-        data: $.uf_chart0avgdata(a_data, 'AVRG_STOP_TIME')
+        data: $.uf_chart0data(a_data, 'AVRG_STOP_TIME',null, 'all')
       }
       ]
     });

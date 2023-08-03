@@ -117,7 +117,7 @@
          ,B.NODE_NM
       </if>
       <if test="SELECT_DIV == 'DAY'">
-         DATE_FORMAT(DATE(A.OPER_DT), '%m-%d') OPER_DT
+         DATE_FORMAT(DATE(A.OPER_DT), '%Y-%m-%d') OPER_DT
          ,ROUND(AVG(IFNULL(A.AVRG_STOP_TIME,0)),2) AS AVRG_STOP_TIME
          ,ROUND(AVG(IFNULL(A.AVRG_ON_OFF_TIME,0)),2) AS AVRG_ON_OFF_TIME
          ,A.NODE_ID
@@ -125,7 +125,7 @@
          ,B.NODE_NM
       </if>
       <if test="SELECT_DIV == 'MONTH'">
-         MONTH(A.OPER_DT) AS OPER_DT
+         DATE_FORMAT(DATE(A.OPER_DT), '%Y-%m') OPER_DT
          ,ROUND(AVG(IFNULL(A.AVRG_STOP_TIME,0)),2) AS AVRG_STOP_TIME
          ,ROUND(AVG(IFNULL(A.AVRG_ON_OFF_TIME,0)),2) AS AVRG_ON_OFF_TIME
          ,A.ROUT_GRP
