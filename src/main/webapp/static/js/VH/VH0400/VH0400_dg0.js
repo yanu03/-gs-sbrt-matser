@@ -19,11 +19,13 @@ $(function(){
     border: false,
     loadMsg: '데이터 로딩중입니다',
     emptyMsg: '데이터가 없습니다',
-    rownumbers: true,
+    rownumbers: false,
     showFooter: true,
     remoteSort: false,
     multiSort: true,
     columns:[[
+        {field:'OCR_DTM',title:'발생일시',width:200,align:'center',halign:'center',sortable:true},
+        {field:'UPD_DTM',title:'업데이트일시',width:200,align:'center',halign:'center',sortable:true},
         {field:'OPER_DT',title:'운행일',width:160,align:'center',halign:'center',sortable:true},
         {field:'VHC_NO',title:'차량번호',width:180,align:'center',halign:'center',sortable:true},
         {field:'ROUT_NM',title:'노선명',width:120,halign:'center',align:'center',sortable:true},
@@ -32,16 +34,15 @@ $(function(){
         {field:'GPS_Y_RAW',title:'원GPS_Y',width:150,halign:'center',align:'right'},
         {field:'GPS_X',title:'GPS_X',width:150,halign:'center',align:'right'},
         {field:'GPS_Y',title:'GPS_Y',width:150,halign:'center',align:'right'},
-        {field:'CUR_SPD',title:'현재속도(km/h)',width:120,halign:'center',align:'right'},
-        {field:'DRV_ANGLE',title:'차량진행각도(º)',width:120,halign:'center',align:'right'},
+        {field:'CUR_SPD',title:'현재속도(km/h)',width:150,halign:'center',align:'right',sortable:true},
+        {field:'DRV_ANGLE',title:'차량진행각도(º)',width:150,halign:'center',align:'right',sortable:true},
         {field:'ALLOC_NO',title:'배차번호',width:80,halign:'center',align:'right',sortable:true},
         {field:'OPER_SN',title:'운행순번',width:80,halign:'center',align:'right',sortable:true},
         {field:'EVT_TYPE_NM',title:'이벤트유형',width:150,halign:'center',align:'left',sortable:true},
         {field:'EVT_CONTS',title:'이벤트내용',width:200,halign:'center',align:'left',sortable:true},
       ]],
-   frozenColumns:[[
-         {field:'OCR_DTM',title:'발생일시',width:200,align:'center',halign:'center',sortable:true},
-      {field:'UPD_DTM',title:'업데이트일시',width:200,align:'center',halign:'center',sortable:true},
+    frozenColumns:[[
+    
       ]],
       //event 정의
     loader: function(param, success, error){$.tracomdgloader($(this), param, success, error);
@@ -52,7 +53,7 @@ $(function(){
     onLoadSuccess: function(data){
             if(!data.total) return;
         $.jf_setfocus($('#dg0'), -1);
-        $.jf_setfooter($('#dg0'));
+        //$.jf_setfooter($('#dg0'));
     },
     onBeforeLoad: function(param){},
     onClickRow: function(index,row){},

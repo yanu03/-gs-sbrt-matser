@@ -19,36 +19,37 @@ $(function(){
     border: false,
     loadMsg: '데이터 로딩중입니다',
     emptyMsg: '데이터가 없습니다',
-    rownumbers: true,
+    rownumbers: false,
     showFooter: true,
     remoteSort: false,
     multiSort: true,
     columns:[[
+        {field:'OPER_DT',title:'운행일',width:150,align:'center',halign:'center',sortable:true},
+        {field:'UPD_DTM',title:'갱신일시',width:200,align:'center',halign:'center',sortable:true},
         {field:'ROUT_GRP_NM',title:'노선그룹',width:100,align:'center',halign:'center',sortable:true},
         {field:'ROUT_NM',title:'노선명',width:150,align:'center',halign:'center',sortable:true},
         {field:'VHC_NO',title:'차량번호',width:150,halign:'center',align:'center',sortable:true},
         {field:'DRV_NM',title:'운전자명',width:100,align:'center',halign:'center',sortable:true},
-        {field:'ALLOC_NO',title:'배차번호',width:80,halign:'center',align:'center'},
+        {field:'ALLOC_NO',title:'배차번호',width:80,halign:'center',align:'center',sortable:true},
         {field:'OPER_SN',title:'운행순번',width:80,halign:'center',align:'center',sortable:true},
-        {field:'NODE_NM',title:'노드명',width:200,halign:'center',align:'left'},
-        {field:'GPS_X',title:'경도',width:150,halign:'center',align:'right'},
-        {field:'GPS_Y',title:'위도',width:150,halign:'center',align:'right'},
+        {field:'NODE_NM',title:'노드명',width:200,halign:'center',align:'left',sortable:true},
+        {field:'GPS_X',title:'경도',width:150,halign:'center',align:'right',sortable:true},
+        {field:'GPS_Y',title:'위도',width:150,halign:'center',align:'right',sortable:true},
         {field:'OPER_STS',title:'운행상태',width:200,halign:'center',align:'left'},
         {field:'BUS_STS',title:'버스상태',width:200,halign:'center',align:'left'},
         {field:'OBE_STS',title:'OBE상태',width:200,halign:'center',align:'left'},
-        {field:'DRV_ANGLE',title:'차량진행각도(º)',width:150,halign:'center',align:'right'},
-        {field:'CUR_SPD',title:'현재속도(km/h)',width:150,halign:'center',align:'right'},
+        {field:'DRV_ANGLE',title:'차량진행각도(º)',width:150,halign:'center',align:'right',sortable:true},
+        {field:'CUR_SPD',title:'현재속도(km/h)',width:150,halign:'center',align:'right',sortable:true},
         {field:'ACLRTN_YN',title:'가속여부',width:200,halign:'center',align:'left'},
         {field:'DCLRTN_YN',title:'감속여부',width:200,halign:'center',align:'left'},
         {field:'CUR_STOP_TM',title:'현재정차시간',width:200,halign:'center',align:'left'},
         {field:'OPER_LEN',title:'운행거리',width:200,halign:'center',align:'left'},
         {field:'NODE_TYPE_NM',title:'노드유형',width:200,halign:'center',align:'center'},
-        {field:'LINK_NM',title:'링크명',width:250,halign:'center',align:'left'},
-        {field:'PRV_PLCE_NM',title:'이전정류소명',width:200,halign:'center',align:'left'},
+        {field:'LINK_NM',title:'링크명',width:250,halign:'center',align:'left',sortable:true},
+        {field:'PRV_PLCE_NM',title:'이전정류소명',width:200,halign:'center',align:'left',sortable:true},
       ]],
-   frozenColumns:[[
-         {field:'OPER_DT',title:'운행일',width:150,align:'center',halign:'center',sortable:true},
-      {field:'UPD_DTM',title:'갱신일시',width:200,align:'center',halign:'center',sortable:true},
+    frozenColumns:[[
+      
       ]],
       //event 정의
     loader: function(param, success, error){$.tracomdgloader($(this), param, success, error);
@@ -59,7 +60,7 @@ $(function(){
     onLoadSuccess: function(data){
             if(!data.total) return;
         $.jf_setfocus($('#dg0'), -1);
-        $.jf_setfooter($('#dg0'));
+        //$.jf_setfooter($('#dg0'));
     },
     onBeforeLoad: function(param){},
     onClickRow: function(index,row){},

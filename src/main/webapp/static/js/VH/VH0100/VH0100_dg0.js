@@ -25,23 +25,24 @@ $(function(){
     multiSort: true,
     scrollTo: 50,
     columns:[[
+        {field:'SEND_DATE',title:'전송일시',width:200,align:'center',halign:'center',sortable:true},
+        {field:'ROUT_GRP_NM',title:'노선그룹',width:200,align:'center',halign:'center',sortable:true},
         {field:'ROUT_NM',title:'노선명',width:200,align:'center',halign:'center',sortable:true},
         {field:'VHC_NO',title:'차량번호',width:200,align:'center',halign:'center',sortable:true},
         {field:'DRV_NM',title:'운전자명',width:200,halign:'center',align:'left',sortable:true},
         {field:'NODE_NM',title:'노드명',width:200,align:'left',halign:'center',sortable:true},
         {field:'LINK_NM',title:'링크명',width:250,halign:'center',align:'left'},
         {field:'DSPTCH_DIV_NM',title:'구분',width:200,halign:'center',align:'center',sortable:true,
-               styler: function(value,row,index){
+              styler: function(value,row,index){
                   if(value == '정차중 디스패치') return 'color:red;';
                   else if(value == '운행중 디스패치') return 'color:green;';
                   else return 'background-color:white;';
-               }
+              }
             },
         {field:'DSPTCH_CONTS',title:'디스패치 내용',width:200,halign:'center',align:'left'},
       ]],
-   frozenColumns:[[
-         {field:'SEND_DATE',title:'전송일시',width:200,align:'center',halign:'center',sortable:true},
-      {field:'ROUT_GRP_NM',title:'노선그룹',width:200,align:'center',halign:'center',sortable:true},
+      frozenColumns:[[
+        
       ]],
       //event 정의
     loader: function(param, success, error){$.tracomdgloader($(this), param, success, error);
@@ -52,7 +53,7 @@ $(function(){
     onLoadSuccess: function(data){
             if(!data.total) return;
         $.jf_setfocus($('#dg0'), -1);
-        $.jf_setfooter($('#dg0'));
+        //$.jf_setfooter($('#dg0'));
     },
     onBeforeLoad: function(param){},
     onClickRow: function(index,row){},

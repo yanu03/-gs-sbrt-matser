@@ -9,7 +9,7 @@ $(function(){
 	$('#sch_panel0').append('<input id="sch_lb1" name="sch_lb1" value="">');
 	
   $('#sch_lb0').combobox({
-    width: 200,
+    width: 220,
     height: 24,
     editable: false,
     url: '/common/selectCommonDtlList',
@@ -46,7 +46,7 @@ $(function(){
 		label: '신호제어모드',
 		labelWidth: 100,
 	    // value: '%',
-		panelHeight:'120',
+		panelHeight:'150',
 		loader:function(param, success, error){$.tracomcbloader($(this), param, success, error)},
     loadFilter: function(a_data){
       let rtn_value;

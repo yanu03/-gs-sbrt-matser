@@ -51,7 +51,7 @@ $(function(){
               return;
          }
         $.jf_setfocus($('#dg0'), -1);
-        $.jf_setfooter($('#dg0'));
+        //$.jf_setfooter($('#dg0'));
     },
     onBeforeLoad: function(param){},
     onClickRow: function(index,row){},

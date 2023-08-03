@@ -15,7 +15,7 @@ $(function(){
 	}
 
 	$('#sch_sb0').searchbox({
-		width: 120,
+		width: 200,
 		height: 24,
 		prompt: '교차로명',
 		searcher: $.jf_schbox
